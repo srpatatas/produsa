@@ -17,20 +17,20 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
   const hasAnyPrediction = matches.some((m) => predictions[m.id]);
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
+    <div className="overflow-x-auto rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
       <table className="w-full text-left text-sm">
         <thead>
           <tr className="border-b border-white/5 text-[11px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
-            <th className="px-4 py-3">#</th>
-            <th className="px-4 py-3">Equipo</th>
-            <th className="px-4 py-3 text-center">PJ</th>
-            <th className="px-4 py-3 text-center">G</th>
-            <th className="px-4 py-3 text-center">E</th>
-            <th className="px-4 py-3 text-center">P</th>
+            <th className="px-2 py-3 pl-4 sm:px-4">#</th>
+            <th className="px-2 py-3 sm:px-4">Equipo</th>
+            <th className="px-1.5 py-3 text-center sm:px-4">PJ</th>
+            <th className="px-1.5 py-3 text-center sm:px-4">G</th>
+            <th className="px-1.5 py-3 text-center sm:px-4">E</th>
+            <th className="px-1.5 py-3 text-center sm:px-4">P</th>
             <th className="hidden px-4 py-3 text-center sm:table-cell">GF</th>
             <th className="hidden px-4 py-3 text-center sm:table-cell">GC</th>
-            <th className="px-4 py-3 text-center">DG</th>
-            <th className="px-4 py-3 text-center">Pts</th>
+            <th className="px-1.5 py-3 text-center sm:px-4">DG</th>
+            <th className="px-1.5 py-3 pr-4 text-center sm:px-4">Pts</th>
           </tr>
         </thead>
         <tbody>
@@ -50,29 +50,29 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
                       : ""
                 }`}
               >
-                <td className="px-4 py-3 font-semibold text-fifa-dark-gray">{i + 1}</td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2.5">
+                <td className="px-2 py-3 pl-4 font-semibold text-fifa-dark-gray sm:px-4">{i + 1}</td>
+                <td className="px-2 py-3 sm:px-4">
+                  <div className="flex items-center gap-2">
                     <span className="text-base">{getFlagEmoji(team.flagCode)}</span>
                     <span className="font-display tracking-wider">{team.shortName}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-center text-fifa-dark-gray">{row.played}</td>
-                <td className="px-4 py-3 text-center text-fifa-dark-gray">{row.won}</td>
-                <td className="px-4 py-3 text-center text-fifa-dark-gray">{row.drawn}</td>
-                <td className="px-4 py-3 text-center text-fifa-dark-gray">{row.lost}</td>
+                <td className="px-1.5 py-3 text-center text-fifa-dark-gray sm:px-4">{row.played}</td>
+                <td className="px-1.5 py-3 text-center text-fifa-dark-gray sm:px-4">{row.won}</td>
+                <td className="px-1.5 py-3 text-center text-fifa-dark-gray sm:px-4">{row.drawn}</td>
+                <td className="px-1.5 py-3 text-center text-fifa-dark-gray sm:px-4">{row.lost}</td>
                 <td className="hidden px-4 py-3 text-center text-fifa-dark-gray sm:table-cell">
                   {row.goalsFor}
                 </td>
                 <td className="hidden px-4 py-3 text-center text-fifa-dark-gray sm:table-cell">
                   {row.goalsAgainst}
                 </td>
-                <td className="px-4 py-3 text-center text-fifa-dark-gray">
+                <td className="px-1.5 py-3 text-center text-fifa-dark-gray sm:px-4">
                   {row.goalDifference > 0
                     ? `+${row.goalDifference}`
                     : row.goalDifference}
                 </td>
-                <td className="px-4 py-3 text-center font-bold text-foreground">
+                <td className="px-1.5 py-3 pr-4 text-center font-bold text-foreground sm:px-4">
                   {row.points}
                 </td>
               </tr>
