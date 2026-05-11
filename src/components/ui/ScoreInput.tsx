@@ -27,7 +27,7 @@ export function ScoreInput({ value, onChange }: ScoreInputProps) {
           if (!isNaN(num) && num >= 0 && num <= 99) onChange(num);
           if (e.target.value === "") onChange(0);
         }}
-        className="h-12 w-14 rounded-xl bg-surface text-center font-display text-3xl text-foreground outline-none transition-all focus:bg-white focus:ring-2 focus:ring-fifa-blue/30 focus:shadow-lg"
+        className="h-12 w-14 rounded-xl bg-surface text-center font-display text-3xl text-foreground outline-none transition-all focus:bg-surface focus:ring-2 focus:ring-fifa-blue/30 focus:shadow-lg"
       />
       <button
         type="button"

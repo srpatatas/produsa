@@ -48,7 +48,7 @@ export default async function GroupDetailPage({
       <div className="mb-8">
         <Link
           href="/"
-          className="mb-4 inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1 text-xs font-medium text-fifa-dark-gray transition-colors hover:bg-fifa-blue/10 hover:text-fifa-blue"
+          className="mb-4 inline-flex items-center gap-1 rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-fifa-dark-gray transition-colors hover:bg-white/10 hover:text-foreground"
         >
           ← Todos los Grupos
         </Link>

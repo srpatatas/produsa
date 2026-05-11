@@ -28,7 +28,7 @@ export function GroupCard({ group }: GroupCardProps) {
   return (
     <Link
       href={`/groups/${group.id}`}
-      className="group relative block overflow-hidden rounded-2xl bg-white shadow-sm shadow-black/5 ring-1 ring-black/[0.03] transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10 active:scale-[0.98]"
+      className="group relative block overflow-hidden rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/30 active:scale-[0.98]"
     >
       <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
       <div className="p-5">

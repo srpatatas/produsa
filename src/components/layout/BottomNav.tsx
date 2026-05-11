@@ -15,7 +15,7 @@ export function BottomNav() {
 
   return (
     <nav className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-md md:hidden">
-      <div className="flex h-14 items-center justify-around rounded-2xl bg-white/80 shadow-lg shadow-black/5 ring-1 ring-black/5 backdrop-blur-xl">
+      <div className="flex h-14 items-center justify-around rounded-2xl bg-[#161829]/90 shadow-lg shadow-black/20 ring-1 ring-white/10 backdrop-blur-xl">
         {navItems.map((item) => {
           const isActive =
             item.href === "/"
@@ -30,7 +30,7 @@ export function BottomNav() {
                 "flex flex-col items-center gap-0.5 rounded-xl px-5 py-1.5 text-[10px] font-semibold transition-all",
                 isActive
                   ? "text-fifa-blue"
-                  : "text-gray-400 hover:text-gray-600",
+                  : "text-white/30 hover:text-white/60",
               )}
             >
               <span className={cn("text-lg transition-transform", isActive && "scale-110")}>

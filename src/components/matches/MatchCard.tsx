@@ -42,7 +42,7 @@ export function MatchCard({ match }: MatchCardProps) {
   return (
     <div
       className={cn(
-        "rounded-2xl bg-white p-5 shadow-sm shadow-black/5 ring-1 ring-black/[0.03] transition-all",
+        "rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all",
         locked && "opacity-60",
       )}
     >

@@ -56,9 +56,9 @@ export function PlayerPredictionsList({
           <div
             key={pred.user.id}
             className={cn(
-              "flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/[0.03] transition-all",
-              isExactMatch && "ring-2 ring-emerald-400/50 bg-emerald-50/50",
-              !isExactMatch && isCorrectOutcome && "ring-2 ring-blue-400/30 bg-blue-50/50",
+              "flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all",
+              isExactMatch && "ring-2 ring-emerald-400/40 bg-emerald-500/10",
+              !isExactMatch && isCorrectOutcome && "ring-2 ring-blue-400/30 bg-blue-500/10",
               isCurrentUser && !isExactMatch && !isCorrectOutcome && "ring-2 ring-fifa-blue/20",
             )}
           >

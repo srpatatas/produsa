@@ -9,24 +9,24 @@
 }
 
 :root {
-  --background: #f8f9fc;
-  --foreground: #111827;
-  --fifa-green: #3cac3b;
-  --fifa-blue: #2a398d;
-  --fifa-red: #e61d25;
-  --fifa-gold: #d4a843;
-  --fifa-light-gray: #d1d4d1;
-  --fifa-dark-gray: #6b7280;
-  --fifa-green-light: #ecfdf5;
-  --fifa-blue-light: #eef2ff;
-  --fifa-red-light: #fef2f2;
-  --fifa-purple: #5b2d8e;
+  --background: #0c0e1a;
+  --foreground: #f0f2f5;
+  --fifa-green: #4ade80;
+  --fifa-blue: #6381f5;
+  --fifa-red: #f43f5e;
+  --fifa-gold: #fbbf24;
+  --fifa-light-gray: #4b5563;
+  --fifa-dark-gray: #9ca3af;
+  --fifa-green-light: rgba(74, 222, 128, 0.1);
+  --fifa-blue-light: rgba(99, 129, 245, 0.1);
+  --fifa-red-light: rgba(244, 63, 94, 0.1);
+  --fifa-purple: #8b5cf6;
   --fifa-lime: #c5e34a;
-  --fifa-teal: #00a5b5;
-  --fifa-gold-light: #f5e6c0;
-  --card-bg: #ffffff;
+  --fifa-teal: #2dd4bf;
+  --fifa-gold-light: rgba(251, 191, 36, 0.1);
+  --card-bg: #161829;
   --card-border: transparent;
-  --surface: #f1f5f9;
+  --surface: #1e2035;
 }
 
 @theme inline {

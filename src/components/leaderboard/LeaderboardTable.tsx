@@ -22,7 +22,7 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
           <div
             key={entry.user.id}
             className={cn(
-              "flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/[0.03] transition-all",
+              "flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all",
               isCurrentUser && "ring-2 ring-fifa-blue/20",
             )}
           >

@@ -17,10 +17,10 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
   const hasAnyPrediction = matches.some((m) => predictions[m.id]);
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-sm shadow-black/5 ring-1 ring-black/[0.03]">
+    <div className="overflow-hidden rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
       <table className="w-full text-left text-sm">
         <thead>
-          <tr className="border-b border-black/5 text-[11px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
+          <tr className="border-b border-white/5 text-[11px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
             <th className="px-4 py-3">#</th>
             <th className="px-4 py-3">Equipo</th>
             <th className="px-4 py-3 text-center">PJ</th>
@@ -42,11 +42,11 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
             return (
               <tr
                 key={row.teamId}
-                className={`border-b border-black/5 last:border-0 transition-colors ${
+                className={`border-b border-white/5 last:border-0 transition-colors ${
                   hasAnyPrediction && qualifies
-                    ? "bg-emerald-50/60"
+                    ? "bg-emerald-500/10"
                     : hasAnyPrediction && thirdPlace
-                      ? "bg-blue-50/60"
+                      ? "bg-blue-500/10"
                       : ""
                 }`}
               >
@@ -81,7 +81,7 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
         </tbody>
       </table>
       {hasAnyPrediction && (
-        <div className="flex gap-4 border-t border-black/5 px-4 py-2.5 text-[11px] text-fifa-dark-gray">
+        <div className="flex gap-4 border-t border-white/5 px-4 py-2.5 text-[11px] text-fifa-dark-gray">
           <span className="flex items-center gap-1.5">
             <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
             Clasifica
