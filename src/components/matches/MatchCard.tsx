@@ -42,8 +42,8 @@ export function MatchCard({ match }: MatchCardProps) {
   return (
     <div
       className={cn(
-        "relative rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all",
-        locked && "opacity-60",
+        "relative rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200",
+        locked ? "opacity-60" : "hover:ring-white/15 hover:shadow-md hover:shadow-black/30",
       )}
     >
       <div className="mb-1.5 text-center">

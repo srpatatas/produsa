@@ -11,7 +11,7 @@ interface StatCardProps {
 
 function StatCard({ value, label, color = "text-foreground" }: StatCardProps) {
   return (
-    <div className="flex flex-col items-center rounded-xl bg-card-bg p-3 shadow-sm shadow-black/20 ring-1 ring-white/5">
+    <div className="flex flex-col items-center rounded-xl bg-card-bg p-3 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:ring-white/15 hover:shadow-md hover:shadow-black/30 hover:-translate-y-0.5">
       <span className={`font-display text-2xl ${color}`}>{value}</span>
       <span className="text-[10px] text-fifa-dark-gray">{label}</span>
     </div>

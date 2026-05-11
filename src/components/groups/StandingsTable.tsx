@@ -42,7 +42,7 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
             return (
               <tr
                 key={row.teamId}
-                className={`border-b border-white/5 last:border-0 transition-colors ${
+                className={`border-b border-white/5 last:border-0 transition-colors duration-200 hover:bg-white/[0.03] ${
                   hasAnyPrediction && qualifies
                     ? "bg-emerald-500/10"
                     : hasAnyPrediction && thirdPlace
