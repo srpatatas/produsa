@@ -2,54 +2,95 @@
 
 Sitio de predicciones para la Copa del Mundo FIFA 2026. Predecí los resultados de los partidos y competí con tus amigos.
 
-## Requisitos
+## Setup (primera vez)
 
-- **Node.js** 20 o superior — instalalo con [Homebrew](https://brew.sh):
-  ```bash
-  brew install node
-  ```
-- **npm** (viene incluido con Node.js)
+Abrí la app **Terminal** (la encontrás en Aplicaciones > Utilidades, o buscando "Terminal" en Spotlight con `Cmd + Espacio`).
 
-Verificá que estén instalados:
+Copiá y pegá cada comando de a uno, presionando Enter después de cada uno.
+
+### 1. Instalar Homebrew (gestor de paquetes para Mac)
+
 ```bash
-node --version   # v20+
-npm --version    # v10+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-## Instalación
+Si te pide la contraseña de tu Mac, escribila (no se va a ver mientras escribís, es normal) y presioná Enter.
+
+### 2. Instalar Node.js
+
+```bash
+brew install node
+```
+
+### 3. Verificar que se instaló bien
+
+```bash
+node --version
+```
+
+Deberías ver algo como `v26.0.0` (el número puede variar, lo importante es que no diga "command not found").
+
+### 4. Descargar el proyecto
+
+```bash
+cd ~/Documents
+```
 
 ```bash
 git clone https://github.com/srpatatas/produsa.git
+```
+
+```bash
 cd produsa
+```
+
+### 5. Instalar las dependencias del proyecto
+
+```bash
 npm install
 ```
 
-## Levantar el proyecto
+Esto va a tardar un par de minutos. Esperá a que termine.
+
+### 6. Levantar el sitio
 
 ```bash
 npm run dev
 ```
 
-Abrí http://localhost:3000 en el navegador. Para ver la versión mobile, usá las DevTools del navegador (`Cmd + Shift + M` en Chrome).
+### 7. Abrir en el navegador
+
+Abrí Chrome (o el navegador que uses) y andá a:
+
+```
+http://localhost:3000
+```
+
+Para ver la versión mobile, hacé click derecho en la página > "Inspeccionar" > clickeá el icono de celular/tablet arriba a la izquierda (o `Cmd + Shift + M`).
+
+### Para cerrar el servidor
+
+Volvé a la Terminal y presioná `Ctrl + C`.
+
+### Para volver a levantar el sitio (las próximas veces)
+
+```bash
+cd ~/Documents/produsa
+```
+
+```bash
+npm run dev
+```
+
+Y abrí http://localhost:3000 en el navegador.
 
 ## Tests
 
 ```bash
-npm test              # correr una vez
-npm run test:watch    # correr en modo watch
+npm test
 ```
 
-## Scripts disponibles
-
-| Comando | Descripción |
-|---------|-------------|
-| `npm run dev` | Servidor de desarrollo (hot reload) |
-| `npm run build` | Build de producción |
-| `npm start` | Servidor de producción (requiere build previo) |
-| `npm test` | Correr suite de tests |
-| `npm run lint` | Correr ESLint |
-
-## Stack
+## Stack técnico
 
 - **Next.js 16** con App Router y TypeScript
 - **Tailwind CSS v4** con tema personalizado FIFA 2026
