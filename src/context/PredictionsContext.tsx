@@ -20,6 +20,7 @@ interface PredictionsContextValue {
     homeScore: number,
     awayScore: number,
   ) => void;
+  removePrediction: (matchId: string) => void;
   clearAllPredictions: () => void;
 }
 
@@ -27,6 +28,7 @@ const PredictionsContext = createContext<PredictionsContextValue>({
   predictions: {},
   isLoaded: false,
   setPrediction: () => {},
+  removePrediction: () => {},
   clearAllPredictions: () => {},
 });
 
@@ -61,13 +63,21 @@ export function PredictionsProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const removePrediction = useCallback((matchId: string) => {
+    setPredictions((prev) => {
+      const next = { ...prev };
+      delete next[matchId];
+      return next;
+    });
+  }, []);
+
   const clearAllPredictions = useCallback(() => {
     setPredictions({});
   }, []);
 
   return (
     <PredictionsContext.Provider
-      value={{ predictions, isLoaded, setPrediction, clearAllPredictions }}
+      value={{ predictions, isLoaded, setPrediction, removePrediction, clearAllPredictions }}
     >
       {children}
     </PredictionsContext.Provider>

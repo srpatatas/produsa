@@ -14,7 +14,7 @@ interface MatchCardProps {
 }
 
 export function MatchCard({ match }: MatchCardProps) {
-  const { predictions, setPrediction } = usePredictions();
+  const { predictions, setPrediction, removePrediction } = usePredictions();
   const prediction = predictions[match.id];
   const homeTeam = getTeam(match.homeTeamId);
   const awayTeam = getTeam(match.awayTeamId);
@@ -60,6 +60,18 @@ export function MatchCard({ match }: MatchCardProps) {
       {locked && (
         <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium text-fifa-dark-gray mx-auto w-fit">
           🔒 Predicción cerrada
+        </div>
+      )}
+
+      {!locked && prediction && (
+        <div className="mb-4 flex justify-center">
+          <button
+            type="button"
+            onClick={() => removePrediction(match.id)}
+            className="rounded-full px-3 py-1 text-[11px] font-medium text-fifa-red/70 transition-colors hover:bg-fifa-red/10 hover:text-fifa-red"
+          >
+            Borrar predicción
+          </button>
         </div>
       )}
 
