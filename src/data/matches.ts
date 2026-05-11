@@ -117,3 +117,10 @@ export function isMatchLive(match: Match): boolean {
 export function getLiveMatches(): Match[] {
   return matches.filter(isMatchLive);
 }
+
+export function getNextMatch(): Match | undefined {
+  const now = Date.now();
+  return matches
+    .filter((m) => new Date(m.kickoff).getTime() > now)
+    .sort((a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime())[0];
+}

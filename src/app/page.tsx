@@ -1,11 +1,13 @@
-import { GroupGrid } from "@/components/groups/GroupGrid";
 import { HeroBanner } from "@/components/layout/HeroBanner";
+import { NextMatchCountdown } from "@/components/home/NextMatchCountdown";
 
 export default function Home() {
   return (
     <div>
-      <HeroBanner subtitle="Predecí los resultados de todos los partidos" />
-      <GroupGrid />
+      <HeroBanner />
+      <div className="space-y-6">
+        <NextMatchCountdown />
+      </div>
     </div>
   );
 }
