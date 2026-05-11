@@ -1,4 +1,5 @@
 import { PredictionsMap } from "@/types";
+import { defaultUserPredictions } from "@/data/defaultPredictions";
 
 const STORAGE_KEY = "produsa_predictions_v1";
 
@@ -12,7 +13,10 @@ interface StoredPredictions {
 export function loadPredictions(userId: string): PredictionsMap {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {};
+    if (!raw) {
+      savePredictions(userId, defaultUserPredictions);
+      return defaultUserPredictions;
+    }
     const stored: StoredPredictions = JSON.parse(raw);
     if (stored.version !== 1 || stored.userId !== userId) return {};
     return stored.predictions;

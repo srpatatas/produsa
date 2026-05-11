@@ -1,4 +1,5 @@
 import { loadPredictions, savePredictions } from "@/lib/predictions";
+import { defaultUserPredictions } from "@/data/defaultPredictions";
 import { PredictionsMap } from "@/types";
 
 const mockStorage: Record<string, string> = {};
@@ -21,8 +22,8 @@ beforeEach(() => {
 });
 
 describe("predictions localStorage", () => {
-  it("returns empty map when nothing stored", () => {
-    expect(loadPredictions("user1")).toEqual({});
+  it("seeds default predictions when nothing stored", () => {
+    expect(loadPredictions("user1")).toEqual(defaultUserPredictions);
   });
 
   it("saves and loads predictions", () => {

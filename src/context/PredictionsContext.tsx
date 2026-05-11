@@ -10,7 +10,6 @@ import {
 } from "react";
 import { PredictionsMap } from "@/types";
 import { loadPredictions, savePredictions } from "@/lib/predictions";
-import { defaultUserPredictions } from "@/data/defaultPredictions";
 import { useUser } from "./UserContext";
 
 interface PredictionsContextValue {
@@ -40,8 +39,7 @@ export function PredictionsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = loadPredictions(user.id);
-    const merged = { ...defaultUserPredictions, ...stored };
-    setPredictions(merged);
+    setPredictions(stored);
     setIsLoaded(true);
   }, [user.id]);
 
