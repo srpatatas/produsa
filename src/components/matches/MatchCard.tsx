@@ -21,6 +21,11 @@ export function MatchCard({ match }: MatchCardProps) {
   const awayTeam = getTeam(match.awayTeamId);
 
   const result = getMatchResult(match.id);
+
+  const getOutcome = (h: number, a: number) => h > a ? "home" : h < a ? "away" : "draw";
+  const isExact = result && prediction && prediction.homeScore === result.homeScore && prediction.awayScore === result.awayScore;
+  const isCorrectOutcome = result && prediction && getOutcome(prediction.homeScore, prediction.awayScore) === getOutcome(result.homeScore, result.awayScore);
+
   const [locked, setLocked] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
   const [formattedTime, setFormattedTime] = useState("");
@@ -45,7 +50,11 @@ export function MatchCard({ match }: MatchCardProps) {
     <div
       className={cn(
         "relative rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200",
-        locked ? "opacity-60" : "hover:ring-white/15 hover:shadow-md hover:shadow-black/30",
+        result && isExact && "ring-2 ring-fifa-gold/40",
+        result && !isExact && isCorrectOutcome && "ring-2 ring-fifa-green/30",
+        result && prediction && !isExact && !isCorrectOutcome && "ring-2 ring-fifa-red/20",
+        !result && locked && "opacity-60",
+        !result && !locked && "hover:ring-white/15 hover:shadow-md hover:shadow-black/30",
       )}
     >
       <div className="mb-1.5 text-center">
@@ -96,36 +105,36 @@ export function MatchCard({ match }: MatchCardProps) {
           {result ? (
             <>
               <div className="flex items-center gap-3">
-                <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-fifa-green/15 font-display text-2xl text-foreground">
+                <span className={cn(
+                  "flex h-12 w-14 items-center justify-center rounded-xl font-display text-2xl text-foreground",
+                  isExact ? "bg-fifa-gold/20" : isCorrectOutcome ? "bg-fifa-green/15" : prediction ? "bg-fifa-red/10" : "bg-surface",
+                )}>
                   {result.homeScore}
                 </span>
                 <span className="font-display text-xl text-fifa-dark-gray/40">:</span>
-                <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-fifa-green/15 font-display text-2xl text-foreground">
+                <span className={cn(
+                  "flex h-12 w-14 items-center justify-center rounded-xl font-display text-2xl text-foreground",
+                  isExact ? "bg-fifa-gold/20" : isCorrectOutcome ? "bg-fifa-green/15" : prediction ? "bg-fifa-red/10" : "bg-surface",
+                )}>
                   {result.awayScore}
                 </span>
               </div>
-              {prediction && (() => {
-                const exactMatch = prediction.homeScore === result.homeScore && prediction.awayScore === result.awayScore;
-                const getOutcome = (h: number, a: number) => h > a ? "home" : h < a ? "away" : "draw";
-                const correctOutcome = getOutcome(prediction.homeScore, prediction.awayScore) === getOutcome(result.homeScore, result.awayScore);
-
-                return (
-                  <span className={`text-[10px] font-medium ${
-                    exactMatch
+              {prediction && (
+                <span className={`text-[10px] font-medium ${
+                  isExact
+                    ? "text-fifa-gold"
+                    : isCorrectOutcome
                       ? "text-fifa-green"
-                      : correctOutcome
-                        ? "text-fifa-blue"
-                        : "text-fifa-red/70"
-                  }`}>
-                    {exactMatch
-                      ? `🎯 Exacto! (${prediction.homeScore} - ${prediction.awayScore})`
-                      : correctOutcome
-                        ? `✓ Acertaste (${prediction.homeScore} - ${prediction.awayScore})`
-                        : `✗ Fallaste (${prediction.homeScore} - ${prediction.awayScore})`
-                    }
-                  </span>
-                );
-              })()}
+                      : "text-fifa-red/70"
+                }`}>
+                  {isExact
+                    ? `🎯 Exacto! (${prediction.homeScore} - ${prediction.awayScore})`
+                    : isCorrectOutcome
+                      ? `✓ Acertaste (${prediction.homeScore} - ${prediction.awayScore})`
+                      : `✗ Fallaste (${prediction.homeScore} - ${prediction.awayScore})`
+                  }
+                </span>
+              )}
             </>
           ) : locked ? (
             <div className="flex items-center gap-3">
