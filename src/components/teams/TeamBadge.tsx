@@ -1,5 +1,5 @@
 import { getTeam } from "@/data/teams";
-import { getFlagEmoji } from "@/data/flags";
+import { FlagImage } from "./FlagImage";
 
 interface TeamBadgeProps {
   teamId: string;
@@ -7,22 +7,22 @@ interface TeamBadgeProps {
   showName?: boolean;
 }
 
-const sizeClasses = {
-  sm: "text-base",
-  md: "text-xl",
-  lg: "text-2xl",
-};
-
-const textClasses = {
-  sm: "text-xs",
-  md: "text-sm",
-  lg: "text-base",
+const flagSizes = {
+  sm: "sm" as const,
+  md: "md" as const,
+  lg: "lg" as const,
 };
 
 const codeClasses = {
   sm: "text-sm",
   md: "text-base",
   lg: "text-xl",
+};
+
+const textClasses = {
+  sm: "text-xs",
+  md: "text-sm",
+  lg: "text-base",
 };
 
 export function TeamBadge({
@@ -33,8 +33,8 @@ export function TeamBadge({
   const team = getTeam(teamId);
 
   return (
-    <div className="flex items-center gap-2">
-      <span className={sizeClasses[size]}>{getFlagEmoji(team.flagCode)}</span>
+    <div className="flex items-center gap-2.5">
+      <FlagImage code={team.flagCode} name={team.name} size={flagSizes[size]} />
       {showName && (
         <div className="flex items-baseline gap-1.5">
           <span className={`font-display tracking-wide ${codeClasses[size]}`}>

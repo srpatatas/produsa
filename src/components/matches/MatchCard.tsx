@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
-import { getFlagEmoji } from "@/data/flags";
 import { isMatchLocked } from "@/data/matches";
 import { formatMatchDate, formatMatchTime, cn } from "@/lib/utils";
 import { usePredictions } from "@/context/PredictionsContext";
 import { ScoreInput } from "@/components/ui/ScoreInput";
+import { FlagImage } from "@/components/teams/FlagImage";
 
 interface MatchCardProps {
   match: Match;
@@ -50,7 +50,7 @@ export function MatchCard({ match }: MatchCardProps) {
         <span className="text-xs font-medium text-fifa-dark-gray">
           {formattedDate && formattedTime
             ? `${formattedDate} · ${formattedTime}`
-            : " "}
+            : " "}
         </span>
       </div>
       <div className="mb-4 text-center text-[10px] text-fifa-dark-gray/60">
@@ -65,7 +65,7 @@ export function MatchCard({ match }: MatchCardProps) {
 
       <div className="flex items-center justify-between">
         <div className="flex flex-1 flex-col items-center gap-2">
-          <span className="text-3xl">{getFlagEmoji(homeTeam.flagCode)}</span>
+          <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="lg" />
           <span className="font-display text-base tracking-wider text-foreground">
             {homeTeam.shortName}
           </span>
@@ -98,7 +98,7 @@ export function MatchCard({ match }: MatchCardProps) {
         </div>
 
         <div className="flex flex-1 flex-col items-center gap-2">
-          <span className="text-3xl">{getFlagEmoji(awayTeam.flagCode)}</span>
+          <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="lg" />
           <span className="font-display text-base tracking-wider text-foreground">
             {awayTeam.shortName}
           </span>

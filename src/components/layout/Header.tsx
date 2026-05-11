@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/en-vivo", label: "En Vivo" },
-  { href: "/", label: "Grupos" },
+  { href: "/", label: "Pronósticos" },
   { href: "/ranking", label: "Ranking" },
 ];
 

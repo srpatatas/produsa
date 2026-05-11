@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/en-vivo", label: "En Vivo", icon: "📺" },
-  { href: "/", label: "Grupos", icon: "🏟️" },
+  { href: "/", label: "Pronósticos", icon: "🏟️" },
   { href: "/ranking", label: "Ranking", icon: "🏆" },
 ];
 

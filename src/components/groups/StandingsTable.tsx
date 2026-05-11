@@ -2,7 +2,7 @@
 
 import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
-import { getFlagEmoji } from "@/data/flags";
+import { FlagImage } from "@/components/teams/FlagImage";
 import { usePredictions } from "@/context/PredictionsContext";
 import { computeStandings } from "@/lib/scoring";
 
@@ -53,7 +53,7 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
                 <td className="px-2 py-3 pl-4 font-semibold text-fifa-dark-gray sm:px-4">{i + 1}</td>
                 <td className="px-2 py-3 sm:px-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-base">{getFlagEmoji(team.flagCode)}</span>
+                    <FlagImage code={team.flagCode} name={team.name} size="sm" />
                     <span className="font-display tracking-wider">{team.shortName}</span>
                   </div>
                 </td>

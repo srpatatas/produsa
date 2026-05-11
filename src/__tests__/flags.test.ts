@@ -1,25 +1,21 @@
-import { getFlagEmoji } from "@/data/flags";
+import { getFlagUrl } from "@/data/flags";
 
-describe("getFlagEmoji", () => {
-  it("returns correct emoji for standard country codes", () => {
-    expect(getFlagEmoji("ar")).toBe("🇦🇷");
-    expect(getFlagEmoji("br")).toBe("🇧🇷");
-    expect(getFlagEmoji("us")).toBe("🇺🇸");
+describe("getFlagUrl", () => {
+  it("returns correct URL for standard country codes", () => {
+    expect(getFlagUrl("ar")).toBe("https://flagcdn.com/w80/ar.png");
+    expect(getFlagUrl("br")).toBe("https://flagcdn.com/w80/br.png");
   });
 
-  it("handles uppercase codes", () => {
-    expect(getFlagEmoji("AR")).toBe("🇦🇷");
+  it("lowercases the code", () => {
+    expect(getFlagUrl("AR")).toBe("https://flagcdn.com/w80/ar.png");
   });
 
-  it("returns England subdivision flag", () => {
-    const flag = getFlagEmoji("gb-eng");
-    expect(flag).toBeTruthy();
-    expect(flag).not.toBe("🇬🇧");
+  it("supports custom width", () => {
+    expect(getFlagUrl("ar", 40)).toBe("https://flagcdn.com/w40/ar.png");
   });
 
-  it("returns Scotland subdivision flag", () => {
-    const flag = getFlagEmoji("gb-sct");
-    expect(flag).toBeTruthy();
-    expect(flag).not.toBe("🇬🇧");
+  it("handles subdivision codes for England and Scotland", () => {
+    expect(getFlagUrl("gb-eng")).toBe("https://flagcdn.com/w80/gb-eng.png");
+    expect(getFlagUrl("gb-sct")).toBe("https://flagcdn.com/w80/gb-sct.png");
   });
 });

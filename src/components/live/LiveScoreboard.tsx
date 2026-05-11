@@ -1,6 +1,6 @@
 import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
-import { getFlagEmoji } from "@/data/flags";
+import { FlagImage } from "@/components/teams/FlagImage";
 import { LiveScore } from "@/data/liveScores";
 
 interface LiveScoreboardProps {
@@ -31,7 +31,7 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
 
         <div className="flex items-center justify-between">
           <div className="flex flex-1 flex-col items-center gap-2">
-            <span className="text-5xl">{getFlagEmoji(home.flagCode)}</span>
+            <FlagImage code={home.flagCode} name={home.name} size="xl" />
             <span className="font-display text-xl tracking-wider">{home.shortName}</span>
           </div>
 
@@ -46,7 +46,7 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
           </div>
 
           <div className="flex flex-1 flex-col items-center gap-2">
-            <span className="text-5xl">{getFlagEmoji(away.flagCode)}</span>
+            <FlagImage code={away.flagCode} name={away.name} size="xl" />
             <span className="font-display text-xl tracking-wider">{away.shortName}</span>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Group, GroupId } from "@/types";
 import { getTeam } from "@/data/teams";
-import { getFlagEmoji } from "@/data/flags";
+import { FlagImage } from "@/components/teams/FlagImage";
 
 interface GroupCardProps {
   group: Group;
@@ -48,7 +48,7 @@ export function GroupCard({ group }: GroupCardProps) {
             const team = getTeam(teamId);
             return (
               <div key={teamId} className="flex items-center gap-3">
-                <span className="text-xl">{getFlagEmoji(team.flagCode)}</span>
+                <FlagImage code={team.flagCode} name={team.name} size="sm" />
                 <div className="flex items-baseline gap-1.5">
                   <span className="font-display text-sm tracking-wider text-foreground">
                     {team.shortName}
