@@ -5,7 +5,7 @@ export interface MatchResult {
 }
 
 export const matchResults: Record<string, MatchResult> = {
-  // Group A — all finished
+  // Group A — all finished (mock data for testing)
   "A-1": { matchId: "A-1", homeScore: 1, awayScore: 0 },  // MEX 1-0 RSA
   "A-2": { matchId: "A-2", homeScore: 2, awayScore: 1 },  // KOR 2-1 CZE
   "A-3": { matchId: "A-3", homeScore: 0, awayScore: 0 },  // CZE 0-0 RSA
