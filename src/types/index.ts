@@ -31,6 +31,7 @@ export interface Prediction {
   homeScore: number;
   awayScore: number;
   timestamp: number;
+  penaltyWinner?: "home" | "away";
 }
 
 export interface PredictionsMap {
@@ -53,6 +54,25 @@ export interface User {
   id: string;
   name: string;
   avatar: string;
+}
+
+export type KnockoutRound = "R32" | "R16" | "QF" | "SF" | "3P" | "F";
+
+export interface TeamSlot {
+  type: "group-position" | "best-third" | "knockout-winner" | "knockout-loser";
+  ref: string;
+  label: string;
+}
+
+export interface KnockoutMatch {
+  id: string;
+  round: KnockoutRound;
+  matchNumber: number;
+  homeSlot: TeamSlot;
+  awaySlot: TeamSlot;
+  kickoff: string;
+  venue: string;
+  city: string;
 }
 
 export interface LeaderboardEntry {
