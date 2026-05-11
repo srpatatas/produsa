@@ -106,22 +106,30 @@ export function NextMatchCountdown() {
         </div>
 
         {hasPrediction ? (
-          <div className="flex flex-col items-center gap-2">
-            <div className="flex items-center gap-3">
-              <span className="text-xs text-fifa-dark-gray">Tu predicción:</span>
-              <span className="font-display text-2xl tracking-wider text-foreground">
-                {prediction.homeScore}
-              </span>
-              <span className="text-sm text-fifa-dark-gray/40">:</span>
-              <span className="font-display text-2xl tracking-wider text-foreground">
-                {prediction.awayScore}
-              </span>
+          <div className="flex flex-col items-center gap-3">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
+              Tu predicción
+            </span>
+            <div className="flex items-center gap-4 rounded-2xl bg-gradient-to-r from-fifa-purple/10 via-fifa-blue/10 to-fifa-teal/10 px-8 py-4 ring-1 ring-white/5">
+              <div className="flex flex-col items-center">
+                <span className="font-display text-4xl tracking-wider text-foreground">
+                  {prediction.homeScore}
+                </span>
+                <span className="text-[10px] text-fifa-dark-gray">{home.shortName}</span>
+              </div>
+              <span className="font-display text-xl text-fifa-dark-gray/30">:</span>
+              <div className="flex flex-col items-center">
+                <span className="font-display text-4xl tracking-wider text-foreground">
+                  {prediction.awayScore}
+                </span>
+                <span className="text-[10px] text-fifa-dark-gray">{away.shortName}</span>
+              </div>
             </div>
             <Link
               href={`/groups/${match.groupId}`}
-              className="text-xs font-medium text-fifa-blue transition-colors hover:text-fifa-teal"
+              className="rounded-full bg-white/5 px-5 py-2 text-xs font-semibold text-fifa-teal ring-1 ring-white/10 transition-all hover:bg-fifa-teal/10 hover:ring-fifa-teal/30 active:scale-[0.97]"
             >
-              Cambiar predicción →
+              Cambiar predicción
             </Link>
           </div>
         ) : (
