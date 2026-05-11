@@ -20,6 +20,9 @@
   --fifa-green-light: #ecfdf5;
   --fifa-blue-light: #eef2ff;
   --fifa-red-light: #fef2f2;
+  --fifa-purple: #5b2d8e;
+  --fifa-lime: #c5e34a;
+  --fifa-teal: #00a5b5;
   --fifa-gold-light: #f5e6c0;
   --card-bg: #ffffff;
   --card-border: transparent;
@@ -38,6 +41,9 @@
   --color-fifa-green-light: var(--fifa-green-light);
   --color-fifa-blue-light: var(--fifa-blue-light);
   --color-fifa-red-light: var(--fifa-red-light);
+  --color-fifa-purple: var(--fifa-purple);
+  --color-fifa-lime: var(--fifa-lime);
+  --color-fifa-teal: var(--fifa-teal);
   --color-fifa-gold-light: var(--fifa-gold-light);
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);

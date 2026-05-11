@@ -6,12 +6,15 @@ export default function EnVivoPage() {
   return (
     <LiveMatchView
       onNoLiveMatches={() => (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <span className="mb-3 text-5xl">📺</span>
-          <h1 className="font-display text-xl font-bold text-fifa-blue">
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="relative mb-6">
+            <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-fifa-purple/10 to-fifa-teal/10" />
+            <span className="relative text-6xl">📺</span>
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-foreground">
             No hay partidos en vivo
           </h1>
-          <p className="mt-2 text-sm text-fifa-dark-gray">
+          <p className="mt-2 max-w-xs text-sm text-fifa-dark-gray">
             Cuando un partido esté en juego, vas a poder ver el marcador y las
             predicciones de todos acá.
           </p>
