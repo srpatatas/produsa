@@ -67,7 +67,7 @@ export function NextMatchCountdown() {
   const hasPrediction = !!prediction;
 
   return (
-    <div className="rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5 overflow-hidden">
+    <div className="mx-auto max-w-md rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5 overflow-hidden">
       <div className="bg-gradient-to-r from-fifa-purple/20 via-fifa-blue/20 to-fifa-teal/20 px-5 py-3">
         <span className="text-xs font-semibold uppercase tracking-widest text-fifa-dark-gray">
           Próximo partido
@@ -133,12 +133,14 @@ export function NextMatchCountdown() {
             </Link>
           </div>
         ) : (
-          <Link
-            href={`/groups/${match.groupId}`}
-            className="flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-fifa-purple/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98]"
-          >
-            Hacer predicción
-          </Link>
+          <div className="flex justify-center">
+            <Link
+              href={`/groups/${match.groupId}`}
+              className="rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-fifa-purple/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98]"
+            >
+              Hacer predicción
+            </Link>
+          </div>
         )}
 
         <div className="mt-4 text-center text-[10px] text-fifa-dark-gray/50">
