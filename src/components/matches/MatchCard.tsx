@@ -50,7 +50,7 @@ export function MatchCard({ match }: MatchCardProps) {
     <div
       className={cn(
         "relative rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200",
-        result && isExact && "ring-2 ring-fifa-gold/40",
+        result && isExact && "ring-2 ring-fifa-green/40",
         result && !isExact && isCorrectOutcome && "ring-2 ring-fifa-green/30",
         result && prediction && !isExact && !isCorrectOutcome && "ring-2 ring-fifa-red/20",
         !result && locked && "opacity-60",
@@ -74,9 +74,22 @@ export function MatchCard({ match }: MatchCardProps) {
         </div>
       )}
 
-      {result && (
-        <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-fifa-green/15 px-3 py-1 text-[11px] font-medium text-fifa-green mx-auto w-fit">
-          ✓ Finalizado
+      {result && prediction && (
+        <div className={cn(
+          "mb-4 flex items-center justify-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-medium mx-auto w-fit",
+          isExact
+            ? "bg-fifa-green/15 text-fifa-green"
+            : isCorrectOutcome
+              ? "bg-fifa-green/15 text-fifa-green"
+              : "bg-fifa-red/10 text-fifa-red",
+        )}>
+          {isExact ? "🎯 Exacto!" : isCorrectOutcome ? "✓ Acertaste" : "✗ Fallaste"}
+        </div>
+      )}
+
+      {result && !prediction && (
+        <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium text-fifa-dark-gray mx-auto w-fit">
+          Sin predicción
         </div>
       )}
 
@@ -107,32 +120,21 @@ export function MatchCard({ match }: MatchCardProps) {
               <div className="flex items-center gap-3">
                 <span className={cn(
                   "flex h-12 w-14 items-center justify-center rounded-xl font-display text-2xl text-foreground",
-                  isExact ? "bg-fifa-gold/20" : isCorrectOutcome ? "bg-fifa-green/15" : prediction ? "bg-fifa-red/10" : "bg-surface",
+                  isExact ? "bg-fifa-green/20" : isCorrectOutcome ? "bg-fifa-green/15" : prediction ? "bg-fifa-red/10" : "bg-surface",
                 )}>
                   {result.homeScore}
                 </span>
                 <span className="font-display text-xl text-fifa-dark-gray/40">:</span>
                 <span className={cn(
                   "flex h-12 w-14 items-center justify-center rounded-xl font-display text-2xl text-foreground",
-                  isExact ? "bg-fifa-gold/20" : isCorrectOutcome ? "bg-fifa-green/15" : prediction ? "bg-fifa-red/10" : "bg-surface",
+                  isExact ? "bg-fifa-green/20" : isCorrectOutcome ? "bg-fifa-green/15" : prediction ? "bg-fifa-red/10" : "bg-surface",
                 )}>
                   {result.awayScore}
                 </span>
               </div>
               {prediction && (
-                <span className={`text-[10px] font-medium ${
-                  isExact
-                    ? "text-fifa-gold"
-                    : isCorrectOutcome
-                      ? "text-fifa-green"
-                      : "text-fifa-red/70"
-                }`}>
-                  {isExact
-                    ? `🎯 Exacto! (${prediction.homeScore} - ${prediction.awayScore})`
-                    : isCorrectOutcome
-                      ? `✓ Acertaste (${prediction.homeScore} - ${prediction.awayScore})`
-                      : `✗ Fallaste (${prediction.homeScore} - ${prediction.awayScore})`
-                  }
+                <span className="text-[10px] text-fifa-dark-gray">
+                  Tu predicción: {prediction.homeScore} - {prediction.awayScore}
                 </span>
               )}
             </>
