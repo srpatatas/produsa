@@ -7,10 +7,10 @@ interface FlagImageProps {
 }
 
 const config = {
-  sm: { width: 24, height: 18, cdn: 40 },
-  md: { width: 32, height: 24, cdn: 80 },
-  lg: { width: 48, height: 36, cdn: 80 },
-  xl: { width: 64, height: 48, cdn: 160 },
+  sm: { width: 24, height: 16, cdn: 40 },
+  md: { width: 32, height: 22, cdn: 80 },
+  lg: { width: 48, height: 32, cdn: 80 },
+  xl: { width: 64, height: 43, cdn: 160 },
 };
 
 export function FlagImage({ code, name, size = "md" }: FlagImageProps) {
@@ -18,12 +18,16 @@ export function FlagImage({ code, name, size = "md" }: FlagImageProps) {
   const src = `https://flagcdn.com/w${cdn}/${code.toLowerCase()}.png`;
 
   return (
-    <Image
-      src={src}
-      alt={`Bandera de ${name}`}
-      width={width}
-      height={height}
-      className="rounded-sm object-cover shadow-sm"
-    />
+    <div
+      className="relative flex-shrink-0 overflow-hidden rounded-sm shadow-sm"
+      style={{ width, height }}
+    >
+      <Image
+        src={src}
+        alt={`Bandera de ${name}`}
+        fill
+        className="object-cover"
+      />
+    </div>
   );
 }
