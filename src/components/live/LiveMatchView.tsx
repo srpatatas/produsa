@@ -20,6 +20,7 @@ export function LiveMatchView({
   const [activeIndex, setActiveIndex] = useState(0);
   const [ready, setReady] = useState(false);
   const [currentScore, setCurrentScore] = useState<LiveScore | undefined>();
+  const [scoreStale, setScoreStale] = useState(false);
 
   useEffect(() => {
     setLiveMatches(getLiveMatches());
@@ -38,14 +39,19 @@ export function LiveMatchView({
           awayScore: apiScore.awayScore,
           minute: apiScore.minute,
         });
+        setScoreStale(false);
         return;
       }
     } catch {
-      // API unavailable — keep last known score if we have one
+      // API unavailable
     }
-    setCurrentScore((prev) =>
-      prev ?? { matchId, homeScore: -1, awayScore: -1, minute: 0 },
-    );
+    setCurrentScore((prev) => {
+      if (prev && prev.homeScore >= 0) {
+        setScoreStale(true);
+        return prev;
+      }
+      return { matchId, homeScore: -1, awayScore: -1, minute: 0 };
+    });
   }, []);
 
   useEffect(() => {
@@ -98,7 +104,7 @@ export function LiveMatchView({
       )}
 
       <div className="space-y-5">
-        <LiveScoreboard match={match} liveScore={currentScore} />
+        <LiveScoreboard match={match} liveScore={currentScore} stale={scoreStale} />
         <PlayerPredictionsList predictions={predictions} liveScore={currentScore} />
       </div>
     </div>

@@ -6,9 +6,10 @@ import { LiveScore } from "@/data/liveScores";
 interface LiveScoreboardProps {
   match: Match;
   liveScore: LiveScore;
+  stale?: boolean;
 }
 
-export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
+export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboardProps) {
   const home = getTeam(match.homeTeamId);
   const away = getTeam(match.awayTeamId);
   const hasScore = liveScore.homeScore >= 0 && liveScore.awayScore >= 0;
@@ -26,7 +27,11 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-fifa-red" />
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-white/70">
-            {hasScore ? `En vivo · ${liveScore.minute}'` : "En vivo · Esperando datos"}
+            {!hasScore
+              ? "En vivo · Esperando datos"
+              : stale
+                ? `En vivo · ${liveScore.minute}' (última actualización)`
+                : `En vivo · ${liveScore.minute}'`}
           </span>
         </div>
 
