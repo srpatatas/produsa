@@ -104,11 +104,28 @@ export function MatchCard({ match }: MatchCardProps) {
                   {result.awayScore}
                 </span>
               </div>
-              {prediction && (
-                <span className="text-[10px] text-fifa-dark-gray">
-                  Tu predicción: {prediction.homeScore} - {prediction.awayScore}
-                </span>
-              )}
+              {prediction && (() => {
+                const exactMatch = prediction.homeScore === result.homeScore && prediction.awayScore === result.awayScore;
+                const getOutcome = (h: number, a: number) => h > a ? "home" : h < a ? "away" : "draw";
+                const correctOutcome = getOutcome(prediction.homeScore, prediction.awayScore) === getOutcome(result.homeScore, result.awayScore);
+
+                return (
+                  <span className={`text-[10px] font-medium ${
+                    exactMatch
+                      ? "text-fifa-green"
+                      : correctOutcome
+                        ? "text-fifa-blue"
+                        : "text-fifa-red/70"
+                  }`}>
+                    {exactMatch
+                      ? `🎯 Exacto! (${prediction.homeScore} - ${prediction.awayScore})`
+                      : correctOutcome
+                        ? `✓ Acertaste (${prediction.homeScore} - ${prediction.awayScore})`
+                        : `✗ Fallaste (${prediction.homeScore} - ${prediction.awayScore})`
+                    }
+                  </span>
+                );
+              })()}
             </>
           ) : locked ? (
             <div className="flex items-center gap-3">
