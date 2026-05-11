@@ -6,8 +6,7 @@ export interface LiveScore {
 }
 
 export const mockLiveScores: Record<string, LiveScore> = {
-  "A-1": { matchId: "A-1", homeScore: 1, awayScore: 0, minute: 63 },
-  "A-2": { matchId: "A-2", homeScore: 0, awayScore: 0, minute: 28 },
+  "B-1": { matchId: "B-1", homeScore: 2, awayScore: 1, minute: 34 },
 };
 
 export function getLiveScore(matchId: string): LiveScore | undefined {
