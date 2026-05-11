@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { Group, GroupId } from "@/types";
 import { getTeam } from "@/data/teams";
+import { getMatchesForGroup } from "@/data/matches";
 import { FlagImage } from "@/components/teams/FlagImage";
+import { usePredictions } from "@/context/PredictionsContext";
 
 interface GroupCardProps {
   group: Group;
@@ -24,6 +28,11 @@ const groupAccents: Record<GroupId, string> = {
 
 export function GroupCard({ group }: GroupCardProps) {
   const gradient = groupAccents[group.id];
+  const { predictions } = usePredictions();
+  const matches = getMatchesForGroup(group.id);
+  const predicted = matches.filter((m) => predictions[m.id]).length;
+  const total = matches.length;
+  const allDone = predicted === total;
 
   return (
     <Link
@@ -32,13 +41,24 @@ export function GroupCard({ group }: GroupCardProps) {
     >
       <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
       <div className="p-5">
-        <div className="mb-4 flex items-baseline justify-end gap-1.5">
-          <span className="text-xs font-medium uppercase tracking-wider text-fifa-dark-gray">
-            Grupo
+        <div className="mb-4 flex items-center justify-between">
+          <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+            allDone
+              ? "bg-fifa-green/15 text-fifa-green"
+              : predicted > 0
+                ? "bg-fifa-blue/15 text-fifa-blue"
+                : "bg-white/5 text-fifa-dark-gray"
+          }`}>
+            {allDone ? "✓ Completo" : `${predicted}/${total}`}
           </span>
-          <span className="font-display text-3xl tracking-wider text-foreground">
-            {group.id}
-          </span>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-xs font-medium uppercase tracking-wider text-fifa-dark-gray">
+              Grupo
+            </span>
+            <span className="font-title text-3xl text-foreground">
+              {group.id}
+            </span>
+          </div>
         </div>
         <div className="space-y-2.5">
           {group.teams.map((teamId) => {
