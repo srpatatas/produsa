@@ -41,7 +41,7 @@ export function PlayerPredictionsList({
 
   return (
     <div className="space-y-2">
-      <h3 className="font-display text-sm font-semibold text-fifa-dark-gray">
+      <h3 className="text-sm font-semibold text-fifa-dark-gray">
         Predicciones
       </h3>
       {sorted.map((pred) => {
@@ -56,26 +56,18 @@ export function PlayerPredictionsList({
           <div
             key={pred.user.id}
             className={cn(
-              "flex items-center gap-3 rounded-xl border bg-card-bg px-4 py-3 shadow-sm",
-              isExactMatch
-                ? "border-fifa-green bg-fifa-green-light"
-                : isCorrectOutcome
-                  ? "border-fifa-blue/30 bg-fifa-blue-light"
-                  : "border-card-border",
-              isCurrentUser && "ring-2 ring-fifa-blue/30",
+              "flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm shadow-black/5 ring-1 ring-black/[0.03] transition-all",
+              isExactMatch && "ring-2 ring-emerald-400/50 bg-emerald-50/50",
+              !isExactMatch && isCorrectOutcome && "ring-2 ring-blue-400/30 bg-blue-50/50",
+              isCurrentUser && !isExactMatch && !isCorrectOutcome && "ring-2 ring-fifa-blue/20",
             )}
           >
-            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-surface text-lg">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-surface text-xl">
               {pred.user.avatar}
             </div>
 
             <div className="flex flex-1 flex-col">
-              <span
-                className={cn(
-                  "text-sm font-semibold",
-                  isCurrentUser && "text-fifa-blue",
-                )}
-              >
+              <span className="text-sm font-semibold text-foreground">
                 {pred.user.name}
                 {isCurrentUser && (
                   <span className="ml-1 text-xs font-normal text-fifa-dark-gray">
@@ -83,7 +75,14 @@ export function PlayerPredictionsList({
                   </span>
                 )}
               </span>
-              <span className="text-[11px] text-fifa-dark-gray">
+              <span className={cn(
+                "text-[11px] font-medium",
+                isExactMatch
+                  ? "text-emerald-600"
+                  : isCorrectOutcome
+                    ? "text-blue-600"
+                    : "text-fifa-dark-gray",
+              )}>
                 {isExactMatch
                   ? "🎯 Acertando exacto"
                   : isCorrectOutcome
@@ -92,9 +91,9 @@ export function PlayerPredictionsList({
               </span>
             </div>
 
-            <div className="flex items-center gap-1 text-lg font-bold text-foreground">
+            <div className="flex items-center gap-1.5 font-display text-2xl tracking-wider text-foreground">
               <span>{pred.homeScore}</span>
-              <span className="text-sm text-fifa-dark-gray">:</span>
+              <span className="text-base text-fifa-dark-gray/30">:</span>
               <span>{pred.awayScore}</span>
             </div>
           </div>

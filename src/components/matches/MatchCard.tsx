@@ -42,41 +42,43 @@ export function MatchCard({ match }: MatchCardProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border bg-card-bg p-4 shadow-sm",
-        locked ? "border-fifa-light-gray opacity-75" : "border-card-border",
+        "rounded-2xl bg-white p-5 shadow-sm shadow-black/5 ring-1 ring-black/[0.03] transition-all",
+        locked && "opacity-60",
       )}
     >
-      <div className="mb-1 text-center text-xs font-medium text-fifa-dark-gray">
-        {formattedDate && formattedTime
-          ? `${formattedDate} · ${formattedTime}`
-          : " "}
+      <div className="mb-1.5 text-center">
+        <span className="text-xs font-medium text-fifa-dark-gray">
+          {formattedDate && formattedTime
+            ? `${formattedDate} · ${formattedTime}`
+            : " "}
+        </span>
       </div>
-      <div className="mb-3 text-center text-[10px] text-fifa-dark-gray/70">
+      <div className="mb-4 text-center text-[10px] text-fifa-dark-gray/60">
         {match.venue}, {match.city}
       </div>
 
       {locked && (
-        <div className="mb-3 flex items-center justify-center gap-1 text-xs font-medium text-fifa-red">
-          <span>🔒</span> Predicción cerrada
+        <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium text-fifa-dark-gray mx-auto w-fit">
+          🔒 Predicción cerrada
         </div>
       )}
 
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex flex-1 flex-col items-center gap-1">
-          <span className="text-2xl">{getFlagEmoji(homeTeam.flagCode)}</span>
-          <span className="text-center font-display text-sm tracking-wide">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-1 flex-col items-center gap-2">
+          <span className="text-3xl">{getFlagEmoji(homeTeam.flagCode)}</span>
+          <span className="font-display text-base tracking-wider text-foreground">
             {homeTeam.shortName}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3 px-2">
           {locked ? (
             <>
-              <span className="flex h-10 w-12 items-center justify-center rounded-lg bg-surface font-display text-xl text-fifa-dark-gray">
+              <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-surface font-display text-2xl text-foreground">
                 {prediction?.homeScore ?? "–"}
               </span>
-              <span className="font-display text-lg text-fifa-dark-gray">:</span>
-              <span className="flex h-10 w-12 items-center justify-center rounded-lg bg-surface font-display text-xl text-fifa-dark-gray">
+              <span className="font-display text-xl text-fifa-dark-gray/40">:</span>
+              <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-surface font-display text-2xl text-foreground">
                 {prediction?.awayScore ?? "–"}
               </span>
             </>
@@ -86,7 +88,7 @@ export function MatchCard({ match }: MatchCardProps) {
                 value={prediction?.homeScore}
                 onChange={handleHomeScore}
               />
-              <span className="font-display text-lg text-fifa-dark-gray">:</span>
+              <span className="font-display text-xl text-fifa-dark-gray/40">:</span>
               <ScoreInput
                 value={prediction?.awayScore}
                 onChange={handleAwayScore}
@@ -95,9 +97,9 @@ export function MatchCard({ match }: MatchCardProps) {
           )}
         </div>
 
-        <div className="flex flex-1 flex-col items-center gap-1">
-          <span className="text-2xl">{getFlagEmoji(awayTeam.flagCode)}</span>
-          <span className="text-center font-display text-sm tracking-wide">
+        <div className="flex flex-1 flex-col items-center gap-2">
+          <span className="text-3xl">{getFlagEmoji(awayTeam.flagCode)}</span>
+          <span className="font-display text-base tracking-wider text-foreground">
             {awayTeam.shortName}
           </span>
         </div>

@@ -16,7 +16,7 @@ export function MatchList({ matches }: MatchListProps) {
     <div className="space-y-6">
       {byMatchday.map((dayMatches, i) => (
         <div key={i + 1}>
-          <h3 className="mb-3 font-display text-sm font-semibold text-fifa-dark-gray">
+          <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-fifa-dark-gray">
             Fecha {i + 1}
           </h3>
           <div className="space-y-3">

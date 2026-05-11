@@ -6,7 +6,7 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-20 pt-6 md:pb-6">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-24 pt-6 md:pb-8">
         {children}
       </main>
       <BottomNav />

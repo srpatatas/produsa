@@ -31,21 +31,23 @@ export default async function GroupDetailPage({
       <div className="mb-6">
         <Link
           href="/"
-          className="mb-2 inline-flex items-center gap-1 text-sm text-fifa-dark-gray transition-colors hover:text-fifa-blue"
+          className="mb-3 inline-flex items-center gap-1 rounded-full bg-surface px-3 py-1 text-xs font-medium text-fifa-dark-gray transition-colors hover:bg-fifa-blue/10 hover:text-fifa-blue"
         >
           ← Todos los Grupos
         </Link>
-        <h1 className="font-display text-2xl font-bold text-fifa-blue sm:text-3xl">
-          Grupo {group.id}
+        <h1 className="flex items-center gap-3">
+          <span className="font-display text-3xl tracking-wider text-fifa-blue">
+            GRUPO {group.id}
+          </span>
         </h1>
         <p className="mt-1 text-sm text-fifa-dark-gray">
           Ingresá tus predicciones para cada partido
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         <section>
-          <h2 className="mb-3 font-display text-lg font-semibold text-foreground">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-fifa-dark-gray">
             Posiciones
           </h2>
           <StandingsTable
@@ -55,7 +57,7 @@ export default async function GroupDetailPage({
         </section>
 
         <section>
-          <h2 className="mb-3 font-display text-lg font-semibold text-foreground">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-fifa-dark-gray">
             Partidos
           </h2>
           <MatchList matches={matches} />
