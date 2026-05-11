@@ -54,7 +54,7 @@ export default async function GroupDetailPage({
         </Link>
         <div className="flex items-center gap-4">
           <div className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${gradient} shadow-lg`}>
-            <span className="font-display text-2xl tracking-wider text-white">
+            <span className="font-title text-3xl leading-none -translate-y-1 text-white">
               {group.id}
             </span>
           </div>
