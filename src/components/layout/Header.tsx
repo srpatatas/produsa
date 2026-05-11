@@ -18,10 +18,10 @@ export function Header() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-fifa-purple to-fifa-teal">
-            <span className="font-display text-sm text-white tracking-wider">26</span>
+            <span className="font-title text-sm text-white">26</span>
           </div>
-          <span className="text-base font-bold tracking-tight text-foreground">
-            Produsa
+          <span className="font-title text-lg text-foreground">
+            PRODUSA
           </span>
         </Link>
 

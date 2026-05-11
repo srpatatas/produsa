@@ -8,6 +8,15 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "FIFA26";
+  src: url("/fonts/fifa-26.otf.woff2") format("woff2"),
+       url("/fonts/fifa-26.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #0c0e1a;
   --foreground: #f0f2f5;
@@ -50,6 +59,7 @@
   --color-surface: var(--surface);
   --font-sans: var(--font-inter);
   --font-display: "FWC2026", var(--font-outfit);
+  --font-title: "FIFA26", "FWC2026", var(--font-outfit);
 }
 
 body {
