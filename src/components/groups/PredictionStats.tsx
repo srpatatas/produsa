@@ -30,7 +30,7 @@ export function PredictionStats() {
 
   return (
     <div className="grid grid-cols-3 gap-2">
-      <StatCard value={predicted} label="Predichos" color="text-fifa-blue" />
+      <StatCard value={predicted} label="Predicciones" color="text-fifa-blue" />
       <StatCard value={remaining} label="Restantes" color="text-fifa-dark-gray" />
       <StatCard value={`${percentage}%`} label="Completado" color={percentage === 100 ? "text-fifa-green" : "text-fifa-purple"} />
     </div>

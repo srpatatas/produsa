@@ -3,7 +3,7 @@ import { Match } from "@/types";
 export const matches: Match[] = [
   // Group A
   { id: "A-1", groupId: "A", homeTeamId: "MEX", awayTeamId: "RSA", matchday: 1, kickoff: "2026-05-10T19:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
-  { id: "A-2", groupId: "A", homeTeamId: "KOR", awayTeamId: "CZE", matchday: 1, kickoff: "2026-05-11T14:48:00Z", venue: "Estadio Akron", city: "Guadalajara" },
+  { id: "A-2", groupId: "A", homeTeamId: "KOR", awayTeamId: "CZE", matchday: 1, kickoff: "2026-05-11T16:24:00Z", venue: "Estadio Akron", city: "Guadalajara" },
   { id: "A-3", groupId: "A", homeTeamId: "CZE", awayTeamId: "RSA", matchday: 2, kickoff: "2026-06-18T17:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
   { id: "A-4", groupId: "A", homeTeamId: "MEX", awayTeamId: "KOR", matchday: 2, kickoff: "2026-06-19T03:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
   { id: "A-5", groupId: "A", homeTeamId: "RSA", awayTeamId: "KOR", matchday: 3, kickoff: "2026-06-25T03:00:00Z", venue: "Estadio BBVA", city: "Monterrey" },

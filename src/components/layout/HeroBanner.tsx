@@ -1,10 +1,6 @@
 import Image from "next/image";
 
-interface HeroBannerProps {
-  subtitle?: string;
-}
-
-export function HeroBanner({ subtitle }: HeroBannerProps) {
+export function HeroBanner() {
   return (
     <div className="-mx-4 -mt-6 mb-8 sm:mx-0">
       <div className="relative h-36 overflow-hidden sm:h-44 sm:rounded-2xl">
@@ -17,9 +13,6 @@ export function HeroBanner({ subtitle }: HeroBannerProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-fifa-purple/30 to-transparent" />
       </div>
-      {subtitle && (
-        <p className="mt-4 px-4 text-sm text-fifa-dark-gray sm:px-0">{subtitle}</p>
-      )}
     </div>
   );
 }
