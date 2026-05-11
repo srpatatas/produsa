@@ -32,16 +32,13 @@ export function GroupCard({ group }: GroupCardProps) {
     >
       <div className={`h-1.5 bg-gradient-to-r ${gradient}`} />
       <div className="p-5">
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="font-display text-3xl tracking-wider text-foreground">
-              {group.id}
-            </span>
-            <span className="text-xs font-medium uppercase tracking-wider text-fifa-dark-gray">
-              Grupo
-            </span>
-          </div>
-          <span className="text-lg">⚽</span>
+        <div className="mb-4 flex items-baseline justify-end gap-1.5">
+          <span className="text-xs font-medium uppercase tracking-wider text-fifa-dark-gray">
+            Grupo
+          </span>
+          <span className="font-display text-3xl tracking-wider text-foreground">
+            {group.id}
+          </span>
         </div>
         <div className="space-y-2.5">
           {group.teams.map((teamId) => {
