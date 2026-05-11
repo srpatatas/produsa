@@ -1,9 +1,14 @@
-import { Match, PredictionsMap, TeamStanding } from "@/types";
+import { Match, TeamStanding } from "@/types";
+
+export interface ScoreEntry {
+  homeScore: number;
+  awayScore: number;
+}
 
 export function computeStandings(
   teamIds: string[],
   matches: Match[],
-  predictions: PredictionsMap,
+  scores: Record<string, ScoreEntry>,
 ): TeamStanding[] {
   const standingsMap: Record<string, TeamStanding> = {};
 
@@ -22,8 +27,8 @@ export function computeStandings(
   }
 
   for (const match of matches) {
-    const prediction = predictions[match.id];
-    if (!prediction) continue;
+    const score = scores[match.id];
+    if (!score) continue;
 
     const home = standingsMap[match.homeTeamId];
     const away = standingsMap[match.awayTeamId];
@@ -31,16 +36,16 @@ export function computeStandings(
 
     home.played++;
     away.played++;
-    home.goalsFor += prediction.homeScore;
-    home.goalsAgainst += prediction.awayScore;
-    away.goalsFor += prediction.awayScore;
-    away.goalsAgainst += prediction.homeScore;
+    home.goalsFor += score.homeScore;
+    home.goalsAgainst += score.awayScore;
+    away.goalsFor += score.awayScore;
+    away.goalsAgainst += score.homeScore;
 
-    if (prediction.homeScore > prediction.awayScore) {
+    if (score.homeScore > score.awayScore) {
       home.won++;
       home.points += 3;
       away.lost++;
-    } else if (prediction.homeScore < prediction.awayScore) {
+    } else if (score.homeScore < score.awayScore) {
       away.won++;
       away.points += 3;
       home.lost++;

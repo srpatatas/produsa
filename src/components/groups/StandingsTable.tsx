@@ -1,9 +1,7 @@
-"use client";
-
 import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
+import { matchResults } from "@/data/results";
 import { FlagImage } from "@/components/teams/FlagImage";
-import { usePredictions } from "@/context/PredictionsContext";
 import { computeStandings } from "@/lib/scoring";
 
 interface StandingsTableProps {
@@ -12,9 +10,8 @@ interface StandingsTableProps {
 }
 
 export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
-  const { predictions } = usePredictions();
-  const standings = computeStandings(teamIds, matches, predictions);
-  const hasAnyPrediction = matches.some((m) => predictions[m.id]);
+  const standings = computeStandings(teamIds, matches, matchResults);
+  const hasAnyResult = matches.some((m) => matchResults[m.id]);
 
   return (
     <div className="overflow-x-auto rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
@@ -43,9 +40,9 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
               <tr
                 key={row.teamId}
                 className={`border-b border-white/5 last:border-0 transition-colors duration-200 hover:bg-white/[0.03] ${
-                  hasAnyPrediction && qualifies
+                  hasAnyResult && qualifies
                     ? "bg-emerald-500/10"
-                    : hasAnyPrediction && thirdPlace
+                    : hasAnyResult && thirdPlace
                       ? "bg-blue-500/10"
                       : ""
                 }`}
@@ -80,7 +77,7 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
           })}
         </tbody>
       </table>
-      {hasAnyPrediction && (
+      {hasAnyResult && (
         <div className="flex gap-4 border-t border-white/5 px-4 py-2.5 text-[11px] text-fifa-dark-gray">
           <span className="flex items-center gap-1.5">
             <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />

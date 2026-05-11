@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
 import { isMatchLocked } from "@/data/matches";
+import { getMatchResult } from "@/data/results";
 import { formatMatchDate, formatMatchTime, cn } from "@/lib/utils";
 import { usePredictions } from "@/context/PredictionsContext";
 import { ScoreInput } from "@/components/ui/ScoreInput";
@@ -19,6 +20,7 @@ export function MatchCard({ match }: MatchCardProps) {
   const homeTeam = getTeam(match.homeTeamId);
   const awayTeam = getTeam(match.awayTeamId);
 
+  const result = getMatchResult(match.id);
   const [locked, setLocked] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
   const [formattedTime, setFormattedTime] = useState("");
@@ -57,9 +59,15 @@ export function MatchCard({ match }: MatchCardProps) {
         {match.venue}, {match.city}
       </div>
 
-      {locked && (
+      {locked && !result && (
         <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium text-fifa-dark-gray mx-auto w-fit">
           🔒 Predicción cerrada
+        </div>
+      )}
+
+      {result && (
+        <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-fifa-green/15 px-3 py-1 text-[11px] font-medium text-fifa-green mx-auto w-fit">
+          ✓ Finalizado
         </div>
       )}
 
@@ -84,9 +92,26 @@ export function MatchCard({ match }: MatchCardProps) {
           </span>
         </div>
 
-        <div className="flex items-center gap-3 px-2">
-          {locked ? (
+        <div className="flex flex-col items-center gap-2 px-2">
+          {result ? (
             <>
+              <div className="flex items-center gap-3">
+                <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-fifa-green/15 font-display text-2xl text-foreground">
+                  {result.homeScore}
+                </span>
+                <span className="font-display text-xl text-fifa-dark-gray/40">:</span>
+                <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-fifa-green/15 font-display text-2xl text-foreground">
+                  {result.awayScore}
+                </span>
+              </div>
+              {prediction && (
+                <span className="text-[10px] text-fifa-dark-gray">
+                  Tu predicción: {prediction.homeScore} - {prediction.awayScore}
+                </span>
+              )}
+            </>
+          ) : locked ? (
+            <div className="flex items-center gap-3">
               <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-surface font-display text-2xl text-foreground">
                 {prediction?.homeScore ?? "–"}
               </span>
@@ -94,9 +119,9 @@ export function MatchCard({ match }: MatchCardProps) {
               <span className="flex h-12 w-14 items-center justify-center rounded-xl bg-surface font-display text-2xl text-foreground">
                 {prediction?.awayScore ?? "–"}
               </span>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex items-center gap-3">
               <ScoreInput
                 value={prediction?.homeScore}
                 onChange={handleHomeScore}
@@ -106,7 +131,7 @@ export function MatchCard({ match }: MatchCardProps) {
                 value={prediction?.awayScore}
                 onChange={handleAwayScore}
               />
-            </>
+            </div>
           )}
         </div>
 
