@@ -1,16 +1,10 @@
 import { GroupGrid } from "@/components/groups/GroupGrid";
+import { HeroBanner } from "@/components/layout/HeroBanner";
 
 export default function Home() {
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="font-display text-2xl font-bold text-fifa-blue sm:text-3xl">
-          Copa del Mundo 2026
-        </h1>
-        <p className="mt-1 text-sm text-fifa-dark-gray">
-          Predecí los resultados de todos los partidos de la fase de grupos
-        </p>
-      </div>
+      <HeroBanner subtitle="Predecí los resultados de todos los partidos" />
       <GroupGrid />
     </div>
   );

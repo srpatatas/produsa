@@ -19,6 +19,12 @@ const textClasses = {
   lg: "text-base",
 };
 
+const codeClasses = {
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-xl",
+};
+
 export function TeamBadge({
   teamId,
   size = "md",
@@ -30,7 +36,14 @@ export function TeamBadge({
     <div className="flex items-center gap-2">
       <span className={sizeClasses[size]}>{getFlagEmoji(team.flagCode)}</span>
       {showName && (
-        <span className={`font-medium ${textClasses[size]}`}>{team.name}</span>
+        <div className="flex items-baseline gap-1.5">
+          <span className={`font-display tracking-wide ${codeClasses[size]}`}>
+            {team.shortName}
+          </span>
+          <span className={`text-fifa-dark-gray ${textClasses[size]}`}>
+            {team.name}
+          </span>
+        </div>
       )}
     </div>
   );

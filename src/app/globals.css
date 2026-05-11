@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "FWC2026";
+  src: url("/fonts/FWC2026-UltraCondensedMedium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #fafafa;
+  --background: #f0f1f5;
   --foreground: #1a1a2e;
   --fifa-green: #3cac3b;
   --fifa-blue: #2a398d;
@@ -35,7 +43,7 @@
   --color-card-border: var(--card-border);
   --color-surface: var(--surface);
   --font-sans: var(--font-inter);
-  --font-display: var(--font-outfit);
+  --font-display: "FWC2026", var(--font-outfit);
 }
 
 body {

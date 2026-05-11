@@ -64,7 +64,7 @@ export function MatchCard({ match }: MatchCardProps) {
       <div className="flex items-center justify-between gap-2">
         <div className="flex flex-1 flex-col items-center gap-1">
           <span className="text-2xl">{getFlagEmoji(homeTeam.flagCode)}</span>
-          <span className="text-center text-xs font-semibold">
+          <span className="text-center font-display text-sm tracking-wide">
             {homeTeam.shortName}
           </span>
         </div>
@@ -72,11 +72,11 @@ export function MatchCard({ match }: MatchCardProps) {
         <div className="flex items-center gap-2">
           {locked ? (
             <>
-              <span className="flex h-10 w-12 items-center justify-center rounded-lg bg-surface text-lg font-bold text-fifa-dark-gray">
+              <span className="flex h-10 w-12 items-center justify-center rounded-lg bg-surface font-display text-xl text-fifa-dark-gray">
                 {prediction?.homeScore ?? "–"}
               </span>
-              <span className="text-lg font-bold text-fifa-dark-gray">:</span>
-              <span className="flex h-10 w-12 items-center justify-center rounded-lg bg-surface text-lg font-bold text-fifa-dark-gray">
+              <span className="font-display text-lg text-fifa-dark-gray">:</span>
+              <span className="flex h-10 w-12 items-center justify-center rounded-lg bg-surface font-display text-xl text-fifa-dark-gray">
                 {prediction?.awayScore ?? "–"}
               </span>
             </>
@@ -86,7 +86,7 @@ export function MatchCard({ match }: MatchCardProps) {
                 value={prediction?.homeScore}
                 onChange={handleHomeScore}
               />
-              <span className="text-lg font-bold text-fifa-dark-gray">:</span>
+              <span className="font-display text-lg text-fifa-dark-gray">:</span>
               <ScoreInput
                 value={prediction?.awayScore}
                 onChange={handleAwayScore}
@@ -97,7 +97,7 @@ export function MatchCard({ match }: MatchCardProps) {
 
         <div className="flex flex-1 flex-col items-center gap-1">
           <span className="text-2xl">{getFlagEmoji(awayTeam.flagCode)}</span>
-          <span className="text-center text-xs font-semibold">
+          <span className="text-center font-display text-sm tracking-wide">
             {awayTeam.shortName}
           </span>
         </div>

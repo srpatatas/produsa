@@ -14,13 +14,13 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-card-border bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 bg-fifa-blue shadow-md">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <span className="font-display text-xl font-bold text-fifa-blue">
+          <span className="font-display text-xl tracking-wider text-white">
             PRODUSA
           </span>
-          <span className="hidden text-xs font-medium text-fifa-dark-gray sm:block">
+          <span className="hidden text-xs font-medium text-white/60 sm:block">
             WE ARE 26
           </span>
         </Link>
@@ -33,8 +33,8 @@ export function Header() {
               className={cn(
                 "text-sm font-medium transition-colors",
                 pathname === link.href
-                  ? "text-fifa-blue"
-                  : "text-fifa-dark-gray hover:text-fifa-blue",
+                  ? "text-white"
+                  : "text-white/60 hover:text-white",
               )}
             >
               {link.label}
@@ -44,7 +44,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <span className="text-lg">⚽</span>
-          <span className="text-sm font-medium text-fifa-dark-gray">
+          <span className="text-sm font-medium text-white/80">
             Player 1
           </span>
         </div>

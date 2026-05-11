@@ -55,7 +55,7 @@ export function StandingsTable({ teamIds, matches }: StandingsTableProps) {
                 <td className="px-3 py-2">
                   <div className="flex items-center gap-2">
                     <span>{getFlagEmoji(team.flagCode)}</span>
-                    <span className="font-medium">{team.shortName}</span>
+                    <span className="font-display tracking-wide">{team.shortName}</span>
                   </div>
                 </td>
                 <td className="px-3 py-2 text-center">{row.played}</td>

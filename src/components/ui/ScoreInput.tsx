@@ -13,7 +13,7 @@ export function ScoreInput({ value, onChange }: ScoreInputProps) {
       <button
         type="button"
         onClick={() => onChange(Math.max(0, (value ?? 0) - 1))}
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface text-sm font-bold text-fifa-dark-gray transition-colors hover:bg-fifa-light-gray active:bg-fifa-blue active:text-white"
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-fifa-blue/10 text-sm font-bold text-fifa-blue transition-colors hover:bg-fifa-blue/20 active:bg-fifa-blue active:text-white"
       >
         −
       </button>
@@ -27,12 +27,12 @@ export function ScoreInput({ value, onChange }: ScoreInputProps) {
           if (!isNaN(num) && num >= 0 && num <= 99) onChange(num);
           if (e.target.value === "") onChange(0);
         }}
-        className="h-10 w-12 rounded-lg border border-card-border bg-white text-center text-lg font-bold text-foreground outline-none transition-colors focus:border-fifa-blue focus:ring-2 focus:ring-fifa-blue/20"
+        className="h-11 w-13 rounded-xl border-2 border-fifa-blue/20 bg-white text-center font-display text-2xl text-foreground outline-none transition-colors focus:border-fifa-blue focus:ring-2 focus:ring-fifa-blue/20"
       />
       <button
         type="button"
         onClick={() => onChange(Math.min(99, (value ?? 0) + 1))}
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface text-sm font-bold text-fifa-dark-gray transition-colors hover:bg-fifa-light-gray active:bg-fifa-blue active:text-white"
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-fifa-blue/10 text-sm font-bold text-fifa-blue transition-colors hover:bg-fifa-blue/20 active:bg-fifa-blue active:text-white"
       >
         +
       </button>

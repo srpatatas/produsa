@@ -28,7 +28,7 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
       <div className="flex items-center justify-between">
         <div className="flex flex-1 flex-col items-center gap-1">
           <span className="text-4xl">{getFlagEmoji(home.flagCode)}</span>
-          <span className="text-sm font-bold">{home.shortName}</span>
+          <span className="font-display text-lg tracking-wide">{home.shortName}</span>
         </div>
 
         <div className="flex items-center gap-3 px-4">
@@ -43,7 +43,7 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
 
         <div className="flex flex-1 flex-col items-center gap-1">
           <span className="text-4xl">{getFlagEmoji(away.flagCode)}</span>
-          <span className="text-sm font-bold">{away.shortName}</span>
+          <span className="font-display text-lg tracking-wide">{away.shortName}</span>
         </div>
       </div>
     </div>
