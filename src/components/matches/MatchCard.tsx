@@ -42,7 +42,7 @@ export function MatchCard({ match }: MatchCardProps) {
   return (
     <div
       className={cn(
-        "rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all",
+        "relative rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all",
         locked && "opacity-60",
       )}
     >
@@ -64,15 +64,16 @@ export function MatchCard({ match }: MatchCardProps) {
       )}
 
       {!locked && prediction && (
-        <div className="mb-4 flex justify-center">
-          <button
-            type="button"
-            onClick={() => removePrediction(match.id)}
-            className="rounded-full px-3 py-1 text-[11px] font-medium text-fifa-red/70 transition-colors hover:bg-fifa-red/10 hover:text-fifa-red"
-          >
-            Borrar predicción
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => removePrediction(match.id)}
+          title="Borrar predicción"
+          className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full text-fifa-dark-gray/30 transition-all hover:bg-fifa-red/10 hover:text-fifa-red"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
       )}
 
       <div className="flex items-center justify-between">
