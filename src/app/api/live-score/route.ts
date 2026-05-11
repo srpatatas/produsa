@@ -6,15 +6,15 @@ const FIXTURE_TO_MATCH: Record<number, string> = {
   1525713: "B-1",
 };
 
+const FIXTURE_IDS = new Set(Object.keys(FIXTURE_TO_MATCH).map(Number));
+
 export async function GET() {
   const key = process.env.API_FOOTBALL_KEY;
   if (!key) {
     return NextResponse.json({ scores: {} });
   }
 
-  const fixtureIds = Object.keys(FIXTURE_TO_MATCH).join("-");
-
-  const res = await fetch(`${API_BASE}/fixtures?ids=${fixtureIds}`, {
+  const res = await fetch(`${API_BASE}/fixtures?live=all`, {
     headers: { "x-apisports-key": key },
   });
 
@@ -27,9 +27,9 @@ export async function GET() {
 
   for (const f of data.response) {
     const fixtureId = f.fixture.id as number;
-    const matchId = FIXTURE_TO_MATCH[fixtureId];
-    if (!matchId) continue;
+    if (!FIXTURE_IDS.has(fixtureId)) continue;
 
+    const matchId = FIXTURE_TO_MATCH[fixtureId];
     scores[matchId] = {
       homeScore: f.goals.home ?? 0,
       awayScore: f.goals.away ?? 0,
