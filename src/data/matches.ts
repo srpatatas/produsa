@@ -10,7 +10,7 @@ export const matches: Match[] = [
   { id: "A-6", groupId: "A", homeTeamId: "MEX", awayTeamId: "CZE", matchday: 3, kickoff: "2026-05-10T17:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
 
   // Group B (one live — test override)
-  { id: "B-1", groupId: "B", homeTeamId: "CAN", awayTeamId: "BIH", matchday: 1, kickoff: "2026-05-11T18:52:00Z", venue: "BMO Field", city: "Toronto" },
+  { id: "B-1", groupId: "B", homeTeamId: "CAN", awayTeamId: "BIH", matchday: 1, kickoff: "2026-05-11T21:21:00Z", venue: "BMO Field", city: "Toronto" },
   { id: "B-2", groupId: "B", homeTeamId: "QAT", awayTeamId: "SUI", matchday: 1, kickoff: "2026-06-13T19:00:00Z", venue: "Levi's Stadium", city: "San Francisco" },
   { id: "B-3", groupId: "B", homeTeamId: "CAN", awayTeamId: "QAT", matchday: 2, kickoff: "2026-06-18T22:00:00Z", venue: "BC Place", city: "Vancouver" },
   { id: "B-4", groupId: "B", homeTeamId: "BIH", awayTeamId: "SUI", matchday: 2, kickoff: "2026-06-18T19:00:00Z", venue: "SoFi Stadium", city: "Los Ángeles" },

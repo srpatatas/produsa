@@ -11,6 +11,7 @@ interface LiveScoreboardProps {
 export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
   const home = getTeam(match.homeTeamId);
   const away = getTeam(match.awayTeamId);
+  const hasScore = liveScore.homeScore >= 0 && liveScore.awayScore >= 0;
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-fifa-purple via-fifa-blue to-fifa-teal p-6 text-white shadow-xl shadow-fifa-purple/20">
@@ -25,7 +26,7 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
             <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-fifa-red" />
           </span>
           <span className="text-xs font-semibold uppercase tracking-widest text-white/70">
-            En vivo · {liveScore.minute}&apos;
+            {hasScore ? `En vivo · ${liveScore.minute}'` : "En vivo · Esperando datos"}
           </span>
         </div>
 
@@ -37,11 +38,11 @@ export function LiveScoreboard({ match, liveScore }: LiveScoreboardProps) {
 
           <div className="flex items-center gap-4 px-4">
             <span className="font-display text-7xl leading-none">
-              {liveScore.homeScore}
+              {hasScore ? liveScore.homeScore : "–"}
             </span>
             <span className="text-3xl text-white/20">:</span>
             <span className="font-display text-7xl leading-none">
-              {liveScore.awayScore}
+              {hasScore ? liveScore.awayScore : "–"}
             </span>
           </div>
 

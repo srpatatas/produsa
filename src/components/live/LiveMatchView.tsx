@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Match } from "@/types";
 import { getLiveMatches } from "@/data/matches";
 import { getLiveScore, LiveScore } from "@/data/liveScores";
@@ -8,6 +8,8 @@ import { getPlayerPredictions } from "@/data/playerPredictions";
 import { LiveScoreboard } from "./LiveScoreboard";
 import { PlayerPredictionsList } from "./PlayerPredictionsList";
 import { cn } from "@/lib/utils";
+
+const POLL_INTERVAL_MS = 300000;
 
 export function LiveMatchView({
   onNoLiveMatches,
@@ -24,16 +26,36 @@ export function LiveMatchView({
     setReady(true);
   }, []);
 
+  const fetchApiScore = useCallback(async (matchId: string) => {
+    try {
+      const res = await fetch("/api/live-score");
+      const data = await res.json();
+      const apiScore = data.scores?.[matchId];
+      if (apiScore) {
+        setCurrentScore({
+          matchId,
+          homeScore: apiScore.homeScore,
+          awayScore: apiScore.awayScore,
+          minute: apiScore.minute,
+        });
+        return;
+      }
+    } catch {
+      // API unavailable — keep last known score if we have one
+    }
+    setCurrentScore((prev) =>
+      prev ?? { matchId, homeScore: -1, awayScore: -1, minute: 0 },
+    );
+  }, []);
+
   useEffect(() => {
     if (liveMatches.length === 0) return;
     const match = liveMatches[activeIndex];
 
-    const update = () => setCurrentScore(getLiveScore(match.id));
-    update();
-
-    const interval = setInterval(update, 2000);
+    fetchApiScore(match.id);
+    const interval = setInterval(() => fetchApiScore(match.id), POLL_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [liveMatches, activeIndex]);
+  }, [liveMatches, activeIndex, fetchApiScore]);
 
   if (!ready) return null;
   if (liveMatches.length === 0) return <>{onNoLiveMatches()}</>;
