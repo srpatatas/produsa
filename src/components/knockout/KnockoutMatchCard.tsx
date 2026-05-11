@@ -74,12 +74,6 @@ export function KnockoutMatchCard({ match }: KnockoutMatchCardProps) {
         {match.venue}, {match.city}
       </div>
 
-      {!predictable && (
-        <div className="mb-4 flex items-center justify-center rounded-full bg-surface px-3 py-1 text-[10px] font-medium text-fifa-dark-gray mx-auto w-fit">
-          Completá las fases previas
-        </div>
-      )}
-
       {locked && predictable && (
         <div className="mb-4 flex items-center justify-center gap-1.5 rounded-full bg-surface px-3 py-1 text-[11px] font-medium text-fifa-dark-gray mx-auto w-fit">
           🔒 Predicción cerrada

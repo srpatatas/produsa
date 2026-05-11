@@ -8,7 +8,7 @@ export interface RoundInfo {
 }
 
 export const knockoutRounds: RoundInfo[] = [
-  { id: "R32", label: "Treintaidosavos", shortLabel: "R32", matchCount: 16 },
+  { id: "R32", label: "Dieciseisavos de final", shortLabel: "R32", matchCount: 16 },
   { id: "R16", label: "Octavos de final", shortLabel: "R16", matchCount: 8 },
   { id: "QF", label: "Cuartos de final", shortLabel: "QF", matchCount: 4 },
   { id: "SF", label: "Semifinales", shortLabel: "SF", matchCount: 2 },
