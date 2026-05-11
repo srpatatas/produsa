@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Match } from "@/types";
 import { getLiveMatches } from "@/data/matches";
-import { getLiveScore } from "@/data/liveScores";
+import { getLiveScore, LiveScore } from "@/data/liveScores";
 import { getPlayerPredictions } from "@/data/playerPredictions";
 import { LiveScoreboard } from "./LiveScoreboard";
 import { PlayerPredictionsList } from "./PlayerPredictionsList";
@@ -17,20 +17,31 @@ export function LiveMatchView({
   const [liveMatches, setLiveMatches] = useState<Match[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [ready, setReady] = useState(false);
+  const [currentScore, setCurrentScore] = useState<LiveScore | undefined>();
 
   useEffect(() => {
     setLiveMatches(getLiveMatches());
     setReady(true);
   }, []);
 
+  useEffect(() => {
+    if (liveMatches.length === 0) return;
+    const match = liveMatches[activeIndex];
+
+    const update = () => setCurrentScore(getLiveScore(match.id));
+    update();
+
+    const interval = setInterval(update, 2000);
+    return () => clearInterval(interval);
+  }, [liveMatches, activeIndex]);
+
   if (!ready) return null;
   if (liveMatches.length === 0) return <>{onNoLiveMatches()}</>;
 
   const match = liveMatches[activeIndex];
-  const liveScore = getLiveScore(match.id);
   const predictions = getPlayerPredictions(match.id);
 
-  if (!liveScore) return <>{onNoLiveMatches()}</>;
+  if (!currentScore) return <>{onNoLiveMatches()}</>;
 
   return (
     <div className="mx-auto max-w-md">
@@ -65,8 +76,8 @@ export function LiveMatchView({
       )}
 
       <div className="space-y-5">
-        <LiveScoreboard match={match} liveScore={liveScore} />
-        <PlayerPredictionsList predictions={predictions} liveScore={liveScore} />
+        <LiveScoreboard match={match} liveScore={currentScore} />
+        <PlayerPredictionsList predictions={predictions} liveScore={currentScore} />
       </div>
     </div>
   );
