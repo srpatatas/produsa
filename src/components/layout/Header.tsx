@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -17,9 +18,12 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-[#0c0e1a]/80 backdrop-blur-xl border-b border-white/5">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-fifa-purple to-fifa-teal">
-            <span className="font-title text-sm text-white">26</span>
-          </div>
+          <Image
+            src="/images/wc2026-logo.png"
+            alt="FIFA World Cup 2026"
+            width={32}
+            height={32}
+          />
           <span className="font-title text-lg text-foreground">
             PRODUSA
           </span>
