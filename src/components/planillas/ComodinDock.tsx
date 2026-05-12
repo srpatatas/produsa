@@ -11,89 +11,44 @@ interface ComodinDockProps {
 
 export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }: ComodinDockProps) {
   return (
-    <>
-      {/* Desktop: drag dock */}
-      <div className="hidden md:flex items-center gap-3 rounded-2xl bg-card-bg p-3 ring-1 ring-white/5 shadow-sm shadow-black/20">
-        <div
-          draggable={!isPlaced}
-          onDragStart={(e) => {
-            e.dataTransfer.setData("text/plain", "comodin");
-            e.dataTransfer.effectAllowed = "move";
-          }}
-          className={cn(
-            "relative h-12 w-12 flex-shrink-0 rounded-full overflow-hidden ring-2 transition-all",
-            isPlaced
-              ? "opacity-30 ring-white/10 cursor-default"
-              : "ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 hover:ring-fifa-gold/80 hover:shadow-lg hover:shadow-fifa-gold/20",
-          )}
-        >
-          <Image
-            src="/images/comodino.JPG"
-            alt="Comodín"
-            fill
-            className="object-cover pointer-events-none"
-          />
-        </div>
-        <div className="min-w-0">
-          <span className="font-display text-xs tracking-wider text-fifa-gold">
-            COMODÍN
-          </span>
-          <p className="text-[10px] text-fifa-dark-gray">
-            {isPlaced
-              ? "Colocado — arrastrá para mover"
-              : "Arrastrá a un partido para +2 pts"}
-          </p>
-        </div>
-      </div>
-
-      {/* Mobile: tap to activate */}
+    <div className="fixed bottom-28 right-4 z-[80] md:bottom-8 md:right-8">
       <button
         type="button"
         onClick={onTogglePlacementMode}
+        draggable={!isPlaced}
+        onDragStart={(e) => {
+          e.dataTransfer.setData("text/plain", "comodin");
+          e.dataTransfer.effectAllowed = "move";
+        }}
         className={cn(
-          "flex md:hidden items-center gap-3 w-full rounded-2xl p-3 ring-1 transition-all",
+          "group relative flex h-14 w-14 items-center justify-center rounded-full shadow-xl transition-all",
           isPlacementMode
-            ? "bg-fifa-gold/10 ring-fifa-gold/50 shadow-lg shadow-fifa-gold/10"
+            ? "ring-2 ring-fifa-gold animate-pulse shadow-fifa-gold/30 scale-110"
             : isPlaced
-              ? "bg-card-bg ring-white/5 shadow-sm shadow-black/20"
-              : "bg-card-bg ring-white/5 shadow-sm shadow-black/20",
+              ? "ring-2 ring-white/10 opacity-40 shadow-black/20"
+              : "ring-2 ring-fifa-gold shadow-fifa-gold/20 hover:scale-110 hover:shadow-fifa-gold/40 active:scale-95 cursor-grab active:cursor-grabbing",
         )}
       >
-        <div
-          className={cn(
-            "relative h-10 w-10 flex-shrink-0 rounded-full overflow-hidden ring-2 transition-all",
-            isPlacementMode
-              ? "ring-fifa-gold animate-pulse"
-              : isPlaced
-                ? "opacity-30 ring-white/10"
-                : "ring-fifa-gold",
-          )}
-        >
-          <Image
-            src="/images/comodino.JPG"
-            alt="Comodín"
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="min-w-0 text-left">
-          <span className="font-display text-xs tracking-wider text-fifa-gold">
-            COMODÍN
-          </span>
-          <p className="text-[10px] text-fifa-dark-gray">
-            {isPlacementMode
-              ? "Tocá un partido para colocar"
-              : isPlaced
-                ? "Colocado — tocá para mover"
-                : "Tocá para activar · +2 pts"}
-          </p>
-        </div>
-        {isPlacementMode && (
-          <span className="ml-auto rounded-full bg-fifa-gold px-2 py-0.5 text-[9px] font-bold text-black">
-            ACTIVO
-          </span>
-        )}
+        <Image
+          src="/images/comodino.JPG"
+          alt="Comodín"
+          fill
+          className="rounded-full object-cover pointer-events-none"
+        />
       </button>
-    </>
+
+      <div className={cn(
+        "absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-lg px-3 py-1.5 text-[10px] font-medium shadow-lg transition-all",
+        isPlacementMode
+          ? "bg-fifa-gold text-black opacity-100"
+          : "bg-card-bg text-fifa-dark-gray ring-1 ring-white/10 opacity-0 group-hover:opacity-100 pointer-events-none",
+      )}>
+        {isPlacementMode
+          ? "Tocá un partido · +2 pts"
+          : isPlaced
+            ? "Colocado — tocá para mover"
+            : "Comodín · +2 pts"}
+      </div>
+    </div>
   );
 }
