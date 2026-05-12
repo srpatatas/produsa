@@ -140,6 +140,11 @@ export function PlanillaMatchRow({
             e.dataTransfer.setData("text/plain", "comodin");
             e.dataTransfer.effectAllowed = "move";
           }}
+          onDragEnd={(e) => {
+            if (e.dataTransfer.dropEffect === "none") {
+              onComodinRemove();
+            }
+          }}
           title="Arrastrá a otro partido o hacé click para quitar"
           onClick={onComodinRemove}
           className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
