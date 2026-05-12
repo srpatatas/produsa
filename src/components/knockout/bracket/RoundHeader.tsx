@@ -4,8 +4,8 @@ interface RoundHeaderProps {
 
 export function RoundHeader({ label }: RoundHeaderProps) {
   return (
-    <div className="mb-3 text-center">
-      <span className="font-display text-[10px] uppercase tracking-widest text-fifa-dark-gray">
+    <div className="mb-4 px-2 text-center">
+      <span className="font-display text-xs uppercase tracking-widest text-fifa-purple">
         {label}
       </span>
     </div>

@@ -4,11 +4,11 @@ import { useState } from "react";
 import { KnockoutMatch } from "@/types";
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
 import { BracketMatchNode } from "./BracketMatchNode";
-import { BracketConnectors } from "./BracketConnectors";
 import { BracketPredictionModal } from "./BracketPredictionModal";
 import { RoundHeader } from "./RoundHeader";
+import { KnockoutStats } from "../KnockoutStats";
 
-const BRACKET_HEIGHT = 960;
+const BRACKET_HEIGHT = 1200;
 
 function RoundColumn({
   matches,
@@ -19,7 +19,7 @@ function RoundColumn({
 }) {
   return (
     <div
-      className="flex flex-col justify-around"
+      className="flex flex-col justify-around px-2"
       style={{ height: BRACKET_HEIGHT }}
     >
       {matches.map((match) => (
@@ -36,11 +36,11 @@ function RoundColumn({
 function ConnectorColumn({ pairCount }: { pairCount: number }) {
   return (
     <div
-      className="flex w-8 flex-col justify-around"
+      className="flex w-10 flex-col justify-around"
       style={{ height: BRACKET_HEIGHT }}
     >
       {Array.from({ length: pairCount }).map((_, i) => (
-        <div key={i} className="flex flex-col flex-1 justify-center">
+        <div key={i} className="flex flex-1 flex-col justify-center">
           <div className="flex-1 border-b border-r border-white/10 rounded-br-lg" />
           <div className="flex-1 border-t border-r border-white/10 rounded-tr-lg" />
         </div>
@@ -60,9 +60,13 @@ export function BracketView() {
   const thirdPlace = getKnockoutMatchesByRound("3P");
 
   return (
-    <div className="hidden md:block -mx-4">
-      <div className="overflow-x-auto bracket-scroll px-4 pb-4">
-        <div className="inline-flex gap-0 min-w-[1200px]">
+    <div className="hidden md:block">
+      <div className="mb-4">
+        <KnockoutStats />
+      </div>
+
+      <div className="-mx-4 overflow-x-auto bracket-scroll px-4 pb-6">
+        <div className="inline-flex min-w-[1400px]">
           {/* R32 */}
           <div>
             <RoundHeader label="Dieciseisavos" />
@@ -99,7 +103,7 @@ export function BracketView() {
           <div>
             <RoundHeader label="Final" />
             <div
-              className="flex flex-col items-center"
+              className="flex flex-col items-center px-2"
               style={{ height: BRACKET_HEIGHT }}
             >
               <div className="flex flex-1 items-center">
@@ -108,7 +112,7 @@ export function BracketView() {
                   onClick={() => setSelectedMatch(final[0])}
                 />
               </div>
-              <div className="flex flex-col items-center gap-2 pb-4">
+              <div className="flex flex-col items-center gap-3 pb-8">
                 <span className="font-display text-[10px] uppercase tracking-widest text-fifa-gold">
                   Tercer puesto
                 </span>
