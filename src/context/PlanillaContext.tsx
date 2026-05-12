@@ -9,6 +9,7 @@ import {
   ReactNode,
 } from "react";
 import { PlanillaPrediction, PlanillaPredictionsMap, PlanillaOutcome, BonusPredictionsMap } from "@/types";
+import { defaultPlanillaPredictions } from "@/data/defaultPlanillaPredictions";
 import { useUser } from "./UserContext";
 
 const PLANILLA_KEY = "produsa_planilla_v1";
@@ -63,7 +64,13 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setPredictions(loadFromStorage<PlanillaPredictionsMap>(PLANILLA_KEY, user.id) ?? {});
+    const stored = loadFromStorage<PlanillaPredictionsMap>(PLANILLA_KEY, user.id);
+    if (stored) {
+      setPredictions(stored);
+    } else {
+      setPredictions(defaultPlanillaPredictions);
+      saveToStorage(PLANILLA_KEY, user.id, defaultPlanillaPredictions);
+    }
     setBonusPredictions(loadFromStorage<BonusPredictionsMap>(BONUS_KEY, user.id) ?? {});
     setIsLoaded(true);
   }, [user.id]);
