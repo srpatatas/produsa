@@ -3,8 +3,9 @@
 import { useState, useCallback, useRef } from "react";
 import { KnockoutRound } from "@/types";
 import { knockoutRounds } from "@/data/knockoutBracket";
-import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { getKnockoutMatchesByRound, knockoutMatches as allKnockoutMatches } from "@/data/knockoutMatches";
 import { knockoutComodines } from "@/data/knockoutComodines";
+import { knockoutGroupings } from "@/data/knockoutGroupings";
 import { KnockoutPlanillaMatchRow } from "./KnockoutPlanillaMatchRow";
 import { KnockoutComodinDock } from "./KnockoutComodinDock";
 import { Toast } from "./Toast";
@@ -81,22 +82,40 @@ export function KnockoutPlanillaView() {
         {roundInfo?.label}
       </h2>
 
-      {/* Match rows */}
-      <div className="space-y-2">
-        {roundMatches.map((match) => (
-          <KnockoutPlanillaMatchRow
-            key={match.id}
-            match={match}
-            comodinMatchId={comodinMatchId}
-            comodinEmoji={comodin.emoji}
-            comodinImage={comodin.image}
-            placementMode={placementMode}
-            onComodinDrop={handleComodinDrop}
-            onComodinRemove={handleComodinRemove}
-            onComodinDragStart={handleComodinDragStart}
-            onComodinDragEnd={handleComodinDragEnd}
-          />
-        ))}
+      {/* Match rows grouped */}
+      <div className="space-y-5">
+        {(knockoutGroupings[activeRound] ?? []).map((group) => {
+          const groupMatches = group.matchIds
+            .map((id) => allKnockoutMatches.find((m) => m.id === id))
+            .filter(Boolean) as typeof allKnockoutMatches;
+
+          return (
+            <div key={group.label}>
+              <div className="mb-2 flex items-center gap-2">
+                <div className="h-1 w-6 rounded-full bg-fifa-purple/50" />
+                <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
+                  {group.label}
+                </span>
+              </div>
+              <div className="space-y-1.5">
+                {groupMatches.map((match) => (
+                  <KnockoutPlanillaMatchRow
+                    key={match.id}
+                    match={match}
+                    comodinMatchId={comodinMatchId}
+                    comodinEmoji={comodin.emoji}
+                    comodinImage={comodin.image}
+                    placementMode={placementMode}
+                    onComodinDrop={handleComodinDrop}
+                    onComodinRemove={handleComodinRemove}
+                    onComodinDragStart={handleComodinDragStart}
+                    onComodinDragEnd={handleComodinDragEnd}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <KnockoutComodinDock
