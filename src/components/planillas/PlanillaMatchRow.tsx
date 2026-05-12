@@ -134,19 +134,24 @@ export function PlanillaMatchRow({
       )}
     >
       {hasComodin && (
-        <button
-          type="button"
+        <div
+          draggable
+          onDragStart={(e) => {
+            e.dataTransfer.setData("text/plain", "comodin");
+            e.dataTransfer.effectAllowed = "move";
+            onComodinRemove();
+          }}
+          title="Arrastrá a otro partido o hacé click para quitar"
           onClick={onComodinRemove}
-          title="Quitar comodín"
-          className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-pointer hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
+          className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
         >
           <Image
             src="/images/comodino.JPG"
             alt="Comodín"
             fill
-            className="object-cover"
+            className="object-cover pointer-events-none"
           />
-        </button>
+        </div>
       )}
 
       <div className="flex items-center gap-2 flex-1 min-w-0">
