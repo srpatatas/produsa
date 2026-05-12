@@ -8,6 +8,7 @@ const navItems = [
   { href: "/", label: "Inicio", icon: "🏠" },
   { href: "/en-vivo", label: "En Vivo", icon: "📺" },
   { href: "/pronosticos", label: "Pronósticos", icon: "🏟️" },
+  { href: "/planillas", label: "Planillas", icon: "📋" },
   { href: "/ranking", label: "Ranking", icon: "🏆" },
 ];
 

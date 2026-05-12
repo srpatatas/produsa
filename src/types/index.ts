@@ -75,6 +75,29 @@ export interface KnockoutMatch {
   city: string;
 }
 
+export type PlanillaOutcome = "L" | "E" | "V" | "LE" | "EV" | "LV";
+
+export interface PlanillaPrediction {
+  matchId: string;
+  outcome: PlanillaOutcome;
+}
+
+export interface PlanillaPredictionsMap {
+  [matchId: string]: PlanillaPrediction;
+}
+
+export type BonusSourceType = "teams" | "players" | "participants";
+
+export interface BonusQuestion {
+  id: string;
+  label: string;
+  sourceType: BonusSourceType;
+}
+
+export interface BonusPredictionsMap {
+  [questionId: string]: string;
+}
+
 export interface LeaderboardEntry {
   user: User;
   points: number;
