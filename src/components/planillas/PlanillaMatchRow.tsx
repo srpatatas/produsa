@@ -116,10 +116,10 @@ export function PlanillaMatchRow({
         locked && "opacity-50",
         hasComodin
           ? "ring-fifa-gold/50 bg-fifa-gold/5"
-          : isDouble
-            ? "ring-fifa-purple/30 ring-white/5"
-            : dragOver
-              ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
+          : dragOver
+            ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
+            : isDouble
+              ? "ring-fifa-purple/30 ring-white/5"
               : "ring-white/5",
       )}
     >
