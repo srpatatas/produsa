@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -9,12 +10,48 @@ interface ComodinDockProps {
   onTogglePlacementMode: () => void;
 }
 
+const phrases = [
+  "Pssst... ¿querés 2 puntitos extra?",
+  "Eh, vos... sí, vos. Tengo algo para vos.",
+  "¿Estás seguro de ese resultado? Yo te puedo ayudar...",
+  "Dale, arrastrámee a un partido.",
+  "No seas amarrete, usame.",
+  "¿Qué mirás? Agarrame y poneme en un partido.",
+  "2 puntos gratis. De nada.",
+  "Soy tu amigo, confía en mí.",
+];
+
 export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }: ComodinDockProps) {
+  const [showBubble, setShowBubble] = useState(false);
+  const [phrase, setPhrase] = useState(phrases[0]);
+
+  const showRandomPhrase = useCallback(() => {
+    setPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+    setShowBubble(true);
+    setTimeout(() => setShowBubble(false), 3500);
+  }, []);
+
+  useEffect(() => {
+    if (isPlaced || isPlacementMode) return;
+
+    const initialDelay = setTimeout(showRandomPhrase, 3000);
+
+    const interval = setInterval(() => {
+      const shouldShow = Math.random() < 0.4;
+      if (shouldShow) showRandomPhrase();
+    }, 8000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
+  }, [isPlaced, isPlacementMode, showRandomPhrase]);
+
   if (isPlaced) return null;
 
   return (
     <div className="sticky bottom-24 md:bottom-4 z-[80] flex justify-end">
-      <div className="group relative">
+      <div className="relative">
         <button
           type="button"
           onClick={onTogglePlacementMode}
@@ -39,16 +76,12 @@ export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }
         </button>
 
         <div className={cn(
-          "absolute bottom-full right-0 mb-3 rounded-xl px-3 py-2 text-[11px] font-medium shadow-lg transition-all pointer-events-none",
+          "absolute bottom-full right-0 mb-3 w-52 rounded-xl px-3 py-2 text-[11px] font-medium shadow-lg transition-all duration-300 pointer-events-none",
           "bg-fifa-gold text-black",
-          isPlacementMode
-            ? "opacity-100"
-            : "opacity-0 group-hover:opacity-100",
+          (showBubble || isPlacementMode) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1",
         )}>
           <span className="italic">
-            {isPlacementMode
-              ? "Dale, elegí un partido..."
-              : "Pssst... ¿querés 2 puntitos extra?"}
+            {isPlacementMode ? "Dale, elegí un partido..." : phrase}
           </span>
           <div className="absolute -bottom-1 right-5 h-2 w-2 rotate-45 bg-fifa-gold" />
         </div>
