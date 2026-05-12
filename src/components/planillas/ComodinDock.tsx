@@ -14,7 +14,7 @@ const phrases = [
   "Pssst... ¿querés 2 puntitos extra?",
   "Eh, vos... sí, vos. Tengo algo para vos.",
   "¿Estás seguro de ese resultado? Yo te puedo ayudar...",
-  "Dale, arrastrámee a un partido.",
+  "Dale, arrastrame a un partido.",
   "No seas amarrete, usame.",
   "¿Qué mirás? Agarrame y poneme en un partido.",
   "2 puntos gratis. De nada.",
@@ -28,23 +28,28 @@ export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }
   const showRandomPhrase = useCallback(() => {
     setPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
     setShowBubble(true);
-    setTimeout(() => setShowBubble(false), 3500);
+    setTimeout(() => setShowBubble(false), 4000);
   }, []);
 
   useEffect(() => {
     if (isPlaced || isPlacementMode) return;
 
-    const initialDelay = setTimeout(showRandomPhrase, 3000);
+    let timeout: ReturnType<typeof setTimeout>;
 
-    const interval = setInterval(() => {
-      const shouldShow = Math.random() < 0.4;
-      if (shouldShow) showRandomPhrase();
-    }, 8000);
-
-    return () => {
-      clearTimeout(initialDelay);
-      clearInterval(interval);
+    const scheduleNext = () => {
+      const delay = 10000 + Math.random() * 10000;
+      timeout = setTimeout(() => {
+        showRandomPhrase();
+        scheduleNext();
+      }, delay);
     };
+
+    timeout = setTimeout(() => {
+      showRandomPhrase();
+      scheduleNext();
+    }, 3000);
+
+    return () => clearTimeout(timeout);
   }, [isPlaced, isPlacementMode, showRandomPhrase]);
 
   if (isPlaced) return null;

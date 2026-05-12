@@ -9,7 +9,9 @@ import { GroupPairCard } from "./GroupPairCard";
 import { BonusPredictions } from "./BonusPredictions";
 import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
+import { KnockoutPlanillaView } from "./KnockoutPlanillaView";
 import { usePlanilla } from "@/context/PlanillaContext";
+import { cn } from "@/lib/utils";
 
 const groupPairs = [
   [groups[0], groups[1]],
@@ -29,6 +31,7 @@ function matchLabel(matchId: string): string {
 }
 
 export function PlanillaView() {
+  const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
   const { predictions, setPrediction } = usePlanilla();
   const [comodinByFecha, setComodinByFecha] = useState<Record<number, string | null>>({
@@ -85,41 +88,71 @@ export function PlanillaView() {
   }, []);
 
   const handleComodinDragEnd = useCallback(() => {
-    if (!dropSucceeded.current) {
-      handleComodinRemove();
-    }
+    if (!dropSucceeded.current) handleComodinRemove();
   }, [handleComodinRemove]);
 
   return (
     <div className="space-y-6">
-      <PlanillaTabs active={fecha} onChange={(f) => { setFecha(f); setPlacementMode(false); }} />
-
-      <div className="space-y-6">
-        {groupPairs.map(([a, b]) => (
-          <GroupPairCard
-            key={`${a.id}-${b.id}`}
-            groupA={a}
-            groupB={b}
-            matchday={fecha}
-            doubleMatchId={doubleMatchId}
-            comodinMatchId={comodinMatchId}
-            placementMode={placementMode}
-            onComodinDrop={handleComodinDrop}
-            onComodinRemove={handleComodinRemove}
-            onComodinDragStart={handleComodinDragStart}
-            onComodinDragEnd={handleComodinDragEnd}
-            onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
-          />
-        ))}
+      {/* Phase toggle */}
+      <div className="flex rounded-full bg-surface p-1 ring-1 ring-white/5">
+        <button
+          onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
+          className={cn(
+            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+            phase === "grupos"
+              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
+              : "text-fifa-dark-gray hover:text-foreground",
+          )}
+        >
+          Grupos
+        </button>
+        <button
+          onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
+          className={cn(
+            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+            phase === "eliminatorias"
+              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
+              : "text-fifa-dark-gray hover:text-foreground",
+          )}
+        >
+          Eliminatorias
+        </button>
       </div>
 
-      <ComodinDock
-        isPlaced={comodinMatchId !== null}
-        isPlacementMode={placementMode}
-        onTogglePlacementMode={handleTogglePlacementMode}
-      />
+      {phase === "grupos" ? (
+        <>
+          <PlanillaTabs active={fecha} onChange={(f) => { setFecha(f); setPlacementMode(false); }} />
 
-      <BonusPredictions />
+          <div className="space-y-6">
+            {groupPairs.map(([a, b]) => (
+              <GroupPairCard
+                key={`${a.id}-${b.id}`}
+                groupA={a}
+                groupB={b}
+                matchday={fecha}
+                doubleMatchId={doubleMatchId}
+                comodinMatchId={comodinMatchId}
+                placementMode={placementMode}
+                onComodinDrop={handleComodinDrop}
+                onComodinRemove={handleComodinRemove}
+                onComodinDragStart={handleComodinDragStart}
+                onComodinDragEnd={handleComodinDragEnd}
+                onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
+              />
+            ))}
+          </div>
+
+          <ComodinDock
+            isPlaced={comodinMatchId !== null}
+            isPlacementMode={placementMode}
+            onTogglePlacementMode={handleTogglePlacementMode}
+          />
+
+          <BonusPredictions />
+        </>
+      ) : (
+        <KnockoutPlanillaView />
+      )}
 
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
