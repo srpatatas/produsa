@@ -139,11 +139,7 @@ export function PlanillaMatchRow({
           onDragStart={(e) => {
             e.dataTransfer.setData("text/plain", "comodin");
             e.dataTransfer.effectAllowed = "move";
-          }}
-          onDragEnd={(e) => {
-            if (e.dataTransfer.dropEffect === "none") {
-              onComodinRemove();
-            }
+            requestAnimationFrame(() => onComodinRemove());
           }}
           title="Arrastrá a otro partido o hacé click para quitar"
           onClick={onComodinRemove}
