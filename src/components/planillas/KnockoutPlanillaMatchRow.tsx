@@ -130,12 +130,12 @@ export function KnockoutPlanillaMatchRow({
         {homeTeam ? (
           <>
             <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
-            <span className="font-display text-sm tracking-wider text-foreground truncate">
+            <span className="font-display text-base tracking-wider text-foreground truncate">
               {homeTeam.shortName}
             </span>
           </>
         ) : (
-          <span className="text-xs text-fifa-dark-gray/70 truncate">
+          <span className="text-sm text-fifa-dark-gray/70 truncate">
             {match.homeSlot.label}
           </span>
         )}
@@ -149,7 +149,7 @@ export function KnockoutPlanillaMatchRow({
             disabled={disabled}
             onClick={() => handleClick(o)}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-lg font-display text-sm tracking-wider transition-all",
+              "flex h-10 w-10 items-center justify-center rounded-lg font-display text-base tracking-wider transition-all",
               currentOutcome === o
                 ? o === "L"
                   ? "bg-fifa-green text-white shadow-lg shadow-fifa-green/20"
@@ -167,7 +167,7 @@ export function KnockoutPlanillaMatchRow({
       <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
         {awayTeam ? (
           <>
-            <span className="font-display text-sm tracking-wider text-foreground truncate text-right">
+            <span className="font-display text-base tracking-wider text-foreground truncate text-right">
               {awayTeam.shortName}
             </span>
             <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />

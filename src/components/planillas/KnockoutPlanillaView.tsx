@@ -65,7 +65,7 @@ export function KnockoutPlanillaView() {
               key={round.id}
               onClick={() => { setActiveRound(round.id); setPlacementMode(false); }}
               className={cn(
-                "flex-1 flex-shrink-0 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+                "flex-1 flex-shrink-0 rounded-full px-4 py-2 font-display text-base uppercase tracking-wider transition-all",
                 isActive
                   ? "bg-fifa-teal text-white shadow-lg shadow-fifa-teal/20"
                   : "text-fifa-dark-gray hover:text-foreground",
@@ -101,7 +101,7 @@ export function KnockoutPlanillaView() {
                   <div key={group.label} className="flex-1 min-w-0">
                     <div className="mb-2 flex items-center gap-2">
                       <div className={`h-1 w-8 rounded-full bg-gradient-to-r ${group.gradient}`} />
-                      <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
+                      <span className="font-display text-base tracking-wider text-fifa-dark-gray">
                         {group.label}
                       </span>
                     </div>

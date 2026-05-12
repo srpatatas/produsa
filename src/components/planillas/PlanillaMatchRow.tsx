@@ -163,7 +163,7 @@ export function PlanillaMatchRow({
 
       <div className="flex items-center gap-2 flex-1 min-w-0">
         <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
-        <span className="font-display text-sm tracking-wider text-foreground truncate">
+        <span className="font-display text-base tracking-wider text-foreground truncate">
           {homeTeam.shortName}
         </span>
       </div>
@@ -176,7 +176,7 @@ export function PlanillaMatchRow({
             disabled={locked}
             onClick={() => handleClick(o)}
             className={cn(
-              "flex h-9 w-9 items-center justify-center rounded-lg font-display text-sm tracking-wider transition-all",
+              "flex h-10 w-10 items-center justify-center rounded-lg font-display text-base tracking-wider transition-all",
               isSelected(currentOutcome, o)
                 ? o === "L"
                   ? "bg-fifa-green text-white shadow-lg shadow-fifa-green/20"
@@ -192,7 +192,7 @@ export function PlanillaMatchRow({
       </div>
 
       <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-        <span className="font-display text-sm tracking-wider text-foreground truncate text-right">
+        <span className="font-display text-base tracking-wider text-foreground truncate text-right">
           {awayTeam.shortName}
         </span>
         <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />

@@ -63,7 +63,7 @@ function GroupSection({
     <div className="flex-1 min-w-0">
       <div className="mb-2 flex items-center gap-2">
         <div className={`h-1 w-6 rounded-full bg-gradient-to-r ${gradient}`} />
-        <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
+        <span className="font-display text-base tracking-wider text-fifa-dark-gray">
           GRUPO {group.id}
         </span>
       </div>
