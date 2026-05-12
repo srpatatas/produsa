@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/matches";
+import { getTeam } from "@/data/teams";
 import { PlanillaTabs } from "./PlanillaTabs";
 import { GroupPairCard } from "./GroupPairCard";
 import { BonusPredictions } from "./BonusPredictions";
 import { ComodinDock } from "./ComodinDock";
+import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
 
 const groupPairs = [
@@ -18,14 +20,23 @@ const groupPairs = [
   [groups[10], groups[11]],
 ];
 
+function matchLabel(matchId: string): string {
+  const match = matches.find((m) => m.id === matchId);
+  if (!match) return matchId;
+  const home = getTeam(match.homeTeamId);
+  const away = getTeam(match.awayTeamId);
+  return `${home.shortName} vs ${away.shortName}`;
+}
+
 export function PlanillaView() {
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
-  const { predictions } = usePlanilla();
+  const { predictions, setPrediction } = usePlanilla();
   const [comodinByFecha, setComodinByFecha] = useState<Record<number, string | null>>({
     1: null,
     2: null,
     3: null,
   });
+  const [toast, setToast] = useState<string | null>(null);
 
   const allFechaMatchIds = matches
     .filter((m) => m.matchday === fecha)
@@ -37,13 +48,27 @@ export function PlanillaView() {
 
   const comodinMatchId = comodinByFecha[fecha] ?? null;
 
-  const handleComodinDrop = (matchId: string) => {
+  const handleComodinDrop = useCallback((matchId: string) => {
+    // If dropping on a double match, revert the double to single first
+    const pred = predictions[matchId];
+    if (pred && pred.outcome.length === 2) {
+      const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
+      setPrediction(matchId, singleOutcome);
+      setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
+    }
     setComodinByFecha((prev) => ({ ...prev, [fecha]: matchId }));
-  };
+  }, [predictions, setPrediction, fecha]);
 
-  const handleComodinRemove = () => {
+  const handleComodinRemove = useCallback(() => {
     setComodinByFecha((prev) => ({ ...prev, [fecha]: null }));
-  };
+  }, [fecha]);
+
+  const handleDoubleAttemptOnComodin = useCallback(() => {
+    // Called when user tries to make a double on a match that has the comodin
+    // Auto-remove the comodin
+    setComodinByFecha((prev) => ({ ...prev, [fecha]: null }));
+    setToast("Se removió el COMODÍN — no se puede combinar con DOBLE");
+  }, [fecha]);
 
   return (
     <div className="space-y-6">
@@ -61,6 +86,7 @@ export function PlanillaView() {
               comodinMatchId={comodinMatchId}
               onComodinDrop={handleComodinDrop}
               onComodinRemove={handleComodinRemove}
+              onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
             />
           ))}
         </div>
@@ -71,6 +97,8 @@ export function PlanillaView() {
       </div>
 
       <BonusPredictions />
+
+      {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
   );
 }

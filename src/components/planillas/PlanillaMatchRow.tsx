@@ -15,6 +15,7 @@ interface PlanillaMatchRowProps {
   comodinMatchId: string | null;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
+  onDoubleAttemptOnComodin: () => void;
 }
 
 const outcomes: ("L" | "E" | "V")[] = ["L", "E", "V"];
@@ -50,6 +51,7 @@ export function PlanillaMatchRow({
   comodinMatchId,
   onComodinDrop,
   onComodinRemove,
+  onDoubleAttemptOnComodin,
 }: PlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
@@ -69,11 +71,15 @@ export function PlanillaMatchRow({
 
   const currentOutcome = prediction?.outcome;
   const isDouble = currentOutcome ? currentOutcome.length === 2 : false;
-  const canUseDouble = doubleMatchId === null || doubleMatchId === match.id;
   const hasComodin = comodinMatchId === match.id;
+  const canUseDouble = (doubleMatchId === null || doubleMatchId === match.id) && !hasComodin;
 
   const handleClick = (btn: "L" | "E" | "V") => {
     if (locked) return;
+    const wouldBeDouble = currentOutcome && currentOutcome.length === 1 && currentOutcome !== btn;
+    if (wouldBeDouble && hasComodin) {
+      onDoubleAttemptOnComodin();
+    }
     const result = toggleOutcome(currentOutcome, btn, canUseDouble);
     if (result === null) {
       removePrediction(match.id);

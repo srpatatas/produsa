@@ -12,6 +12,7 @@ interface GroupPairCardProps {
   comodinMatchId: string | null;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
+  onDoubleAttemptOnComodin: () => void;
 }
 
 const groupAccents: Record<GroupId, string> = {
@@ -36,6 +37,7 @@ function GroupSection({
   comodinMatchId,
   onComodinDrop,
   onComodinRemove,
+  onDoubleAttemptOnComodin,
 }: {
   group: Group;
   matchday: 1 | 2 | 3;
@@ -43,6 +45,7 @@ function GroupSection({
   comodinMatchId: string | null;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
+  onDoubleAttemptOnComodin: () => void;
 }) {
   const matches = getMatchesForGroup(group.id).filter((m) => m.matchday === matchday);
   const gradient = groupAccents[group.id];
@@ -64,6 +67,7 @@ function GroupSection({
             comodinMatchId={comodinMatchId}
             onComodinDrop={onComodinDrop}
             onComodinRemove={onComodinRemove}
+            onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
           />
         ))}
       </div>
@@ -79,6 +83,7 @@ export function GroupPairCard({
   comodinMatchId,
   onComodinDrop,
   onComodinRemove,
+  onDoubleAttemptOnComodin,
 }: GroupPairCardProps) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
@@ -89,6 +94,7 @@ export function GroupPairCard({
         comodinMatchId={comodinMatchId}
         onComodinDrop={onComodinDrop}
         onComodinRemove={onComodinRemove}
+        onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
       />
       <GroupSection
         group={groupB}
@@ -97,6 +103,7 @@ export function GroupPairCard({
         comodinMatchId={comodinMatchId}
         onComodinDrop={onComodinDrop}
         onComodinRemove={onComodinRemove}
+        onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
       />
     </div>
   );
