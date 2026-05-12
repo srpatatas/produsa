@@ -100,7 +100,7 @@ export function KnockoutPlanillaView() {
                 return (
                   <div key={group.label} className="flex-1 min-w-0">
                     <div className="mb-2 flex items-center gap-2">
-                      <div className="h-1 w-6 rounded-full bg-fifa-purple/50" />
+                      <div className={`h-1 w-8 rounded-full bg-gradient-to-r ${group.gradient}`} />
                       <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
                         {group.label}
                       </span>
