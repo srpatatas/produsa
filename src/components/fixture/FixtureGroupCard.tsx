@@ -107,32 +107,24 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
             const result = getMatchResult(match.id);
             const planillaPred = predictions[match.id];
 
-            let predIcon: string | null = null;
+            let predResult: "correct" | "wrong" | null = null;
             if (result && planillaPred) {
               const actual = getActualOutcome(result.homeScore, result.awayScore);
-              const userOutcome = planillaPred.outcome;
-              if (userOutcome.includes(actual)) {
-                predIcon = "✓";
-              } else {
-                predIcon = "✗";
-              }
+              predResult = planillaPred.outcome.includes(actual) ? "correct" : "wrong";
             }
 
             return (
               <div
                 key={match.id}
-                className="flex items-center gap-1.5 text-xs"
-              >
-                {result && (
-                  <span className={cn(
-                    "w-4 text-center text-[10px] flex-shrink-0",
-                    predIcon === "✓" ? "text-fifa-green" : predIcon === "✗" ? "text-fifa-red/60" : "",
-                  )}>
-                    {predIcon ?? ""}
-                  </span>
+                className={cn(
+                  "flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs transition-all",
+                  predResult === "correct"
+                    ? "bg-fifa-green/10 ring-1 ring-fifa-green/20"
+                    : predResult === "wrong"
+                      ? "bg-fifa-red/5 ring-1 ring-fifa-red/10"
+                      : "",
                 )}
-                {!result && <span className="w-4 flex-shrink-0" />}
-
+              >
                 <div className="flex items-center gap-1 flex-1 min-w-0 justify-end">
                   <span className="font-display tracking-wider text-foreground truncate">
                     {home.shortName}
@@ -142,14 +134,20 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
                 <div className="flex items-center gap-1 px-1">
                   <span className={cn(
                     "font-display text-sm w-5 text-center",
-                    result ? "text-foreground" : "text-fifa-dark-gray/30",
+                    !result ? "text-fifa-dark-gray/30"
+                      : predResult === "correct" ? "text-fifa-green"
+                      : predResult === "wrong" ? "text-fifa-red/70"
+                      : "text-foreground",
                   )}>
                     {result ? result.homeScore : "–"}
                   </span>
                   <span className="text-fifa-dark-gray/30">:</span>
                   <span className={cn(
                     "font-display text-sm w-5 text-center",
-                    result ? "text-foreground" : "text-fifa-dark-gray/30",
+                    !result ? "text-fifa-dark-gray/30"
+                      : predResult === "correct" ? "text-fifa-green"
+                      : predResult === "wrong" ? "text-fifa-red/70"
+                      : "text-foreground",
                   )}>
                     {result ? result.awayScore : "–"}
                   </span>
