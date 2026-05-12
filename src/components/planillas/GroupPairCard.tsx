@@ -9,6 +9,9 @@ interface GroupPairCardProps {
   groupB: Group;
   matchday: 1 | 2 | 3;
   doubleMatchId: string | null;
+  comodinMatchId: string | null;
+  onComodinDrop: (matchId: string) => void;
+  onComodinRemove: () => void;
 }
 
 const groupAccents: Record<GroupId, string> = {
@@ -30,10 +33,16 @@ function GroupSection({
   group,
   matchday,
   doubleMatchId,
+  comodinMatchId,
+  onComodinDrop,
+  onComodinRemove,
 }: {
   group: Group;
   matchday: 1 | 2 | 3;
   doubleMatchId: string | null;
+  comodinMatchId: string | null;
+  onComodinDrop: (matchId: string) => void;
+  onComodinRemove: () => void;
 }) {
   const matches = getMatchesForGroup(group.id).filter((m) => m.matchday === matchday);
   const gradient = groupAccents[group.id];
@@ -52,6 +61,9 @@ function GroupSection({
             key={match.id}
             match={match}
             doubleMatchId={doubleMatchId}
+            comodinMatchId={comodinMatchId}
+            onComodinDrop={onComodinDrop}
+            onComodinRemove={onComodinRemove}
           />
         ))}
       </div>
@@ -59,11 +71,33 @@ function GroupSection({
   );
 }
 
-export function GroupPairCard({ groupA, groupB, matchday, doubleMatchId }: GroupPairCardProps) {
+export function GroupPairCard({
+  groupA,
+  groupB,
+  matchday,
+  doubleMatchId,
+  comodinMatchId,
+  onComodinDrop,
+  onComodinRemove,
+}: GroupPairCardProps) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-      <GroupSection group={groupA} matchday={matchday} doubleMatchId={doubleMatchId} />
-      <GroupSection group={groupB} matchday={matchday} doubleMatchId={doubleMatchId} />
+      <GroupSection
+        group={groupA}
+        matchday={matchday}
+        doubleMatchId={doubleMatchId}
+        comodinMatchId={comodinMatchId}
+        onComodinDrop={onComodinDrop}
+        onComodinRemove={onComodinRemove}
+      />
+      <GroupSection
+        group={groupB}
+        matchday={matchday}
+        doubleMatchId={doubleMatchId}
+        comodinMatchId={comodinMatchId}
+        onComodinDrop={onComodinDrop}
+        onComodinRemove={onComodinRemove}
+      />
     </div>
   );
 }

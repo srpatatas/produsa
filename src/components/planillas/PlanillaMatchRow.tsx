@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Match, PlanillaOutcome } from "@/types";
 import { getTeam } from "@/data/teams";
 import { isMatchLocked } from "@/data/matches";
@@ -11,6 +12,9 @@ import { usePlanilla } from "@/context/PlanillaContext";
 interface PlanillaMatchRowProps {
   match: Match;
   doubleMatchId: string | null;
+  comodinMatchId: string | null;
+  onComodinDrop: (matchId: string) => void;
+  onComodinRemove: () => void;
 }
 
 const outcomes: ("L" | "E" | "V")[] = ["L", "E", "V"];
@@ -26,23 +30,27 @@ function toggleOutcome(
   canDouble: boolean,
 ): PlanillaOutcome | null {
   if (!current) return btn;
-  if (current === btn) return null; // deselect
+  if (current === btn) return null;
   if (current.length === 1) {
     if (canDouble) {
       const pair = [current, btn].sort().join("") as PlanillaOutcome;
       return pair;
     }
-    return btn; // replace single
+    return btn;
   }
-  // Current is double
   if (current.includes(btn)) {
-    // Remove this one from double → single
     return current.replace(btn, "") as PlanillaOutcome;
   }
-  return btn; // replace double with single
+  return btn;
 }
 
-export function PlanillaMatchRow({ match, doubleMatchId }: PlanillaMatchRowProps) {
+export function PlanillaMatchRow({
+  match,
+  doubleMatchId,
+  comodinMatchId,
+  onComodinDrop,
+  onComodinRemove,
+}: PlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
   const homeTeam = getTeam(match.homeTeamId);
@@ -51,6 +59,7 @@ export function PlanillaMatchRow({ match, doubleMatchId }: PlanillaMatchRowProps
   const [locked, setLocked] = useState(false);
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("");
+  const [dragOver, setDragOver] = useState(false);
 
   useEffect(() => {
     setLocked(isMatchLocked(match));
@@ -61,6 +70,7 @@ export function PlanillaMatchRow({ match, doubleMatchId }: PlanillaMatchRowProps
   const currentOutcome = prediction?.outcome;
   const isDouble = currentOutcome ? currentOutcome.length === 2 : false;
   const canUseDouble = doubleMatchId === null || doubleMatchId === match.id;
+  const hasComodin = comodinMatchId === match.id;
 
   const handleClick = (btn: "L" | "E" | "V") => {
     if (locked) return;
@@ -72,12 +82,57 @@ export function PlanillaMatchRow({ match, doubleMatchId }: PlanillaMatchRowProps
     }
   };
 
+  const handleDragOver = (e: React.DragEvent) => {
+    if (locked) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    setDragOver(true);
+  };
+
+  const handleDragLeave = () => setDragOver(false);
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    if (locked) return;
+    if (e.dataTransfer.getData("text/plain") === "comodin") {
+      onComodinDrop(match.id);
+    }
+  };
+
   return (
-    <div className={cn(
-      "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 ring-white/5 transition-all",
-      locked && "opacity-50",
-      isDouble && "ring-fifa-purple/30",
-    )}>
+    <div
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className={cn(
+        "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
+        locked && "opacity-50",
+        hasComodin
+          ? "ring-fifa-gold/50 bg-fifa-gold/5"
+          : isDouble
+            ? "ring-fifa-purple/30 ring-white/5"
+            : dragOver
+              ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
+              : "ring-white/5",
+      )}
+    >
+      {hasComodin && (
+        <button
+          type="button"
+          onClick={onComodinRemove}
+          title="Quitar comodín"
+          className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-pointer hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
+        >
+          <Image
+            src="/images/comodino.JPG"
+            alt="Comodín"
+            fill
+            className="object-cover"
+          />
+        </button>
+      )}
+
       <div className="flex items-center gap-2 flex-1 min-w-0">
         <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
         <span className="font-display text-xs tracking-wider text-foreground truncate">
@@ -118,6 +173,12 @@ export function PlanillaMatchRow({ match, doubleMatchId }: PlanillaMatchRowProps
       {isDouble && (
         <span className="absolute -right-1 -top-1 rounded-full bg-fifa-purple px-1.5 py-0.5 text-[8px] font-bold text-white shadow-lg shadow-fifa-purple/30">
           DOBLE
+        </span>
+      )}
+
+      {hasComodin && (
+        <span className="absolute -right-1 -bottom-1 rounded-full bg-fifa-gold px-1.5 py-0.5 text-[8px] font-bold text-black shadow-lg shadow-fifa-gold/30">
+          +2
         </span>
       )}
 
