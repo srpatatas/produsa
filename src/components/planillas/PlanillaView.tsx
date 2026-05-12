@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/matches";
 import { getTeam } from "@/data/teams";
@@ -38,15 +38,7 @@ export function PlanillaView() {
   });
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
   const dropSucceeded = useRef(false);
-  const dockRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (dockRef.current) {
-      dockRef.current.style.display = isDragging ? "none" : "";
-    }
-  }, [isDragging]);
 
   const allFechaMatchIds = matches
     .filter((m) => m.matchday === fecha)
@@ -65,6 +57,7 @@ export function PlanillaView() {
       setPrediction(matchId, singleOutcome);
       setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
     }
+    dropSucceeded.current = true;
     setComodinByFecha((prev) => ({ ...prev, [fecha]: matchId }));
     setPlacementMode(false);
   }, [predictions, setPrediction, fecha]);
@@ -80,13 +73,22 @@ export function PlanillaView() {
 
   const handleTogglePlacementMode = useCallback(() => {
     if (comodinMatchId) {
-      // Already placed — remove it
       handleComodinRemove();
       setPlacementMode(true);
     } else {
       setPlacementMode((prev) => !prev);
     }
   }, [comodinMatchId, handleComodinRemove]);
+
+  const handleComodinDragStart = useCallback(() => {
+    dropSucceeded.current = false;
+  }, []);
+
+  const handleComodinDragEnd = useCallback(() => {
+    if (!dropSucceeded.current) {
+      handleComodinRemove();
+    }
+  }, [handleComodinRemove]);
 
   return (
     <div className="space-y-6">
@@ -102,22 +104,20 @@ export function PlanillaView() {
             doubleMatchId={doubleMatchId}
             comodinMatchId={comodinMatchId}
             placementMode={placementMode}
-            onComodinDrop={(matchId) => { dropSucceeded.current = true; handleComodinDrop(matchId); setIsDragging(false); }}
+            onComodinDrop={handleComodinDrop}
             onComodinRemove={handleComodinRemove}
-            onComodinDragStart={() => { dropSucceeded.current = false; if (dockRef.current) dockRef.current.style.display = "none"; setIsDragging(true); }}
-            onComodinDragEnd={() => { if (!dropSucceeded.current) { handleComodinRemove(); } if (dockRef.current) dockRef.current.style.display = ""; setIsDragging(false); }}
+            onComodinDragStart={handleComodinDragStart}
+            onComodinDragEnd={handleComodinDragEnd}
             onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
           />
         ))}
       </div>
 
-      <div ref={dockRef}>
-        <ComodinDock
-          isPlaced={comodinMatchId !== null}
-          isPlacementMode={placementMode}
-          onTogglePlacementMode={handleTogglePlacementMode}
-        />
-      </div>
+      <ComodinDock
+        isPlaced={comodinMatchId !== null}
+        isPlacementMode={placementMode}
+        onTogglePlacementMode={handleTogglePlacementMode}
+      />
 
       <BonusPredictions />
 
