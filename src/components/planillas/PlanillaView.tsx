@@ -106,9 +106,24 @@ export function PlanillaView() {
         </div>
         <button
           onClick={() => { setPhase(phase === "grupos" ? "eliminatorias" : "grupos"); setPlacementMode(false); }}
-          className="flex-shrink-0 rounded-full bg-surface px-4 py-2 font-display text-xs uppercase tracking-wider text-fifa-dark-gray ring-1 ring-white/5 transition-all hover:text-foreground hover:ring-white/15"
+          className="relative flex-shrink-0 flex h-8 w-[120px] items-center rounded-full bg-surface ring-1 ring-white/5 transition-all"
         >
-          {phase === "grupos" ? "Eliminatorias →" : "← Grupos"}
+          <div className={cn(
+            "absolute h-7 w-[58px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
+            phase === "grupos" ? "left-0.5" : "left-[60px]",
+          )} />
+          <span className={cn(
+            "relative z-10 flex-1 text-center font-display text-[10px] uppercase tracking-wider transition-colors",
+            phase === "grupos" ? "text-white" : "text-fifa-dark-gray",
+          )}>
+            Grupos
+          </span>
+          <span className={cn(
+            "relative z-10 flex-1 text-center font-display text-[10px] uppercase tracking-wider transition-colors",
+            phase === "eliminatorias" ? "text-white" : "text-fifa-dark-gray",
+          )}>
+            Elimin.
+          </span>
         </button>
       </div>
 
