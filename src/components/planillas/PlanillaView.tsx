@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/matches";
 import { getTeam } from "@/data/teams";
@@ -38,6 +38,8 @@ export function PlanillaView() {
   });
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const dropSucceeded = useRef(false);
 
   const allFechaMatchIds = matches
     .filter((m) => m.matchday === fecha)
@@ -93,18 +95,22 @@ export function PlanillaView() {
             doubleMatchId={doubleMatchId}
             comodinMatchId={comodinMatchId}
             placementMode={placementMode}
-            onComodinDrop={handleComodinDrop}
+            onComodinDrop={(matchId) => { dropSucceeded.current = true; handleComodinDrop(matchId); setIsDragging(false); }}
             onComodinRemove={handleComodinRemove}
+            onComodinDragStart={() => { dropSucceeded.current = false; setIsDragging(true); }}
+            onComodinDragEnd={() => { setIsDragging(false); if (!dropSucceeded.current) handleComodinRemove(); }}
             onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
           />
         ))}
       </div>
 
-      <ComodinDock
-        isPlaced={comodinMatchId !== null}
-        isPlacementMode={placementMode}
-        onTogglePlacementMode={handleTogglePlacementMode}
-      />
+      {!isDragging && (
+        <ComodinDock
+          isPlaced={comodinMatchId !== null}
+          isPlacementMode={placementMode}
+          onTogglePlacementMode={handleTogglePlacementMode}
+        />
+      )}
 
       <BonusPredictions />
 

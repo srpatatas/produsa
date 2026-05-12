@@ -13,6 +13,8 @@ interface GroupPairCardProps {
   placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
+  onComodinDragStart: () => void;
+  onComodinDragEnd: () => void;
   onDoubleAttemptOnComodin: () => void;
 }
 
@@ -39,6 +41,8 @@ function GroupSection({
   placementMode,
   onComodinDrop,
   onComodinRemove,
+  onComodinDragStart,
+  onComodinDragEnd,
   onDoubleAttemptOnComodin,
 }: {
   group: Group;
@@ -48,6 +52,8 @@ function GroupSection({
   placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
+  onComodinDragStart: () => void;
+  onComodinDragEnd: () => void;
   onDoubleAttemptOnComodin: () => void;
 }) {
   const matches = getMatchesForGroup(group.id).filter((m) => m.matchday === matchday);
@@ -71,6 +77,8 @@ function GroupSection({
             placementMode={placementMode}
             onComodinDrop={onComodinDrop}
             onComodinRemove={onComodinRemove}
+            onComodinDragStart={onComodinDragStart}
+            onComodinDragEnd={onComodinDragEnd}
             onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
           />
         ))}
@@ -88,6 +96,8 @@ export function GroupPairCard({
   placementMode,
   onComodinDrop,
   onComodinRemove,
+  onComodinDragStart,
+  onComodinDragEnd,
   onDoubleAttemptOnComodin,
 }: GroupPairCardProps) {
   return (
@@ -100,6 +110,8 @@ export function GroupPairCard({
         placementMode={placementMode}
         onComodinDrop={onComodinDrop}
         onComodinRemove={onComodinRemove}
+        onComodinDragStart={onComodinDragStart}
+        onComodinDragEnd={onComodinDragEnd}
         onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
       />
       <GroupSection
@@ -110,6 +122,8 @@ export function GroupPairCard({
         placementMode={placementMode}
         onComodinDrop={onComodinDrop}
         onComodinRemove={onComodinRemove}
+        onComodinDragStart={onComodinDragStart}
+        onComodinDragEnd={onComodinDragEnd}
         onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
       />
     </div>

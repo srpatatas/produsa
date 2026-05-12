@@ -16,6 +16,8 @@ interface PlanillaMatchRowProps {
   placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
+  onComodinDragStart: () => void;
+  onComodinDragEnd: () => void;
   onDoubleAttemptOnComodin: () => void;
 }
 
@@ -52,6 +54,8 @@ export function PlanillaMatchRow({
   comodinMatchId,
   onComodinDrop,
   onComodinRemove,
+  onComodinDragStart,
+  onComodinDragEnd,
   onDoubleAttemptOnComodin,
   placementMode,
 }: PlanillaMatchRowProps) {
@@ -139,7 +143,10 @@ export function PlanillaMatchRow({
           onDragStart={(e) => {
             e.dataTransfer.setData("text/plain", "comodin");
             e.dataTransfer.effectAllowed = "move";
-            requestAnimationFrame(() => onComodinRemove());
+            onComodinDragStart();
+          }}
+          onDragEnd={() => {
+            onComodinDragEnd();
           }}
           title="Arrastrá a otro partido o hacé click para quitar"
           onClick={onComodinRemove}
