@@ -116,15 +116,23 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
             return (
               <div
                 key={match.id}
-                className={cn(
-                  "flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs transition-all",
-                  predResult === "correct"
-                    ? "bg-fifa-green/10 ring-1 ring-fifa-green/20"
-                    : predResult === "wrong"
-                      ? "bg-fifa-red/5 ring-1 ring-fifa-red/10"
-                      : "",
-                )}
+                className="text-xs"
               >
+                {result && (
+                  <div className="text-center">
+                    <span className={cn(
+                      "text-[8px] font-semibold uppercase tracking-widest",
+                      predResult === "correct" ? "text-fifa-green"
+                        : predResult === "wrong" ? "text-fifa-red/70"
+                        : "text-fifa-dark-gray/40",
+                    )}>
+                      {predResult === "correct" ? "Acertaste"
+                        : predResult === "wrong" ? "Fallaste"
+                        : "Sin predicción"}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center gap-1.5 px-2 py-1">
                 <div className="flex items-center gap-1 flex-1 min-w-0 justify-end">
                   <span className="font-display tracking-wider text-foreground truncate">
                     {home.shortName}
@@ -134,20 +142,14 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
                 <div className="flex items-center gap-1 px-1">
                   <span className={cn(
                     "font-display text-sm w-5 text-center",
-                    !result ? "text-fifa-dark-gray/30"
-                      : predResult === "correct" ? "text-fifa-green"
-                      : predResult === "wrong" ? "text-fifa-red/70"
-                      : "text-foreground",
+                    result ? "text-foreground" : "text-fifa-dark-gray/30",
                   )}>
                     {result ? result.homeScore : "–"}
                   </span>
                   <span className="text-fifa-dark-gray/30">:</span>
                   <span className={cn(
                     "font-display text-sm w-5 text-center",
-                    !result ? "text-fifa-dark-gray/30"
-                      : predResult === "correct" ? "text-fifa-green"
-                      : predResult === "wrong" ? "text-fifa-red/70"
-                      : "text-foreground",
+                    result ? "text-foreground" : "text-fifa-dark-gray/30",
                   )}>
                     {result ? result.awayScore : "–"}
                   </span>
@@ -157,6 +159,7 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
                   <span className="font-display tracking-wider text-foreground truncate">
                     {away.shortName}
                   </span>
+                </div>
                 </div>
               </div>
             );
