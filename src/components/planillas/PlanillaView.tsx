@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { groups } from "@/data/groups";
+import { matches } from "@/data/matches";
 import { PlanillaTabs } from "./PlanillaTabs";
 import { GroupPairCard } from "./GroupPairCard";
 import { BonusPredictions } from "./BonusPredictions";
+import { usePlanilla } from "@/context/PlanillaContext";
 
 const groupPairs = [
   [groups[0], groups[1]],   // A + B
@@ -17,6 +19,15 @@ const groupPairs = [
 
 export function PlanillaView() {
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
+  const { predictions } = usePlanilla();
+
+  const allFechaMatchIds = matches
+    .filter((m) => m.matchday === fecha)
+    .map((m) => m.id);
+
+  const doubleMatchId = allFechaMatchIds.find(
+    (id) => predictions[id]?.outcome.length === 2,
+  ) ?? null;
 
   return (
     <div className="space-y-6">
@@ -29,6 +40,7 @@ export function PlanillaView() {
             groupA={a}
             groupB={b}
             matchday={fecha}
+            doubleMatchId={doubleMatchId}
           />
         ))}
       </div>

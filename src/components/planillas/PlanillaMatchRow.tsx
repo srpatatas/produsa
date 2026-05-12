@@ -10,8 +10,7 @@ import { usePlanilla } from "@/context/PlanillaContext";
 
 interface PlanillaMatchRowProps {
   match: Match;
-  hasDouble: boolean;
-  onDoubleUsed: () => void;
+  doubleMatchId: string | null;
 }
 
 const outcomes: ("L" | "E" | "V")[] = ["L", "E", "V"];
@@ -43,7 +42,7 @@ function toggleOutcome(
   return btn; // replace double with single
 }
 
-export function PlanillaMatchRow({ match, hasDouble, onDoubleUsed }: PlanillaMatchRowProps) {
+export function PlanillaMatchRow({ match, doubleMatchId }: PlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
   const homeTeam = getTeam(match.homeTeamId);
@@ -61,7 +60,7 @@ export function PlanillaMatchRow({ match, hasDouble, onDoubleUsed }: PlanillaMat
 
   const currentOutcome = prediction?.outcome;
   const isDouble = currentOutcome ? currentOutcome.length === 2 : false;
-  const canUseDouble = !hasDouble || isDouble;
+  const canUseDouble = doubleMatchId === null || doubleMatchId === match.id;
 
   const handleClick = (btn: "L" | "E" | "V") => {
     if (locked) return;
@@ -70,13 +69,12 @@ export function PlanillaMatchRow({ match, hasDouble, onDoubleUsed }: PlanillaMat
       removePrediction(match.id);
     } else {
       setPrediction(match.id, result);
-      if (result.length === 2) onDoubleUsed();
     }
   };
 
   return (
     <div className={cn(
-      "flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 ring-white/5 transition-all",
+      "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 ring-white/5 transition-all",
       locked && "opacity-50",
       isDouble && "ring-fifa-purple/30",
     )}>
@@ -118,7 +116,7 @@ export function PlanillaMatchRow({ match, hasDouble, onDoubleUsed }: PlanillaMat
       </div>
 
       {isDouble && (
-        <span className="flex-shrink-0 rounded-full bg-fifa-purple/20 px-2 py-0.5 text-[9px] font-semibold text-fifa-purple">
+        <span className="absolute -right-1 -top-1 rounded-full bg-fifa-purple px-1.5 py-0.5 text-[8px] font-bold text-white shadow-lg shadow-fifa-purple/30">
           DOBLE
         </span>
       )}

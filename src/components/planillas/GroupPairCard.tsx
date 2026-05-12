@@ -3,12 +3,12 @@
 import { Group, GroupId } from "@/types";
 import { getMatchesForGroup } from "@/data/matches";
 import { PlanillaMatchRow } from "./PlanillaMatchRow";
-import { usePlanilla } from "@/context/PlanillaContext";
 
 interface GroupPairCardProps {
   groupA: Group;
   groupB: Group;
   matchday: 1 | 2 | 3;
+  doubleMatchId: string | null;
 }
 
 const groupAccents: Record<GroupId, string> = {
@@ -29,15 +29,13 @@ const groupAccents: Record<GroupId, string> = {
 function GroupSection({
   group,
   matchday,
-  allMatchIds,
+  doubleMatchId,
 }: {
   group: Group;
   matchday: 1 | 2 | 3;
-  allMatchIds: string[];
+  doubleMatchId: string | null;
 }) {
-  const { getDoubleMatchId } = usePlanilla();
   const matches = getMatchesForGroup(group.id).filter((m) => m.matchday === matchday);
-  const doubleId = getDoubleMatchId(matchday, allMatchIds);
   const gradient = groupAccents[group.id];
 
   return (
@@ -53,8 +51,7 @@ function GroupSection({
           <PlanillaMatchRow
             key={match.id}
             match={match}
-            hasDouble={doubleId !== null && doubleId !== match.id}
-            onDoubleUsed={() => {}}
+            doubleMatchId={doubleMatchId}
           />
         ))}
       </div>
@@ -62,15 +59,11 @@ function GroupSection({
   );
 }
 
-export function GroupPairCard({ groupA, groupB, matchday }: GroupPairCardProps) {
-  const matchesA = getMatchesForGroup(groupA.id).filter((m) => m.matchday === matchday);
-  const matchesB = getMatchesForGroup(groupB.id).filter((m) => m.matchday === matchday);
-  const allMatchIds = [...matchesA, ...matchesB].map((m) => m.id);
-
+export function GroupPairCard({ groupA, groupB, matchday, doubleMatchId }: GroupPairCardProps) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-      <GroupSection group={groupA} matchday={matchday} allMatchIds={allMatchIds} />
-      <GroupSection group={groupB} matchday={matchday} allMatchIds={allMatchIds} />
+      <GroupSection group={groupA} matchday={matchday} doubleMatchId={doubleMatchId} />
+      <GroupSection group={groupB} matchday={matchday} doubleMatchId={doubleMatchId} />
     </div>
   );
 }

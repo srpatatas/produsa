@@ -125,7 +125,7 @@ export function BonusPredictions() {
   return (
     <div className="rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5">
       <h3 className="mb-4 font-display text-sm uppercase tracking-wider text-fifa-gold">
-        Predicciones Especiales
+        Puntos Extra
       </h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {bonusQuestions.map((q) => (
