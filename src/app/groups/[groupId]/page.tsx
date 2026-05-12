@@ -62,7 +62,7 @@ export default async function GroupDetailPage({
             <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Grupo {group.id}
             </h1>
-            <p className="text-sm text-fifa-dark-gray">
+            <p className="text-base text-fifa-dark-gray">
               Ingresá tus predicciones para cada partido
             </p>
           </div>
@@ -71,7 +71,7 @@ export default async function GroupDetailPage({
 
       <div className="space-y-8">
         <section>
-          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-fifa-dark-gray">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-fifa-dark-gray">
             Posiciones
           </h2>
           <StandingsTable
@@ -81,7 +81,7 @@ export default async function GroupDetailPage({
         </section>
 
         <section>
-          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-fifa-dark-gray">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-fifa-dark-gray">
             Partidos
           </h2>
           <MatchList matches={matches} />

@@ -8,7 +8,7 @@ export default function RankingPage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Ranking
         </h1>
-        <p className="mt-1 text-sm text-fifa-dark-gray">
+        <p className="mt-1 text-base text-fifa-dark-gray">
           Tabla de posiciones entre los jugadores
         </p>
       </div>

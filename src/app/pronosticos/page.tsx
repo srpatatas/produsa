@@ -7,7 +7,7 @@ export default function PronosticosPage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Pronósticos
         </h1>
-        <p className="mt-1 text-sm text-fifa-dark-gray">
+        <p className="mt-1 text-base text-fifa-dark-gray">
           12 grupos · 48 equipos · 104 partidos
         </p>
       </div>

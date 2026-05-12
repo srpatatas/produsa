@@ -7,7 +7,7 @@ export default function PlanillasPage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Planillas
         </h1>
-        <p className="mt-1 text-sm text-fifa-dark-gray">
+        <p className="mt-1 text-base text-fifa-dark-gray">
           Completá tu planilla para cada fecha · 1 doble por fecha
         </p>
       </div>
