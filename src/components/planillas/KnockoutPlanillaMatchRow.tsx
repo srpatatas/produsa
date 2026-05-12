@@ -12,53 +12,28 @@ import { usePlanilla } from "@/context/PlanillaContext";
 
 interface KnockoutPlanillaMatchRowProps {
   match: KnockoutMatch;
-  doubleMatchId: string | null;
   comodinMatchId: string | null;
+  comodinEmoji: string;
+  comodinImage: string | null;
   placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
   onComodinDragEnd: () => void;
-  onDoubleAttemptOnComodin: () => void;
 }
 
-const outcomes: ("L" | "E" | "V")[] = ["L", "E", "V"];
-
-function isSelected(current: PlanillaOutcome | undefined, btn: "L" | "E" | "V"): boolean {
-  if (!current) return false;
-  return current.includes(btn);
-}
-
-function toggleOutcome(
-  current: PlanillaOutcome | undefined,
-  btn: "L" | "E" | "V",
-  canDouble: boolean,
-): PlanillaOutcome | null {
-  if (!current) return btn;
-  if (current === btn) return null;
-  if (current.length === 1) {
-    if (canDouble) {
-      const pair = [current, btn].sort().join("") as PlanillaOutcome;
-      return pair;
-    }
-    return btn;
-  }
-  if (current.includes(btn)) {
-    return current.replace(btn, "") as PlanillaOutcome;
-  }
-  return btn;
-}
+const outcomes: ("L" | "V")[] = ["L", "V"];
 
 export function KnockoutPlanillaMatchRow({
   match,
-  doubleMatchId,
   comodinMatchId,
+  comodinEmoji,
+  comodinImage,
   placementMode,
   onComodinDrop,
   onComodinRemove,
   onComodinDragStart,
   onComodinDragEnd,
-  onDoubleAttemptOnComodin,
 }: KnockoutPlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
@@ -78,20 +53,15 @@ export function KnockoutPlanillaMatchRow({
   }, [match]);
 
   const currentOutcome = prediction?.outcome;
-  const isDouble = currentOutcome ? currentOutcome.length === 2 : false;
   const hasComodin = comodinMatchId === match.id;
-  const canUseDouble = (doubleMatchId === null || doubleMatchId === match.id) && !hasComodin;
   const disabled = locked || !predictable;
 
-  const handleClick = (btn: "L" | "E" | "V") => {
+  const handleClick = (btn: "L" | "V") => {
     if (disabled) return;
-    const wouldBeDouble = currentOutcome && currentOutcome.length === 1 && currentOutcome !== btn;
-    if (wouldBeDouble && hasComodin) onDoubleAttemptOnComodin();
-    const result = toggleOutcome(currentOutcome, btn, canUseDouble);
-    if (result === null) {
+    if (currentOutcome === btn) {
       removePrediction(match.id);
     } else {
-      setPrediction(match.id, result);
+      setPrediction(match.id, btn as PlanillaOutcome);
     }
   };
 
@@ -131,9 +101,7 @@ export function KnockoutPlanillaMatchRow({
             ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
             : placementMode && !disabled
               ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
-              : isDouble
-                ? "ring-fifa-purple/30 ring-white/5"
-                : "ring-white/5",
+              : "ring-white/5",
       )}
     >
       {hasComodin && (
@@ -149,7 +117,13 @@ export function KnockoutPlanillaMatchRow({
           onClick={onComodinRemove}
           className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
         >
-          <Image src="/images/comodino.JPG" alt="Comodín" fill className="object-cover pointer-events-none" />
+          {comodinImage ? (
+            <Image src={comodinImage} alt="Comodín" fill className="object-cover pointer-events-none" />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-fifa-gold/20 text-lg">
+              {comodinEmoji}
+            </div>
+          )}
         </div>
       )}
 
@@ -177,12 +151,10 @@ export function KnockoutPlanillaMatchRow({
             onClick={() => handleClick(o)}
             className={cn(
               "flex h-9 w-9 items-center justify-center rounded-lg font-display text-sm tracking-wider transition-all",
-              isSelected(currentOutcome, o)
+              currentOutcome === o
                 ? o === "L"
                   ? "bg-fifa-green text-white shadow-lg shadow-fifa-green/20"
-                  : o === "E"
-                    ? "bg-fifa-blue text-white shadow-lg shadow-fifa-blue/20"
-                    : "bg-fifa-red text-white shadow-lg shadow-fifa-red/20"
+                  : "bg-fifa-red text-white shadow-lg shadow-fifa-red/20"
                 : disabled
                   ? "bg-surface/50 text-fifa-dark-gray/30"
                   : "bg-surface text-fifa-dark-gray hover:bg-white/10",
@@ -207,12 +179,6 @@ export function KnockoutPlanillaMatchRow({
           </span>
         )}
       </div>
-
-      {isDouble && (
-        <span className="absolute -right-1 -top-1 rounded-full bg-fifa-purple px-1.5 py-0.5 text-[8px] font-bold text-white shadow-lg shadow-fifa-purple/30">
-          DOBLE
-        </span>
-      )}
 
       {hasComodin && (
         <span className="absolute -right-1 -bottom-1 rounded-full bg-fifa-gold px-1.5 py-0.5 text-[8px] font-bold text-black shadow-lg shadow-fifa-gold/30">

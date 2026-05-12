@@ -3,59 +3,34 @@
 import { useState, useCallback, useRef } from "react";
 import { KnockoutRound } from "@/types";
 import { knockoutRounds } from "@/data/knockoutBracket";
-import { getKnockoutMatchesByRound, knockoutMatches } from "@/data/knockoutMatches";
-import { getTeam } from "@/data/teams";
-import { matches as groupMatches } from "@/data/matches";
+import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { knockoutComodines } from "@/data/knockoutComodines";
 import { KnockoutPlanillaMatchRow } from "./KnockoutPlanillaMatchRow";
-import { ComodinDock } from "./ComodinDock";
+import { KnockoutComodinDock } from "./KnockoutComodinDock";
 import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
 
-function matchLabel(matchId: string): string {
-  const gMatch = groupMatches.find((m) => m.id === matchId);
-  if (gMatch) {
-    return `${getTeam(gMatch.homeTeamId).shortName} vs ${getTeam(gMatch.awayTeamId).shortName}`;
-  }
-  return matchId;
-}
-
 export function KnockoutPlanillaView() {
   const [activeRound, setActiveRound] = useState<KnockoutRound>("R32");
-  const { predictions, setPrediction } = usePlanilla();
+  const { predictions } = usePlanilla();
   const [comodinByRound, setComodinByRound] = useState<Record<string, string | null>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
 
   const roundMatches = getKnockoutMatchesByRound(activeRound);
-  const roundMatchIds = roundMatches.map((m) => m.id);
-
-  const doubleMatchId = roundMatchIds.find(
-    (id) => predictions[id]?.outcome.length === 2,
-  ) ?? null;
-
   const comodinMatchId = comodinByRound[activeRound] ?? null;
+  const comodin = knockoutComodines[activeRound];
 
   const handleComodinDrop = useCallback((matchId: string) => {
-    const pred = predictions[matchId];
-    if (pred && pred.outcome.length === 2) {
-      const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
-      setPrediction(matchId, singleOutcome);
-      setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
-    }
     dropSucceeded.current = true;
     setComodinByRound((prev) => ({ ...prev, [activeRound]: matchId }));
     setPlacementMode(false);
-  }, [predictions, setPrediction, activeRound]);
+  }, [activeRound]);
 
   const handleComodinRemove = useCallback(() => {
     setComodinByRound((prev) => ({ ...prev, [activeRound]: null }));
-  }, [activeRound]);
-
-  const handleDoubleAttemptOnComodin = useCallback(() => {
-    setComodinByRound((prev) => ({ ...prev, [activeRound]: null }));
-    setToast("Se removió el COMODÍN — no se puede combinar con DOBLE");
   }, [activeRound]);
 
   const handleTogglePlacementMode = useCallback(() => {
@@ -112,22 +87,25 @@ export function KnockoutPlanillaView() {
           <KnockoutPlanillaMatchRow
             key={match.id}
             match={match}
-            doubleMatchId={doubleMatchId}
             comodinMatchId={comodinMatchId}
+            comodinEmoji={comodin.emoji}
+            comodinImage={comodin.image}
             placementMode={placementMode}
             onComodinDrop={handleComodinDrop}
             onComodinRemove={handleComodinRemove}
             onComodinDragStart={handleComodinDragStart}
             onComodinDragEnd={handleComodinDragEnd}
-            onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
           />
         ))}
       </div>
 
-      <ComodinDock
+      <KnockoutComodinDock
         isPlaced={comodinMatchId !== null}
         isPlacementMode={placementMode}
         onTogglePlacementMode={handleTogglePlacementMode}
+        emoji={comodin.emoji}
+        image={comodin.image}
+        name={comodin.name}
       />
 
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
