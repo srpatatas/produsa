@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/en-vivo", label: "En Vivo" },
-  { href: "/pronosticos", label: "Pronósticos" },
+  { href: "/fixture", label: "Fixture" },
   { href: "/planillas", label: "Planillas" },
   { href: "/ranking", label: "Ranking" },
 ];
@@ -34,8 +34,8 @@ export function Header() {
         <nav className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
             const isActive =
-              link.href === "/pronosticos"
-                ? pathname === "/pronosticos" || pathname.startsWith("/groups")
+              link.href === "/fixture"
+                ? pathname === "/fixture" || pathname.startsWith("/groups")
                 : pathname === link.href;
 
             return (

@@ -47,10 +47,10 @@ export default async function GroupDetailPage({
     <div>
       <div className="mb-8">
         <Link
-          href="/pronosticos"
+          href="/fixture"
           className="mb-4 inline-flex items-center gap-1 rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-fifa-dark-gray transition-colors hover:bg-white/10 hover:text-foreground"
         >
-          ← Pronósticos
+          ← Fixture
         </Link>
         <div className="flex items-center gap-4">
           <div className={`flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${gradient} shadow-lg`}>

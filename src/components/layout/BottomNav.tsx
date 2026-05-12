@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { href: "/", label: "Inicio", icon: "🏠" },
   { href: "/en-vivo", label: "En Vivo", icon: "📺" },
-  { href: "/pronosticos", label: "Pronósticos", icon: "🏟️" },
+  { href: "/fixture", label: "Fixture", icon: "🏟️" },
   { href: "/planillas", label: "Planillas", icon: "📋" },
   { href: "/ranking", label: "Ranking", icon: "🏆" },
 ];
@@ -20,8 +20,8 @@ export function BottomNav() {
       <div className="flex h-14 items-center justify-around rounded-2xl bg-[#161829]/90 shadow-lg shadow-black/20 ring-1 ring-white/10 backdrop-blur-xl">
         {navItems.map((item) => {
           const isActive =
-            item.href === "/pronosticos"
-              ? pathname === "/pronosticos" || pathname.startsWith("/groups")
+            item.href === "/fixture"
+              ? pathname === "/fixture" || pathname.startsWith("/groups")
               : pathname === item.href;
 
           return (
