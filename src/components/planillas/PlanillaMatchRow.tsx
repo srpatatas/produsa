@@ -13,6 +13,7 @@ interface PlanillaMatchRowProps {
   match: Match;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
+  placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
   onDoubleAttemptOnComodin: () => void;
@@ -52,6 +53,7 @@ export function PlanillaMatchRow({
   onComodinDrop,
   onComodinRemove,
   onDoubleAttemptOnComodin,
+  placementMode,
 }: PlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
@@ -106,11 +108,17 @@ export function PlanillaMatchRow({
     }
   };
 
+  const handleRowClick = () => {
+    if (!placementMode || locked) return;
+    onComodinDrop(match.id);
+  };
+
   return (
     <div
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
+      onClick={handleRowClick}
       className={cn(
         "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
         locked && "opacity-50",
@@ -118,9 +126,11 @@ export function PlanillaMatchRow({
           ? "ring-fifa-gold/50 bg-fifa-gold/5"
           : dragOver
             ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
-            : isDouble
-              ? "ring-fifa-purple/30 ring-white/5"
-              : "ring-white/5",
+            : placementMode && !locked
+              ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
+              : isDouble
+                ? "ring-fifa-purple/30 ring-white/5"
+                : "ring-white/5",
       )}
     >
       {hasComodin && (

@@ -37,6 +37,7 @@ export function PlanillaView() {
     3: null,
   });
   const [toast, setToast] = useState<string | null>(null);
+  const [placementMode, setPlacementMode] = useState(false);
 
   const allFechaMatchIds = matches
     .filter((m) => m.matchday === fecha)
@@ -49,7 +50,6 @@ export function PlanillaView() {
   const comodinMatchId = comodinByFecha[fecha] ?? null;
 
   const handleComodinDrop = useCallback((matchId: string) => {
-    // If dropping on a double match, revert the double to single first
     const pred = predictions[matchId];
     if (pred && pred.outcome.length === 2) {
       const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
@@ -57,6 +57,7 @@ export function PlanillaView() {
       setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
     }
     setComodinByFecha((prev) => ({ ...prev, [fecha]: matchId }));
+    setPlacementMode(false);
   }, [predictions, setPrediction, fecha]);
 
   const handleComodinRemove = useCallback(() => {
@@ -64,15 +65,29 @@ export function PlanillaView() {
   }, [fecha]);
 
   const handleDoubleAttemptOnComodin = useCallback(() => {
-    // Called when user tries to make a double on a match that has the comodin
-    // Auto-remove the comodin
     setComodinByFecha((prev) => ({ ...prev, [fecha]: null }));
     setToast("Se removió el COMODÍN — no se puede combinar con DOBLE");
   }, [fecha]);
 
+  const handleTogglePlacementMode = useCallback(() => {
+    if (comodinMatchId) {
+      // Already placed — remove it
+      handleComodinRemove();
+      setPlacementMode(true);
+    } else {
+      setPlacementMode((prev) => !prev);
+    }
+  }, [comodinMatchId, handleComodinRemove]);
+
   return (
     <div className="space-y-6">
-      <PlanillaTabs active={fecha} onChange={setFecha} />
+      <PlanillaTabs active={fecha} onChange={(f) => { setFecha(f); setPlacementMode(false); }} />
+
+      <ComodinDock
+        isPlaced={comodinMatchId !== null}
+        isPlacementMode={placementMode}
+        onTogglePlacementMode={handleTogglePlacementMode}
+      />
 
       <div className="flex items-start gap-4">
         <div className="flex-1 space-y-6">
@@ -84,6 +99,7 @@ export function PlanillaView() {
               matchday={fecha}
               doubleMatchId={doubleMatchId}
               comodinMatchId={comodinMatchId}
+              placementMode={placementMode}
               onComodinDrop={handleComodinDrop}
               onComodinRemove={handleComodinRemove}
               onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
@@ -92,7 +108,11 @@ export function PlanillaView() {
         </div>
 
         <div className="sticky top-20 hidden md:block">
-          <ComodinDock isPlaced={comodinMatchId !== null} />
+          <ComodinDock
+            isPlaced={comodinMatchId !== null}
+            isPlacementMode={false}
+            onTogglePlacementMode={() => {}}
+          />
         </div>
       </div>
 

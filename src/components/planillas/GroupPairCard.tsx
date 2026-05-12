@@ -10,6 +10,7 @@ interface GroupPairCardProps {
   matchday: 1 | 2 | 3;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
+  placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
   onDoubleAttemptOnComodin: () => void;
@@ -35,6 +36,7 @@ function GroupSection({
   matchday,
   doubleMatchId,
   comodinMatchId,
+  placementMode,
   onComodinDrop,
   onComodinRemove,
   onDoubleAttemptOnComodin,
@@ -43,6 +45,7 @@ function GroupSection({
   matchday: 1 | 2 | 3;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
+  placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
   onDoubleAttemptOnComodin: () => void;
@@ -65,6 +68,7 @@ function GroupSection({
             match={match}
             doubleMatchId={doubleMatchId}
             comodinMatchId={comodinMatchId}
+            placementMode={placementMode}
             onComodinDrop={onComodinDrop}
             onComodinRemove={onComodinRemove}
             onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
@@ -81,6 +85,7 @@ export function GroupPairCard({
   matchday,
   doubleMatchId,
   comodinMatchId,
+  placementMode,
   onComodinDrop,
   onComodinRemove,
   onDoubleAttemptOnComodin,
@@ -92,6 +97,7 @@ export function GroupPairCard({
         matchday={matchday}
         doubleMatchId={doubleMatchId}
         comodinMatchId={comodinMatchId}
+        placementMode={placementMode}
         onComodinDrop={onComodinDrop}
         onComodinRemove={onComodinRemove}
         onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
@@ -101,6 +107,7 @@ export function GroupPairCard({
         matchday={matchday}
         doubleMatchId={doubleMatchId}
         comodinMatchId={comodinMatchId}
+        placementMode={placementMode}
         onComodinDrop={onComodinDrop}
         onComodinRemove={onComodinRemove}
         onDoubleAttemptOnComodin={onDoubleAttemptOnComodin}
