@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import { Group, GroupId } from "@/types";
 import { getTeam } from "@/data/teams";
 import { getMatchesForGroup } from "@/data/matches";
@@ -6,6 +7,7 @@ import { getMatchResult } from "@/data/results";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { matchResults } from "@/data/results";
 import { computeStandings } from "@/lib/scoring";
+import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
 
 interface FixtureGroupCardProps {
@@ -27,11 +29,18 @@ const groupAccents: Record<GroupId, string> = {
   L: "from-fifa-red to-fifa-blue",
 };
 
+function getActualOutcome(homeScore: number, awayScore: number): "L" | "E" | "V" {
+  if (homeScore > awayScore) return "L";
+  if (homeScore < awayScore) return "V";
+  return "E";
+}
+
 export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
   const gradient = groupAccents[group.id];
   const groupMatches = getMatchesForGroup(group.id);
   const standings = computeStandings([...group.teams], groupMatches, matchResults);
   const hasResults = groupMatches.some((m) => matchResults[m.id]);
+  const { predictions } = usePlanilla();
 
   return (
     <div className="overflow-hidden rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
@@ -96,12 +105,34 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
             const home = getTeam(match.homeTeamId);
             const away = getTeam(match.awayTeamId);
             const result = getMatchResult(match.id);
+            const planillaPred = predictions[match.id];
+
+            let predIcon: string | null = null;
+            if (result && planillaPred) {
+              const actual = getActualOutcome(result.homeScore, result.awayScore);
+              const userOutcome = planillaPred.outcome;
+              if (userOutcome.includes(actual)) {
+                predIcon = "✓";
+              } else {
+                predIcon = "✗";
+              }
+            }
 
             return (
               <div
                 key={match.id}
                 className="flex items-center gap-1.5 text-xs"
               >
+                {result && (
+                  <span className={cn(
+                    "w-4 text-center text-[10px] flex-shrink-0",
+                    predIcon === "✓" ? "text-fifa-green" : predIcon === "✗" ? "text-fifa-red/60" : "",
+                  )}>
+                    {predIcon ?? ""}
+                  </span>
+                )}
+                {!result && <span className="w-4 flex-shrink-0" />}
+
                 <div className="flex items-center gap-1 flex-1 min-w-0 justify-end">
                   <span className="font-display tracking-wider text-foreground truncate">
                     {home.shortName}
@@ -134,13 +165,6 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
           })}
         </div>
       </div>
-
-      <Link
-        href={`/groups/${group.id}`}
-        className="flex items-center justify-center border-t border-white/5 py-2.5 text-[10px] font-medium text-fifa-dark-gray transition-colors hover:text-fifa-teal hover:bg-white/[0.02]"
-      >
-        Ver detalle →
-      </Link>
     </div>
   );
 }
