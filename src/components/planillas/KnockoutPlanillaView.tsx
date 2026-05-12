@@ -82,40 +82,51 @@ export function KnockoutPlanillaView() {
         {roundInfo?.label}
       </h2>
 
-      {/* Match rows grouped */}
-      <div className="space-y-5">
-        {(knockoutGroupings[activeRound] ?? []).map((group) => {
-          const groupMatches = group.matchIds
-            .map((id) => allKnockoutMatches.find((m) => m.id === id))
-            .filter(Boolean) as typeof allKnockoutMatches;
+      {/* Match rows grouped in pairs */}
+      <div className="space-y-6">
+        {(() => {
+          const groups = knockoutGroupings[activeRound] ?? [];
+          const pairs: (typeof groups)[] = [];
+          for (let i = 0; i < groups.length; i += 2) {
+            pairs.push(groups.slice(i, i + 2));
+          }
+          return pairs.map((pair, pi) => (
+            <div key={pi} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
+              {pair.map((group) => {
+                const groupMatches = group.matchIds
+                  .map((id) => allKnockoutMatches.find((m) => m.id === id))
+                  .filter(Boolean) as typeof allKnockoutMatches;
 
-          return (
-            <div key={group.label}>
-              <div className="mb-2 flex items-center gap-2">
-                <div className="h-1 w-6 rounded-full bg-fifa-purple/50" />
-                <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
-                  {group.label}
-                </span>
-              </div>
-              <div className="space-y-1.5">
-                {groupMatches.map((match) => (
-                  <KnockoutPlanillaMatchRow
-                    key={match.id}
-                    match={match}
-                    comodinMatchId={comodinMatchId}
-                    comodinEmoji={comodin.emoji}
-                    comodinImage={comodin.image}
-                    placementMode={placementMode}
-                    onComodinDrop={handleComodinDrop}
-                    onComodinRemove={handleComodinRemove}
-                    onComodinDragStart={handleComodinDragStart}
-                    onComodinDragEnd={handleComodinDragEnd}
-                  />
-                ))}
-              </div>
+                return (
+                  <div key={group.label} className="flex-1 min-w-0">
+                    <div className="mb-2 flex items-center gap-2">
+                      <div className="h-1 w-6 rounded-full bg-fifa-purple/50" />
+                      <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
+                        {group.label}
+                      </span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {groupMatches.map((match) => (
+                        <KnockoutPlanillaMatchRow
+                          key={match.id}
+                          match={match}
+                          comodinMatchId={comodinMatchId}
+                          comodinEmoji={comodin.emoji}
+                          comodinImage={comodin.image}
+                          placementMode={placementMode}
+                          onComodinDrop={handleComodinDrop}
+                          onComodinRemove={handleComodinRemove}
+                          onComodinDragStart={handleComodinDragStart}
+                          onComodinDragEnd={handleComodinDragEnd}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          ));
+        })()}
       </div>
 
       <KnockoutComodinDock
