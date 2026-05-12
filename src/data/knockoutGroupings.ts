@@ -6,30 +6,44 @@ export interface KnockoutMatchGroup {
   gradient: string;
 }
 
-// Group accent colors (from GroupPairCard):
-// A: green→teal, B: red→rose, C: blue→indigo, D: purple→fuchsia
-// E: amber→gold, F: teal→cyan, G: red→purple, H: blue→green
-// I: purple→blue, J: green→lime, K: gold→amber, L: red→blue
+// R32 grouped by which R16 match they feed into
+// R16 grouped by which QF match they feed into
+// QF grouped by which SF match they feed into
 
 export const knockoutGroupings: Record<KnockoutRound, KnockoutMatchGroup[]> = {
   R32: [
-    { label: "Grupos A y B", matchIds: ["R32-1", "R32-13"], gradient: "from-fifa-green via-fifa-teal to-fifa-red" },
-    { label: "Grupos C y F", matchIds: ["R32-2", "R32-4"], gradient: "from-fifa-blue via-indigo-600 to-cyan-500" },
-    { label: "Grupos E e I", matchIds: ["R32-3", "R32-5"], gradient: "from-amber-500 via-fifa-gold to-fifa-purple" },
-    { label: "Grupos A e I", matchIds: ["R32-6", "R32-7"], gradient: "from-fifa-green via-fifa-teal to-fifa-blue" },
-    { label: "Grupos G y D", matchIds: ["R32-9", "R32-10", "R32-14"], gradient: "from-fifa-red via-fifa-purple to-fuchsia-600" },
-    { label: "Grupos H y J", matchIds: ["R32-11", "R32-15"], gradient: "from-fifa-blue via-fifa-green to-lime-500" },
-    { label: "Grupos K y L", matchIds: ["R32-8", "R32-12", "R32-16"], gradient: "from-fifa-gold via-amber-600 to-fifa-blue" },
+    // R32-1 + R32-2 → R16-1
+    { label: "Llave R16-1", matchIds: ["R32-1", "R32-2"], gradient: "from-fifa-green to-fifa-blue" },
+    // R32-3 + R32-4 → R16-2
+    { label: "Llave R16-2", matchIds: ["R32-3", "R32-4"], gradient: "from-amber-500 to-fifa-teal" },
+    // R32-5 + R32-6 → R16-3
+    { label: "Llave R16-3", matchIds: ["R32-5", "R32-6"], gradient: "from-fifa-purple to-fifa-green" },
+    // R32-7 + R32-8 → R16-4
+    { label: "Llave R16-4", matchIds: ["R32-7", "R32-8"], gradient: "from-fifa-red to-fifa-gold" },
+    // R32-9 + R32-10 → R16-5
+    { label: "Llave R16-5", matchIds: ["R32-9", "R32-10"], gradient: "from-fifa-teal to-fuchsia-600" },
+    // R32-11 + R32-12 → R16-6
+    { label: "Llave R16-6", matchIds: ["R32-11", "R32-12"], gradient: "from-fifa-blue to-fifa-red" },
+    // R32-13 + R32-14 → R16-7
+    { label: "Llave R16-7", matchIds: ["R32-13", "R32-14"], gradient: "from-fifa-red to-fifa-purple" },
+    // R32-15 + R32-16 → R16-8
+    { label: "Llave R16-8", matchIds: ["R32-15", "R32-16"], gradient: "from-fifa-green to-amber-600" },
   ],
   R16: [
-    { label: "Llave 1", matchIds: ["R16-1", "R16-2"], gradient: "from-fifa-green to-fifa-blue" },
-    { label: "Llave 2", matchIds: ["R16-3", "R16-4"], gradient: "from-amber-500 to-fifa-teal" },
-    { label: "Llave 3", matchIds: ["R16-5", "R16-6"], gradient: "from-fifa-red to-fifa-blue" },
-    { label: "Llave 4", matchIds: ["R16-7", "R16-8"], gradient: "from-fifa-gold to-fifa-purple" },
+    // R16-1 + R16-2 → QF-1
+    { label: "Llave QF-1", matchIds: ["R16-1", "R16-2"], gradient: "from-fifa-green to-fifa-teal" },
+    // R16-3 + R16-4 → QF-2
+    { label: "Llave QF-2", matchIds: ["R16-3", "R16-4"], gradient: "from-fifa-purple to-fifa-gold" },
+    // R16-5 + R16-6 → QF-3
+    { label: "Llave QF-3", matchIds: ["R16-5", "R16-6"], gradient: "from-fifa-teal to-fifa-red" },
+    // R16-7 + R16-8 → QF-4
+    { label: "Llave QF-4", matchIds: ["R16-7", "R16-8"], gradient: "from-fifa-red to-amber-600" },
   ],
   QF: [
-    { label: "Llave A", matchIds: ["QF-1", "QF-2"], gradient: "from-fifa-green to-fifa-purple" },
-    { label: "Llave B", matchIds: ["QF-3", "QF-4"], gradient: "from-fifa-red to-fifa-gold" },
+    // QF-1 + QF-2 → SF-1
+    { label: "Llave SF-1", matchIds: ["QF-1", "QF-2"], gradient: "from-fifa-green to-fifa-purple" },
+    // QF-3 + QF-4 → SF-2
+    { label: "Llave SF-2", matchIds: ["QF-3", "QF-4"], gradient: "from-fifa-teal to-fifa-red" },
   ],
   SF: [
     { label: "Semifinales", matchIds: ["SF-1", "SF-2"], gradient: "from-fifa-purple to-fifa-teal" },
