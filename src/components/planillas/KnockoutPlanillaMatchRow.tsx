@@ -94,7 +94,6 @@ export function KnockoutPlanillaMatchRow({
       onClick={handleRowClick}
       className={cn(
         "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
-        disabled && "opacity-40",
         hasComodin
           ? "ring-fifa-gold/50 bg-fifa-gold/5"
           : dragOver
@@ -136,7 +135,7 @@ export function KnockoutPlanillaMatchRow({
             </span>
           </>
         ) : (
-          <span className="text-[10px] text-fifa-dark-gray/40 truncate">
+          <span className="text-xs text-fifa-dark-gray/70 truncate">
             {match.homeSlot.label}
           </span>
         )}
