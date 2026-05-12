@@ -89,31 +89,21 @@ export function PlanillaView() {
         onTogglePlacementMode={handleTogglePlacementMode}
       />
 
-      <div className="flex items-start gap-4">
-        <div className="flex-1 space-y-6">
-          {groupPairs.map(([a, b]) => (
-            <GroupPairCard
-              key={`${a.id}-${b.id}`}
-              groupA={a}
-              groupB={b}
-              matchday={fecha}
-              doubleMatchId={doubleMatchId}
-              comodinMatchId={comodinMatchId}
-              placementMode={placementMode}
-              onComodinDrop={handleComodinDrop}
-              onComodinRemove={handleComodinRemove}
-              onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
-            />
-          ))}
-        </div>
-
-        <div className="sticky top-20 hidden md:block">
-          <ComodinDock
-            isPlaced={comodinMatchId !== null}
-            isPlacementMode={false}
-            onTogglePlacementMode={() => {}}
+      <div className="space-y-6">
+        {groupPairs.map(([a, b]) => (
+          <GroupPairCard
+            key={`${a.id}-${b.id}`}
+            groupA={a}
+            groupB={b}
+            matchday={fecha}
+            doubleMatchId={doubleMatchId}
+            comodinMatchId={comodinMatchId}
+            placementMode={placementMode}
+            onComodinDrop={handleComodinDrop}
+            onComodinRemove={handleComodinRemove}
+            onDoubleAttemptOnComodin={handleDoubleAttemptOnComodin}
           />
-        </div>
+        ))}
       </div>
 
       <BonusPredictions />
