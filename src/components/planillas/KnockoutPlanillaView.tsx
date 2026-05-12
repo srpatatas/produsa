@@ -80,10 +80,8 @@ export function KnockoutPlanillaView() {
   return (
     <div className="space-y-4">
       {/* Round tabs */}
-      <div className="flex gap-1 overflow-x-auto rounded-xl bg-card-bg p-1 ring-1 ring-white/5">
+      <div className="flex overflow-x-auto rounded-full bg-surface p-1 ring-1 ring-white/5">
         {knockoutRounds.map((round) => {
-          const rMatches = getKnockoutMatchesByRound(round.id);
-          const predicted = rMatches.filter((m) => predictions[m.id]).length;
           const isActive = activeRound === round.id;
 
           return (
@@ -91,21 +89,13 @@ export function KnockoutPlanillaView() {
               key={round.id}
               onClick={() => { setActiveRound(round.id); setPlacementMode(false); }}
               className={cn(
-                "flex flex-shrink-0 flex-col items-center gap-0.5 rounded-lg px-3 py-2 transition-all",
+                "flex-1 flex-shrink-0 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
                 isActive
-                  ? "bg-fifa-teal/20 text-fifa-teal"
-                  : "text-fifa-dark-gray hover:text-foreground hover:bg-white/5",
+                  ? "bg-fifa-teal text-white shadow-lg shadow-fifa-teal/20"
+                  : "text-fifa-dark-gray hover:text-foreground",
               )}
             >
-              <span className="font-display text-sm tracking-wider">
-                {round.shortLabel}
-              </span>
-              <span className={cn(
-                "text-[9px]",
-                isActive ? "text-fifa-teal/70" : "text-fifa-dark-gray/50",
-              )}>
-                {predicted}/{round.matchCount}
-              </span>
+              {round.shortLabel}
             </button>
           );
         })}
