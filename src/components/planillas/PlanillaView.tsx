@@ -93,29 +93,22 @@ export function PlanillaView() {
 
   return (
     <div className="space-y-6">
-      {/* Phase toggle */}
-      <div className="flex rounded-full bg-surface p-1 ring-1 ring-white/5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Planillas
+          </h1>
+          <p className="mt-1 text-base text-fifa-dark-gray">
+            {phase === "grupos"
+              ? "Completá tu planilla para cada fecha · 1 doble por fecha"
+              : "Predecí los partidos de eliminatorias"}
+          </p>
+        </div>
         <button
-          onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
-          className={cn(
-            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
-            phase === "grupos"
-              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
-              : "text-fifa-dark-gray hover:text-foreground",
-          )}
+          onClick={() => { setPhase(phase === "grupos" ? "eliminatorias" : "grupos"); setPlacementMode(false); }}
+          className="flex-shrink-0 rounded-full bg-surface px-4 py-2 font-display text-xs uppercase tracking-wider text-fifa-dark-gray ring-1 ring-white/5 transition-all hover:text-foreground hover:ring-white/15"
         >
-          Grupos
-        </button>
-        <button
-          onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
-          className={cn(
-            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
-            phase === "eliminatorias"
-              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
-              : "text-fifa-dark-gray hover:text-foreground",
-          )}
-        >
-          Eliminatorias
+          {phase === "grupos" ? "Eliminatorias →" : "← Grupos"}
         </button>
       </div>
 
