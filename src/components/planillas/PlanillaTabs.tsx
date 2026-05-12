@@ -21,7 +21,7 @@ export function PlanillaTabs({ active, onChange }: PlanillaTabsProps) {
           key={f.id}
           onClick={() => onChange(f.id)}
           className={cn(
-            "flex-1 rounded-full px-4 py-2 font-display text-xs uppercase tracking-wider transition-all",
+            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
             active === f.id
               ? "bg-fifa-teal text-white shadow-lg shadow-fifa-teal/20"
               : "text-fifa-dark-gray hover:text-foreground",
