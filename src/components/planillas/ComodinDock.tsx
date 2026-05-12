@@ -39,14 +39,18 @@ export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }
         </button>
 
         <div className={cn(
-          "absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-lg px-3 py-1.5 text-[10px] font-medium shadow-lg transition-all pointer-events-none",
+          "absolute bottom-full right-0 mb-3 rounded-xl px-3 py-2 text-[11px] font-medium shadow-lg transition-all pointer-events-none",
+          "bg-fifa-gold text-black",
           isPlacementMode
-            ? "bg-fifa-gold text-black opacity-100"
-            : "bg-card-bg text-fifa-dark-gray ring-1 ring-white/10 opacity-0 group-hover:opacity-100",
+            ? "opacity-100"
+            : "opacity-0 group-hover:opacity-100",
         )}>
-          {isPlacementMode
-            ? "Tocá un partido · +2 pts"
-            : "Comodín · +2 pts"}
+          <span className="italic">
+            {isPlacementMode
+              ? "Dale, elegí un partido..."
+              : "Pssst... ¿querés 2 puntitos extra?"}
+          </span>
+          <div className="absolute -bottom-1 right-5 h-2 w-2 rotate-45 bg-fifa-gold" />
         </div>
       </div>
     </div>
