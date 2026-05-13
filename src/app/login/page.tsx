@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -11,8 +11,17 @@ export default function LoginPage() {
   const [inviteCode, setInviteCode] = useState("");
   const [pin, setPin] = useState("");
   const [name, setName] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("produsa_invite_code");
+    if (saved) {
+      setInviteCode(saved);
+      setMode("login");
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +47,11 @@ export default function LoginPage() {
         return;
       }
 
+      if (rememberMe) {
+        localStorage.setItem("produsa_invite_code", inviteCode.toUpperCase());
+      } else {
+        localStorage.removeItem("produsa_invite_code");
+      }
       window.location.href = "/";
     } catch {
       setError("Error de conexión");
@@ -133,6 +147,22 @@ export default function LoginPage() {
               required
             />
           </div>
+
+          <label className="flex items-center gap-3 cursor-pointer">
+            <div
+              onClick={() => setRememberMe(!rememberMe)}
+              className={cn(
+                "relative h-6 w-11 rounded-full transition-colors",
+                rememberMe ? "bg-fifa-purple" : "bg-surface ring-1 ring-white/10",
+              )}
+            >
+              <div className={cn(
+                "absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all",
+                rememberMe ? "left-[22px]" : "left-0.5",
+              )} />
+            </div>
+            <span className="text-sm text-fifa-dark-gray">Recordar mi código</span>
+          </label>
 
           {error && (
             <div className="rounded-xl bg-fifa-red/10 px-4 py-2.5 text-center text-sm text-fifa-red">
