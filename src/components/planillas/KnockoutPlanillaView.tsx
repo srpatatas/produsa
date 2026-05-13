@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { KnockoutRound } from "@/types";
 import { getKnockoutMatchesByRound, knockoutMatches as allKnockoutMatches } from "@/data/knockoutMatches";
 import { knockoutComodines } from "@/data/knockoutComodines";
@@ -29,6 +29,13 @@ export function KnockoutPlanillaView() {
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
 
+  useEffect(() => {
+    fetch("/api/comodines")
+      .then((r) => r.ok ? r.json() : { comodines: {} })
+      .then((data) => setComodinByRound(data.comodines))
+      .catch(() => {});
+  }, []);
+
   const currentTab = planillaRoundTabs.find((t) => t.id === activeTab)!;
   const activeRounds = currentTab.rounds;
 
@@ -42,13 +49,27 @@ export function KnockoutPlanillaView() {
     getKnockoutMatchesByRound(r).map((m) => m.id),
   );
 
-  const handleComodinDrop = useCallback((matchId: string) => {
+  const handleComodinDrop = useCallback(async (matchId: string) => {
     dropSucceeded.current = true;
-    setComodinByRound((prev) => ({ ...prev, [activeTab]: matchId }));
+    try {
+      await fetch("/api/comodines", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: activeTab, matchId }),
+      });
+      setComodinByRound((prev) => ({ ...prev, [activeTab]: matchId }));
+    } catch {}
     setPlacementMode(false);
   }, [activeTab]);
 
-  const handleComodinRemove = useCallback(() => {
+  const handleComodinRemove = useCallback(async () => {
+    try {
+      await fetch("/api/comodines", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: activeTab }),
+      });
+    } catch {}
     setComodinByRound((prev) => ({ ...prev, [activeTab]: null }));
   }, [activeTab]);
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/matches";
 import { getTeam } from "@/data/teams";
@@ -35,14 +35,17 @@ export function PlanillaView() {
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
   const { predictions, setPrediction } = usePlanilla();
-  const [comodinByFecha, setComodinByFecha] = useState<Record<number, string | null>>({
-    1: null,
-    2: null,
-    3: null,
-  });
+  const [comodinByFecha, setComodinByFecha] = useState<Record<string, string | null>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
+
+  useEffect(() => {
+    fetch("/api/comodines")
+      .then((r) => r.ok ? r.json() : { comodines: {} })
+      .then((data) => setComodinByFecha(data.comodines))
+      .catch(() => {});
+  }, []);
 
   const allFechaMatchIds = matches
     .filter((m) => m.matchday === fecha)
@@ -52,26 +55,48 @@ export function PlanillaView() {
     (id) => predictions[id]?.outcome.length === 2,
   ) ?? null;
 
-  const comodinMatchId = comodinByFecha[fecha] ?? null;
+  const comodinScope = `fecha-${fecha}`;
+  const comodinMatchId = comodinByFecha[comodinScope] ?? null;
 
-  const handleComodinDrop = useCallback((matchId: string) => {
+  const handleComodinDrop = useCallback(async (matchId: string) => {
     const pred = predictions[matchId];
     if (pred && pred.outcome.length === 2) {
       const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
-      setPrediction(matchId, singleOutcome);
+      await setPrediction(matchId, singleOutcome);
       setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
     }
     dropSucceeded.current = true;
-    setComodinByFecha((prev) => ({ ...prev, [fecha]: matchId }));
+    try {
+      await fetch("/api/comodines", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: `fecha-${fecha}`, matchId }),
+      });
+      setComodinByFecha((prev) => ({ ...prev, [`fecha-${fecha}`]: matchId }));
+    } catch {}
     setPlacementMode(false);
   }, [predictions, setPrediction, fecha]);
 
-  const handleComodinRemove = useCallback(() => {
-    setComodinByFecha((prev) => ({ ...prev, [fecha]: null }));
+  const handleComodinRemove = useCallback(async () => {
+    try {
+      await fetch("/api/comodines", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: `fecha-${fecha}` }),
+      });
+    } catch {}
+    setComodinByFecha((prev) => ({ ...prev, [`fecha-${fecha}`]: null }));
   }, [fecha]);
 
-  const handleDoubleAttemptOnComodin = useCallback(() => {
-    setComodinByFecha((prev) => ({ ...prev, [fecha]: null }));
+  const handleDoubleAttemptOnComodin = useCallback(async () => {
+    try {
+      await fetch("/api/comodines", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scope: `fecha-${fecha}` }),
+      });
+    } catch {}
+    setComodinByFecha((prev) => ({ ...prev, [`fecha-${fecha}`]: null }));
     setToast("Se removió el COMODÍN — no se puede combinar con DOBLE");
   }, [fecha]);
 
