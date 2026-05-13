@@ -104,27 +104,34 @@ export function PlanillaView() {
               : "Predecí los partidos de eliminatorias"}
           </p>
         </div>
-        <button
-          onClick={() => { setPhase(phase === "grupos" ? "eliminatorias" : "grupos"); setPlacementMode(false); }}
-          className="relative flex-shrink-0 flex h-10 w-[160px] items-center rounded-full bg-surface ring-1 ring-white/5 transition-all"
-        >
+        <div className="relative flex-shrink-0 flex h-10 w-[190px] items-center rounded-full bg-surface ring-1 ring-white/5">
           <div className={cn(
-            "absolute h-9 w-[76px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
-            phase === "grupos" ? "left-0.5" : "left-[82px]",
+            "absolute h-9 w-[92px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
+            phase === "grupos" ? "left-0.5" : "left-[96px]",
           )} />
-          <span className={cn(
-            "relative z-10 flex-1 text-center font-display text-xs uppercase tracking-wider transition-colors",
-            phase === "grupos" ? "text-white" : "text-fifa-dark-gray",
-          )}>
+          <button
+            onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
+            className={cn(
+              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer",
+              phase === "grupos"
+                ? "text-white"
+                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+            )}
+          >
             Grupos
-          </span>
-          <span className={cn(
-            "relative z-10 flex-1 text-center font-display text-xs uppercase tracking-wider transition-colors",
-            phase === "eliminatorias" ? "text-white" : "text-fifa-dark-gray",
-          )}>
+          </button>
+          <button
+            onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
+            className={cn(
+              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer",
+              phase === "eliminatorias"
+                ? "text-white"
+                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+            )}
+          >
             Elimin.
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
 
       {phase === "grupos" ? (
