@@ -71,9 +71,14 @@ export function KnockoutPlanillaView() {
 
   // Collect all groups across rounds for this tab
   const allGroups = activeRounds.flatMap((r) => knockoutGroupings[r as KnockoutRound] ?? []);
+  const stackVertically = allGroups.length <= 2;
   const pairs: (typeof allGroups)[] = [];
-  for (let i = 0; i < allGroups.length; i += 2) {
-    pairs.push(allGroups.slice(i, i + 2));
+  if (stackVertically) {
+    for (const g of allGroups) pairs.push([g]);
+  } else {
+    for (let i = 0; i < allGroups.length; i += 2) {
+      pairs.push(allGroups.slice(i, i + 2));
+    }
   }
 
   return (
