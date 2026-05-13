@@ -17,7 +17,7 @@ const planillaRoundTabs: { id: PlanillaRound; label: string; rounds: KnockoutRou
   { id: "R32", label: "Dieciseisavos", rounds: ["R32"] },
   { id: "R16", label: "Octavos", rounds: ["R16"] },
   { id: "QF", label: "Cuartos", rounds: ["QF"] },
-  { id: "SF", label: "Semifinal", rounds: ["SF"] },
+  { id: "SF", label: "Semifinales", rounds: ["SF"] },
   { id: "FINAL", label: "Final", rounds: ["3P", "F"] },
 ];
 
@@ -113,7 +113,6 @@ export function KnockoutPlanillaView() {
       {/* Match rows grouped in pairs */}
       <div className={cn(
         "space-y-6",
-        allGroups.length <= 2 && !stackVertically && "max-w-2xl mx-auto",
         stackVertically && "max-w-lg mx-auto",
       )}>
         {pairs.map((pair, pi) => (
