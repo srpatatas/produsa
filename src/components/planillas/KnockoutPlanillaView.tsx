@@ -108,7 +108,7 @@ export function KnockoutPlanillaView() {
       {/* Match rows grouped in pairs */}
       <div className={cn(
         "space-y-6",
-        allGroups.length <= 2 && "max-w-lg",
+        allGroups.length <= 2 && "max-w-lg mx-auto",
       )}>
         {pairs.map((pair, pi) => (
           <div key={pi} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
@@ -130,6 +130,7 @@ export function KnockoutPlanillaView() {
                       <KnockoutPlanillaMatchRow
                         key={match.id}
                         match={match}
+                        featured={match.id === "F"}
                         comodinMatchId={comodinMatchId}
                         comodinEmoji={comodin.emoji}
                         comodinImage={comodin.image}

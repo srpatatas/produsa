@@ -49,7 +49,8 @@ export const knockoutGroupings: Record<KnockoutRound, KnockoutMatchGroup[]> = {
     { label: "Semifinales", matchIds: ["SF-1", "SF-2"], gradient: "from-fifa-purple to-fifa-teal" },
   ],
   "3P": [
-    { label: "Tercer puesto y Final", matchIds: ["3P", "F"], gradient: "from-fifa-gold via-fifa-purple to-fifa-teal" },
+    { label: "Tercer puesto", matchIds: ["3P"], gradient: "from-fifa-dark-gray to-fifa-light-gray" },
+    { label: "🏆 Final", matchIds: ["F"], gradient: "from-fifa-gold via-amber-500 to-fifa-gold" },
   ],
   F: [],
 };

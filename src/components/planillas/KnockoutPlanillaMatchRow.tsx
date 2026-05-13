@@ -12,6 +12,7 @@ import { usePlanilla } from "@/context/PlanillaContext";
 
 interface KnockoutPlanillaMatchRowProps {
   match: KnockoutMatch;
+  featured?: boolean;
   comodinMatchId: string | null;
   comodinEmoji: string;
   comodinImage: string | null;
@@ -26,6 +27,7 @@ const outcomes: ("L" | "V")[] = ["L", "V"];
 
 export function KnockoutPlanillaMatchRow({
   match,
+  featured = false,
   comodinMatchId,
   comodinEmoji,
   comodinImage,
@@ -93,7 +95,9 @@ export function KnockoutPlanillaMatchRow({
       onDrop={handleDrop}
       onClick={handleRowClick}
       className={cn(
-        "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
+        "relative flex items-center gap-2 rounded-xl bg-card-bg ring-1 transition-all",
+        featured ? "px-4 py-4" : "px-3 py-2.5",
+        featured && !hasComodin && !dragOver && "ring-fifa-gold/30 bg-fifa-gold/[0.03] shadow-lg shadow-fifa-gold/10",
         hasComodin
           ? "ring-fifa-gold/50 bg-fifa-gold/5"
           : dragOver
@@ -129,8 +133,11 @@ export function KnockoutPlanillaMatchRow({
       <div className="flex items-center gap-2 flex-1 min-w-0">
         {homeTeam ? (
           <>
-            <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
-            <span className="font-display text-base tracking-wider text-foreground truncate">
+            <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size={featured ? "md" : "sm"} />
+            <span className={cn(
+              "font-display tracking-wider text-foreground truncate",
+              featured ? "text-lg" : "text-base",
+            )}>
               {homeTeam.shortName}
             </span>
           </>
@@ -149,7 +156,8 @@ export function KnockoutPlanillaMatchRow({
             disabled={disabled}
             onClick={() => handleClick(o)}
             className={cn(
-              "flex h-10 w-10 items-center justify-center rounded-lg font-display text-base tracking-wider transition-all",
+              cn("flex items-center justify-center rounded-lg font-display tracking-wider transition-all",
+                featured ? "h-12 w-12 text-lg" : "h-10 w-10 text-base"),
               currentOutcome === o
                 ? o === "L"
                   ? "bg-fifa-green text-white shadow-lg shadow-fifa-green/20"
@@ -167,10 +175,13 @@ export function KnockoutPlanillaMatchRow({
       <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
         {awayTeam ? (
           <>
-            <span className="font-display text-base tracking-wider text-foreground truncate text-right">
+            <span className={cn(
+              "font-display tracking-wider text-foreground truncate text-right",
+              featured ? "text-lg" : "text-base",
+            )}>
               {awayTeam.shortName}
             </span>
-            <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />
+            <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size={featured ? "md" : "sm"} />
           </>
         ) : (
           <span className="text-sm text-fifa-dark-gray/70 truncate text-right">
