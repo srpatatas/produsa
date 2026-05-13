@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
 import { getNextMatch } from "@/data/matches";
@@ -38,16 +38,23 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
   );
 }
 
-const outcomeLabels: Record<string, string> = {
-  L: "Local",
-  E: "Empate",
-  V: "Visitante",
+const outcomeConfig: Record<string, { label: string; bg: string }> = {
+  L: { label: "LOCAL", bg: "bg-fifa-green" },
+  E: { label: "EMPATE", bg: "bg-fifa-blue" },
+  V: { label: "VISITANTE", bg: "bg-fifa-red" },
+  LE: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-fifa-green to-fifa-blue" },
+  EL: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-fifa-green to-fifa-blue" },
+  EV: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-fifa-blue to-fifa-red" },
+  VE: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-fifa-blue to-fifa-red" },
+  LV: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-fifa-green to-fifa-red" },
+  VL: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-fifa-green to-fifa-red" },
 };
 
 export function NextMatchCountdown() {
   const [match, setMatch] = useState<Match | undefined>();
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [ready, setReady] = useState(false);
+  const [comodines, setComodines] = useState<Record<string, string>>({});
   const { predictions } = usePlanilla();
 
   useEffect(() => {
@@ -55,6 +62,11 @@ export function NextMatchCountdown() {
     setMatch(next);
     if (next) setTimeLeft(getTimeLeft(next.kickoff));
     setReady(true);
+
+    fetch("/api/comodines")
+      .then((r) => r.ok ? r.json() : { comodines: {} })
+      .then((data) => setComodines(data.comodines))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -71,6 +83,8 @@ export function NextMatchCountdown() {
   const away = getTeam(match.awayTeamId);
   const prediction = predictions[match.id];
   const hasPrediction = !!prediction;
+  const comodinScope = `fecha-${match.matchday}`;
+  const hasComodin = comodines[comodinScope] === match.id;
 
   return (
     <div className="mx-auto max-w-md rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5 overflow-hidden">
@@ -111,31 +125,28 @@ export function NextMatchCountdown() {
           <CountdownUnit value={timeLeft.seconds} label="seg" />
         </div>
 
-        {hasPrediction ? (
+        {hasPrediction && (
           <div className="flex flex-col items-center gap-3">
             <span className="text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
               Tu predicción
             </span>
-            <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-fifa-purple/10 via-fifa-blue/10 to-fifa-teal/10 px-6 py-3 ring-1 ring-white/5">
-              <span className="font-display text-xl tracking-wider text-foreground">
-                {prediction.outcome.split("").map((o) => outcomeLabels[o] || o).join(" / ")}
-              </span>
+            <div className="relative">
+              <div className={`rounded-2xl px-6 py-3 shadow-lg ${outcomeConfig[prediction.outcome]?.bg || "bg-surface"}`}>
+                <span className="font-display text-xl tracking-wider text-white">
+                  {outcomeConfig[prediction.outcome]?.label || prediction.outcome}
+                </span>
+              </div>
+              {hasComodin && (
+                <>
+                  <div className="absolute -left-2 -top-2 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold shadow-lg shadow-fifa-gold/20">
+                    <Image src="/images/comodino.JPG" alt="Comodín" fill className="object-cover" />
+                  </div>
+                  <span className="absolute -bottom-1 -right-1 rounded-full bg-fifa-gold px-1.5 py-0.5 text-[8px] font-bold text-black shadow-lg shadow-fifa-gold/30">
+                    +2
+                  </span>
+                </>
+              )}
             </div>
-            <Link
-              href="/planillas"
-              className="rounded-full bg-white/5 px-5 py-2 text-xs font-semibold text-fifa-teal ring-1 ring-white/10 transition-all hover:bg-fifa-teal/10 hover:ring-fifa-teal/30 active:scale-[0.97]"
-            >
-              Cambiar predicción
-            </Link>
-          </div>
-        ) : (
-          <div className="flex justify-center">
-            <Link
-              href="/planillas"
-              className="rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-fifa-purple/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98]"
-            >
-              Hacer predicción
-            </Link>
           </div>
         )}
 
