@@ -50,7 +50,7 @@ export default function CambiarPinPage() {
       <div className="mb-6">
         <button
           onClick={() => router.back()}
-          className="mb-3 inline-flex items-center gap-1 rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-fifa-dark-gray transition-colors hover:bg-white/10 hover:text-foreground"
+          className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-fifa-purple/10 px-4 py-1.5 font-display text-sm tracking-wider text-fifa-purple transition-colors hover:bg-fifa-purple/20"
         >
           ← Volver
         </button>
