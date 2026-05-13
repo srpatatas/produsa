@@ -35,9 +35,7 @@ export function Header() {
         <nav className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
             const isActive =
-              link.href === "/fixture"
-                ? pathname === "/fixture" || pathname.startsWith("/groups")
-                : pathname === link.href;
+              pathname === link.href;
 
             return (
               <Link

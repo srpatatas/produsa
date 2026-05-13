@@ -6,7 +6,7 @@ import { Match } from "@/types";
 import { getTeam } from "@/data/teams";
 import { getNextMatch } from "@/data/matches";
 import { FlagImage } from "@/components/teams/FlagImage";
-import { usePredictions } from "@/context/PredictionsContext";
+import { usePlanilla } from "@/context/PlanillaContext";
 
 interface TimeLeft {
   days: number;
@@ -38,11 +38,17 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
   );
 }
 
+const outcomeLabels: Record<string, string> = {
+  L: "Local",
+  E: "Empate",
+  V: "Visitante",
+};
+
 export function NextMatchCountdown() {
   const [match, setMatch] = useState<Match | undefined>();
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [ready, setReady] = useState(false);
-  const { predictions } = usePredictions();
+  const { predictions } = usePlanilla();
 
   useEffect(() => {
     const next = getNextMatch();
@@ -110,23 +116,13 @@ export function NextMatchCountdown() {
             <span className="text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
               Tu predicción
             </span>
-            <div className="flex items-center gap-4 rounded-2xl bg-gradient-to-r from-fifa-purple/10 via-fifa-blue/10 to-fifa-teal/10 px-8 py-4 ring-1 ring-white/5">
-              <div className="flex flex-col items-center">
-                <span className="font-display text-4xl tracking-wider text-foreground">
-                  {prediction.homeScore}
-                </span>
-                <span className="text-[10px] text-fifa-dark-gray">{home.shortName}</span>
-              </div>
-              <span className="font-display text-xl text-fifa-dark-gray/30">:</span>
-              <div className="flex flex-col items-center">
-                <span className="font-display text-4xl tracking-wider text-foreground">
-                  {prediction.awayScore}
-                </span>
-                <span className="text-[10px] text-fifa-dark-gray">{away.shortName}</span>
-              </div>
+            <div className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-fifa-purple/10 via-fifa-blue/10 to-fifa-teal/10 px-6 py-3 ring-1 ring-white/5">
+              <span className="font-display text-xl tracking-wider text-foreground">
+                {prediction.outcome.split("").map((o) => outcomeLabels[o] || o).join(" / ")}
+              </span>
             </div>
             <Link
-              href={`/groups/${match.groupId}`}
+              href="/planillas"
               className="rounded-full bg-white/5 px-5 py-2 text-xs font-semibold text-fifa-teal ring-1 ring-white/10 transition-all hover:bg-fifa-teal/10 hover:ring-fifa-teal/30 active:scale-[0.97]"
             >
               Cambiar predicción
@@ -135,7 +131,7 @@ export function NextMatchCountdown() {
         ) : (
           <div className="flex justify-center">
             <Link
-              href={`/groups/${match.groupId}`}
+              href="/planillas"
               className="rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-fifa-purple/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98]"
             >
               Hacer predicción
