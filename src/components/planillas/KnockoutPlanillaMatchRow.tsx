@@ -14,8 +14,7 @@ interface KnockoutPlanillaMatchRowProps {
   match: KnockoutMatch;
   featured?: boolean;
   comodinMatchId: string | null;
-  comodinEmoji: string;
-  comodinImage: string | null;
+  comodinImage?: string;
   placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
@@ -29,8 +28,7 @@ export function KnockoutPlanillaMatchRow({
   match,
   featured = false,
   comodinMatchId,
-  comodinEmoji,
-  comodinImage,
+  comodinImage = "/images/comodino.JPG",
   placementMode,
   onComodinDrop,
   onComodinRemove,
@@ -124,13 +122,7 @@ export function KnockoutPlanillaMatchRow({
           onClick={onComodinRemove}
           className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
         >
-          {comodinImage ? (
-            <Image src={comodinImage} alt="Comodín" fill className="object-cover pointer-events-none" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-fifa-gold/20 text-lg">
-              {comodinEmoji}
-            </div>
-          )}
+          <Image src={comodinImage} alt="Comodín" fill className="object-cover pointer-events-none" />
         </div>
       )}
 

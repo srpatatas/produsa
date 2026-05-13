@@ -13,6 +13,7 @@ interface PlanillaMatchRowProps {
   match: Match;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
+  comodinImage?: string;
   placementMode: boolean;
   onComodinDrop: (matchId: string) => void;
   onComodinRemove: () => void;
@@ -58,6 +59,7 @@ export function PlanillaMatchRow({
   onComodinDragEnd,
   onDoubleAttemptOnComodin,
   placementMode,
+  comodinImage = "/images/comodino.JPG",
 }: PlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
@@ -157,7 +159,7 @@ export function PlanillaMatchRow({
           className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
         >
           <Image
-            src="/images/comodino.JPG"
+            src={comodinImage}
             alt="Comodín"
             fill
             className="object-cover pointer-events-none"

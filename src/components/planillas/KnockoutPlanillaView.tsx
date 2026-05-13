@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { KnockoutRound } from "@/types";
 import { getKnockoutMatchesByRound, knockoutMatches as allKnockoutMatches } from "@/data/knockoutMatches";
-import { knockoutComodines } from "@/data/knockoutComodines";
+import { getComodinConfig } from "@/data/comodinConfig";
 import { knockoutGroupings } from "@/data/knockoutGroupings";
 import { KnockoutPlanillaMatchRow } from "./KnockoutPlanillaMatchRow";
 import { KnockoutComodinDock } from "./KnockoutComodinDock";
@@ -41,8 +41,7 @@ export function KnockoutPlanillaView() {
 
   // Comodin is per tab
   const comodinMatchId = comodinByRound[activeTab] ?? null;
-  const comodinRound = activeRounds[0] as KnockoutRound;
-  const comodin = knockoutComodines[comodinRound];
+  const comodin = getComodinConfig(activeTab);
 
   // Collect all match IDs for this tab's rounds
   const allTabMatchIds = activeRounds.flatMap((r) =>
@@ -158,7 +157,6 @@ export function KnockoutPlanillaView() {
                         match={match}
                         featured={match.id === "F"}
                         comodinMatchId={comodinMatchId}
-                        comodinEmoji={comodin.emoji}
                         comodinImage={comodin.image}
                         placementMode={placementMode}
                         onComodinDrop={handleComodinDrop}
@@ -179,9 +177,7 @@ export function KnockoutPlanillaView() {
         isPlaced={comodinMatchId !== null}
         isPlacementMode={placementMode}
         onTogglePlacementMode={handleTogglePlacementMode}
-        emoji={comodin.emoji}
         image={comodin.image}
-        name={comodin.name}
       />
 
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}

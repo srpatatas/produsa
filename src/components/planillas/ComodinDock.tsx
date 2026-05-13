@@ -8,6 +8,7 @@ interface ComodinDockProps {
   isPlaced: boolean;
   isPlacementMode: boolean;
   onTogglePlacementMode: () => void;
+  image?: string;
 }
 
 const phrases = [
@@ -21,7 +22,7 @@ const phrases = [
   "Soy tu amigo, confía en mí.",
 ];
 
-export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }: ComodinDockProps) {
+export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode, image = "/images/comodino.JPG" }: ComodinDockProps) {
   const [showBubble, setShowBubble] = useState(false);
   const [phrase, setPhrase] = useState(phrases[0]);
 
@@ -73,7 +74,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode }
           )}
         >
           <Image
-            src="/images/comodino.JPG"
+            src={image}
             alt="Comodín"
             fill
             className="rounded-full object-cover pointer-events-none"

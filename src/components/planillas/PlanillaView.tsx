@@ -11,6 +11,7 @@ import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { KnockoutPlanillaView } from "./KnockoutPlanillaView";
 import { SaveIndicator } from "./SaveIndicator";
+import { getComodinConfig } from "@/data/comodinConfig";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
 
@@ -173,6 +174,7 @@ export function PlanillaView() {
                 matchday={fecha}
                 doubleMatchId={doubleMatchId}
                 comodinMatchId={comodinMatchId}
+                comodinImage={getComodinConfig(`fecha-${fecha}`).image}
                 placementMode={placementMode}
                 onComodinDrop={handleComodinDrop}
                 onComodinRemove={handleComodinRemove}
@@ -187,6 +189,7 @@ export function PlanillaView() {
             isPlaced={comodinMatchId !== null}
             isPlacementMode={placementMode}
             onTogglePlacementMode={handleTogglePlacementMode}
+            image={getComodinConfig(`fecha-${fecha}`).image}
           />
 
           <BonusPredictions />

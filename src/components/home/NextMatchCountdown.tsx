@@ -7,6 +7,7 @@ import { getTeam } from "@/data/teams";
 import { getNextMatch } from "@/data/matches";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { usePlanilla } from "@/context/PlanillaContext";
+import { getComodinConfig } from "@/data/comodinConfig";
 
 interface TimeLeft {
   days: number;
@@ -139,7 +140,7 @@ export function NextMatchCountdown() {
               {hasComodin && (
                 <>
                   <div className="absolute -left-2 -top-2 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold shadow-lg shadow-fifa-gold/20">
-                    <Image src="/images/comodino.JPG" alt="Comodín" fill className="object-cover" />
+                    <Image src={getComodinConfig(comodinScope).image} alt="Comodín" fill className="object-cover" />
                   </div>
                   <span className="absolute -bottom-1 -right-1 rounded-full bg-fifa-gold px-1.5 py-0.5 text-[8px] font-bold text-black shadow-lg shadow-fifa-gold/30">
                     +2

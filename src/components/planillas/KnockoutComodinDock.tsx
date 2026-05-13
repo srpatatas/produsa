@@ -8,9 +8,7 @@ interface KnockoutComodinDockProps {
   isPlaced: boolean;
   isPlacementMode: boolean;
   onTogglePlacementMode: () => void;
-  emoji: string;
-  image: string | null;
-  name: string;
+  image: string;
 }
 
 const phrases = [
@@ -25,9 +23,7 @@ export function KnockoutComodinDock({
   isPlaced,
   isPlacementMode,
   onTogglePlacementMode,
-  emoji,
   image,
-  name,
 }: KnockoutComodinDockProps) {
   const [showBubble, setShowBubble] = useState(false);
   const [phrase, setPhrase] = useState(phrases[0]);
@@ -79,11 +75,7 @@ export function KnockoutComodinDock({
               : "ring-2 ring-fifa-gold shadow-fifa-gold/20 hover:scale-110 hover:shadow-fifa-gold/40 active:scale-95 cursor-grab active:cursor-grabbing",
           )}
         >
-          {image ? (
-            <Image src={image} alt={name} fill className="rounded-full object-cover pointer-events-none" />
-          ) : (
-            <span className="text-2xl pointer-events-none">{emoji}</span>
-          )}
+          <Image src={image} alt="Comodín" fill className="rounded-full object-cover pointer-events-none" />
         </button>
 
         <div className={cn(
