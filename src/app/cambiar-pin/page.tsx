@@ -3,47 +3,69 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
+import { cn } from "@/lib/utils";
+
+const emojiCategories = [
+  { label: "Fútbol", emojis: ["⚽", "🥅", "🏟️", "🏆", "🥇", "🥈", "🥉", "🎖️"] },
+  { label: "Banderas", emojis: ["🇦🇷", "🇧🇷", "🇩🇪", "🇫🇷", "🇪🇸", "🇬🇧", "🇮🇹", "🇵🇹", "🇲🇽", "🇺🇸", "🇯🇵", "🇰🇷"] },
+  { label: "Comida", emojis: ["🧉", "🍕", "🌭", "🍔", "🍺", "🥩", "🍷", "☕"] },
+  { label: "Animales", emojis: ["🦁", "🐯", "🦅", "🐉", "🦊", "🐺", "🦈", "🐻"] },
+  { label: "Música", emojis: ["🎸", "🥁", "🎹", "🎤", "🎵", "🎺", "🎻", "🎧"] },
+  { label: "Objetos", emojis: ["🧢", "👑", "🎨", "🏄", "🌸", "🔥", "⭐", "💎", "🎯", "🚀"] },
+];
 
 export default function MiCuentaPage() {
   const router = useRouter();
   const user = useUser();
 
-  // Name
   const [name, setName] = useState(user.name);
-  const [nameSaved, setNameSaved] = useState(false);
-  const [nameSaving, setNameSaving] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(user.avatar);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [profileSaving, setProfileSaving] = useState(false);
+  const [profileSaved, setProfileSaved] = useState(false);
 
-  // PIN
   const [currentPin, setCurrentPin] = useState("");
   const [newPin, setNewPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
-  const [pinSaved, setPinSaved] = useState(false);
   const [pinSaving, setPinSaving] = useState(false);
+  const [pinSaved, setPinSaved] = useState(false);
 
   const [error, setError] = useState("");
 
-  const handleNameSubmit = async (e: React.FormEvent) => {
+  const profileChanged = name.trim() !== user.name || selectedAvatar !== user.avatar;
+
+  const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (name.trim() === user.name) return;
-    setNameSaving(true);
+    if (!profileChanged) return;
+    setProfileSaving(true);
     try {
-      const res = await fetch("/api/auth/update-name", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim() }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error);
+      const promises = [];
+      if (name.trim() !== user.name) {
+        promises.push(fetch("/api/auth/update-name", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name.trim() }),
+        }));
+      }
+      if (selectedAvatar !== user.avatar) {
+        promises.push(fetch("/api/auth/update-avatar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ avatar: selectedAvatar }),
+        }));
+      }
+      const results = await Promise.all(promises);
+      if (results.some((r) => !r.ok)) {
+        setError("Error al guardar");
         return;
       }
-      setNameSaved(true);
-      setTimeout(() => window.location.href = "/cambiar-pin", 1500);
+      setProfileSaved(true);
+      setTimeout(() => window.location.href = "/cambiar-pin", 1000);
     } catch {
       setError("Error de conexión");
     } finally {
-      setNameSaving(false);
+      setProfileSaving(false);
     }
   };
 
@@ -62,10 +84,7 @@ export default function MiCuentaPage() {
         body: JSON.stringify({ currentPin, newPin }),
       });
       const data = await res.json();
-      if (!res.ok) {
-        setError(data.error);
-        return;
-      }
+      if (!res.ok) { setError(data.error); return; }
       setPinSaved(true);
       setCurrentPin("");
       setNewPin("");
@@ -101,24 +120,68 @@ export default function MiCuentaPage() {
         </div>
       )}
 
-      {/* Name section */}
+      {/* Profile: Avatar + Name */}
       <div className="mb-8">
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-fifa-dark-gray">
-          Nombre
+          Perfil
         </h2>
-        <form onSubmit={handleNameSubmit} className="space-y-3">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => { setName(e.target.value); setNameSaved(false); }}
-            className="w-full rounded-xl bg-card-bg px-4 py-3 text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-purple/40"
-          />
+        <form onSubmit={handleProfileSubmit} className="space-y-4">
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              className={cn(
+                "flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full text-3xl ring-2 transition-all",
+                showEmojiPicker
+                  ? "ring-fifa-purple scale-110"
+                  : "ring-white/10 hover:ring-fifa-purple/50 hover:scale-105",
+              )}
+            >
+              {selectedAvatar}
+            </button>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => { setName(e.target.value); setProfileSaved(false); }}
+              className="flex-1 rounded-xl bg-card-bg px-4 py-3 text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-purple/40"
+            />
+          </div>
+
+          {showEmojiPicker && (
+            <div className="rounded-xl bg-card-bg p-4 ring-1 ring-white/5 space-y-3">
+              {emojiCategories.map((cat) => (
+                <div key={cat.label}>
+                  <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
+                    {cat.label}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {cat.emojis.map((emoji) => (
+                      <button
+                        key={emoji}
+                        type="button"
+                        onClick={() => { setSelectedAvatar(emoji); setProfileSaved(false); }}
+                        className={cn(
+                          "flex h-10 w-10 items-center justify-center rounded-lg text-lg transition-all",
+                          selectedAvatar === emoji
+                            ? "bg-fifa-purple/20 ring-2 ring-fifa-purple scale-110"
+                            : "bg-surface ring-1 ring-white/5 hover:ring-white/20 hover:scale-105",
+                        )}
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           <button
             type="submit"
-            disabled={nameSaving || name.trim() === user.name}
+            disabled={profileSaving || !profileChanged}
             className="w-full rounded-xl bg-fifa-purple px-4 py-2.5 font-display text-sm uppercase tracking-wider text-white transition-all hover:brightness-110 disabled:opacity-30"
           >
-            {nameSaving ? "Guardando..." : nameSaved ? "✓ Nombre actualizado" : "Guardar nombre"}
+            {profileSaving ? "Guardando..." : profileSaved ? "✓ Perfil actualizado" : "Guardar perfil"}
           </button>
         </form>
       </div>
@@ -131,9 +194,7 @@ export default function MiCuentaPage() {
         {pinSaved ? (
           <div className="rounded-xl bg-fifa-green/10 px-4 py-4 text-center">
             <span className="text-2xl">✓</span>
-            <p className="mt-2 text-sm font-medium text-fifa-green">
-              PIN actualizado
-            </p>
+            <p className="mt-2 text-sm font-medium text-fifa-green">PIN actualizado</p>
           </div>
         ) : (
           <form onSubmit={handlePinSubmit} className="space-y-3">

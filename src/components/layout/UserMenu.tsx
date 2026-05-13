@@ -62,12 +62,6 @@ export function UserMenu() {
               </button>
             )}
             <button
-              onClick={() => { setOpen(false); router.push("/perfil"); }}
-              className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-fifa-dark-gray transition-colors hover:bg-white/5 hover:text-foreground"
-            >
-              😀 Cambiar avatar
-            </button>
-            <button
               onClick={() => { setOpen(false); router.push("/cambiar-pin"); }}
               className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-fifa-dark-gray transition-colors hover:bg-white/5 hover:text-foreground"
             >
