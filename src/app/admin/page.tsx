@@ -133,13 +133,19 @@ export default function AdminPage() {
         </p>
       </div>
 
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex flex-wrap gap-2">
         <button
           onClick={() => setShowAdd(!showAdd)}
           className="rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-4 py-2 font-display text-sm uppercase tracking-wider text-white shadow-lg shadow-fifa-purple/20 transition-all hover:brightness-110"
         >
           + Agregar participante
         </button>
+        <a
+          href="/api/admin/export"
+          className="rounded-xl bg-white/5 px-4 py-2 font-display text-sm uppercase tracking-wider text-fifa-dark-gray ring-1 ring-white/5 transition-all hover:text-foreground hover:bg-white/10"
+        >
+          ⬇ Descargar pronósticos
+        </a>
       </div>
 
       {showAdd && (
@@ -251,15 +257,15 @@ export default function AdminPage() {
                   {userPreds.predictions.length === 0 ? (
                     <p className="text-fifa-dark-gray/50">Sin predicciones</p>
                   ) : (
-                    <div className="space-y-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
                       {userPreds.predictions.map((p) => (
                         <div
                           key={p.match_id}
-                          className="flex items-center gap-2 rounded-lg bg-card-bg px-3 py-1.5 ring-1 ring-white/5"
+                          className="flex items-center gap-2 rounded-lg bg-card-bg px-2.5 py-1.5 ring-1 ring-white/5"
                         >
-                          <span className="flex-1 text-foreground">{matchLabel(p.match_id)}</span>
+                          <span className="flex-1 truncate text-foreground">{matchLabel(p.match_id)}</span>
                           <span className={cn(
-                            "rounded-md px-2 py-0.5 text-[10px] font-bold text-white",
+                            "flex-shrink-0 rounded-md px-2 py-0.5 text-[10px] font-bold text-white",
                             p.outcome === "L" ? "bg-fifa-green"
                               : p.outcome === "E" ? "bg-fifa-blue"
                               : p.outcome === "V" ? "bg-fifa-red"
