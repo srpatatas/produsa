@@ -13,7 +13,7 @@ export function ViewToggle({ active, onChange }: ViewToggleProps) {
       <button
         onClick={() => onChange("grupos")}
         className={cn(
-          "flex-1 rounded-full px-4 py-2 font-display text-xs uppercase tracking-wider transition-all",
+          "flex-1 rounded-full px-4 py-2 font-display text-base uppercase tracking-wider transition-all",
           active === "grupos"
             ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
             : "text-fifa-dark-gray hover:text-foreground",
@@ -24,7 +24,7 @@ export function ViewToggle({ active, onChange }: ViewToggleProps) {
       <button
         onClick={() => onChange("eliminatorias")}
         className={cn(
-          "flex-1 rounded-full px-4 py-2 font-display text-xs uppercase tracking-wider transition-all",
+          "flex-1 rounded-full px-4 py-2 font-display text-base uppercase tracking-wider transition-all",
           active === "eliminatorias"
             ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
             : "text-fifa-dark-gray hover:text-foreground",

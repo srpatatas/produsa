@@ -48,7 +48,7 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
 
       <div className="p-4">
         <div className="mb-3 flex items-baseline justify-between">
-          <span className="font-display text-xs tracking-wider text-fifa-dark-gray">
+          <span className="font-display text-base tracking-wider text-fifa-dark-gray">
             GRUPO
           </span>
           <span className="font-title text-2xl text-foreground">

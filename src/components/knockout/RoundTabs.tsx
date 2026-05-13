@@ -32,7 +32,7 @@ export function RoundTabs({ active, onChange }: RoundTabsProps) {
                 : "text-fifa-dark-gray hover:text-foreground hover:bg-white/5",
             )}
           >
-            <span className="font-display text-xs tracking-wider">
+            <span className="font-display text-base tracking-wider">
               {round.shortLabel}
             </span>
             <span className={cn(

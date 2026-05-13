@@ -67,7 +67,7 @@ export function GroupCard({ group }: GroupCardProps) {
               <div key={teamId} className="flex items-center gap-3">
                 <FlagImage code={team.flagCode} name={team.name} size="sm" />
                 <div className="flex items-baseline gap-1.5">
-                  <span className="font-display text-sm tracking-wider text-foreground">
+                  <span className="font-display text-base tracking-wider text-foreground">
                     {team.shortName}
                   </span>
                   <span className="text-xs text-fifa-dark-gray">{team.name}</span>

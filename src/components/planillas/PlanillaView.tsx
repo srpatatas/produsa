@@ -112,7 +112,7 @@ export function PlanillaView() {
           <button
             onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
             className={cn(
-              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer",
+              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
               phase === "grupos"
                 ? "text-white"
                 : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
@@ -123,7 +123,7 @@ export function PlanillaView() {
           <button
             onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
             className={cn(
-              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-sm uppercase tracking-wider transition-all duration-200 cursor-pointer",
+              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
               phase === "eliminatorias"
                 ? "text-white"
                 : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
