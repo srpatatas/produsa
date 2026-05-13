@@ -6,6 +6,12 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
+    if (pathname === "/login") {
+      const session = request.cookies.get("produsa_session");
+      if (session?.value) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    }
     return NextResponse.next();
   }
 

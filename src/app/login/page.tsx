@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">("register");
   const [inviteCode, setInviteCode] = useState("");
   const [pin, setPin] = useState("");
   const [name, setName] = useState("");
@@ -38,8 +38,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/");
-      router.refresh();
+      window.location.href = "/";
     } catch {
       setError("Error de conexión");
     } finally {
@@ -59,7 +58,7 @@ export default function LoginPage() {
           />
           <h1 className="font-title text-3xl text-foreground">PRODUSA</h1>
           <p className="text-sm text-fifa-dark-gray">
-            Copa del Mundo 2026 · Prode
+            Copa del Mundo FIFA 2026
           </p>
         </div>
 
@@ -67,7 +66,7 @@ export default function LoginPage() {
           <button
             onClick={() => { setMode("login"); setError(""); }}
             className={cn(
-              "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+              "flex-1 rounded-full px-4 py-2.5 font-display text-base uppercase tracking-wider transition-all",
               mode === "login"
                 ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
                 : "text-fifa-dark-gray hover:text-foreground",
@@ -78,7 +77,7 @@ export default function LoginPage() {
           <button
             onClick={() => { setMode("register"); setError(""); }}
             className={cn(
-              "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+              "flex-1 rounded-full px-4 py-2.5 font-display text-base uppercase tracking-wider transition-all",
               mode === "register"
                 ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
                 : "text-fifa-dark-gray hover:text-foreground",
@@ -144,7 +143,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-6 py-3 font-display text-sm uppercase tracking-wider text-white shadow-lg shadow-fifa-purple/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+            className="w-full rounded-xl bg-gradient-to-r from-fifa-purple to-fifa-teal px-6 py-3.5 font-display text-base uppercase tracking-wider text-white shadow-lg shadow-fifa-purple/20 transition-all hover:shadow-xl hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
           >
             {loading
               ? "Cargando..."
@@ -154,7 +153,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-[11px] text-fifa-dark-gray/50">
+        <p className="text-center text-sm text-fifa-dark-gray/50">
           {mode === "login"
             ? "¿Primera vez? Tocá Registrarse arriba."
             : "¿Ya tenés cuenta? Tocá Entrar arriba."}
