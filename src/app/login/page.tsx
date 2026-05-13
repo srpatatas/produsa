@@ -105,7 +105,7 @@ export default function LoginPage() {
           {mode === "register" && (
             <div>
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-fifa-dark-gray">
-                Tu nombre
+                Tu alias
               </label>
               <input
                 type="text"
@@ -120,7 +120,7 @@ export default function LoginPage() {
 
           <div>
             <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-fifa-dark-gray">
-              Código de invitación
+              Usuario
             </label>
             <input
               type="text"
@@ -161,7 +161,7 @@ export default function LoginPage() {
                 rememberMe ? "left-[22px]" : "left-0.5",
               )} />
             </div>
-            <span className="text-sm text-fifa-dark-gray">Recordar mi código</span>
+            <span className="text-sm text-fifa-dark-gray">Recordar mi usuario</span>
           </label>
 
           {error && (

@@ -181,7 +181,7 @@ export default function MiCuentaPage() {
             disabled={profileSaving || !profileChanged}
             className="w-full rounded-xl bg-fifa-purple px-4 py-2.5 font-display text-sm uppercase tracking-wider text-white transition-all hover:brightness-110 disabled:opacity-30"
           >
-            {profileSaving ? "Guardando..." : profileSaved ? "✓ Perfil actualizado" : "Guardar perfil"}
+            {profileSaving ? "Guardando..." : profileSaved ? "✓ Perfil actualizado" : "Guardar"}
           </button>
         </form>
       </div>
