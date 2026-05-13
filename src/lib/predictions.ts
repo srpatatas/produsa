@@ -10,15 +10,16 @@ interface StoredPredictions {
   lastUpdated: number;
 }
 
-export function loadPredictions(userId: string): PredictionsMap {
+export function loadPredictions(userId: string | number): PredictionsMap {
+  const uid = String(userId);
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      savePredictions(userId, defaultUserPredictions);
+      savePredictions(uid, defaultUserPredictions);
       return defaultUserPredictions;
     }
     const stored: StoredPredictions = JSON.parse(raw);
-    if (stored.version !== 1 || stored.userId !== userId) return {};
+    if (stored.version !== 1 || stored.userId !== uid) return {};
     return stored.predictions;
   } catch {
     return {};
@@ -26,13 +27,13 @@ export function loadPredictions(userId: string): PredictionsMap {
 }
 
 export function savePredictions(
-  userId: string,
+  userId: string | number,
   predictions: PredictionsMap,
 ): void {
   try {
     const data: StoredPredictions = {
       version: 1,
-      userId,
+      userId: String(userId),
       predictions,
       lastUpdated: Date.now(),
     };

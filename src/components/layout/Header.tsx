@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -15,6 +16,14 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
+  const user = useUser();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-[#0c0e1a]/80 backdrop-blur-xl border-b border-white/5">
@@ -55,10 +64,21 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm">
-            ⚽
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm">
+              {user.avatar}
+            </div>
+            <span className="hidden text-sm font-medium text-white/80 sm:block">
+              {user.name}
+            </span>
           </div>
+          <button
+            onClick={handleLogout}
+            className="rounded-full px-3 py-1 text-[10px] font-medium text-white/30 transition-colors hover:text-white/70 hover:bg-white/5"
+          >
+            Salir
+          </button>
         </div>
       </div>
     </header>

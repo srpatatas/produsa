@@ -39,21 +39,23 @@ function isDouble(outcome: PlanillaOutcome): boolean {
   return outcome.length === 2;
 }
 
-function loadFromStorage<T>(key: string, userId: string): T | null {
+function loadFromStorage<T>(key: string, userId: string | number): T | null {
+  const uid = String(userId);
   try {
     const raw = localStorage.getItem(key);
     if (!raw) return null;
     const stored = JSON.parse(raw);
-    if (stored.version !== 1 || stored.userId !== userId) return null;
+    if (stored.version !== 1 || stored.userId !== uid) return null;
     return stored.data;
   } catch {
     return null;
   }
 }
 
-function saveToStorage<T>(key: string, userId: string, data: T): void {
+function saveToStorage<T>(key: string, userId: string | number, data: T): void {
   try {
-    localStorage.setItem(key, JSON.stringify({ version: 1, userId, data }));
+    const uid = String(userId);
+    localStorage.setItem(key, JSON.stringify({ version: 1, userId: uid, data }));
   } catch {}
 }
 

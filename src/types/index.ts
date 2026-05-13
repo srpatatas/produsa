@@ -51,9 +51,11 @@ export interface TeamStanding {
 }
 
 export interface User {
-  id: string;
+  id: number | string;
   name: string;
   avatar: string;
+  is_admin?: boolean;
+  invite_code?: string;
 }
 
 export type KnockoutRound = "R32" | "R16" | "QF" | "SF" | "3P" | "F";
