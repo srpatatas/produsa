@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isScopeLocked } from "@/lib/lockCheck";
 
 export async function GET() {
   const session = await getSession();
@@ -30,6 +31,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "scope y matchId requeridos" }, { status: 400 });
   }
 
+  if (await isScopeLocked(scope)) {
+    return NextResponse.json({ error: "Comodines cerrados para esta fase" }, { status: 403 });
+  }
+
   const sql = getDb();
   await sql`
     INSERT INTO planilla_comodines (user_id, scope, match_id)
@@ -47,6 +52,10 @@ export async function DELETE(req: NextRequest) {
 
   const { scope } = await req.json();
   if (!scope) return NextResponse.json({ error: "scope requerido" }, { status: 400 });
+
+  if (await isScopeLocked(scope)) {
+    return NextResponse.json({ error: "Comodines cerrados para esta fase" }, { status: 403 });
+  }
 
   const sql = getDb();
   await sql`

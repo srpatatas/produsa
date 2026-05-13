@@ -94,6 +94,7 @@ export interface BonusQuestion {
   id: string;
   label: string;
   sourceType: BonusSourceType;
+  lockScope: string;
 }
 
 export interface BonusPredictionsMap {

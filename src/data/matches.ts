@@ -1,16 +1,16 @@
 import { Match } from "@/types";
 
 export const matches: Match[] = [
-  // Group A (all finished — test overrides)
-  { id: "A-1", groupId: "A", homeTeamId: "MEX", awayTeamId: "RSA", matchday: 1, kickoff: "2026-05-08T19:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
-  { id: "A-2", groupId: "A", homeTeamId: "KOR", awayTeamId: "CZE", matchday: 1, kickoff: "2026-05-08T22:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
-  { id: "A-3", groupId: "A", homeTeamId: "CZE", awayTeamId: "RSA", matchday: 2, kickoff: "2026-05-09T17:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
-  { id: "A-4", groupId: "A", homeTeamId: "MEX", awayTeamId: "KOR", matchday: 2, kickoff: "2026-05-09T20:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
-  { id: "A-5", groupId: "A", homeTeamId: "RSA", awayTeamId: "KOR", matchday: 3, kickoff: "2026-05-10T17:00:00Z", venue: "Estadio BBVA", city: "Monterrey" },
-  { id: "A-6", groupId: "A", homeTeamId: "MEX", awayTeamId: "CZE", matchday: 3, kickoff: "2026-05-10T17:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
+  // Group A
+  { id: "A-1", groupId: "A", homeTeamId: "MEX", awayTeamId: "RSA", matchday: 1, kickoff: "2026-06-11T19:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
+  { id: "A-2", groupId: "A", homeTeamId: "KOR", awayTeamId: "CZE", matchday: 1, kickoff: "2026-06-12T02:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
+  { id: "A-3", groupId: "A", homeTeamId: "CZE", awayTeamId: "RSA", matchday: 2, kickoff: "2026-06-18T17:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
+  { id: "A-4", groupId: "A", homeTeamId: "MEX", awayTeamId: "KOR", matchday: 2, kickoff: "2026-06-19T03:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
+  { id: "A-5", groupId: "A", homeTeamId: "RSA", awayTeamId: "KOR", matchday: 3, kickoff: "2026-06-25T03:00:00Z", venue: "Estadio BBVA", city: "Monterrey" },
+  { id: "A-6", groupId: "A", homeTeamId: "MEX", awayTeamId: "CZE", matchday: 3, kickoff: "2026-06-25T03:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
 
-  // Group B (one live — test override)
-  { id: "B-1", groupId: "B", homeTeamId: "CAN", awayTeamId: "BIH", matchday: 1, kickoff: "2026-05-11T21:33:00Z", venue: "BMO Field", city: "Toronto" },
+  // Group B
+  { id: "B-1", groupId: "B", homeTeamId: "CAN", awayTeamId: "BIH", matchday: 1, kickoff: "2026-06-12T19:00:00Z", venue: "BMO Field", city: "Toronto" },
   { id: "B-2", groupId: "B", homeTeamId: "QAT", awayTeamId: "SUI", matchday: 1, kickoff: "2026-06-13T19:00:00Z", venue: "Levi's Stadium", city: "San Francisco" },
   { id: "B-3", groupId: "B", homeTeamId: "CAN", awayTeamId: "QAT", matchday: 2, kickoff: "2026-06-18T22:00:00Z", venue: "BC Place", city: "Vancouver" },
   { id: "B-4", groupId: "B", homeTeamId: "BIH", awayTeamId: "SUI", matchday: 2, kickoff: "2026-06-18T19:00:00Z", venue: "SoFi Stadium", city: "Los Ángeles" },
@@ -106,7 +106,7 @@ export function isMatchLocked(match: Match): boolean {
   return new Date(match.kickoff).getTime() <= Date.now();
 }
 
-const MATCH_DURATION_MS = 180 * 60 * 1000; // 3h for dev, revert to 90min for prod
+const MATCH_DURATION_MS = 90 * 60 * 1000;
 
 export function isMatchLive(match: Match): boolean {
   const now = Date.now();

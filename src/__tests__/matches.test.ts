@@ -143,9 +143,9 @@ describe("isMatchLive", () => {
     expect(isMatchLive(liveMatch)).toBe(true);
   });
 
-  it("returns false for a match that started 181 minutes ago", () => {
+  it("returns false for a match that started 91 minutes ago", () => {
     const now = new Date();
-    now.setMinutes(now.getMinutes() - 181);
+    now.setMinutes(now.getMinutes() - 91);
     const endedMatch: Match = {
       id: "test",
       groupId: "A",

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isScopeLocked } from "@/lib/lockCheck";
+import { getBonusQuestion } from "@/data/bonusQuestions";
 
 export async function GET() {
   const session = await getSession();
@@ -28,6 +30,11 @@ export async function POST(req: NextRequest) {
 
   if (!questionId || !answer) {
     return NextResponse.json({ error: "questionId y answer requeridos" }, { status: 400 });
+  }
+
+  const question = getBonusQuestion(questionId);
+  if (question && await isScopeLocked(question.lockScope)) {
+    return NextResponse.json({ error: "Puntos extra cerrados para esta fase" }, { status: 403 });
   }
 
   const sql = getDb();

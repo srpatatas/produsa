@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { isMatchLocked } from "@/lib/lockCheck";
 
 export async function GET() {
   const session = await getSession();
@@ -38,6 +39,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Outcome inválido" }, { status: 400 });
   }
 
+  if (await isMatchLocked(matchId)) {
+    return NextResponse.json({ error: "Predicciones cerradas para este partido" }, { status: 403 });
+  }
+
   const sql = getDb();
   await sql`
     INSERT INTO planilla_predictions (user_id, match_id, outcome)
@@ -55,6 +60,10 @@ export async function DELETE(req: NextRequest) {
 
   const { matchId } = await req.json();
   if (!matchId) return NextResponse.json({ error: "matchId requerido" }, { status: 400 });
+
+  if (await isMatchLocked(matchId)) {
+    return NextResponse.json({ error: "Predicciones cerradas para este partido" }, { status: 403 });
+  }
 
   const sql = getDb();
   await sql`
