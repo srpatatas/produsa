@@ -199,28 +199,31 @@ export default function AdminPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleViewPredictions(u.id)}
+                    title="Ver predicciones"
                     className={cn(
-                      "rounded-lg px-3 py-1.5 text-[10px] font-medium transition-colors",
+                      "rounded-xl px-4 py-2 text-base transition-all",
                       selectedUser === u.id
-                        ? "bg-fifa-blue/20 text-fifa-blue"
-                        : "text-fifa-dark-gray hover:bg-white/5 hover:text-foreground",
+                        ? "bg-fifa-blue/20 text-fifa-blue ring-1 ring-fifa-blue/30"
+                        : "text-fifa-dark-gray hover:bg-white/5 hover:text-foreground hover:scale-110",
                     )}
                   >
                     📋
                   </button>
                   <button
                     onClick={() => handleResetPin(u.id)}
-                    className="rounded-lg px-3 py-1.5 text-[10px] font-medium text-fifa-dark-gray transition-colors hover:bg-white/5 hover:text-foreground"
+                    title="Resetear PIN"
+                    className="rounded-xl px-4 py-2 text-base text-fifa-dark-gray transition-all hover:bg-white/5 hover:text-foreground hover:scale-110"
                   >
                     🔑
                   </button>
                   {!u.is_admin && (
                     <button
                       onClick={() => handleDeleteUser(u.id, u.name)}
-                      className="rounded-lg px-3 py-1.5 text-[10px] font-medium text-fifa-red/50 transition-colors hover:bg-fifa-red/5 hover:text-fifa-red"
+                      title="Eliminar participante"
+                      className="rounded-xl px-4 py-2 text-base text-fifa-red/50 transition-all hover:bg-fifa-red/5 hover:text-fifa-red hover:scale-110"
                     >
                       🗑️
                     </button>
