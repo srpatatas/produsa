@@ -71,7 +71,7 @@ export function KnockoutPlanillaView() {
 
   // Collect all groups across rounds for this tab
   const allGroups = activeRounds.flatMap((r) => knockoutGroupings[r as KnockoutRound] ?? []);
-  const stackVertically = allGroups.length <= 2;
+  const stackVertically = allGroups.length <= 1 || activeTab === "FINAL";
   const pairs: (typeof allGroups)[] = [];
   if (stackVertically) {
     for (const g of allGroups) pairs.push([g]);
@@ -113,7 +113,8 @@ export function KnockoutPlanillaView() {
       {/* Match rows grouped in pairs */}
       <div className={cn(
         "space-y-6",
-        allGroups.length <= 2 && "max-w-lg mx-auto",
+        allGroups.length <= 2 && !stackVertically && "max-w-2xl mx-auto",
+        stackVertically && "max-w-lg mx-auto",
       )}>
         {pairs.map((pair, pi) => (
           <div key={pi} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
