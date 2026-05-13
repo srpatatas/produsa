@@ -3,7 +3,22 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
+import { matches } from "@/data/matches";
+import { knockoutMatches } from "@/data/knockoutMatches";
+import { getTeam } from "@/data/teams";
 import { cn } from "@/lib/utils";
+
+function matchLabel(matchId: string): string {
+  const gMatch = matches.find((m) => m.id === matchId);
+  if (gMatch) {
+    return `${getTeam(gMatch.homeTeamId).shortName} vs ${getTeam(gMatch.awayTeamId).shortName}`;
+  }
+  const kMatch = knockoutMatches.find((m) => m.id === matchId);
+  if (kMatch) {
+    return `${kMatch.homeSlot.label} vs ${kMatch.awaySlot.label}`;
+  }
+  return matchId;
+}
 
 interface AdminUser {
   id: number;
@@ -202,30 +217,27 @@ export default function AdminPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleViewPredictions(u.id)}
-                    title="Ver predicciones"
                     className={cn(
-                      "rounded-xl px-4 py-2 text-base transition-all",
+                      "rounded-xl px-3 py-1.5 text-xs font-medium transition-all",
                       selectedUser === u.id
                         ? "bg-fifa-blue/20 text-fifa-blue ring-1 ring-fifa-blue/30"
-                        : "text-fifa-dark-gray hover:bg-white/5 hover:text-foreground hover:scale-110",
+                        : "bg-white/5 text-fifa-dark-gray hover:text-foreground hover:bg-white/10",
                     )}
                   >
-                    📋
+                    {selectedUser === u.id ? "Ocultar" : "Ver predicciones"}
                   </button>
                   <button
                     onClick={() => handleResetPin(u.id)}
-                    title="Resetear PIN"
-                    className="rounded-xl px-4 py-2 text-base text-fifa-dark-gray transition-all hover:bg-white/5 hover:text-foreground hover:scale-110"
+                    className="rounded-xl px-3 py-1.5 text-xs font-medium bg-white/5 text-fifa-dark-gray transition-all hover:text-foreground hover:bg-white/10"
                   >
-                    🔑
+                    Resetear PIN
                   </button>
                   {!u.is_admin && (
                     <button
                       onClick={() => handleDeleteUser(u.id, u.name)}
-                      title="Eliminar participante"
-                      className="rounded-xl px-4 py-2 text-base text-fifa-red/50 transition-all hover:bg-fifa-red/5 hover:text-fifa-red hover:scale-110"
+                      className="rounded-xl px-3 py-1.5 text-xs font-medium text-fifa-red/50 transition-all hover:bg-fifa-red/10 hover:text-fifa-red"
                     >
-                      🗑️
+                      Eliminar
                     </button>
                   )}
                 </div>
@@ -239,35 +251,35 @@ export default function AdminPage() {
                   {userPreds.predictions.length === 0 ? (
                     <p className="text-fifa-dark-gray/50">Sin predicciones</p>
                   ) : (
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="space-y-1">
                       {userPreds.predictions.map((p) => (
-                        <span
+                        <div
                           key={p.match_id}
-                          className="rounded-lg bg-card-bg px-2 py-1 ring-1 ring-white/5"
+                          className="flex items-center gap-2 rounded-lg bg-card-bg px-3 py-1.5 ring-1 ring-white/5"
                         >
-                          <span className="text-fifa-dark-gray">{p.match_id}</span>
-                          {" "}
+                          <span className="flex-1 text-foreground">{matchLabel(p.match_id)}</span>
                           <span className={cn(
-                            "font-semibold",
-                            p.outcome === "L" ? "text-fifa-green"
-                              : p.outcome === "E" ? "text-fifa-blue"
-                              : p.outcome === "V" ? "text-fifa-red"
-                              : "text-fifa-purple",
+                            "rounded-md px-2 py-0.5 text-[10px] font-bold text-white",
+                            p.outcome === "L" ? "bg-fifa-green"
+                              : p.outcome === "E" ? "bg-fifa-blue"
+                              : p.outcome === "V" ? "bg-fifa-red"
+                              : "bg-fifa-purple",
                           )}>
                             {p.outcome}
                           </span>
-                        </span>
+                        </div>
                       ))}
                     </div>
                   )}
                   {userPreds.comodines.length > 0 && (
                     <div className="mt-3">
                       <div className="mb-1 font-semibold text-fifa-gold">Comodines</div>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="space-y-1">
                         {userPreds.comodines.map((c) => (
-                          <span key={c.scope} className="rounded-lg bg-fifa-gold/10 px-2 py-1 text-fifa-gold">
-                            {c.scope}: {c.match_id}
-                          </span>
+                          <div key={c.scope} className="flex items-center gap-2 rounded-lg bg-fifa-gold/10 px-3 py-1.5">
+                            <span className="text-fifa-gold/70">{c.scope}</span>
+                            <span className="text-fifa-gold font-medium">{matchLabel(c.match_id)}</span>
+                          </div>
                         ))}
                       </div>
                     </div>
