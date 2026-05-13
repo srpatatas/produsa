@@ -53,6 +53,14 @@ export function UserMenu() {
             <p className="text-[10px] text-fifa-dark-gray">{user.invite_code}</p>
           </div>
           <div className="py-1">
+            {user.is_admin && (
+              <button
+                onClick={() => { setOpen(false); router.push("/admin"); }}
+                className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-fifa-purple transition-colors hover:bg-fifa-purple/5 hover:text-fifa-purple"
+              >
+                ⚙️ Admin
+              </button>
+            )}
             <button
               onClick={() => { setOpen(false); router.push("/perfil"); }}
               className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-fifa-dark-gray transition-colors hover:bg-white/5 hover:text-foreground"
