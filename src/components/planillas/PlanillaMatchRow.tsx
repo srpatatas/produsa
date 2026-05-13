@@ -80,18 +80,22 @@ export function PlanillaMatchRow({
   const hasComodin = comodinMatchId === match.id;
   const canUseDouble = (doubleMatchId === null || doubleMatchId === match.id) && !hasComodin;
 
-  const handleClick = (btn: "L" | "E" | "V") => {
-    if (locked) return;
+  const [saving, setSaving] = useState(false);
+
+  const handleClick = async (btn: "L" | "E" | "V") => {
+    if (locked || saving) return;
     const wouldBeDouble = currentOutcome && currentOutcome.length === 1 && currentOutcome !== btn;
     if (wouldBeDouble && hasComodin) {
       onDoubleAttemptOnComodin();
     }
     const result = toggleOutcome(currentOutcome, btn, canUseDouble);
+    setSaving(true);
     if (result === null) {
-      removePrediction(match.id);
+      await removePrediction(match.id);
     } else {
-      setPrediction(match.id, result);
+      await setPrediction(match.id, result);
     }
+    setSaving(false);
   };
 
   const handleDragOver = (e: React.DragEvent) => {

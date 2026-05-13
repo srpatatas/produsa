@@ -58,13 +58,17 @@ export function KnockoutPlanillaMatchRow({
   const hasComodin = comodinMatchId === match.id;
   const disabled = locked || !predictable;
 
-  const handleClick = (btn: "L" | "V") => {
-    if (disabled) return;
+  const [saving, setSaving] = useState(false);
+
+  const handleClick = async (btn: "L" | "V") => {
+    if (disabled || saving) return;
+    setSaving(true);
     if (currentOutcome === btn) {
-      removePrediction(match.id);
+      await removePrediction(match.id);
     } else {
-      setPrediction(match.id, btn as PlanillaOutcome);
+      await setPrediction(match.id, btn as PlanillaOutcome);
     }
+    setSaving(false);
   };
 
   const handleDragOver = (e: React.DragEvent) => {

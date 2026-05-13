@@ -10,6 +10,7 @@ import { BonusPredictions } from "./BonusPredictions";
 import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { KnockoutPlanillaView } from "./KnockoutPlanillaView";
+import { SaveIndicator } from "./SaveIndicator";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
 
@@ -169,6 +170,7 @@ export function PlanillaView() {
         <KnockoutPlanillaView />
       )}
 
+      <SaveIndicator />
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
   );

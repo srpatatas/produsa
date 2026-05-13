@@ -10,13 +10,16 @@ import {
 } from "react";
 import { PlanillaPredictionsMap, PlanillaOutcome, BonusPredictionsMap } from "@/types";
 
+type SaveStatus = "idle" | "saving" | "saved" | "error";
+
 interface PlanillaContextValue {
   predictions: PlanillaPredictionsMap;
   bonusPredictions: BonusPredictionsMap;
   isLoaded: boolean;
-  setPrediction: (matchId: string, outcome: PlanillaOutcome) => void;
-  removePrediction: (matchId: string) => void;
-  setBonusPrediction: (questionId: string, value: string) => void;
+  saveStatus: SaveStatus;
+  setPrediction: (matchId: string, outcome: PlanillaOutcome) => Promise<boolean>;
+  removePrediction: (matchId: string) => Promise<boolean>;
+  setBonusPrediction: (questionId: string, value: string) => Promise<boolean>;
   getDoubleMatchId: (matchday: number, matchIds: string[]) => string | null;
 }
 
@@ -24,9 +27,10 @@ const PlanillaContext = createContext<PlanillaContextValue>({
   predictions: {},
   bonusPredictions: {},
   isLoaded: false,
-  setPrediction: () => {},
-  removePrediction: () => {},
-  setBonusPrediction: () => {},
+  saveStatus: "idle",
+  setPrediction: async () => false,
+  removePrediction: async () => false,
+  setBonusPrediction: async () => false,
   getDoubleMatchId: () => null,
 });
 
@@ -34,6 +38,20 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
   const [predictions, setPredictions] = useState<PlanillaPredictionsMap>({});
   const [bonusPredictions, setBonusPredictions] = useState<BonusPredictionsMap>({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const saveTimerRef = { current: null as ReturnType<typeof setTimeout> | null };
+
+  const showSaved = useCallback(() => {
+    setSaveStatus("saved");
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => setSaveStatus("idle"), 1500);
+  }, []);
+
+  const showError = useCallback(() => {
+    setSaveStatus("error");
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => setSaveStatus("idle"), 3000);
+  }, []);
 
   useEffect(() => {
     async function loadAll() {
@@ -51,7 +69,7 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
           setBonusPredictions(data.predictions);
         }
       } catch {
-        // Offline or error
+        // Offline
       }
       setIsLoaded(true);
     }
@@ -59,43 +77,73 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setPrediction = useCallback(
-    (matchId: string, outcome: PlanillaOutcome) => {
-      setPredictions((prev) => ({
-        ...prev,
-        [matchId]: { matchId, outcome },
-      }));
-      fetch("/api/predictions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ matchId, outcome }),
-      }).catch(() => {});
+    async (matchId: string, outcome: PlanillaOutcome): Promise<boolean> => {
+      setSaveStatus("saving");
+      try {
+        const res = await fetch("/api/predictions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ matchId, outcome }),
+        });
+        if (!res.ok) { showError(); return false; }
+        setPredictions((prev) => ({
+          ...prev,
+          [matchId]: { matchId, outcome },
+        }));
+        showSaved();
+        return true;
+      } catch {
+        showError();
+        return false;
+      }
     },
-    [],
+    [showSaved, showError],
   );
 
-  const removePrediction = useCallback((matchId: string) => {
-    setPredictions((prev) => {
-      const next = { ...prev };
-      delete next[matchId];
-      return next;
-    });
-    fetch("/api/predictions", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ matchId }),
-    }).catch(() => {});
-  }, []);
+  const removePrediction = useCallback(
+    async (matchId: string): Promise<boolean> => {
+      setSaveStatus("saving");
+      try {
+        const res = await fetch("/api/predictions", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ matchId }),
+        });
+        if (!res.ok) { showError(); return false; }
+        setPredictions((prev) => {
+          const next = { ...prev };
+          delete next[matchId];
+          return next;
+        });
+        showSaved();
+        return true;
+      } catch {
+        showError();
+        return false;
+      }
+    },
+    [showSaved, showError],
+  );
 
   const setBonusPrediction = useCallback(
-    (questionId: string, value: string) => {
-      setBonusPredictions((prev) => ({ ...prev, [questionId]: value }));
-      fetch("/api/bonus", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ questionId, answer: value }),
-      }).catch(() => {});
+    async (questionId: string, value: string): Promise<boolean> => {
+      setSaveStatus("saving");
+      try {
+        const res = await fetch("/api/bonus", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ questionId, answer: value }),
+        });
+        if (!res.ok) { showError(); return false; }
+        setBonusPredictions((prev) => ({ ...prev, [questionId]: value }));
+        showSaved();
+        return true;
+      } catch {
+        showError();
+        return false;
+      }
     },
-    [],
+    [showSaved, showError],
   );
 
   const getDoubleMatchId = useCallback(
@@ -115,6 +163,7 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
         predictions,
         bonusPredictions,
         isLoaded,
+        saveStatus,
         setPrediction,
         removePrediction,
         setBonusPrediction,
