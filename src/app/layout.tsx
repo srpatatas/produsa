@@ -46,7 +46,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers user={user}>
-          <Shell>{children}</Shell>
+          {user ? <Shell>{children}</Shell> : children}
         </Providers>
       </body>
     </html>
