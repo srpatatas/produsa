@@ -1,7 +1,6 @@
-import { Match } from "@/types";
+import { Match, LiveScore } from "@/types";
 import { getTeam } from "@/data/teams";
 import { FlagImage } from "@/components/teams/FlagImage";
-import { LiveScore } from "@/data/liveScores";
 
 interface LiveScoreboardProps {
   match: Match;

@@ -100,6 +100,13 @@ export interface BonusPredictionsMap {
   [questionId: string]: string;
 }
 
+export interface LiveScore {
+  matchId: string;
+  homeScore: number;
+  awayScore: number;
+  minute: number;
+}
+
 export interface LeaderboardEntry {
   user: User;
   points: number;

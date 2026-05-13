@@ -3,10 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { Match } from "@/types";
 import { getLiveMatches } from "@/data/matches";
-import { getLiveScore, LiveScore } from "@/data/liveScores";
-import { getPlayerPredictions } from "@/data/playerPredictions";
+import { LiveScore } from "@/types";
 import { LiveScoreboard } from "./LiveScoreboard";
-import { PlayerPredictionsList } from "./PlayerPredictionsList";
+import { PlayerPredictionsList, LivePlayerPrediction } from "./PlayerPredictionsList";
 import { cn } from "@/lib/utils";
 
 const POLL_INTERVAL_MS = 300000;
@@ -21,6 +20,7 @@ export function LiveMatchView({
   const [ready, setReady] = useState(false);
   const [currentScore, setCurrentScore] = useState<LiveScore | undefined>();
   const [scoreStale, setScoreStale] = useState(false);
+  const [predictions, setPredictions] = useState<LivePlayerPrediction[]>([]);
 
   useEffect(() => {
     setLiveMatches(getLiveMatches());
@@ -54,20 +54,31 @@ export function LiveMatchView({
     });
   }, []);
 
+  const fetchPredictions = useCallback(async (matchId: string) => {
+    try {
+      const res = await fetch(`/api/live-predictions?matchId=${matchId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setPredictions(data.predictions);
+      }
+    } catch {}
+  }, []);
+
   useEffect(() => {
     if (liveMatches.length === 0) return;
     const match = liveMatches[activeIndex];
 
     fetchApiScore(match.id);
+    fetchPredictions(match.id);
+
     const interval = setInterval(() => fetchApiScore(match.id), POLL_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [liveMatches, activeIndex, fetchApiScore]);
+  }, [liveMatches, activeIndex, fetchApiScore, fetchPredictions]);
 
   if (!ready) return null;
   if (liveMatches.length === 0) return <>{onNoLiveMatches()}</>;
 
   const match = liveMatches[activeIndex];
-  const predictions = getPlayerPredictions(match.id);
 
   if (!currentScore) return <>{onNoLiveMatches()}</>;
 
@@ -94,7 +105,7 @@ export function LiveMatchView({
                 "rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
                 i === activeIndex
                   ? "bg-fifa-blue text-white"
-                  : "bg-surface text-fifa-dark-gray hover:bg-fifa-light-gray",
+                  : "bg-surface text-fifa-dark-gray hover:bg-white/10",
               )}
             >
               {m.homeTeamId} vs {m.awayTeamId}
