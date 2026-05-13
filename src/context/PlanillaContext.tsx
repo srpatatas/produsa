@@ -8,12 +8,7 @@ import {
   useCallback,
   ReactNode,
 } from "react";
-import { PlanillaPrediction, PlanillaPredictionsMap, PlanillaOutcome, BonusPredictionsMap } from "@/types";
-import { defaultPlanillaPredictions } from "@/data/defaultPlanillaPredictions";
-import { useUser } from "./UserContext";
-
-const PLANILLA_KEY = "produsa_planilla_v1";
-const BONUS_KEY = "produsa_bonus_v1";
+import { PlanillaPredictionsMap, PlanillaOutcome, BonusPredictionsMap } from "@/types";
 
 interface PlanillaContextValue {
   predictions: PlanillaPredictionsMap;
@@ -35,57 +30,33 @@ const PlanillaContext = createContext<PlanillaContextValue>({
   getDoubleMatchId: () => null,
 });
 
-function isDouble(outcome: PlanillaOutcome): boolean {
-  return outcome.length === 2;
-}
-
-function loadFromStorage<T>(key: string, userId: string | number): T | null {
-  const uid = String(userId);
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return null;
-    const stored = JSON.parse(raw);
-    if (stored.version !== 1 || stored.userId !== uid) return null;
-    return stored.data;
-  } catch {
-    return null;
-  }
-}
-
-function saveToStorage<T>(key: string, userId: string | number, data: T): void {
-  try {
-    const uid = String(userId);
-    localStorage.setItem(key, JSON.stringify({ version: 1, userId: uid, data }));
-  } catch {}
-}
-
 export function PlanillaProvider({ children }: { children: ReactNode }) {
-  const user = useUser();
   const [predictions, setPredictions] = useState<PlanillaPredictionsMap>({});
   const [bonusPredictions, setBonusPredictions] = useState<BonusPredictionsMap>({});
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const stored = loadFromStorage<PlanillaPredictionsMap>(PLANILLA_KEY, user.id);
-    if (stored) {
-      setPredictions(stored);
-    } else {
-      setPredictions(defaultPlanillaPredictions);
-      saveToStorage(PLANILLA_KEY, user.id, defaultPlanillaPredictions);
+    async function loadAll() {
+      try {
+        const [predRes, bonusRes] = await Promise.all([
+          fetch("/api/predictions"),
+          fetch("/api/bonus"),
+        ]);
+        if (predRes.ok) {
+          const data = await predRes.json();
+          setPredictions(data.predictions);
+        }
+        if (bonusRes.ok) {
+          const data = await bonusRes.json();
+          setBonusPredictions(data.predictions);
+        }
+      } catch {
+        // Offline or error
+      }
+      setIsLoaded(true);
     }
-    setBonusPredictions(loadFromStorage<BonusPredictionsMap>(BONUS_KEY, user.id) ?? {});
-    setIsLoaded(true);
-  }, [user.id]);
-
-  useEffect(() => {
-    if (!isLoaded) return;
-    saveToStorage(PLANILLA_KEY, user.id, predictions);
-  }, [predictions, isLoaded, user.id]);
-
-  useEffect(() => {
-    if (!isLoaded) return;
-    saveToStorage(BONUS_KEY, user.id, bonusPredictions);
-  }, [bonusPredictions, isLoaded, user.id]);
+    loadAll();
+  }, []);
 
   const setPrediction = useCallback(
     (matchId: string, outcome: PlanillaOutcome) => {
@@ -93,6 +64,11 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
         ...prev,
         [matchId]: { matchId, outcome },
       }));
+      fetch("/api/predictions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId, outcome }),
+      }).catch(() => {});
     },
     [],
   );
@@ -103,11 +79,21 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
       delete next[matchId];
       return next;
     });
+    fetch("/api/predictions", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ matchId }),
+    }).catch(() => {});
   }, []);
 
   const setBonusPrediction = useCallback(
     (questionId: string, value: string) => {
       setBonusPredictions((prev) => ({ ...prev, [questionId]: value }));
+      fetch("/api/bonus", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questionId, answer: value }),
+      }).catch(() => {});
     },
     [],
   );
@@ -116,7 +102,7 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
     (_matchday: number, matchIds: string[]): string | null => {
       for (const id of matchIds) {
         const pred = predictions[id];
-        if (pred && isDouble(pred.outcome)) return id;
+        if (pred && pred.outcome.length === 2) return id;
       }
       return null;
     },
