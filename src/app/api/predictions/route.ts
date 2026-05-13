@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "matchId y outcome requeridos" }, { status: 400 });
   }
 
-  const validOutcomes = ["L", "E", "V", "LE", "EV", "LV"];
+  const validOutcomes = ["L", "E", "V", "LE", "EL", "EV", "VE", "LV", "VL"];
   if (!validOutcomes.includes(outcome)) {
     return NextResponse.json({ error: "Outcome inválido" }, { status: 400 });
   }
