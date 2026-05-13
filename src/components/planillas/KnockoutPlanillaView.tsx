@@ -106,7 +106,10 @@ export function KnockoutPlanillaView() {
       </h2>
 
       {/* Match rows grouped in pairs */}
-      <div className="space-y-6">
+      <div className={cn(
+        "space-y-6",
+        allGroups.length <= 2 && "max-w-lg",
+      )}>
         {pairs.map((pair, pi) => (
           <div key={pi} className="flex flex-col gap-4 sm:flex-row sm:gap-6">
             {pair.map((group) => {

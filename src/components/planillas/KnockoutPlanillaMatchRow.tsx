@@ -173,7 +173,7 @@ export function KnockoutPlanillaMatchRow({
             <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />
           </>
         ) : (
-          <span className="text-[10px] text-fifa-dark-gray/40 truncate text-right">
+          <span className="text-sm text-fifa-dark-gray/70 truncate text-right">
             {match.awaySlot.label}
           </span>
         )}
