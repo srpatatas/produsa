@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Match } from "@/types";
+import { UnifiedMatch } from "@/types";
 import { getTeam } from "@/data/teams";
-import { getNextMatch } from "@/data/matches";
+import { getNextUnifiedMatch } from "@/lib/unifiedMatches";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { getComodinConfig } from "@/data/comodinConfig";
@@ -52,14 +52,14 @@ const outcomeConfig: Record<string, { label: string; bg: string }> = {
 };
 
 export function NextMatchCountdown() {
-  const [match, setMatch] = useState<Match | undefined>();
+  const [match, setMatch] = useState<UnifiedMatch | undefined>();
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [ready, setReady] = useState(false);
   const [comodines, setComodines] = useState<Record<string, string>>({});
   const { predictions } = usePlanilla();
 
   useEffect(() => {
-    const next = getNextMatch();
+    const next = getNextUnifiedMatch();
     setMatch(next);
     if (next) setTimeLeft(getTimeLeft(next.kickoff));
     setReady(true);
@@ -80,11 +80,11 @@ export function NextMatchCountdown() {
 
   if (!ready || !match) return null;
 
-  const home = getTeam(match.homeTeamId);
-  const away = getTeam(match.awayTeamId);
+  const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
+  const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
   const prediction = predictions[match.id];
   const hasPrediction = !!prediction;
-  const comodinScope = `fecha-${match.matchday}`;
+  const comodinScope = match.scope;
   const hasComodin = comodines[comodinScope] === match.id;
 
   return (
@@ -98,10 +98,16 @@ export function NextMatchCountdown() {
       <div className="p-5">
         <div className="mb-6 flex items-center justify-between">
           <div className="flex flex-1 flex-col items-center gap-2">
-            <FlagImage code={home.flagCode} name={home.name} size="xl" />
-            <span className="font-display text-lg tracking-wider text-foreground">
-              {home.shortName}
-            </span>
+            {home ? (
+              <>
+                <FlagImage code={home.flagCode} name={home.name} size="xl" />
+                <span className="font-display text-lg tracking-wider text-foreground">
+                  {home.shortName}
+                </span>
+              </>
+            ) : (
+              <span className="text-sm text-fifa-dark-gray">{match.homeLabel}</span>
+            )}
           </div>
 
           <div className="px-4 text-center">
@@ -109,10 +115,16 @@ export function NextMatchCountdown() {
           </div>
 
           <div className="flex flex-1 flex-col items-center gap-2">
-            <FlagImage code={away.flagCode} name={away.name} size="xl" />
-            <span className="font-display text-lg tracking-wider text-foreground">
-              {away.shortName}
-            </span>
+            {away ? (
+              <>
+                <FlagImage code={away.flagCode} name={away.name} size="xl" />
+                <span className="font-display text-lg tracking-wider text-foreground">
+                  {away.shortName}
+                </span>
+              </>
+            ) : (
+              <span className="text-sm text-fifa-dark-gray">{match.awayLabel}</span>
+            )}
           </div>
         </div>
 
@@ -152,7 +164,7 @@ export function NextMatchCountdown() {
         )}
 
         <div className="mt-4 text-center text-[10px] text-fifa-dark-gray/50">
-          {match.venue}, {match.city} · Grupo {match.groupId}
+          {match.venue}, {match.city}
         </div>
       </div>
     </div>

@@ -1,16 +1,16 @@
-import { Match, LiveScore } from "@/types";
+import { UnifiedMatch, LiveScore } from "@/types";
 import { getTeam } from "@/data/teams";
 import { FlagImage } from "@/components/teams/FlagImage";
 
 interface LiveScoreboardProps {
-  match: Match;
+  match: UnifiedMatch;
   liveScore: LiveScore;
   stale?: boolean;
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboardProps) {
-  const home = getTeam(match.homeTeamId);
-  const away = getTeam(match.awayTeamId);
+  const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
+  const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
   const hasScore = liveScore.homeScore >= 0 && liveScore.awayScore >= 0;
 
   return (
@@ -36,8 +36,14 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
 
         <div className="flex items-center justify-between">
           <div className="flex flex-1 flex-col items-center gap-2">
-            <FlagImage code={home.flagCode} name={home.name} size="xl" />
-            <span className="font-display text-xl tracking-wider">{home.shortName}</span>
+            {home ? (
+              <>
+                <FlagImage code={home.flagCode} name={home.name} size="xl" />
+                <span className="font-display text-xl tracking-wider">{home.shortName}</span>
+              </>
+            ) : (
+              <span className="text-sm text-white/50">{match.homeLabel}</span>
+            )}
           </div>
 
           <div className="flex items-center gap-4 px-4">
@@ -51,8 +57,14 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
           </div>
 
           <div className="flex flex-1 flex-col items-center gap-2">
-            <FlagImage code={away.flagCode} name={away.name} size="xl" />
-            <span className="font-display text-xl tracking-wider">{away.shortName}</span>
+            {away ? (
+              <>
+                <FlagImage code={away.flagCode} name={away.name} size="xl" />
+                <span className="font-display text-xl tracking-wider">{away.shortName}</span>
+              </>
+            ) : (
+              <span className="text-sm text-white/50">{match.awayLabel}</span>
+            )}
           </div>
         </div>
 

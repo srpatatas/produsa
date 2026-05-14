@@ -101,6 +101,19 @@ export interface BonusPredictionsMap {
   [questionId: string]: string;
 }
 
+export interface UnifiedMatch {
+  id: string;
+  homeTeamId: string | null;
+  awayTeamId: string | null;
+  homeLabel: string;
+  awayLabel: string;
+  kickoff: string;
+  venue: string;
+  city: string;
+  phase: "group" | "knockout";
+  scope: string;
+}
+
 export interface LiveScore {
   matchId: string;
   homeScore: number;

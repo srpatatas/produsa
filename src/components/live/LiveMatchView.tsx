@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Match } from "@/types";
-import { getLiveMatches } from "@/data/matches";
-import { LiveScore } from "@/types";
+import { UnifiedMatch, LiveScore } from "@/types";
+import { getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import { LiveScoreboard } from "./LiveScoreboard";
 import { PlayerPredictionsList, LivePlayerPrediction } from "./PlayerPredictionsList";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,7 @@ export function LiveMatchView({
 }: {
   onNoLiveMatches: () => React.ReactNode;
 }) {
-  const [liveMatches, setLiveMatches] = useState<Match[]>([]);
+  const [liveMatches, setLiveMatches] = useState<UnifiedMatch[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [ready, setReady] = useState(false);
   const [currentScore, setCurrentScore] = useState<LiveScore | undefined>();
@@ -23,7 +22,7 @@ export function LiveMatchView({
   const [predictions, setPredictions] = useState<LivePlayerPrediction[]>([]);
 
   useEffect(() => {
-    setLiveMatches(getLiveMatches());
+    setLiveMatches(getLiveUnifiedMatches());
     setReady(true);
   }, []);
 
@@ -108,7 +107,7 @@ export function LiveMatchView({
                   : "bg-surface text-fifa-dark-gray hover:bg-white/10",
               )}
             >
-              {m.homeTeamId} vs {m.awayTeamId}
+              {m.homeLabel} vs {m.awayLabel}
             </button>
           ))}
         </div>
