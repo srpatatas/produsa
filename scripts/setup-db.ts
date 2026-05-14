@@ -85,6 +85,17 @@ async function main() {
   console.log("  ✓ bonus_predictions");
 
   await sql`
+    CREATE TABLE IF NOT EXISTS match_results (
+      match_id VARCHAR(20) PRIMARY KEY,
+      home_score INTEGER NOT NULL,
+      away_score INTEGER NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  console.log("  ✓ match_results");
+
+  await sql`
     CREATE TABLE IF NOT EXISTS lock_deadlines (
       id SERIAL PRIMARY KEY,
       scope VARCHAR(20) UNIQUE NOT NULL,

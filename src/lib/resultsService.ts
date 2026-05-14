@@ -1,10 +1,21 @@
 import { MatchResult } from "@/data/results";
+import { getDb } from "./db";
+import { matches } from "@/data/matches";
 
 const OPENFOOTBALL_URL =
   "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
 
-const CACHE_TTL_DEFAULT = 30 * 60 * 1000; // 30 minutes
-const CACHE_TTL_LIVE = 5 * 60 * 1000; // 5 minutes during matches
+const SYNC_INTERVAL_DEFAULT = 30 * 60 * 1000; // 30 minutes
+const SYNC_INTERVAL_LIVE = 5 * 60 * 1000; // 5 minutes during matches
+
+function isAnyMatchInProgress(): boolean {
+  const now = Date.now();
+  const WINDOW_MS = 3 * 60 * 60 * 1000;
+  return matches.some((m) => {
+    const kickoff = new Date(m.kickoff).getTime();
+    return now >= kickoff && now <= kickoff + WINDOW_MS;
+  });
+}
 
 const TEAM_NAME_TO_ID: Record<string, string> = {
   "Mexico": "MEX", "South Africa": "RSA", "Korea Republic": "KOR", "South Korea": "KOR",
@@ -25,17 +36,6 @@ const TEAM_NAME_TO_ID: Record<string, string> = {
   "England": "ENG", "Croatia": "CRO", "Ghana": "GHA", "Panama": "PAN",
 };
 
-import { matches } from "@/data/matches";
-
-function isAnyMatchInProgress(): boolean {
-  const now = Date.now();
-  const WINDOW_MS = 3 * 60 * 60 * 1000;
-  return matches.some((m) => {
-    const kickoff = new Date(m.kickoff).getTime();
-    return now >= kickoff && now <= kickoff + WINDOW_MS;
-  });
-}
-
 const matchByTeamPair = new Map<string, string>();
 for (const m of matches) {
   matchByTeamPair.set(`${m.homeTeamId}-${m.awayTeamId}`, m.id);
@@ -47,17 +47,16 @@ interface OpenFootballMatch {
   score?: { ft?: [number, number] };
 }
 
-let cachedResults: Record<string, MatchResult> | null = null;
-let cacheTimestamp = 0;
+let lastSyncTimestamp = 0;
 
-async function fetchFromOpenFootball(): Promise<Record<string, MatchResult>> {
+async function syncFromOpenFootball(): Promise<void> {
   try {
-    const res = await fetch(OPENFOOTBALL_URL, { next: { revalidate: 1800 } });
-    if (!res.ok) return {};
+    const res = await fetch(OPENFOOTBALL_URL);
+    if (!res.ok) return;
 
     const data = await res.json();
     const apiMatches: OpenFootballMatch[] = data.matches ?? [];
-    const results: Record<string, MatchResult> = {};
+    const sql = getDb();
 
     for (const m of apiMatches) {
       if (!m.score?.ft) continue;
@@ -66,52 +65,56 @@ async function fetchFromOpenFootball(): Promise<Record<string, MatchResult>> {
       const awayId = TEAM_NAME_TO_ID[m.team2];
       if (!homeId || !awayId) continue;
 
-      const key = `${homeId}-${awayId}`;
-      let matchId = matchByTeamPair.get(key);
+      let matchId = matchByTeamPair.get(`${homeId}-${awayId}`);
+      let homeScore = m.score.ft[0];
+      let awayScore = m.score.ft[1];
 
       if (!matchId) {
-        const reverseKey = `${awayId}-${homeId}`;
-        matchId = matchByTeamPair.get(reverseKey);
+        matchId = matchByTeamPair.get(`${awayId}-${homeId}`);
         if (matchId) {
-          results[matchId] = {
-            matchId,
-            homeScore: m.score.ft[1],
-            awayScore: m.score.ft[0],
-          };
+          homeScore = m.score.ft[1];
+          awayScore = m.score.ft[0];
+        } else {
           continue;
         }
-        continue;
       }
 
-      results[matchId] = {
-        matchId,
-        homeScore: m.score.ft[0],
-        awayScore: m.score.ft[1],
-      };
+      await sql`
+        INSERT INTO match_results (match_id, home_score, away_score)
+        VALUES (${matchId}, ${homeScore}, ${awayScore})
+        ON CONFLICT (match_id)
+        DO UPDATE SET home_score = ${homeScore}, away_score = ${awayScore}, updated_at = NOW()
+      `;
     }
-
-    return results;
   } catch {
-    return {};
+    // Sync failed — DB retains existing results
   }
 }
 
-export async function getResults(): Promise<Record<string, MatchResult>> {
+async function maybeSyncFromOpenFootball(): Promise<void> {
   const now = Date.now();
-  const ttl = isAnyMatchInProgress() ? CACHE_TTL_LIVE : CACHE_TTL_DEFAULT;
-  if (cachedResults && now - cacheTimestamp < ttl) {
-    return cachedResults;
+  const interval = isAnyMatchInProgress() ? SYNC_INTERVAL_LIVE : SYNC_INTERVAL_DEFAULT;
+  if (now - lastSyncTimestamp < interval) return;
+  lastSyncTimestamp = now;
+  await syncFromOpenFootball();
+}
+
+export async function getResults(): Promise<Record<string, MatchResult>> {
+  await maybeSyncFromOpenFootball();
+
+  const sql = getDb();
+  const rows = await sql`SELECT match_id, home_score, away_score FROM match_results`;
+
+  const results: Record<string, MatchResult> = {};
+  for (const row of rows) {
+    results[row.match_id as string] = {
+      matchId: row.match_id as string,
+      homeScore: row.home_score as number,
+      awayScore: row.away_score as number,
+    };
   }
 
-  const fresh = await fetchFromOpenFootball();
-
-  // Only update cache if we got results, otherwise keep stale cache
-  if (Object.keys(fresh).length > 0 || !cachedResults) {
-    cachedResults = fresh;
-    cacheTimestamp = now;
-  }
-
-  return cachedResults;
+  return results;
 }
 
 export async function getResult(matchId: string): Promise<MatchResult | undefined> {
