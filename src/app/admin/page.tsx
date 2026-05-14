@@ -411,10 +411,11 @@ export default function AdminPage() {
             {Object.keys(dbResults).length} resultados cargados
           </p>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map((groupId) => {
             const groupMatches = allGroupMatches.filter((m) => m.group === groupId);
             return (
-              <div key={groupId} className="mb-4">
+              <div key={groupId}>
                 <h3 className="mb-2 font-display text-sm tracking-wider text-fifa-dark-gray">
                   GRUPO {groupId}
                 </h3>
@@ -494,12 +495,15 @@ export default function AdminPage() {
             );
           })}
 
+          </div>
+
           <h2 className="mt-8 mb-4 text-lg font-bold text-foreground">Eliminatorias</h2>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {knockoutRounds.map((round) => {
             const koMatches = getKnockoutMatchesByRound(round.id);
             return (
-              <div key={round.id} className="mb-4">
+              <div key={round.id}>
                 <h3 className="mb-2 font-display text-sm tracking-wider text-fifa-dark-gray">
                   {round.label}
                 </h3>
@@ -579,6 +583,8 @@ export default function AdminPage() {
               </div>
             );
           })}
+
+          </div>
 
           {resultError && (
             <p className="mt-2 text-sm text-fifa-red">{resultError}</p>
