@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
+import { invalidateResultsCache } from "@/lib/resultsService";
 
 export async function GET() {
   const session = await getSession();
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
     DO UPDATE SET home_score = ${homeScore}, away_score = ${awayScore}, updated_at = NOW()
   `;
 
+  invalidateResultsCache();
   return NextResponse.json({ ok: true });
 }
 
@@ -52,5 +54,6 @@ export async function DELETE(req: NextRequest) {
   const sql = getDb();
   await sql`DELETE FROM match_results WHERE match_id = ${matchId}`;
 
+  invalidateResultsCache();
   return NextResponse.json({ ok: true });
 }

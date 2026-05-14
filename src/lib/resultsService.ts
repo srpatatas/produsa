@@ -48,6 +48,9 @@ interface OpenFootballMatch {
 }
 
 let lastSyncTimestamp = 0;
+let cachedResults: Record<string, MatchResult> | null = null;
+let cacheTimestamp = 0;
+const RESULTS_CACHE_TTL = 60 * 1000; // 1 minute in-memory cache for DB reads
 
 async function syncFromOpenFootball(): Promise<void> {
   try {
@@ -102,6 +105,11 @@ async function maybeSyncFromOpenFootball(): Promise<void> {
 export async function getResults(): Promise<Record<string, MatchResult>> {
   await maybeSyncFromOpenFootball();
 
+  const now = Date.now();
+  if (cachedResults && now - cacheTimestamp < RESULTS_CACHE_TTL) {
+    return cachedResults;
+  }
+
   const sql = getDb();
   const rows = await sql`SELECT match_id, home_score, away_score FROM match_results`;
 
@@ -114,7 +122,14 @@ export async function getResults(): Promise<Record<string, MatchResult>> {
     };
   }
 
+  cachedResults = results;
+  cacheTimestamp = now;
   return results;
+}
+
+export function invalidateResultsCache(): void {
+  cachedResults = null;
+  cacheTimestamp = 0;
 }
 
 export async function getResult(matchId: string): Promise<MatchResult | undefined> {

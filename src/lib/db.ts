@@ -1,5 +1,10 @@
-import { neon } from "@neondatabase/serverless";
+import { neon, NeonQueryFunction } from "@neondatabase/serverless";
+
+let cachedDb: NeonQueryFunction<false, false> | null = null;
 
 export function getDb() {
-  return neon(process.env.DATABASE_URL!);
+  if (!cachedDb) {
+    cachedDb = neon(process.env.DATABASE_URL!);
+  }
+  return cachedDb;
 }
