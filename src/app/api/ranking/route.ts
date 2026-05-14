@@ -13,21 +13,14 @@ export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
-  const matchResults = await getResults();
   const sql = getDb();
 
-  const users = await sql`
-    SELECT id, name, avatar FROM users WHERE pin != 'PENDING'
-    ORDER BY name
-  `;
-
-  const predictions = await sql`
-    SELECT user_id, match_id, outcome FROM planilla_predictions
-  `;
-
-  const comodines = await sql`
-    SELECT user_id, scope, match_id FROM planilla_comodines
-  `;
+  const [matchResults, users, predictions, comodines] = await Promise.all([
+    getResults(),
+    sql`SELECT id, name, avatar FROM users WHERE pin != 'PENDING' ORDER BY name`,
+    sql`SELECT user_id, match_id, outcome FROM planilla_predictions`,
+    sql`SELECT user_id, scope, match_id FROM planilla_comodines`,
+  ]);
 
   // Build predictions map per user
   const predByUser: Record<number, Record<string, string>> = {};

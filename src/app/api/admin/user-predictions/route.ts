@@ -11,20 +11,11 @@ export async function GET(req: NextRequest) {
 
   const sql = getDb();
 
-  const predictions = await sql`
-    SELECT match_id, outcome FROM planilla_predictions
-    WHERE user_id = ${userId} ORDER BY match_id
-  `;
-
-  const comodines = await sql`
-    SELECT scope, match_id FROM planilla_comodines
-    WHERE user_id = ${userId}
-  `;
-
-  const bonus = await sql`
-    SELECT question_id, answer FROM bonus_predictions
-    WHERE user_id = ${userId}
-  `;
+  const [predictions, comodines, bonus] = await Promise.all([
+    sql`SELECT match_id, outcome FROM planilla_predictions WHERE user_id = ${userId} ORDER BY match_id`,
+    sql`SELECT scope, match_id FROM planilla_comodines WHERE user_id = ${userId}`,
+    sql`SELECT question_id, answer FROM bonus_predictions WHERE user_id = ${userId}`,
+  ]);
 
   return NextResponse.json({ predictions, comodines, bonus });
 }
