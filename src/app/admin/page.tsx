@@ -395,6 +395,30 @@ export default function AdminPage() {
                       }}
                     />
                   </label>
+                  {u.avatar.startsWith("http") && (
+                    <button
+                      onClick={async () => {
+                        const emoji = prompt("Elegí un emoji para el avatar:", "⚽");
+                        if (!emoji) return;
+                        try {
+                          const formData = new FormData();
+                          // Use a text-based update via admin users endpoint
+                          const res = await fetch("/api/admin/update-avatar", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ userId: u.id, avatar: emoji }),
+                          });
+                          if (res.ok) {
+                            setUsers((prev) => prev.map((usr) => usr.id === u.id ? { ...usr, avatar: emoji } : usr));
+                            flashStatus("saved");
+                          }
+                        } catch {}
+                      }}
+                      className="rounded-xl px-3 py-1.5 text-xs font-medium bg-white/5 text-fifa-dark-gray transition-all hover:text-foreground hover:bg-white/10"
+                    >
+                      Cambiar a emoji
+                    </button>
+                  )}
                   <button
                     onClick={() => handleViewPredictions(u.id)}
                     className={cn(
