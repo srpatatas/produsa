@@ -7,7 +7,24 @@ import { matches } from "@/data/matches";
 import { knockoutMatches, getKnockoutMatchesByRound } from "@/data/knockoutMatches";
 import { knockoutRounds } from "@/data/knockoutBracket";
 import { getTeam } from "@/data/teams";
+import { FlagImage } from "@/components/teams/FlagImage";
+import { GroupId } from "@/types";
 import { cn } from "@/lib/utils";
+
+const groupAccents: Record<string, string> = {
+  A: "from-fifa-green to-fifa-teal",
+  B: "from-fifa-red to-rose-600",
+  C: "from-fifa-blue to-indigo-600",
+  D: "from-fifa-purple to-fuchsia-600",
+  E: "from-amber-500 to-fifa-gold",
+  F: "from-fifa-teal to-cyan-500",
+  G: "from-fifa-red to-fifa-purple",
+  H: "from-fifa-blue to-fifa-green",
+  I: "from-fifa-purple to-fifa-blue",
+  J: "from-fifa-green to-lime-500",
+  K: "from-fifa-gold to-amber-600",
+  L: "from-fifa-red to-fifa-blue",
+};
 
 function matchLabel(matchId: string): string {
   const gMatch = matches.find((m) => m.id === matchId);
@@ -151,7 +168,8 @@ export default function AdminPage() {
 
   const allGroupMatches = matches.map((m) => ({
     id: m.id,
-    label: `${getTeam(m.homeTeamId).shortName} vs ${getTeam(m.awayTeamId).shortName}`,
+    homeTeamId: m.homeTeamId,
+    awayTeamId: m.awayTeamId,
     group: m.groupId,
     matchday: m.matchday,
   }));
@@ -416,9 +434,13 @@ export default function AdminPage() {
             const groupMatches = allGroupMatches.filter((m) => m.group === groupId);
             return (
               <div key={groupId}>
-                <h3 className="mb-2 font-display text-sm tracking-wider text-fifa-dark-gray">
-                  GRUPO {groupId}
-                </h3>
+                <div className="mb-2 flex items-center gap-2">
+                  <div className={`h-1 w-6 rounded-full bg-gradient-to-r ${groupAccents[groupId] || ""}`} />
+                  <span className="font-display text-base tracking-wider text-fifa-dark-gray">
+                    GRUPO
+                  </span>
+                  <span className="font-title text-xl text-foreground">{groupId}</span>
+                </div>
                 <div className="space-y-1.5">
                   {groupMatches.map((m) => {
                     const result = dbResults[m.id];
@@ -427,9 +449,15 @@ export default function AdminPage() {
                     return (
                       <div
                         key={m.id}
-                        className="flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2 ring-1 ring-white/5 text-sm"
+                        className="flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 ring-white/5 text-sm"
                       >
-                        <span className="flex-1 text-foreground">{m.label}</span>
+                        <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                          <FlagImage code={getTeam(m.homeTeamId).flagCode} name={getTeam(m.homeTeamId).name} size="sm" />
+                          <span className="font-display text-xs tracking-wider">{getTeam(m.homeTeamId).shortName}</span>
+                          <span className="text-fifa-dark-gray/40">vs</span>
+                          <span className="font-display text-xs tracking-wider">{getTeam(m.awayTeamId).shortName}</span>
+                          <FlagImage code={getTeam(m.awayTeamId).flagCode} name={getTeam(m.awayTeamId).name} size="sm" />
+                        </div>
 
                         {isEditing ? (
                           <div className="flex items-center gap-1.5">
@@ -497,16 +525,19 @@ export default function AdminPage() {
 
           </div>
 
-          <h2 className="mt-8 mb-4 text-lg font-bold text-foreground">Eliminatorias</h2>
+          <h2 className="mt-8 mb-4 font-display text-lg uppercase tracking-wider text-fifa-purple">Eliminatorias</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {knockoutRounds.map((round) => {
             const koMatches = getKnockoutMatchesByRound(round.id);
             return (
               <div key={round.id}>
-                <h3 className="mb-2 font-display text-sm tracking-wider text-fifa-dark-gray">
-                  {round.label}
-                </h3>
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="h-1 w-6 rounded-full bg-gradient-to-r from-fifa-purple to-fifa-teal" />
+                  <span className="font-display text-base tracking-wider text-fifa-dark-gray">
+                    {round.label}
+                  </span>
+                </div>
                 <div className="space-y-1.5">
                   {koMatches.map((km) => {
                     const label = `${km.homeSlot.label} vs ${km.awaySlot.label}`;
