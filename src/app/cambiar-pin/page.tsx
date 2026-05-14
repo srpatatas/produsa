@@ -159,39 +159,22 @@ export default function MiCuentaPage() {
         </h2>
         <form onSubmit={handleProfileSubmit} className="space-y-4">
           <div className="flex items-center gap-4">
-            <div className="flex flex-col items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                className={cn(
-                  "relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full overflow-hidden ring-2 transition-all",
-                  showEmojiPicker
-                    ? "ring-fifa-purple scale-110"
-                    : "ring-white/10 hover:ring-fifa-purple/50 hover:scale-105",
-                )}
-              >
-                {isImageAvatar ? (
-                  <Image src={selectedAvatar} alt="Avatar" fill className="object-cover" />
-                ) : (
-                  <span className="text-3xl">{selectedAvatar}</span>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-                className="text-[10px] text-fifa-teal hover:text-fifa-teal/80 transition-colors"
-              >
-                {uploading ? "Subiendo..." : "📷 Subir foto"}
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                className="hidden"
-              />
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              className={cn(
+                "relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full overflow-hidden ring-2 transition-all",
+                showEmojiPicker
+                  ? "ring-fifa-purple scale-110"
+                  : "ring-white/10 hover:ring-fifa-purple/50 hover:scale-105",
+              )}
+            >
+              {isImageAvatar ? (
+                <Image src={selectedAvatar} alt="Avatar" fill className="object-cover" />
+              ) : (
+                <span className="text-3xl">{selectedAvatar}</span>
+              )}
+            </button>
             <input
               type="text"
               value={name}
@@ -226,6 +209,19 @@ export default function MiCuentaPage() {
                   </div>
                 </div>
               ))}
+              <div className="border-t border-white/5 pt-3">
+                <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-fifa-teal/10 px-4 py-2.5 text-sm font-medium text-fifa-teal transition-all hover:bg-fifa-teal/20">
+                  📷 Subí tu foto
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  {uploading && <span className="text-xs">Subiendo...</span>}
+                </label>
+              </div>
             </div>
           )}
 
