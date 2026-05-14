@@ -3,7 +3,8 @@ import { MatchResult } from "@/data/results";
 const OPENFOOTBALL_URL =
   "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
 
-const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const CACHE_TTL_DEFAULT = 30 * 60 * 1000; // 30 minutes
+const CACHE_TTL_LIVE = 5 * 60 * 1000; // 5 minutes during matches
 
 const TEAM_NAME_TO_ID: Record<string, string> = {
   "Mexico": "MEX", "South Africa": "RSA", "Korea Republic": "KOR", "South Korea": "KOR",
@@ -25,6 +26,15 @@ const TEAM_NAME_TO_ID: Record<string, string> = {
 };
 
 import { matches } from "@/data/matches";
+
+function isAnyMatchInProgress(): boolean {
+  const now = Date.now();
+  const WINDOW_MS = 3 * 60 * 60 * 1000;
+  return matches.some((m) => {
+    const kickoff = new Date(m.kickoff).getTime();
+    return now >= kickoff && now <= kickoff + WINDOW_MS;
+  });
+}
 
 const matchByTeamPair = new Map<string, string>();
 for (const m of matches) {
@@ -88,7 +98,8 @@ async function fetchFromOpenFootball(): Promise<Record<string, MatchResult>> {
 
 export async function getResults(): Promise<Record<string, MatchResult>> {
   const now = Date.now();
-  if (cachedResults && now - cacheTimestamp < CACHE_TTL_MS) {
+  const ttl = isAnyMatchInProgress() ? CACHE_TTL_LIVE : CACHE_TTL_DEFAULT;
+  if (cachedResults && now - cacheTimestamp < ttl) {
     return cachedResults;
   }
 
