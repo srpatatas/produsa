@@ -364,8 +364,10 @@ export default function AdminPage() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <label className="rounded-xl px-3 py-1.5 text-xs font-medium bg-white/5 text-fifa-dark-gray transition-all hover:text-foreground hover:bg-white/10 cursor-pointer">
-                    Subir foto
+                  <label className={cn(
+                    "rounded-xl px-3 py-1.5 text-xs font-medium bg-white/5 text-fifa-dark-gray transition-all hover:text-foreground hover:bg-white/10 cursor-pointer",
+                  )}>
+                    Cambiar avatar
                     <input
                       type="file"
                       accept="image/*"
@@ -373,14 +375,23 @@ export default function AdminPage() {
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
+                        if (file.size > 2 * 1024 * 1024) { alert("Máximo 2MB"); return; }
                         const formData = new FormData();
                         formData.append("file", file);
                         formData.append("userId", String(u.id));
-                        const res = await fetch("/api/upload-avatar", { method: "POST", body: formData });
-                        if (res.ok) {
+                        try {
+                          const res = await fetch("/api/upload-avatar", { method: "POST", body: formData });
                           const data = await res.json();
-                          setUsers((prev) => prev.map((usr) => usr.id === u.id ? { ...usr, avatar: data.url } : usr));
+                          if (res.ok) {
+                            setUsers((prev) => prev.map((usr) => usr.id === u.id ? { ...usr, avatar: data.url } : usr));
+                            flashStatus("saved");
+                          } else {
+                            alert(data.error || "Error al subir");
+                          }
+                        } catch {
+                          alert("Error de conexión");
                         }
+                        e.target.value = "";
                       }}
                     />
                   </label>

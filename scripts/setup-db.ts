@@ -27,7 +27,7 @@ async function main() {
       name VARCHAR(100) NOT NULL,
       invite_code VARCHAR(50) UNIQUE NOT NULL,
       pin VARCHAR(255) NOT NULL,
-      avatar VARCHAR(10) DEFAULT '⚽',
+      avatar VARCHAR(500) DEFAULT '⚽',
       is_admin BOOLEAN DEFAULT false,
       created_at TIMESTAMP DEFAULT NOW()
     )
