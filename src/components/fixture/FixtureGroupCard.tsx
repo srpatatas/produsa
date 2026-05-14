@@ -3,31 +3,16 @@
 import { Group, GroupId } from "@/types";
 import { getTeam } from "@/data/teams";
 import { getMatchesForGroup } from "@/data/matches";
-import { getMatchResult } from "@/data/results";
+import { MatchResult } from "@/data/results";
 import { FlagImage } from "@/components/teams/FlagImage";
-import { matchResults } from "@/data/results";
 import { computeStandings } from "@/lib/scoring";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
 
 interface FixtureGroupCardProps {
   group: Group;
+  results: Record<string, MatchResult>;
 }
-
-const groupAccents: Record<GroupId, string> = {
-  A: "from-fifa-green to-fifa-teal",
-  B: "from-fifa-red to-rose-600",
-  C: "from-fifa-blue to-indigo-600",
-  D: "from-fifa-purple to-fuchsia-600",
-  E: "from-amber-500 to-fifa-gold",
-  F: "from-fifa-teal to-cyan-500",
-  G: "from-fifa-red to-fifa-purple",
-  H: "from-fifa-blue to-fifa-green",
-  I: "from-fifa-purple to-fifa-blue",
-  J: "from-fifa-green to-lime-500",
-  K: "from-fifa-gold to-amber-600",
-  L: "from-fifa-red to-fifa-blue",
-};
 
 function getActualOutcome(homeScore: number, awayScore: number): "L" | "E" | "V" {
   if (homeScore > awayScore) return "L";
@@ -35,11 +20,11 @@ function getActualOutcome(homeScore: number, awayScore: number): "L" | "E" | "V"
   return "E";
 }
 
-export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
+export function FixtureGroupCard({ group, results }: FixtureGroupCardProps) {
   const gradient = groupAccents[group.id];
   const groupMatches = getMatchesForGroup(group.id);
-  const standings = computeStandings([...group.teams], groupMatches, matchResults);
-  const hasResults = groupMatches.some((m) => matchResults[m.id]);
+  const standings = computeStandings([...group.teams], groupMatches, results);
+  const hasResults = groupMatches.some((m) => results[m.id]);
   const { predictions } = usePlanilla();
 
   return (
@@ -104,7 +89,7 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
           {groupMatches.map((match) => {
             const home = getTeam(match.homeTeamId);
             const away = getTeam(match.awayTeamId);
-            const result = getMatchResult(match.id);
+            const result = results[match.id];
             const planillaPred = predictions[match.id];
 
             let predResult: "correct" | "wrong" | null = null;
@@ -169,3 +154,18 @@ export function FixtureGroupCard({ group }: FixtureGroupCardProps) {
     </div>
   );
 }
+
+const groupAccents: Record<GroupId, string> = {
+  A: "from-fifa-green to-fifa-teal",
+  B: "from-fifa-red to-rose-600",
+  C: "from-fifa-blue to-indigo-600",
+  D: "from-fifa-purple to-fuchsia-600",
+  E: "from-amber-500 to-fifa-gold",
+  F: "from-fifa-teal to-cyan-500",
+  G: "from-fifa-red to-fifa-purple",
+  H: "from-fifa-blue to-fifa-green",
+  I: "from-fifa-purple to-fifa-blue",
+  J: "from-fifa-green to-lime-500",
+  K: "from-fifa-gold to-amber-600",
+  L: "from-fifa-red to-fifa-blue",
+};

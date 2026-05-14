@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { matchResults } from "@/data/results";
+import { getResults } from "@/lib/resultsService";
 
 function getActualOutcome(homeScore: number, awayScore: number): "L" | "E" | "V" {
   if (homeScore > awayScore) return "L";
@@ -13,6 +13,7 @@ export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
+  const matchResults = await getResults();
   const sql = getDb();
 
   const users = await sql`
