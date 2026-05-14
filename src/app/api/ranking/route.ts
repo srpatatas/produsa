@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { getResults } from "@/lib/resultsService";
+import { MatchResult } from "@/data/results";
 
 function getActualOutcome(homeScore: number, awayScore: number): "L" | "E" | "V" {
   if (homeScore > awayScore) return "L";
@@ -15,12 +15,21 @@ export async function GET() {
 
   const sql = getDb();
 
-  const [matchResults, users, predictions, comodines] = await Promise.all([
-    getResults(),
+  const [resultsRows, users, predictions, comodines] = await Promise.all([
+    sql`SELECT match_id, home_score, away_score FROM match_results`,
     sql`SELECT id, name, avatar FROM users WHERE pin != 'PENDING' ORDER BY name`,
     sql`SELECT user_id, match_id, outcome FROM planilla_predictions`,
     sql`SELECT user_id, scope, match_id FROM planilla_comodines`,
   ]);
+
+  const matchResults: Record<string, MatchResult> = {};
+  for (const r of resultsRows) {
+    matchResults[r.match_id as string] = {
+      matchId: r.match_id as string,
+      homeScore: r.home_score as number,
+      awayScore: r.away_score as number,
+    };
+  }
 
   // Build predictions map per user
   const predByUser: Record<number, Record<string, string>> = {};
