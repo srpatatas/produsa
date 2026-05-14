@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
+import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
 
 export function UserMenu() {
@@ -32,9 +33,7 @@ export function UserMenu() {
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 rounded-full px-2 py-1 transition-all hover:bg-white/10"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm">
-          {user.avatar}
-        </div>
+        <AvatarDisplay avatar={user.avatar} size="sm" />
         <span className="hidden text-sm font-medium text-white/80 sm:block">
           {user.name}
         </span>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,8 @@ export default function MiCuentaPage() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [currentPin, setCurrentPin] = useState("");
   const [newPin, setNewPin] = useState("");
@@ -32,7 +35,36 @@ export default function MiCuentaPage() {
 
   const [error, setError] = useState("");
 
+  const isImageAvatar = selectedAvatar.startsWith("http");
   const profileChanged = name.trim() !== user.name || selectedAvatar !== user.avatar;
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { setError("Máximo 2MB"); return; }
+    if (!file.type.startsWith("image/")) { setError("Solo imágenes"); return; }
+
+    setUploading(true);
+    setError("");
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload-avatar", { method: "POST", body: formData });
+      if (res.ok) {
+        const data = await res.json();
+        setSelectedAvatar(data.url);
+        setProfileSaved(true);
+        setTimeout(() => window.location.href = "/cambiar-pin", 1000);
+      } else {
+        const data = await res.json();
+        setError(data.error || "Error al subir");
+      }
+    } catch {
+      setError("Error de conexión");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -127,18 +159,39 @@ export default function MiCuentaPage() {
         </h2>
         <form onSubmit={handleProfileSubmit} className="space-y-4">
           <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              className={cn(
-                "flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full text-3xl ring-2 transition-all",
-                showEmojiPicker
-                  ? "ring-fifa-purple scale-110"
-                  : "ring-white/10 hover:ring-fifa-purple/50 hover:scale-105",
-              )}
-            >
-              {selectedAvatar}
-            </button>
+            <div className="flex flex-col items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                className={cn(
+                  "relative flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full overflow-hidden ring-2 transition-all",
+                  showEmojiPicker
+                    ? "ring-fifa-purple scale-110"
+                    : "ring-white/10 hover:ring-fifa-purple/50 hover:scale-105",
+                )}
+              >
+                {isImageAvatar ? (
+                  <Image src={selectedAvatar} alt="Avatar" fill className="object-cover" />
+                ) : (
+                  <span className="text-3xl">{selectedAvatar}</span>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="text-[10px] text-fifa-teal hover:text-fifa-teal/80 transition-colors"
+              >
+                {uploading ? "Subiendo..." : "📷 Subir foto"}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </div>
             <input
               type="text"
               value={name}
