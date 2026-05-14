@@ -36,9 +36,16 @@ interface UserPredictions {
   bonus: { question_id: string; answer: string }[];
 }
 
+interface MatchResultEntry {
+  matchId: string;
+  homeScore: number;
+  awayScore: number;
+}
+
 export default function AdminPage() {
   const user = useUser();
   const router = useRouter();
+  const [tab, setTab] = useState<"users" | "results">("users");
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -120,6 +127,67 @@ export default function AdminPage() {
     }
   };
 
+  // Results state
+  const [dbResults, setDbResults] = useState<Record<string, MatchResultEntry>>({});
+  const [resultsLoaded, setResultsLoaded] = useState(false);
+  const [editingMatch, setEditingMatch] = useState<string | null>(null);
+  const [editHome, setEditHome] = useState("");
+  const [editAway, setEditAway] = useState("");
+  const [resultError, setResultError] = useState("");
+
+  const loadResults = async () => {
+    const res = await fetch("/api/admin/results");
+    if (res.ok) {
+      const data = await res.json();
+      setDbResults(data.results);
+    }
+    setResultsLoaded(true);
+  };
+
+  useEffect(() => {
+    if (tab === "results" && !resultsLoaded) loadResults();
+  }, [tab, resultsLoaded]);
+
+  const allGroupMatches = matches.map((m) => ({
+    id: m.id,
+    label: `${getTeam(m.homeTeamId).shortName} vs ${getTeam(m.awayTeamId).shortName}`,
+    group: m.groupId,
+    matchday: m.matchday,
+  }));
+
+  const handleSaveResult = async (matchId: string) => {
+    setResultError("");
+    const homeScore = parseInt(editHome, 10);
+    const awayScore = parseInt(editAway, 10);
+    if (isNaN(homeScore) || isNaN(awayScore) || homeScore < 0 || awayScore < 0) {
+      setResultError("Scores inválidos");
+      return;
+    }
+    const res = await fetch("/api/admin/results", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ matchId, homeScore, awayScore }),
+    });
+    if (res.ok) {
+      setDbResults((prev) => ({ ...prev, [matchId]: { matchId, homeScore, awayScore } }));
+      setEditingMatch(null);
+    }
+  };
+
+  const handleDeleteResult = async (matchId: string) => {
+    if (!confirm("¿Eliminar este resultado?")) return;
+    await fetch("/api/admin/results", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ matchId }),
+    });
+    setDbResults((prev) => {
+      const next = { ...prev };
+      delete next[matchId];
+      return next;
+    });
+  };
+
   if (!user.is_admin) return null;
 
   return (
@@ -128,11 +196,36 @@ export default function AdminPage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Admin
         </h1>
-        <p className="mt-1 text-base text-fifa-dark-gray">
-          {users.length} participantes · {users.filter((u) => u.registered).length} registrados
-        </p>
       </div>
 
+      {/* Admin tabs */}
+      <div className="mb-6 flex rounded-full bg-surface p-1 ring-1 ring-white/5">
+        <button
+          onClick={() => setTab("users")}
+          className={cn(
+            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+            tab === "users"
+              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
+              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10 cursor-pointer",
+          )}
+        >
+          Participantes
+        </button>
+        <button
+          onClick={() => setTab("results")}
+          className={cn(
+            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+            tab === "results"
+              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
+              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10 cursor-pointer",
+          )}
+        >
+          Resultados
+        </button>
+      </div>
+
+      {tab === "users" && (
+      <>
       <div className="mb-4 flex flex-wrap gap-2">
         <button
           onClick={() => setShowAdd(!showAdd)}
@@ -306,6 +399,103 @@ export default function AdminPage() {
               )}
             </div>
           ))}
+        </div>
+      )}
+      </>
+      )}
+
+      {tab === "results" && (
+        <div>
+          <p className="mb-4 text-sm text-fifa-dark-gray">
+            {Object.keys(dbResults).length} resultados cargados
+          </p>
+
+          {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map((groupId) => {
+            const groupMatches = allGroupMatches.filter((m) => m.group === groupId);
+            return (
+              <div key={groupId} className="mb-4">
+                <h3 className="mb-2 font-display text-sm tracking-wider text-fifa-dark-gray">
+                  GRUPO {groupId}
+                </h3>
+                <div className="space-y-1.5">
+                  {groupMatches.map((m) => {
+                    const result = dbResults[m.id];
+                    const isEditing = editingMatch === m.id;
+
+                    return (
+                      <div
+                        key={m.id}
+                        className="flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2 ring-1 ring-white/5 text-sm"
+                      >
+                        <span className="flex-1 text-foreground">{m.label}</span>
+
+                        {isEditing ? (
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="number"
+                              min={0}
+                              value={editHome}
+                              onChange={(e) => setEditHome(e.target.value)}
+                              className="w-12 rounded-lg bg-surface px-2 py-1 text-center text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-purple/40"
+                            />
+                            <span className="text-fifa-dark-gray">:</span>
+                            <input
+                              type="number"
+                              min={0}
+                              value={editAway}
+                              onChange={(e) => setEditAway(e.target.value)}
+                              className="w-12 rounded-lg bg-surface px-2 py-1 text-center text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-purple/40"
+                            />
+                            <button
+                              onClick={() => handleSaveResult(m.id)}
+                              className="rounded-lg bg-fifa-green/20 px-2 py-1 text-xs text-fifa-green hover:bg-fifa-green/30"
+                            >
+                              ✓
+                            </button>
+                            <button
+                              onClick={() => setEditingMatch(null)}
+                              className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground"
+                            >
+                              ✗
+                            </button>
+                          </div>
+                        ) : result ? (
+                          <div className="flex items-center gap-2">
+                            <span className="font-display text-base text-foreground">
+                              {result.homeScore} : {result.awayScore}
+                            </span>
+                            <button
+                              onClick={() => { setEditingMatch(m.id); setEditHome(String(result.homeScore)); setEditAway(String(result.awayScore)); }}
+                              className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:bg-white/5 hover:text-foreground"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDeleteResult(m.id)}
+                              className="rounded-lg px-2 py-1 text-xs text-fifa-red/50 hover:text-fifa-red"
+                            >
+                              Borrar
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => { setEditingMatch(m.id); setEditHome(""); setEditAway(""); }}
+                            className="rounded-lg bg-white/5 px-3 py-1 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10"
+                          >
+                            + Cargar resultado
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          {resultError && (
+            <p className="mt-2 text-sm text-fifa-red">{resultError}</p>
+          )}
         </div>
       )}
     </div>
