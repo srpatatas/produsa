@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { matches } from "@/data/matches";
-import { knockoutMatches } from "@/data/knockoutMatches";
+import { knockoutMatches, getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { knockoutRounds } from "@/data/knockoutBracket";
 import { getTeam } from "@/data/teams";
 import { cn } from "@/lib/utils";
 
@@ -480,6 +481,92 @@ export default function AdminPage() {
                         ) : (
                           <button
                             onClick={() => { setEditingMatch(m.id); setEditHome(""); setEditAway(""); }}
+                            className="rounded-lg bg-white/5 px-3 py-1 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10"
+                          >
+                            + Cargar resultado
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          <h2 className="mt-8 mb-4 text-lg font-bold text-foreground">Eliminatorias</h2>
+
+          {knockoutRounds.map((round) => {
+            const koMatches = getKnockoutMatchesByRound(round.id);
+            return (
+              <div key={round.id} className="mb-4">
+                <h3 className="mb-2 font-display text-sm tracking-wider text-fifa-dark-gray">
+                  {round.label}
+                </h3>
+                <div className="space-y-1.5">
+                  {koMatches.map((km) => {
+                    const label = `${km.homeSlot.label} vs ${km.awaySlot.label}`;
+                    const result = dbResults[km.id];
+                    const isEditing = editingMatch === km.id;
+
+                    return (
+                      <div
+                        key={km.id}
+                        className="flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2 ring-1 ring-white/5 text-sm"
+                      >
+                        <span className="flex-1 text-foreground">{label}</span>
+
+                        {isEditing ? (
+                          <div className="flex items-center gap-1.5">
+                            <input
+                              type="number"
+                              min={0}
+                              value={editHome}
+                              onChange={(e) => setEditHome(e.target.value)}
+                              className="w-12 rounded-lg bg-surface px-2 py-1 text-center text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-purple/40"
+                            />
+                            <span className="text-fifa-dark-gray">:</span>
+                            <input
+                              type="number"
+                              min={0}
+                              value={editAway}
+                              onChange={(e) => setEditAway(e.target.value)}
+                              className="w-12 rounded-lg bg-surface px-2 py-1 text-center text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-purple/40"
+                            />
+                            <button
+                              onClick={() => handleSaveResult(km.id)}
+                              className="rounded-lg bg-fifa-green/20 px-2 py-1 text-xs text-fifa-green hover:bg-fifa-green/30"
+                            >
+                              ✓
+                            </button>
+                            <button
+                              onClick={() => setEditingMatch(null)}
+                              className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground"
+                            >
+                              ✗
+                            </button>
+                          </div>
+                        ) : result ? (
+                          <div className="flex items-center gap-2">
+                            <span className="font-display text-base text-foreground">
+                              {result.homeScore} : {result.awayScore}
+                            </span>
+                            <button
+                              onClick={() => { setEditingMatch(km.id); setEditHome(String(result.homeScore)); setEditAway(String(result.awayScore)); }}
+                              className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:bg-white/5 hover:text-foreground"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleDeleteResult(km.id)}
+                              className="rounded-lg px-2 py-1 text-xs text-fifa-red/50 hover:text-fifa-red"
+                            >
+                              Borrar
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => { setEditingMatch(km.id); setEditHome(""); setEditAway(""); }}
                             className="rounded-lg bg-white/5 px-3 py-1 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10"
                           >
                             + Cargar resultado
