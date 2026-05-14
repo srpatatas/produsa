@@ -174,6 +174,14 @@ export default function AdminPage() {
     matchday: m.matchday,
   }));
 
+  const [resultSaving, setResultSaving] = useState(false);
+  const [resultStatus, setResultStatus] = useState<"idle" | "saved" | "error">("idle");
+
+  const flashStatus = (status: "saved" | "error") => {
+    setResultStatus(status);
+    setTimeout(() => setResultStatus("idle"), 2500);
+  };
+
   const handleSaveResult = async (matchId: string) => {
     setResultError("");
     const homeScore = parseInt(editHome, 10);
@@ -182,29 +190,53 @@ export default function AdminPage() {
       setResultError("Scores inválidos");
       return;
     }
-    const res = await fetch("/api/admin/results", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ matchId, homeScore, awayScore }),
-    });
-    if (res.ok) {
-      setDbResults((prev) => ({ ...prev, [matchId]: { matchId, homeScore, awayScore } }));
-      setEditingMatch(null);
+    setResultSaving(true);
+    try {
+      const res = await fetch("/api/admin/results", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId, homeScore, awayScore }),
+      });
+      if (res.ok) {
+        setDbResults((prev) => ({ ...prev, [matchId]: { matchId, homeScore, awayScore } }));
+        setEditingMatch(null);
+        flashStatus("saved");
+      } else {
+        setResultError("Error al guardar");
+        flashStatus("error");
+      }
+    } catch {
+      setResultError("Error de conexión");
+      flashStatus("error");
+    } finally {
+      setResultSaving(false);
     }
   };
 
   const handleDeleteResult = async (matchId: string) => {
     if (!confirm("¿Eliminar este resultado?")) return;
-    await fetch("/api/admin/results", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ matchId }),
-    });
-    setDbResults((prev) => {
-      const next = { ...prev };
-      delete next[matchId];
-      return next;
-    });
+    setResultSaving(true);
+    try {
+      const res = await fetch("/api/admin/results", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId }),
+      });
+      if (res.ok) {
+        setDbResults((prev) => {
+          const next = { ...prev };
+          delete next[matchId];
+          return next;
+        });
+        flashStatus("saved");
+      } else {
+        flashStatus("error");
+      }
+    } catch {
+      flashStatus("error");
+    } finally {
+      setResultSaving(false);
+    }
   };
 
   if (!user.is_admin) return null;
@@ -620,6 +652,17 @@ export default function AdminPage() {
           {resultError && (
             <p className="mt-2 text-sm text-fifa-red">{resultError}</p>
           )}
+        </div>
+      )}
+
+      {resultStatus !== "idle" && (
+        <div className="fixed bottom-28 left-1/2 z-[90] -translate-x-1/2 md:bottom-8">
+          <div className={cn(
+            "rounded-xl px-4 py-2 text-xs font-medium shadow-xl",
+            resultStatus === "saved" ? "bg-fifa-green/90 text-white" : "bg-fifa-red/90 text-white",
+          )}>
+            {resultStatus === "saved" ? "✓ Guardado" : "✗ Error al guardar"}
+          </div>
         </div>
       )}
     </div>
