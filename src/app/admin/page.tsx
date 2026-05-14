@@ -8,6 +8,7 @@ import { knockoutMatches, getKnockoutMatchesByRound } from "@/data/knockoutMatch
 import { knockoutRounds } from "@/data/knockoutBracket";
 import { getTeam } from "@/data/teams";
 import { FlagImage } from "@/components/teams/FlagImage";
+import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { GroupId } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -340,8 +341,28 @@ export default function AdminPage() {
           {users.map((u) => (
             <div key={u.id}>
               <div className="flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all hover:ring-white/15">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-surface text-xl">
-                  {u.avatar}
+                <div className="flex flex-col items-center gap-1">
+                  <AvatarDisplay avatar={u.avatar} size="md" />
+                  <label className="cursor-pointer text-[9px] text-fifa-teal hover:text-fifa-teal/80">
+                    📷
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const formData = new FormData();
+                        formData.append("file", file);
+                        formData.append("userId", String(u.id));
+                        const res = await fetch("/api/upload-avatar", { method: "POST", body: formData });
+                        if (res.ok) {
+                          const data = await res.json();
+                          setUsers((prev) => prev.map((usr) => usr.id === u.id ? { ...usr, avatar: data.url } : usr));
+                        }
+                      }}
+                    />
+                  </label>
                 </div>
 
                 <div className="flex flex-1 flex-col">
