@@ -11,6 +11,7 @@ import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { KnockoutPlanillaView } from "./KnockoutPlanillaView";
 import { SaveIndicator } from "./SaveIndicator";
+import { LockCountdown } from "./LockCountdown";
 import { getComodinConfig } from "@/data/comodinConfig";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
@@ -40,13 +41,19 @@ export function PlanillaView() {
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
+  const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
 
   useEffect(() => {
-    fetch("/api/comodines")
-      .then((r) => r.ok ? r.json() : { comodines: {} })
-      .then((data) => setComodinByFecha(data.comodines))
-      .catch(() => {});
+    Promise.all([
+      fetch("/api/comodines").then((r) => r.ok ? r.json() : { comodines: {} }),
+      fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
+    ]).then(([comodinData, lockData]) => {
+      setComodinByFecha(comodinData.comodines);
+      setLocks(lockData.locks);
+    }).catch(() => {});
   }, []);
+
+  const isFechaLocked = locks[`fecha-${fecha}`]?.isLocked ?? false;
 
   const allFechaMatchIds = matches
     .filter((m) => m.matchday === fecha)
@@ -163,7 +170,19 @@ export function PlanillaView() {
 
       {phase === "grupos" ? (
         <>
-          <PlanillaTabs active={fecha} onChange={(f) => { setFecha(f); setPlacementMode(false); }} />
+          <PlanillaTabs active={fecha} onChange={(f) => { setFecha(f); setPlacementMode(false); }} locks={locks} />
+
+          {isFechaLocked ? (
+            <div className="flex items-center gap-2 rounded-xl bg-fifa-dark-gray/20 px-4 py-3 ring-1 ring-white/5">
+              <span className="text-lg">🔒</span>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Fecha cerrada</p>
+                <p className="text-xs text-fifa-dark-gray">Las predicciones ya no se pueden modificar</p>
+              </div>
+            </div>
+          ) : locks[`fecha-${fecha}`]?.locksAt ? (
+            <LockCountdown locksAt={locks[`fecha-${fecha}`].locksAt} />
+          ) : null}
 
           <div className="space-y-6">
             {groupPairs.map(([a, b]) => (
@@ -172,10 +191,11 @@ export function PlanillaView() {
                 groupA={a}
                 groupB={b}
                 matchday={fecha}
+                fechaLocked={isFechaLocked}
                 doubleMatchId={doubleMatchId}
                 comodinMatchId={comodinMatchId}
                 comodinImage={getComodinConfig(`fecha-${fecha}`).image}
-                placementMode={placementMode}
+                placementMode={isFechaLocked ? false : placementMode}
                 onComodinDrop={handleComodinDrop}
                 onComodinRemove={handleComodinRemove}
                 onComodinDragStart={handleComodinDragStart}
@@ -185,14 +205,16 @@ export function PlanillaView() {
             ))}
           </div>
 
-          <ComodinDock
-            isPlaced={comodinMatchId !== null}
-            isPlacementMode={placementMode}
-            onTogglePlacementMode={handleTogglePlacementMode}
-            image={getComodinConfig(`fecha-${fecha}`).image}
-          />
+          {!isFechaLocked && (
+            <ComodinDock
+              isPlaced={comodinMatchId !== null}
+              isPlacementMode={placementMode}
+              onTogglePlacementMode={handleTogglePlacementMode}
+              image={getComodinConfig(`fecha-${fecha}`).image}
+            />
+          )}
 
-          <BonusPredictions />
+          <BonusPredictions locked={isFechaLocked} />
         </>
       ) : (
         <KnockoutPlanillaView />

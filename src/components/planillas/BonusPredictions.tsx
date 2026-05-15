@@ -18,10 +18,12 @@ function BonusSelect({
   questionId,
   label,
   sourceType,
+  locked,
 }: {
   questionId: string;
   label: string;
   sourceType: string;
+  locked?: boolean;
 }) {
   const { bonusPredictions, setBonusPrediction } = usePlanilla();
   const [open, setOpen] = useState(false);
@@ -53,7 +55,11 @@ function BonusSelect({
           value={value}
           onChange={(e) => setBonusPrediction(questionId, e.target.value)}
           placeholder="Escribí tu predicción"
-          className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+          disabled={locked}
+          className={cn(
+            "w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30",
+            locked && "opacity-50 cursor-not-allowed",
+          )}
         />
       </div>
     );
@@ -66,10 +72,13 @@ function BonusSelect({
       </label>
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={() => !locked && setOpen(!open)}
+        disabled={locked}
         className={cn(
           "flex w-full items-center justify-between rounded-lg bg-surface px-3 py-2 text-xs text-left ring-1 ring-white/5 transition-all",
-          open ? "ring-fifa-teal/40" : "hover:ring-white/15",
+          locked
+            ? "opacity-50 cursor-not-allowed"
+            : open ? "ring-fifa-teal/40" : "hover:ring-white/15",
           value ? "text-foreground" : "text-fifa-dark-gray/40",
         )}
       >
@@ -121,10 +130,14 @@ function BonusSelect({
   );
 }
 
-export function BonusPredictions() {
+export function BonusPredictions({ locked }: { locked?: boolean }) {
   return (
-    <div className="rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5">
-      <h3 className="mb-4 font-display text-base uppercase tracking-wider text-fifa-gold">
+    <div className={cn(
+      "rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5",
+      locked && "opacity-75",
+    )}>
+      <h3 className="mb-4 flex items-center gap-2 font-display text-base uppercase tracking-wider text-fifa-gold">
+        {locked && <span className="text-sm">🔒</span>}
         Puntos Extra
       </h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -134,6 +147,7 @@ export function BonusPredictions() {
             questionId={q.id}
             label={q.label}
             sourceType={q.sourceType}
+            locked={locked}
           />
         ))}
       </div>

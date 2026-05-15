@@ -8,6 +8,7 @@ interface GroupPairCardProps {
   groupA: Group;
   groupB: Group;
   matchday: 1 | 2 | 3;
+  fechaLocked?: boolean;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
   comodinImage?: string;
@@ -37,6 +38,7 @@ const groupAccents: Record<GroupId, string> = {
 function GroupSection({
   group,
   matchday,
+  fechaLocked,
   doubleMatchId,
   comodinMatchId,
   comodinImage,
@@ -49,6 +51,7 @@ function GroupSection({
 }: {
   group: Group;
   matchday: 1 | 2 | 3;
+  fechaLocked?: boolean;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
   comodinImage?: string;
@@ -75,6 +78,7 @@ function GroupSection({
           <PlanillaMatchRow
             key={match.id}
             match={match}
+            fechaLocked={fechaLocked}
             doubleMatchId={doubleMatchId}
             comodinMatchId={comodinMatchId}
             comodinImage={comodinImage}
@@ -95,6 +99,7 @@ export function GroupPairCard({
   groupA,
   groupB,
   matchday,
+  fechaLocked,
   doubleMatchId,
   comodinMatchId,
   comodinImage,
@@ -110,6 +115,7 @@ export function GroupPairCard({
       <GroupSection
         group={groupA}
         matchday={matchday}
+        fechaLocked={fechaLocked}
         doubleMatchId={doubleMatchId}
         comodinMatchId={comodinMatchId}
         comodinImage={comodinImage}
@@ -123,6 +129,7 @@ export function GroupPairCard({
       <GroupSection
         group={groupB}
         matchday={matchday}
+        fechaLocked={fechaLocked}
         doubleMatchId={doubleMatchId}
         comodinMatchId={comodinMatchId}
         comodinImage={comodinImage}

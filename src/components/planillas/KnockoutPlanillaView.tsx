@@ -9,6 +9,8 @@ import { KnockoutPlanillaMatchRow } from "./KnockoutPlanillaMatchRow";
 import { KnockoutComodinDock } from "./KnockoutComodinDock";
 import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
+import { LockCountdown } from "./LockCountdown";
+import { isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
 import { cn } from "@/lib/utils";
 
 type PlanillaRound = "R32" | "R16" | "QF" | "SF" | "FINAL";
@@ -28,16 +30,26 @@ export function KnockoutPlanillaView() {
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
+  const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
 
   useEffect(() => {
-    fetch("/api/comodines")
-      .then((r) => r.ok ? r.json() : { comodines: {} })
-      .then((data) => setComodinByRound(data.comodines))
-      .catch(() => {});
+    Promise.all([
+      fetch("/api/comodines").then((r) => r.ok ? r.json() : { comodines: {} }),
+      fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
+    ]).then(([comodinData, lockData]) => {
+      setComodinByRound(comodinData.comodines);
+      setLocks(lockData.locks);
+    }).catch(() => {});
   }, []);
 
   const currentTab = planillaRoundTabs.find((t) => t.id === activeTab)!;
   const activeRounds = currentTab.rounds;
+  const isRoundLocked = locks[activeTab]?.isLocked ?? false;
+
+  // Check if any match in this round has both teams resolved
+  const roundMatches = activeRounds.flatMap((r) => getKnockoutMatchesByRound(r));
+  const isRoundPredictable = roundMatches.some((m) => isKnockoutMatchPredictable(m));
+  const effectiveLocked = isRoundLocked || !isRoundPredictable;
 
   // Comodin is per tab
   const comodinMatchId = comodinByRound[activeTab] ?? null;
@@ -107,18 +119,26 @@ export function KnockoutPlanillaView() {
       <div className="flex overflow-x-auto rounded-full bg-surface p-1 ring-1 ring-white/5">
         {planillaRoundTabs.map((tab) => {
           const isActive = activeTab === tab.id;
+          const tabLocked = locks[tab.id]?.isLocked ?? false;
+          const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
+          const tabPredictable = tabMatches.some((m) => isKnockoutMatchPredictable(m));
+          const tabDisabled = tabLocked || !tabPredictable;
 
           return (
             <button
               key={tab.id}
               onClick={() => { setActiveTab(tab.id); setPlacementMode(false); }}
               className={cn(
-                "flex-1 flex-shrink-0 rounded-full px-4 py-2 font-display text-base uppercase tracking-wider transition-all duration-200",
+                "flex-1 flex-shrink-0 flex items-center justify-center gap-1.5 rounded-full px-4 py-2 font-display text-base uppercase tracking-wider transition-all duration-200",
                 isActive
-                  ? "bg-fifa-teal text-white shadow-lg shadow-fifa-teal/20"
+                  ? tabDisabled
+                    ? "bg-fifa-dark-gray/50 text-white/70"
+                    : "bg-fifa-teal text-white shadow-lg shadow-fifa-teal/20"
                   : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-teal/10 cursor-pointer",
               )}
             >
+              {tabLocked && <span className="text-sm">🔒</span>}
+              {!tabPredictable && !tabLocked && <span className="text-sm">🔒</span>}
               {tab.label}
             </button>
           );
@@ -129,6 +149,26 @@ export function KnockoutPlanillaView() {
       <h2 className="text-sm font-semibold uppercase tracking-wider text-fifa-dark-gray">
         {currentTab.label}
       </h2>
+
+      {isRoundLocked ? (
+        <div className="flex items-center gap-2 rounded-xl bg-fifa-dark-gray/20 px-4 py-3 ring-1 ring-white/5">
+          <span className="text-lg">🔒</span>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Ronda cerrada</p>
+            <p className="text-xs text-fifa-dark-gray">Las predicciones ya no se pueden modificar</p>
+          </div>
+        </div>
+      ) : !isRoundPredictable ? (
+        <div className="flex items-center gap-2 rounded-xl bg-fifa-purple/10 px-4 py-3 ring-1 ring-white/5">
+          <span className="text-lg">🔒</span>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Partidos por definir</p>
+            <p className="text-xs text-fifa-dark-gray">Se habilitará cuando se definan los cruces</p>
+          </div>
+        </div>
+      ) : locks[activeTab]?.locksAt ? (
+        <LockCountdown locksAt={locks[activeTab].locksAt} />
+      ) : null}
 
       {/* Match rows grouped in pairs */}
       <div className={cn(
@@ -156,9 +196,10 @@ export function KnockoutPlanillaView() {
                         key={match.id}
                         match={match}
                         featured={match.id === "F"}
+                        roundLocked={effectiveLocked}
                         comodinMatchId={comodinMatchId}
                         comodinImage={comodin.image}
-                        placementMode={placementMode}
+                        placementMode={effectiveLocked ? false : placementMode}
                         onComodinDrop={handleComodinDrop}
                         onComodinRemove={handleComodinRemove}
                         onComodinDragStart={handleComodinDragStart}
@@ -173,12 +214,14 @@ export function KnockoutPlanillaView() {
         ))}
       </div>
 
-      <KnockoutComodinDock
-        isPlaced={comodinMatchId !== null}
-        isPlacementMode={placementMode}
-        onTogglePlacementMode={handleTogglePlacementMode}
-        image={comodin.image}
-      />
+      {!effectiveLocked && (
+        <KnockoutComodinDock
+          isPlaced={comodinMatchId !== null}
+          isPlacementMode={placementMode}
+          onTogglePlacementMode={handleTogglePlacementMode}
+          image={comodin.image}
+        />
+      )}
 
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
