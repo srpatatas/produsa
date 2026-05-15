@@ -17,13 +17,24 @@ interface KnockoutPlanillaMatchRowProps {
   comodinMatchId: string | null;
   comodinImage?: string;
   placementMode: boolean;
+  comodinDragging?: boolean;
+  comodinAllowed?: boolean;
+  hasComodinRestrictions?: boolean;
   onComodinDrop: (matchId: string) => void;
+  onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
   onComodinDragEnd: () => void;
 }
 
 const outcomes: ("L" | "V")[] = ["L", "V"];
+
+const rejectMessages = [
+  "¡Ese partido es muy fácil, elegí otro!",
+  "¡No seas vivo! Buscá un partido más difícil",
+  "¡Ahí no vale! Probá con otro partido",
+  "¡Muy cantado ese resultado! Elegí otro",
+];
 
 export function KnockoutPlanillaMatchRow({
   match,
@@ -32,7 +43,11 @@ export function KnockoutPlanillaMatchRow({
   comodinMatchId,
   comodinImage = "/images/comodino.JPG",
   placementMode,
+  comodinDragging,
+  comodinAllowed,
+  hasComodinRestrictions,
   onComodinDrop,
+  onComodinReject,
   onComodinRemove,
   onComodinDragStart,
   onComodinDragEnd,
@@ -59,6 +74,8 @@ export function KnockoutPlanillaMatchRow({
   const hasComodin = comodinMatchId === match.id;
   const disabled = locked || !predictable;
 
+  const canReceiveComodin = !hasComodinRestrictions || (comodinAllowed ?? false);
+
   const [saving, setSaving] = useState(false);
 
   const handleClick = async (btn: "L" | "V") => {
@@ -70,6 +87,13 @@ export function KnockoutPlanillaMatchRow({
       await setPrediction(match.id, btn as PlanillaOutcome);
     }
     setSaving(false);
+  };
+
+  const rejectComodin = () => {
+    if (onComodinReject) {
+      const msg = rejectMessages[Math.floor(Math.random() * rejectMessages.length)];
+      onComodinReject(msg);
+    }
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -85,12 +109,22 @@ export function KnockoutPlanillaMatchRow({
     e.preventDefault();
     setDragOver(false);
     if (disabled) return;
-    if (e.dataTransfer.getData("text/plain") === "comodin") onComodinDrop(match.id);
+    if (e.dataTransfer.getData("text/plain") === "comodin") {
+      if (canReceiveComodin) {
+        onComodinDrop(match.id);
+      } else {
+        rejectComodin();
+      }
+    }
   };
 
   const handleRowClick = () => {
     if (!placementMode || disabled) return;
-    onComodinDrop(match.id);
+    if (canReceiveComodin) {
+      onComodinDrop(match.id);
+    } else {
+      rejectComodin();
+    }
   };
 
   return (
@@ -106,9 +140,13 @@ export function KnockoutPlanillaMatchRow({
         hasComodin
           ? "ring-fifa-gold/50 bg-fifa-gold/5"
           : dragOver
-            ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
-            : placementMode && !disabled
-              ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
+            ? canReceiveComodin
+              ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
+              : "ring-fifa-red/40 bg-fifa-red/5 scale-[1.01]"
+            : (placementMode || comodinDragging) && !disabled
+              ? canReceiveComodin
+                ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
+                : "ring-white/5 cursor-not-allowed opacity-60 hover:ring-fifa-red/30 hover:bg-fifa-red/5"
               : "ring-white/5",
       )}
     >

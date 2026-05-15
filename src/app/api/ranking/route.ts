@@ -15,11 +15,13 @@ export async function GET() {
 
   const sql = getDb();
 
-  const [resultsRows, users, predictions, comodines] = await Promise.all([
+  const [resultsRows, users, predictions, comodines, exactScoreRows, matchSettingsRows] = await Promise.all([
     sql`SELECT match_id, home_score, away_score FROM match_results`,
     sql`SELECT id, name, avatar FROM users WHERE pin != 'PENDING' ORDER BY name`,
     sql`SELECT user_id, match_id, outcome FROM planilla_predictions`,
     sql`SELECT user_id, scope, match_id FROM planilla_comodines`,
+    sql`SELECT user_id, match_id, home_score, away_score FROM exact_score_predictions`,
+    sql`SELECT match_id FROM match_settings WHERE exact_score = true`,
   ]);
 
   const matchResults: Record<string, MatchResult> = {};
@@ -47,16 +49,32 @@ export async function GET() {
     comodinByUser[uid][c.scope as string] = c.match_id as string;
   }
 
+  // Build exact score predictions per user
+  const exactByUser: Record<number, Record<string, { homeScore: number; awayScore: number }>> = {};
+  for (const e of exactScoreRows) {
+    const uid = e.user_id as number;
+    if (!exactByUser[uid]) exactByUser[uid] = {};
+    exactByUser[uid][e.match_id as string] = {
+      homeScore: e.home_score as number,
+      awayScore: e.away_score as number,
+    };
+  }
+
+  // Set of matches with exact score enabled
+  const exactScoreMatches = new Set(matchSettingsRows.map((r) => r.match_id as string));
+
   // Compute points per user
   const ranking = users.map((user) => {
     const uid = user.id as number;
     const userPreds = predByUser[uid] ?? {};
     const userComodines = comodinByUser[uid] ?? {};
+    const userExact = exactByUser[uid] ?? {};
 
     let points = 0;
     let correct = 0;
     let wrong = 0;
     let comodinPoints = 0;
+    let exactScorePoints = 0;
 
     for (const [matchId, result] of Object.entries(matchResults)) {
       const actual = getActualOutcome(result.homeScore, result.awayScore);
@@ -82,6 +100,15 @@ export async function GET() {
       } else {
         wrong++;
       }
+
+      // Exact score bonus (+2)
+      if (exactScoreMatches.has(matchId) && userExact[matchId]) {
+        const ex = userExact[matchId];
+        if (ex.homeScore === result.homeScore && ex.awayScore === result.awayScore) {
+          points += 2;
+          exactScorePoints += 2;
+        }
+      }
     }
 
     return {
@@ -94,6 +121,7 @@ export async function GET() {
       correct,
       wrong,
       comodinPoints,
+      exactScorePoints,
     };
   });
 

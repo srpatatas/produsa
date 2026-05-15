@@ -4,6 +4,14 @@ import { Group, GroupId } from "@/types";
 import { getMatchesForGroup } from "@/data/matches";
 import { PlanillaMatchRow } from "./PlanillaMatchRow";
 
+interface MatchSettingsMap {
+  [matchId: string]: { comodinAllowed: boolean; exactScore: boolean };
+}
+
+interface ExactScoresMap {
+  [matchId: string]: { homeScore: number; awayScore: number };
+}
+
 interface GroupPairCardProps {
   groupA: Group;
   groupB: Group;
@@ -13,7 +21,12 @@ interface GroupPairCardProps {
   comodinMatchId: string | null;
   comodinImage?: string;
   placementMode: boolean;
+  comodinDragging?: boolean;
+  matchSettings?: MatchSettingsMap;
+  exactScores?: ExactScoresMap;
+  onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
+  onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
   onComodinDragEnd: () => void;
@@ -43,7 +56,12 @@ function GroupSection({
   comodinMatchId,
   comodinImage,
   placementMode,
+  comodinDragging,
+  matchSettings,
+  exactScores,
+  onExactScoreChange,
   onComodinDrop,
+  onComodinReject,
   onComodinRemove,
   onComodinDragStart,
   onComodinDragEnd,
@@ -56,7 +74,12 @@ function GroupSection({
   comodinMatchId: string | null;
   comodinImage?: string;
   placementMode: boolean;
+  comodinDragging?: boolean;
+  matchSettings?: MatchSettingsMap;
+  exactScores?: ExactScoresMap;
+  onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
+  onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
   onComodinDragEnd: () => void;
@@ -83,7 +106,14 @@ function GroupSection({
             comodinMatchId={comodinMatchId}
             comodinImage={comodinImage}
             placementMode={placementMode}
+            comodinDragging={comodinDragging}
+            comodinAllowed={matchSettings?.[match.id]?.comodinAllowed}
+            hasComodinRestrictions={!!matchSettings && Object.values(matchSettings).some((s) => s.comodinAllowed)}
+            exactScoreEnabled={matchSettings?.[match.id]?.exactScore}
+            exactScore={exactScores?.[match.id]}
+            onExactScoreChange={onExactScoreChange}
             onComodinDrop={onComodinDrop}
+            onComodinReject={onComodinReject}
             onComodinRemove={onComodinRemove}
             onComodinDragStart={onComodinDragStart}
             onComodinDragEnd={onComodinDragEnd}
@@ -104,7 +134,12 @@ export function GroupPairCard({
   comodinMatchId,
   comodinImage,
   placementMode,
+  comodinDragging,
+  matchSettings,
+  exactScores,
+  onExactScoreChange,
   onComodinDrop,
+  onComodinReject,
   onComodinRemove,
   onComodinDragStart,
   onComodinDragEnd,
@@ -120,7 +155,12 @@ export function GroupPairCard({
         comodinMatchId={comodinMatchId}
         comodinImage={comodinImage}
         placementMode={placementMode}
+        comodinDragging={comodinDragging}
+        matchSettings={matchSettings}
+        exactScores={exactScores}
+        onExactScoreChange={onExactScoreChange}
         onComodinDrop={onComodinDrop}
+        onComodinReject={onComodinReject}
         onComodinRemove={onComodinRemove}
         onComodinDragStart={onComodinDragStart}
         onComodinDragEnd={onComodinDragEnd}
@@ -134,7 +174,12 @@ export function GroupPairCard({
         comodinMatchId={comodinMatchId}
         comodinImage={comodinImage}
         placementMode={placementMode}
+        comodinDragging={comodinDragging}
+        matchSettings={matchSettings}
+        exactScores={exactScores}
+        onExactScoreChange={onExactScoreChange}
         onComodinDrop={onComodinDrop}
+        onComodinReject={onComodinReject}
         onComodinRemove={onComodinRemove}
         onComodinDragStart={onComodinDragStart}
         onComodinDragEnd={onComodinDragEnd}

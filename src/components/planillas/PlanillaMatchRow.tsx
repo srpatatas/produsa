@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Match, PlanillaOutcome } from "@/types";
 import { getTeam } from "@/data/teams";
@@ -9,6 +9,10 @@ import { FlagImage } from "@/components/teams/FlagImage";
 import { formatMatchDate, formatMatchTime, cn } from "@/lib/utils";
 import { usePlanilla } from "@/context/PlanillaContext";
 
+interface ExactScoresMap {
+  [matchId: string]: { homeScore: number; awayScore: number };
+}
+
 interface PlanillaMatchRowProps {
   match: Match;
   fechaLocked?: boolean;
@@ -16,7 +20,14 @@ interface PlanillaMatchRowProps {
   comodinMatchId: string | null;
   comodinImage?: string;
   placementMode: boolean;
+  comodinDragging?: boolean;
+  comodinAllowed?: boolean;
+  hasComodinRestrictions?: boolean;
+  exactScoreEnabled?: boolean;
+  exactScore?: { homeScore: number; awayScore: number };
+  onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
+  onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
   onComodinDragEnd: () => void;
@@ -56,12 +67,19 @@ export function PlanillaMatchRow({
   doubleMatchId,
   comodinMatchId,
   onComodinDrop,
+  onComodinReject,
   onComodinRemove,
   onComodinDragStart,
   onComodinDragEnd,
   onDoubleAttemptOnComodin,
   placementMode,
+  comodinDragging,
   comodinImage = "/images/comodino.JPG",
+  comodinAllowed,
+  hasComodinRestrictions,
+  exactScoreEnabled,
+  exactScore,
+  onExactScoreChange,
 }: PlanillaMatchRowProps) {
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
@@ -86,6 +104,9 @@ export function PlanillaMatchRow({
   const hasComodin = comodinMatchId === match.id;
   const canUseDouble = (doubleMatchId === null || doubleMatchId === match.id) && !hasComodin;
 
+  // Comodín restrictions: if admin set any, only allow on marked matches
+  const canReceiveComodin = !hasComodinRestrictions || (comodinAllowed ?? false);
+
   const [saving, setSaving] = useState(false);
 
   const handleClick = async (btn: "L" | "E" | "V") => {
@@ -104,6 +125,20 @@ export function PlanillaMatchRow({
     setSaving(false);
   };
 
+  const rejectMessages = [
+    "¡Ese partido es muy fácil, elegí otro!",
+    "¡No seas vivo! Buscá un partido más difícil",
+    "¡Ahí no vale! Probá con otro partido",
+    "¡Muy cantado ese resultado! Elegí otro",
+  ];
+
+  const rejectComodin = () => {
+    if (onComodinReject) {
+      const msg = rejectMessages[Math.floor(Math.random() * rejectMessages.length)];
+      onComodinReject(msg);
+    }
+  };
+
   const handleDragOver = (e: React.DragEvent) => {
     if (locked) return;
     e.preventDefault();
@@ -118,13 +153,88 @@ export function PlanillaMatchRow({
     setDragOver(false);
     if (locked) return;
     if (e.dataTransfer.getData("text/plain") === "comodin") {
-      onComodinDrop(match.id);
+      if (canReceiveComodin) {
+        onComodinDrop(match.id);
+      } else {
+        rejectComodin();
+      }
     }
   };
 
   const handleRowClick = () => {
     if (!placementMode || locked) return;
-    onComodinDrop(match.id);
+    if (canReceiveComodin) {
+      onComodinDrop(match.id);
+    } else {
+      rejectComodin();
+    }
+  };
+
+  // Exact score handlers
+  const [exactHome, setExactHome] = useState(exactScore?.homeScore?.toString() ?? "");
+  const [exactAway, setExactAway] = useState(exactScore?.awayScore?.toString() ?? "");
+  const [exactSaving, setExactSaving] = useState(false);
+
+  useEffect(() => {
+    setExactHome(exactScore?.homeScore?.toString() ?? "");
+    setExactAway(exactScore?.awayScore?.toString() ?? "");
+  }, [exactScore]);
+
+  // Clear exact score inputs when L/E/V changes and they no longer match
+  const prevOutcome = useRef(currentOutcome);
+  useEffect(() => {
+    if (prevOutcome.current !== currentOutcome && exactHome !== "" && exactAway !== "") {
+      const h = parseInt(exactHome, 10);
+      const a = parseInt(exactAway, 10);
+      if (!isNaN(h) && !isNaN(a)) {
+        const implied = h > a ? "L" : h < a ? "V" : "E";
+        if (currentOutcome && !currentOutcome.includes(implied)) {
+          setExactHome("");
+          setExactAway("");
+          if (onExactScoreChange) {
+            onExactScoreChange((prev) => {
+              const next = { ...prev };
+              delete next[match.id];
+              return next;
+            });
+          }
+          fetch("/api/exact-score", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ matchId: match.id }),
+          }).catch(() => {});
+        }
+      }
+    }
+    prevOutcome.current = currentOutcome;
+  }, [currentOutcome, exactHome, exactAway, match.id, onExactScoreChange]);
+
+  // Check if entered exact score is consistent with L/E/V prediction
+  const parsedHome = parseInt(exactHome, 10);
+  const parsedAway = parseInt(exactAway, 10);
+  const exactScoreOutcome = exactHome !== "" && exactAway !== "" && !isNaN(parsedHome) && !isNaN(parsedAway)
+    ? (parsedHome > parsedAway ? "L" : parsedHome < parsedAway ? "V" : "E")
+    : null;
+  const exactScoreMismatch = !!(exactScoreOutcome && currentOutcome && !currentOutcome.includes(exactScoreOutcome));
+
+  const handleExactScoreSave = async () => {
+    const h = parseInt(exactHome, 10);
+    const a = parseInt(exactAway, 10);
+    if (isNaN(h) || isNaN(a) || h < 0 || a < 0) return;
+    if (exactScoreMismatch) return;
+    if (!currentOutcome) return;
+    setExactSaving(true);
+    try {
+      const res = await fetch("/api/exact-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId: match.id, homeScore: h, awayScore: a }),
+      });
+      if (res.ok && onExactScoreChange) {
+        onExactScoreChange((prev) => ({ ...prev, [match.id]: { homeScore: h, awayScore: a } }));
+      }
+    } catch {}
+    setExactSaving(false);
   };
 
   return (
@@ -135,13 +245,18 @@ export function PlanillaMatchRow({
       onClick={handleRowClick}
       className={cn(
         "relative flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
+        exactScoreEnabled && "mb-10",
         locked && "opacity-50",
         hasComodin
           ? "ring-fifa-gold/50 bg-fifa-gold/5"
           : dragOver
-            ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
-            : placementMode && !locked
-              ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
+            ? canReceiveComodin
+              ? "ring-fifa-gold/40 bg-fifa-gold/10 scale-[1.02]"
+              : "ring-fifa-red/40 bg-fifa-red/5 scale-[1.01]"
+            : (placementMode || comodinDragging) && !locked
+              ? canReceiveComodin
+                ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
+                : "ring-white/5 cursor-not-allowed opacity-60 hover:ring-fifa-red/30 hover:bg-fifa-red/5"
               : isDouble
                 ? "ring-fifa-purple/30 ring-white/5"
                 : "ring-white/5",
@@ -225,6 +340,51 @@ export function PlanillaMatchRow({
           {dateStr && timeStr ? `${dateStr}` : ""}
         </span>
       </div>
+
+      {exactScoreEnabled && (
+        <div className={cn(
+          "absolute -left-0.5 -right-0.5 -bottom-9 flex items-center justify-center gap-1.5 rounded-b-xl px-2 py-1.5 ring-1",
+          exactScoreMismatch ? "bg-fifa-red/10 ring-fifa-red/20" : "bg-fifa-gold/10 ring-fifa-gold/20",
+        )}>
+          <span className={cn("text-[9px] font-bold uppercase tracking-wider", exactScoreMismatch ? "text-fifa-red" : "text-fifa-gold")}>
+            {exactScoreMismatch ? "No coincide" : "Exacto"}
+          </span>
+          {!currentOutcome && !locked ? (
+            <span className="text-[9px] text-fifa-dark-gray">Elegí L/E/V primero</span>
+          ) : (
+            <>
+              <input
+                type="number"
+                min={0}
+                max={20}
+                value={exactHome}
+                onChange={(e) => setExactHome(e.target.value)}
+                onBlur={handleExactScoreSave}
+                disabled={locked || exactSaving || !currentOutcome}
+                className={cn(
+                  "w-8 rounded bg-surface px-1 py-0.5 text-center text-xs text-foreground outline-none ring-1 focus:ring-fifa-gold/40",
+                  exactScoreMismatch ? "ring-fifa-red/30" : "ring-white/10",
+                )}
+              />
+              <span className={cn("text-[9px]", exactScoreMismatch ? "text-fifa-red" : "text-fifa-gold")}>:</span>
+              <input
+                type="number"
+                min={0}
+                max={20}
+                value={exactAway}
+                onChange={(e) => setExactAway(e.target.value)}
+                onBlur={handleExactScoreSave}
+                disabled={locked || exactSaving || !currentOutcome}
+                className={cn(
+                  "w-8 rounded bg-surface px-1 py-0.5 text-center text-xs text-foreground outline-none ring-1 focus:ring-fifa-gold/40",
+                  exactScoreMismatch ? "ring-fifa-red/30" : "ring-white/10",
+                )}
+              />
+              {exactScore && !exactScoreMismatch && <span className="text-[9px] text-fifa-gold/60">+2</span>}
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

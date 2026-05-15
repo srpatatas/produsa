@@ -7,7 +7,11 @@ import { cn } from "@/lib/utils";
 interface ComodinDockProps {
   isPlaced: boolean;
   isPlacementMode: boolean;
+  rejectMessage?: string | null;
+  suppressBubble?: boolean;
   onTogglePlacementMode: () => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
   image?: string;
 }
 
@@ -22,7 +26,7 @@ const phrases = [
   "Soy tu amigo, confía en mí.",
 ];
 
-export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode, image = "/images/comodino.JPG" }: ComodinDockProps) {
+export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppressBubble, onTogglePlacementMode, onDragStart: onDockDragStart, onDragEnd: onDockDragEnd, image = "/images/comodino.JPG" }: ComodinDockProps) {
   const [showBubble, setShowBubble] = useState(false);
   const [phrase, setPhrase] = useState(phrases[0]);
 
@@ -65,6 +69,10 @@ export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode, 
           onDragStart={(e) => {
             e.dataTransfer.setData("text/plain", "comodin");
             e.dataTransfer.effectAllowed = "move";
+            onDockDragStart?.();
+          }}
+          onDragEnd={() => {
+            onDockDragEnd?.();
           }}
           className={cn(
             "relative flex h-14 w-14 items-center justify-center rounded-full shadow-xl transition-all",
@@ -83,13 +91,13 @@ export function ComodinDock({ isPlaced, isPlacementMode, onTogglePlacementMode, 
 
         <div className={cn(
           "absolute bottom-full right-0 mb-3 w-52 rounded-xl px-3 py-2 text-[11px] font-medium shadow-lg transition-all duration-300 pointer-events-none",
-          "bg-fifa-gold text-black",
-          (showBubble || isPlacementMode) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1",
+          rejectMessage ? "bg-fifa-red text-white" : "bg-fifa-gold text-black",
+          (rejectMessage || (!suppressBubble && (showBubble || isPlacementMode))) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1",
         )}>
           <span className="italic">
-            {isPlacementMode ? "Dale, elegí un partido..." : phrase}
+            {rejectMessage ?? (isPlacementMode ? "Dale, elegí un partido..." : phrase)}
           </span>
-          <div className="absolute -bottom-1 right-5 h-2 w-2 rotate-45 bg-fifa-gold" />
+          <div className={cn("absolute -bottom-1 right-5 h-2 w-2 rotate-45", rejectMessage ? "bg-fifa-red" : "bg-fifa-gold")} />
         </div>
       </div>
     </div>
