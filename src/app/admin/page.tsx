@@ -64,7 +64,7 @@ interface MatchResultEntry {
 export default function AdminPage() {
   const user = useUser();
   const router = useRouter();
-  const [tab, setTab] = useState<"users" | "results">("users");
+  const [tab, setTab] = useState<"users" | "matches" | "results">("users");
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -143,6 +143,53 @@ export default function AdminPage() {
     if (res.ok) {
       const data = await res.json();
       setUserPreds(data);
+    }
+  };
+
+  // Match settings state
+  const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
+  const [matchSettingsLoaded, setMatchSettingsLoaded] = useState(false);
+  const [settingSaving, setSettingSaving] = useState<string | null>(null);
+
+  const loadMatchSettings = async () => {
+    const res = await fetch("/api/admin/match-settings");
+    if (res.ok) {
+      const data = await res.json();
+      setMatchSettings(data.settings);
+    }
+    setMatchSettingsLoaded(true);
+  };
+
+  useEffect(() => {
+    if (tab === "matches" && !matchSettingsLoaded) loadMatchSettings();
+  }, [tab, matchSettingsLoaded]);
+
+  const handleToggleSetting = async (matchId: string, field: "comodinAllowed" | "exactScore") => {
+    const current = matchSettings[matchId] ?? { comodinAllowed: false, exactScore: false };
+    const updated = { ...current, [field]: !current[field] };
+
+    setSettingSaving(matchId);
+    try {
+      const res = await fetch("/api/admin/match-settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId, comodinAllowed: updated.comodinAllowed, exactScore: updated.exactScore }),
+      });
+      if (res.ok) {
+        // If exactScore was toggled on, reload all to reflect the "one per fecha" constraint
+        if (field === "exactScore" && updated.exactScore) {
+          await loadMatchSettings();
+        } else {
+          setMatchSettings((prev) => ({ ...prev, [matchId]: updated }));
+        }
+        flashStatus("saved");
+      } else {
+        flashStatus("error");
+      }
+    } catch {
+      flashStatus("error");
+    } finally {
+      setSettingSaving(null);
     }
   };
 
@@ -252,28 +299,20 @@ export default function AdminPage() {
 
       {/* Admin tabs */}
       <div className="mb-6 flex rounded-full bg-surface p-1 ring-1 ring-white/5">
-        <button
-          onClick={() => setTab("users")}
-          className={cn(
-            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
-            tab === "users"
-              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
-              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10 cursor-pointer",
-          )}
-        >
-          Participantes
-        </button>
-        <button
-          onClick={() => setTab("results")}
-          className={cn(
-            "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
-            tab === "results"
-              ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
-              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10 cursor-pointer",
-          )}
-        >
-          Resultados
-        </button>
+        {(["users", "matches", "results"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={cn(
+              "flex-1 rounded-full px-4 py-2 font-display text-sm uppercase tracking-wider transition-all",
+              tab === t
+                ? "bg-fifa-purple text-white shadow-lg shadow-fifa-purple/20"
+                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10 cursor-pointer",
+            )}
+          >
+            {t === "users" ? "Participantes" : t === "matches" ? "Partidos" : "Resultados"}
+          </button>
+        ))}
       </div>
 
       {tab === "users" && (
@@ -507,6 +546,150 @@ export default function AdminPage() {
         </div>
       )}
       </>
+      )}
+
+      {tab === "matches" && (
+        <div>
+          <p className="mb-4 text-sm text-fifa-dark-gray">
+            Elegí qué partidos permiten comodín y cuál tiene resultado exacto (+2 pts) por fecha
+          </p>
+
+          {[1, 2, 3].map((fecha) => {
+            const fechaMatches = matches.filter((m) => m.matchday === fecha);
+            const comodinCount = fechaMatches.filter((m) => matchSettings[m.id]?.comodinAllowed).length;
+            const exactMatch = fechaMatches.find((m) => matchSettings[m.id]?.exactScore);
+
+            return (
+              <div key={fecha} className="mb-6">
+                <div className="mb-3 flex items-center gap-3">
+                  <h3 className="font-display text-lg uppercase tracking-wider text-foreground">
+                    Fecha {fecha}
+                  </h3>
+                  <span className="text-xs text-fifa-dark-gray">
+                    {comodinCount} con comodín
+                    {exactMatch ? ` · Exacto: ${getTeam(exactMatch.homeTeamId).shortName} vs ${getTeam(exactMatch.awayTeamId).shortName}` : " · Sin resultado exacto"}
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  {fechaMatches.map((m) => {
+                    const setting = matchSettings[m.id] ?? { comodinAllowed: false, exactScore: false };
+                    const isSaving = settingSaving === m.id;
+                    const home = getTeam(m.homeTeamId);
+                    const away = getTeam(m.awayTeamId);
+
+                    return (
+                      <div
+                        key={m.id}
+                        className={cn(
+                          "flex items-center gap-3 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
+                          setting.exactScore ? "ring-fifa-gold/30 bg-fifa-gold/[0.03]" : "ring-white/5",
+                          isSaving && "opacity-50",
+                        )}
+                      >
+                        <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                          <FlagImage code={home.flagCode} name={home.name} size="sm" />
+                          <span className="font-display text-xs tracking-wider">{home.shortName}</span>
+                          <span className="text-fifa-dark-gray/40 text-xs">vs</span>
+                          <span className="font-display text-xs tracking-wider">{away.shortName}</span>
+                          <FlagImage code={away.flagCode} name={away.name} size="sm" />
+                        </div>
+
+                        <label className="flex items-center gap-1.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={setting.comodinAllowed}
+                            onChange={() => handleToggleSetting(m.id, "comodinAllowed")}
+                            disabled={isSaving}
+                            className="h-4 w-4 rounded accent-fifa-teal"
+                          />
+                          <span className="text-[11px] text-fifa-dark-gray">Comodín</span>
+                        </label>
+
+                        <label className="flex items-center gap-1.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={setting.exactScore}
+                            onChange={() => handleToggleSetting(m.id, "exactScore")}
+                            disabled={isSaving}
+                            className="h-4 w-4 rounded accent-fifa-gold"
+                          />
+                          <span className="text-[11px] text-fifa-gold">Exacto</span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+
+          <h2 className="mt-8 mb-4 font-display text-lg uppercase tracking-wider text-fifa-purple">Eliminatorias</h2>
+
+          {knockoutRounds.map((round) => {
+            const koMatches = getKnockoutMatchesByRound(round.id);
+            const comodinCount = koMatches.filter((m) => matchSettings[m.id]?.comodinAllowed).length;
+            const exactMatch = koMatches.find((m) => matchSettings[m.id]?.exactScore);
+
+            return (
+              <div key={round.id} className="mb-6">
+                <div className="mb-3 flex items-center gap-3">
+                  <h3 className="font-display text-lg uppercase tracking-wider text-foreground">
+                    {round.label}
+                  </h3>
+                  <span className="text-xs text-fifa-dark-gray">
+                    {comodinCount} con comodín
+                    {exactMatch ? ` · Exacto: ${exactMatch.homeSlot.label} vs ${exactMatch.awaySlot.label}` : " · Sin resultado exacto"}
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  {koMatches.map((km) => {
+                    const setting = matchSettings[km.id] ?? { comodinAllowed: false, exactScore: false };
+                    const isSaving = settingSaving === km.id;
+
+                    return (
+                      <div
+                        key={km.id}
+                        className={cn(
+                          "flex items-center gap-3 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
+                          setting.exactScore ? "ring-fifa-gold/30 bg-fifa-gold/[0.03]" : "ring-white/5",
+                          isSaving && "opacity-50",
+                        )}
+                      >
+                        <span className="flex-1 text-sm text-foreground">
+                          {km.homeSlot.label} vs {km.awaySlot.label}
+                        </span>
+
+                        <label className="flex items-center gap-1.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={setting.comodinAllowed}
+                            onChange={() => handleToggleSetting(km.id, "comodinAllowed")}
+                            disabled={isSaving}
+                            className="h-4 w-4 rounded accent-fifa-teal"
+                          />
+                          <span className="text-[11px] text-fifa-dark-gray">Comodín</span>
+                        </label>
+
+                        <label className="flex items-center gap-1.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={setting.exactScore}
+                            onChange={() => handleToggleSetting(km.id, "exactScore")}
+                            disabled={isSaving}
+                            className="h-4 w-4 rounded accent-fifa-gold"
+                          />
+                          <span className="text-[11px] text-fifa-gold">Exacto</span>
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
 
       {tab === "results" && (

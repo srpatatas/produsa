@@ -104,6 +104,29 @@ async function main() {
   `;
   console.log("  ✓ lock_deadlines");
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS match_settings (
+      match_id VARCHAR(20) PRIMARY KEY,
+      comodin_allowed BOOLEAN DEFAULT false,
+      exact_score BOOLEAN DEFAULT false
+    )
+  `;
+  console.log("  ✓ match_settings");
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS exact_score_predictions (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      match_id VARCHAR(20) NOT NULL,
+      home_score INTEGER NOT NULL,
+      away_score INTEGER NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(user_id, match_id)
+    )
+  `;
+  console.log("  ✓ exact_score_predictions");
+
   // Seed lock deadlines from match data
   // Group stage: earliest kickoff per matchday
   // Knockout: earliest kickoff per round

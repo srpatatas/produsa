@@ -42,14 +42,20 @@ export function PlanillaView() {
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
   const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
+  const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
+  const [exactScores, setExactScores] = useState<Record<string, { homeScore: number; awayScore: number }>>({});
 
   useEffect(() => {
     Promise.all([
       fetch("/api/comodines").then((r) => r.ok ? r.json() : { comodines: {} }),
       fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
-    ]).then(([comodinData, lockData]) => {
+      fetch("/api/match-settings").then((r) => r.ok ? r.json() : { settings: {} }),
+      fetch("/api/exact-score").then((r) => r.ok ? r.json() : { predictions: {} }),
+    ]).then(([comodinData, lockData, settingsData, exactData]) => {
       setComodinByFecha(comodinData.comodines);
       setLocks(lockData.locks);
+      setMatchSettings(settingsData.settings);
+      setExactScores(exactData.predictions);
     }).catch(() => {});
   }, []);
 
@@ -66,6 +72,9 @@ export function PlanillaView() {
   const comodinScope = `fecha-${fecha}`;
   const comodinMatchId = comodinByFecha[comodinScope] ?? null;
 
+  // If admin has configured any comodin restrictions, only allow on marked matches
+  const hasComodinRestrictions = Object.values(matchSettings).some((s) => s.comodinAllowed);
+
   const handleComodinDrop = useCallback(async (matchId: string) => {
     const pred = predictions[matchId];
     if (pred && pred.outcome.length === 2) {
@@ -74,15 +83,25 @@ export function PlanillaView() {
       setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
     }
     dropSucceeded.current = true;
+    const scope = `fecha-${fecha}`;
+    setComodinByFecha((prev) => ({ ...prev, [scope]: matchId }));
+    setPlacementMode(false);
     try {
-      await fetch("/api/comodines", {
+      const res = await fetch("/api/comodines", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scope: `fecha-${fecha}`, matchId }),
+        body: JSON.stringify({ scope, matchId }),
       });
-      setComodinByFecha((prev) => ({ ...prev, [`fecha-${fecha}`]: matchId }));
-    } catch {}
-    setPlacementMode(false);
+      if (res.ok) {
+        setToast("✓ Comodín guardado");
+      } else {
+        setComodinByFecha((prev) => ({ ...prev, [scope]: null }));
+        setToast("✗ Error al guardar comodín");
+      }
+    } catch {
+      setComodinByFecha((prev) => ({ ...prev, [scope]: null }));
+      setToast("✗ Error al guardar comodín");
+    }
   }, [predictions, setPrediction, fecha]);
 
   const handleComodinRemove = useCallback(async () => {
@@ -108,6 +127,20 @@ export function PlanillaView() {
     setToast("Se removió el COMODÍN — no se puede combinar con DOBLE");
   }, [fecha]);
 
+  const [comodinReject, setComodinReject] = useState<string | null>(null);
+  const rejectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [suppressBubble, setSuppressBubble] = useState(false);
+
+  const handleComodinReject = useCallback((message: string) => {
+    if (rejectTimer.current) clearTimeout(rejectTimer.current);
+    setComodinReject(message);
+    setSuppressBubble(true);
+    rejectTimer.current = setTimeout(() => {
+      setComodinReject(null);
+      setTimeout(() => setSuppressBubble(false), 1000);
+    }, 3000);
+  }, []);
+
   const handleTogglePlacementMode = useCallback(() => {
     if (comodinMatchId) {
       handleComodinRemove();
@@ -117,11 +150,15 @@ export function PlanillaView() {
     }
   }, [comodinMatchId, handleComodinRemove]);
 
+  const [comodinDragging, setComodinDragging] = useState(false);
+
   const handleComodinDragStart = useCallback(() => {
     dropSucceeded.current = false;
+    setComodinDragging(true);
   }, []);
 
   const handleComodinDragEnd = useCallback(() => {
+    setComodinDragging(false);
     if (!dropSucceeded.current) handleComodinRemove();
   }, [handleComodinRemove]);
 
@@ -196,7 +233,12 @@ export function PlanillaView() {
                 comodinMatchId={comodinMatchId}
                 comodinImage={getComodinConfig(`fecha-${fecha}`).image}
                 placementMode={isFechaLocked ? false : placementMode}
+                comodinDragging={comodinDragging}
+                matchSettings={matchSettings}
+                exactScores={exactScores}
+                onExactScoreChange={setExactScores}
                 onComodinDrop={handleComodinDrop}
+                onComodinReject={handleComodinReject}
                 onComodinRemove={handleComodinRemove}
                 onComodinDragStart={handleComodinDragStart}
                 onComodinDragEnd={handleComodinDragEnd}
@@ -209,7 +251,11 @@ export function PlanillaView() {
             <ComodinDock
               isPlaced={comodinMatchId !== null}
               isPlacementMode={placementMode}
+              rejectMessage={comodinReject}
+              suppressBubble={suppressBubble}
               onTogglePlacementMode={handleTogglePlacementMode}
+              onDragStart={handleComodinDragStart}
+              onDragEnd={handleComodinDragEnd}
               image={getComodinConfig(`fecha-${fecha}`).image}
             />
           )}

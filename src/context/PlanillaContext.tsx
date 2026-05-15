@@ -44,13 +44,13 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
   const showSaved = useCallback(() => {
     setSaveStatus("saved");
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-    saveTimerRef.current = setTimeout(() => setSaveStatus("idle"), 1500);
+    saveTimerRef.current = setTimeout(() => setSaveStatus("idle"), 1000);
   }, []);
 
   const showError = useCallback(() => {
     setSaveStatus("error");
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-    saveTimerRef.current = setTimeout(() => setSaveStatus("idle"), 3000);
+    saveTimerRef.current = setTimeout(() => setSaveStatus("idle"), 2000);
   }, []);
 
   useEffect(() => {

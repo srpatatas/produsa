@@ -36,6 +36,16 @@ export async function POST(req: NextRequest) {
   }
 
   const sql = getDb();
+
+  // Check if match allows comodín (if any settings exist)
+  const allSettings = await sql`SELECT match_id FROM match_settings WHERE comodin_allowed = true`;
+  if (allSettings.length > 0) {
+    const allowed = allSettings.some((r) => r.match_id === matchId);
+    if (!allowed) {
+      return NextResponse.json({ error: "Este partido no permite comodín" }, { status: 400 });
+    }
+  }
+
   await sql`
     INSERT INTO planilla_comodines (user_id, scope, match_id)
     VALUES (${session.id}, ${scope}, ${matchId})

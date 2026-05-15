@@ -6,7 +6,7 @@ import { getKnockoutMatchesByRound, knockoutMatches as allKnockoutMatches } from
 import { getComodinConfig } from "@/data/comodinConfig";
 import { knockoutGroupings } from "@/data/knockoutGroupings";
 import { KnockoutPlanillaMatchRow } from "./KnockoutPlanillaMatchRow";
-import { KnockoutComodinDock } from "./KnockoutComodinDock";
+import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { LockCountdown } from "./LockCountdown";
@@ -31,14 +31,21 @@ export function KnockoutPlanillaView() {
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
   const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
+  const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
+  const [comodinDragging, setComodinDragging] = useState(false);
+  const [comodinReject, setComodinReject] = useState<string | null>(null);
+  const [suppressBubble, setSuppressBubble] = useState(false);
+  const rejectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     Promise.all([
       fetch("/api/comodines").then((r) => r.ok ? r.json() : { comodines: {} }),
       fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
-    ]).then(([comodinData, lockData]) => {
+      fetch("/api/match-settings").then((r) => r.ok ? r.json() : { settings: {} }),
+    ]).then(([comodinData, lockData, settingsData]) => {
       setComodinByRound(comodinData.comodines);
       setLocks(lockData.locks);
+      setMatchSettings(settingsData.settings);
     }).catch(() => {});
   }, []);
 
@@ -62,18 +69,28 @@ export function KnockoutPlanillaView() {
 
   const handleComodinDrop = useCallback(async (matchId: string) => {
     dropSucceeded.current = true;
+    setComodinByRound((prev) => ({ ...prev, [activeTab]: matchId }));
+    setPlacementMode(false);
     try {
-      await fetch("/api/comodines", {
+      const res = await fetch("/api/comodines", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ scope: activeTab, matchId }),
       });
-      setComodinByRound((prev) => ({ ...prev, [activeTab]: matchId }));
-    } catch {}
-    setPlacementMode(false);
+      if (res.ok) {
+        setToast("✓ Comodín guardado");
+      } else {
+        setComodinByRound((prev) => ({ ...prev, [activeTab]: null }));
+        setToast("✗ Error al guardar comodín");
+      }
+    } catch {
+      setComodinByRound((prev) => ({ ...prev, [activeTab]: null }));
+      setToast("✗ Error al guardar comodín");
+    }
   }, [activeTab]);
 
   const handleComodinRemove = useCallback(async () => {
+    setComodinByRound((prev) => ({ ...prev, [activeTab]: null }));
     try {
       await fetch("/api/comodines", {
         method: "DELETE",
@@ -81,8 +98,17 @@ export function KnockoutPlanillaView() {
         body: JSON.stringify({ scope: activeTab }),
       });
     } catch {}
-    setComodinByRound((prev) => ({ ...prev, [activeTab]: null }));
   }, [activeTab]);
+
+  const handleComodinReject = useCallback((message: string) => {
+    if (rejectTimer.current) clearTimeout(rejectTimer.current);
+    setComodinReject(message);
+    setSuppressBubble(true);
+    rejectTimer.current = setTimeout(() => {
+      setComodinReject(null);
+      setTimeout(() => setSuppressBubble(false), 1000);
+    }, 3000);
+  }, []);
 
   const handleTogglePlacementMode = useCallback(() => {
     if (comodinMatchId) {
@@ -95,9 +121,11 @@ export function KnockoutPlanillaView() {
 
   const handleComodinDragStart = useCallback(() => {
     dropSucceeded.current = false;
+    setComodinDragging(true);
   }, []);
 
   const handleComodinDragEnd = useCallback(() => {
+    setComodinDragging(false);
     if (!dropSucceeded.current) handleComodinRemove();
   }, [handleComodinRemove]);
 
@@ -200,7 +228,11 @@ export function KnockoutPlanillaView() {
                         comodinMatchId={comodinMatchId}
                         comodinImage={comodin.image}
                         placementMode={effectiveLocked ? false : placementMode}
+                        comodinDragging={comodinDragging}
+                        comodinAllowed={matchSettings[match.id]?.comodinAllowed}
+                        hasComodinRestrictions={Object.values(matchSettings).some((s) => s.comodinAllowed)}
                         onComodinDrop={handleComodinDrop}
+                        onComodinReject={handleComodinReject}
                         onComodinRemove={handleComodinRemove}
                         onComodinDragStart={handleComodinDragStart}
                         onComodinDragEnd={handleComodinDragEnd}
@@ -215,10 +247,14 @@ export function KnockoutPlanillaView() {
       </div>
 
       {!effectiveLocked && (
-        <KnockoutComodinDock
+        <ComodinDock
           isPlaced={comodinMatchId !== null}
           isPlacementMode={placementMode}
+          rejectMessage={comodinReject}
+          suppressBubble={suppressBubble}
           onTogglePlacementMode={handleTogglePlacementMode}
+          onDragStart={handleComodinDragStart}
+          onDragEnd={handleComodinDragEnd}
           image={comodin.image}
         />
       )}
