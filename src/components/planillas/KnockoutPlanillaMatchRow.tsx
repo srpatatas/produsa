@@ -13,6 +13,7 @@ import { usePlanilla } from "@/context/PlanillaContext";
 interface KnockoutPlanillaMatchRowProps {
   match: KnockoutMatch;
   featured?: boolean;
+  roundLocked?: boolean;
   comodinMatchId: string | null;
   comodinImage?: string;
   placementMode: boolean;
@@ -27,6 +28,7 @@ const outcomes: ("L" | "V")[] = ["L", "V"];
 export function KnockoutPlanillaMatchRow({
   match,
   featured = false,
+  roundLocked,
   comodinMatchId,
   comodinImage = "/images/comodino.JPG",
   placementMode,
@@ -43,15 +45,16 @@ export function KnockoutPlanillaMatchRow({
   const homeTeam = resolved.homeTeamId ? getTeam(resolved.homeTeamId) : null;
   const awayTeam = resolved.awayTeamId ? getTeam(resolved.awayTeamId) : null;
 
-  const [locked, setLocked] = useState(false);
+  const [matchLocked, setMatchLocked] = useState(false);
   const [dateStr, setDateStr] = useState("");
   const [dragOver, setDragOver] = useState(false);
 
   useEffect(() => {
-    setLocked(isKnockoutMatchLocked(match));
+    setMatchLocked(isKnockoutMatchLocked(match));
     setDateStr(formatMatchDate(match.kickoff));
   }, [match]);
 
+  const locked = matchLocked || (roundLocked ?? false);
   const currentOutcome = prediction?.outcome;
   const hasComodin = comodinMatchId === match.id;
   const disabled = locked || !predictable;

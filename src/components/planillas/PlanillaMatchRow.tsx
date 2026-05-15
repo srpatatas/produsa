@@ -11,6 +11,7 @@ import { usePlanilla } from "@/context/PlanillaContext";
 
 interface PlanillaMatchRowProps {
   match: Match;
+  fechaLocked?: boolean;
   doubleMatchId: string | null;
   comodinMatchId: string | null;
   comodinImage?: string;
@@ -51,6 +52,7 @@ function toggleOutcome(
 
 export function PlanillaMatchRow({
   match,
+  fechaLocked,
   doubleMatchId,
   comodinMatchId,
   onComodinDrop,
@@ -66,16 +68,18 @@ export function PlanillaMatchRow({
   const homeTeam = getTeam(match.homeTeamId);
   const awayTeam = getTeam(match.awayTeamId);
 
-  const [locked, setLocked] = useState(false);
+  const [matchLocked, setMatchLocked] = useState(false);
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("");
   const [dragOver, setDragOver] = useState(false);
 
   useEffect(() => {
-    setLocked(isMatchLocked(match));
+    setMatchLocked(isMatchLocked(match));
     setDateStr(formatMatchDate(match.kickoff));
     setTimeStr(formatMatchTime(match.kickoff));
   }, [match]);
+
+  const locked = matchLocked || (fechaLocked ?? false);
 
   const currentOutcome = prediction?.outcome;
   const isDouble = currentOutcome ? currentOutcome.length === 2 : false;
