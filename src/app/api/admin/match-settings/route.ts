@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
   };
 
   if (!matchId) return NextResponse.json({ error: "matchId requerido" }, { status: 400 });
+  if (comodinAllowed && exactScore) return NextResponse.json({ error: "Un partido no puede tener comodín y exacto" }, { status: 400 });
 
   const sql = getDb();
 
