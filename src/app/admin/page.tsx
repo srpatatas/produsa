@@ -560,7 +560,7 @@ export default function AdminPage() {
             const exactMatch = fechaMatches.find((m) => matchSettings[m.id]?.exactScore);
 
             return (
-              <div key={fecha} className="mb-6">
+              <div key={fecha} className="mb-8">
                 <div className="mb-3 flex items-center gap-3">
                   <h3 className="font-display text-lg uppercase tracking-wider text-foreground">
                     Fecha {fecha}
@@ -571,51 +571,68 @@ export default function AdminPage() {
                   </span>
                 </div>
 
-                <div className="space-y-1.5">
-                  {fechaMatches.map((m) => {
-                    const setting = matchSettings[m.id] ?? { comodinAllowed: false, exactScore: false };
-                    const isSaving = settingSaving === m.id;
-                    const home = getTeam(m.homeTeamId);
-                    const away = getTeam(m.awayTeamId);
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map((groupId) => {
+                    const groupMatches = fechaMatches.filter((m) => m.groupId === groupId);
+                    if (groupMatches.length === 0) return null;
 
                     return (
-                      <div
-                        key={m.id}
-                        className={cn(
-                          "flex items-center gap-3 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
-                          setting.exactScore ? "ring-fifa-gold/30 bg-fifa-gold/[0.03]" : "ring-white/5",
-                          isSaving && "opacity-50",
-                        )}
-                      >
-                        <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                          <FlagImage code={home.flagCode} name={home.name} size="sm" />
-                          <span className="font-display text-xs tracking-wider">{home.shortName}</span>
-                          <span className="text-fifa-dark-gray/40 text-xs">vs</span>
-                          <span className="font-display text-xs tracking-wider">{away.shortName}</span>
-                          <FlagImage code={away.flagCode} name={away.name} size="sm" />
+                      <div key={groupId}>
+                        <div className="mb-1.5 flex items-center gap-2">
+                          <div className={`h-1 w-6 rounded-full bg-gradient-to-r ${groupAccents[groupId] || ""}`} />
+                          <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
+                            GRUPO {groupId}
+                          </span>
                         </div>
+                        <div className="space-y-1">
+                          {groupMatches.map((m) => {
+                            const setting = matchSettings[m.id] ?? { comodinAllowed: false, exactScore: false };
+                            const isSaving = settingSaving === m.id;
+                            const home = getTeam(m.homeTeamId);
+                            const away = getTeam(m.awayTeamId);
 
-                        <label className="flex items-center gap-1.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={setting.comodinAllowed}
-                            onChange={() => handleToggleSetting(m.id, "comodinAllowed")}
-                            disabled={isSaving}
-                            className="h-4 w-4 rounded accent-fifa-teal"
-                          />
-                          <span className="text-[11px] text-fifa-dark-gray">Comodín</span>
-                        </label>
+                            return (
+                              <div
+                                key={m.id}
+                                className={cn(
+                                  "flex items-center gap-2 rounded-xl bg-card-bg px-2.5 py-2 ring-1 transition-all",
+                                  setting.exactScore ? "ring-fifa-gold/30 bg-fifa-gold/[0.03]" : "ring-white/5",
+                                  isSaving && "opacity-50",
+                                )}
+                              >
+                                <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                                  <FlagImage code={home.flagCode} name={home.name} size="sm" />
+                                  <span className="font-display text-xs tracking-wider">{home.shortName}</span>
+                                  <span className="text-fifa-dark-gray/40 text-[10px]">vs</span>
+                                  <span className="font-display text-xs tracking-wider">{away.shortName}</span>
+                                  <FlagImage code={away.flagCode} name={away.name} size="sm" />
+                                </div>
 
-                        <label className="flex items-center gap-1.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={setting.exactScore}
-                            onChange={() => handleToggleSetting(m.id, "exactScore")}
-                            disabled={isSaving}
-                            className="h-4 w-4 rounded accent-fifa-gold"
-                          />
-                          <span className="text-[11px] text-fifa-gold">Exacto</span>
-                        </label>
+                                <label className="flex items-center gap-1 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    checked={setting.comodinAllowed}
+                                    onChange={() => handleToggleSetting(m.id, "comodinAllowed")}
+                                    disabled={isSaving}
+                                    className="h-3.5 w-3.5 rounded accent-fifa-teal"
+                                  />
+                                  <span className="text-[10px] text-fifa-dark-gray">Comodín</span>
+                                </label>
+
+                                <label className="flex items-center gap-1 cursor-pointer">
+                                  <input
+                                    type="checkbox"
+                                    checked={setting.exactScore}
+                                    onChange={() => handleToggleSetting(m.id, "exactScore")}
+                                    disabled={isSaving}
+                                    className="h-3.5 w-3.5 rounded accent-fifa-gold"
+                                  />
+                                  <span className="text-[10px] text-fifa-gold">Exacto</span>
+                                </label>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     );
                   })}
@@ -626,24 +643,25 @@ export default function AdminPage() {
 
           <h2 className="mt-8 mb-4 font-display text-lg uppercase tracking-wider text-fifa-purple">Eliminatorias</h2>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {knockoutRounds.map((round) => {
             const koMatches = getKnockoutMatchesByRound(round.id);
             const comodinCount = koMatches.filter((m) => matchSettings[m.id]?.comodinAllowed).length;
             const exactMatch = koMatches.find((m) => matchSettings[m.id]?.exactScore);
 
             return (
-              <div key={round.id} className="mb-6">
-                <div className="mb-3 flex items-center gap-3">
-                  <h3 className="font-display text-lg uppercase tracking-wider text-foreground">
+              <div key={round.id}>
+                <div className="mb-1.5 flex items-center gap-2">
+                  <div className="h-1 w-6 rounded-full bg-gradient-to-r from-fifa-purple to-fifa-teal" />
+                  <span className="font-display text-sm tracking-wider text-fifa-dark-gray">
                     {round.label}
-                  </h3>
-                  <span className="text-xs text-fifa-dark-gray">
-                    {comodinCount} con comodín
-                    {exactMatch ? ` · Exacto: ${exactMatch.homeSlot.label} vs ${exactMatch.awaySlot.label}` : " · Sin resultado exacto"}
+                  </span>
+                  <span className="text-[10px] text-fifa-dark-gray/50">
+                    {comodinCount} comodín{exactMatch ? " · 1 exacto" : ""}
                   </span>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {koMatches.map((km) => {
                     const setting = matchSettings[km.id] ?? { comodinAllowed: false, exactScore: false };
                     const isSaving = settingSaving === km.id;
@@ -652,35 +670,35 @@ export default function AdminPage() {
                       <div
                         key={km.id}
                         className={cn(
-                          "flex items-center gap-3 rounded-xl bg-card-bg px-3 py-2.5 ring-1 transition-all",
+                          "flex items-center gap-2 rounded-xl bg-card-bg px-2.5 py-2 ring-1 transition-all text-xs",
                           setting.exactScore ? "ring-fifa-gold/30 bg-fifa-gold/[0.03]" : "ring-white/5",
                           isSaving && "opacity-50",
                         )}
                       >
-                        <span className="flex-1 text-sm text-foreground">
+                        <span className="flex-1 text-foreground truncate">
                           {km.homeSlot.label} vs {km.awaySlot.label}
                         </span>
 
-                        <label className="flex items-center gap-1.5 cursor-pointer">
+                        <label className="flex items-center gap-1 cursor-pointer">
                           <input
                             type="checkbox"
                             checked={setting.comodinAllowed}
                             onChange={() => handleToggleSetting(km.id, "comodinAllowed")}
                             disabled={isSaving}
-                            className="h-4 w-4 rounded accent-fifa-teal"
+                            className="h-3.5 w-3.5 rounded accent-fifa-teal"
                           />
-                          <span className="text-[11px] text-fifa-dark-gray">Comodín</span>
+                          <span className="text-[10px] text-fifa-dark-gray">Comodín</span>
                         </label>
 
-                        <label className="flex items-center gap-1.5 cursor-pointer">
+                        <label className="flex items-center gap-1 cursor-pointer">
                           <input
                             type="checkbox"
                             checked={setting.exactScore}
                             onChange={() => handleToggleSetting(km.id, "exactScore")}
                             disabled={isSaving}
-                            className="h-4 w-4 rounded accent-fifa-gold"
+                            className="h-3.5 w-3.5 rounded accent-fifa-gold"
                           />
-                          <span className="text-[11px] text-fifa-gold">Exacto</span>
+                          <span className="text-[10px] text-fifa-gold">Exacto</span>
                         </label>
                       </div>
                     );
@@ -689,6 +707,7 @@ export default function AdminPage() {
               </div>
             );
           })}
+          </div>
         </div>
       )}
 
