@@ -2,6 +2,7 @@
 
 import { LiveScore } from "@/types";
 import { useUser } from "@/context/UserContext";
+import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
 
 export interface LivePlayerPrediction {
@@ -90,9 +91,7 @@ export function PlayerPredictionsList({
                 isCurrentUser && isCorrect === null && "ring-2 ring-fifa-blue/20",
               )}
             >
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-surface text-xl">
-                {pred.user.avatar}
-              </div>
+              <AvatarDisplay avatar={pred.user.avatar} size="md" />
 
               <div className="flex flex-1 flex-col">
                 <span className="text-sm font-semibold text-foreground">

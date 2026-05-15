@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useUser } from "@/context/UserContext";
+import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
 
 interface RankingEntry {
@@ -73,9 +74,7 @@ export default function RankingPage() {
                   )}
                 </div>
 
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-surface text-xl">
-                  {entry.user.avatar}
-                </div>
+                <AvatarDisplay avatar={entry.user.avatar} size="lg" />
 
                 <div className="flex flex-1 flex-col">
                   <span className="text-sm font-semibold text-foreground">
