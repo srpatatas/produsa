@@ -168,6 +168,10 @@ export default function AdminPage() {
     const current = matchSettings[matchId] ?? { comodinAllowed: false, exactScore: false };
     const updated = { ...current, [field]: !current[field] };
 
+    // Exact and comodín can't be on the same match
+    if (field === "exactScore" && updated.exactScore) updated.comodinAllowed = false;
+    if (field === "comodinAllowed" && updated.comodinAllowed) updated.exactScore = false;
+
     setSettingSaving(matchId);
     try {
       const res = await fetch("/api/admin/match-settings", {
