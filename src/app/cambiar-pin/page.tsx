@@ -25,6 +25,7 @@ export default function MiCuentaPage() {
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [toast, setToast] = useState<"uploading" | "saved" | "error" | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [currentPin, setCurrentPin] = useState("");
@@ -46,6 +47,7 @@ export default function MiCuentaPage() {
 
     setUploading(true);
     setError("");
+    setToast("uploading");
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -54,13 +56,18 @@ export default function MiCuentaPage() {
         const data = await res.json();
         setSelectedAvatar(data.url);
         setProfileSaved(true);
-        setTimeout(() => window.location.href = "/cambiar-pin", 1000);
+        setToast("saved");
+        setTimeout(() => window.location.href = "/cambiar-pin", 1500);
       } else {
         const data = await res.json();
         setError(data.error || "Error al subir");
+        setToast("error");
+        setTimeout(() => setToast(null), 3000);
       }
     } catch {
       setError("Error de conexión");
+      setToast("error");
+      setTimeout(() => setToast(null), 3000);
     } finally {
       setUploading(false);
     }
@@ -185,6 +192,27 @@ export default function MiCuentaPage() {
 
           {showEmojiPicker && (
             <div className="rounded-xl bg-card-bg p-4 ring-1 ring-white/5 space-y-3">
+              <label className={cn(
+                "flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all",
+                uploading
+                  ? "bg-fifa-teal/5 text-fifa-dark-gray"
+                  : "bg-fifa-teal/10 text-fifa-teal hover:bg-fifa-teal/20 cursor-pointer",
+              )}>
+                📷 Subí tu foto
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  className="hidden"
+                />
+              </label>
+              <div className="border-b border-white/5 pb-1">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
+                  O elegí un emoji
+                </span>
+              </div>
               {emojiCategories.map((cat) => (
                 <div key={cat.label}>
                   <span className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
@@ -209,19 +237,6 @@ export default function MiCuentaPage() {
                   </div>
                 </div>
               ))}
-              <div className="border-t border-white/5 pt-3">
-                <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-fifa-teal/10 px-4 py-2.5 text-sm font-medium text-fifa-teal transition-all hover:bg-fifa-teal/20">
-                  📷 Subí tu foto
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  {uploading && <span className="text-xs">Subiendo...</span>}
-                </label>
-              </div>
             </div>
           )}
 
@@ -296,6 +311,21 @@ export default function MiCuentaPage() {
           </form>
         )}
       </div>
+
+      {toast && (
+        <div className="fixed bottom-28 left-1/2 z-[90] -translate-x-1/2 md:bottom-8">
+          <div className={cn(
+            "rounded-xl px-4 py-2 text-xs font-medium shadow-xl",
+            toast === "uploading" && "bg-fifa-blue/90 text-white",
+            toast === "saved" && "bg-fifa-green/90 text-white",
+            toast === "error" && "bg-fifa-red/90 text-white",
+          )}>
+            {toast === "uploading" && "Subiendo foto..."}
+            {toast === "saved" && "✓ Foto actualizada"}
+            {toast === "error" && "✗ Error al subir foto"}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
