@@ -18,9 +18,7 @@ const teamOptions = Object.values(teams)
   .map((t) => ({ value: t.id, label: t.name }))
   .sort((a, b) => a.label.localeCompare(b.label));
 
-const participantOptions = [
-  "Fede", "Nico", "Mati", "Sofi", "Juanchi", "Caro", "Tincho", "Player 1",
-].map((name) => ({ value: name, label: name }));
+// participantOptions fetched dynamically from DB
 
 function InfoTooltip({ text }: { text: string }) {
   const [show, setShow] = useState(false);
@@ -52,6 +50,7 @@ function BonusSelect({
   points,
   sourceType,
   locked,
+  participantOptions = [],
 }: {
   questionId: string;
   label: string;
@@ -59,6 +58,7 @@ function BonusSelect({
   points?: number;
   sourceType: string;
   locked?: boolean;
+  participantOptions?: { value: string; label: string }[];
 }) {
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
   const [open, setOpen] = useState(false);
@@ -199,11 +199,16 @@ function BonusSelect({
 
 export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: string }) {
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
+  const [participants, setParticipants] = useState<{ value: string; label: string }[]>([]);
 
   useEffect(() => {
     fetch("/api/bonus-questions")
       .then((r) => r.ok ? r.json() : { questions: [] })
       .then((data) => setQuestions(data.questions))
+      .catch(() => {});
+    fetch("/api/participants")
+      .then((r) => r.ok ? r.json() : { participants: [] })
+      .then((data) => setParticipants(data.participants.map((p: { name: string }) => ({ value: p.name, label: p.name }))))
       .catch(() => {});
   }, []);
 
@@ -229,6 +234,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             points={q.points}
             sourceType={q.sourceType}
             locked={locked}
+            participantOptions={participants}
           />
         ))}
       </div>
