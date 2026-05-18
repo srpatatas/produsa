@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 import { isScopeLocked } from "@/lib/lockCheck";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const GET = withAuth(async (req, session) => {
   const sql = getDb();
   const rows = await sql`
     SELECT scope, match_id FROM planilla_comodines
@@ -19,12 +16,9 @@ export async function GET() {
   }
 
   return NextResponse.json({ comodines });
-}
+});
 
-export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const POST = withAuth(async (req, session) => {
   const { scope, matchId } = await req.json();
 
   if (!scope || !matchId) {
@@ -54,12 +48,9 @@ export async function POST(req: NextRequest) {
   `;
 
   return NextResponse.json({ ok: true });
-}
+});
 
-export async function DELETE(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const DELETE = withAuth(async (req, session) => {
   const { scope } = await req.json();
   if (!scope) return NextResponse.json({ error: "scope requerido" }, { status: 400 });
 
@@ -74,4 +65,4 @@ export async function DELETE(req: NextRequest) {
   `;
 
   return NextResponse.json({ ok: true });
-}
+});

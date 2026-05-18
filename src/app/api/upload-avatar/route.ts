@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession, createSessionToken, SessionUser } from "@/lib/auth";
+import { createSessionToken, SessionUser } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 
-export async function POST(req: NextRequest) {
+export const POST = withAuth(async (req, session) => {
   try {
-    const session = await getSession();
-    if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const targetUserId = formData.get("userId") as string | null;
@@ -54,4 +52,4 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+});

@@ -1,13 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAdmin } from "@/lib/apiAuth";
 import { matches } from "@/data/matches";
 import { knockoutMatches } from "@/data/knockoutMatches";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session?.is_admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
   const rows = await sql`SELECT match_id, comodin_allowed, exact_score FROM match_settings`;
 
@@ -19,13 +16,10 @@ export async function GET() {
     };
   }
   return NextResponse.json({ settings });
-}
+});
 
-export async function POST(request: NextRequest) {
-  const session = await getSession();
-  if (!session?.is_admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
-  const body = await request.json();
+export const POST = withAdmin(async (req, session) => {
+  const body = await req.json();
   const { matchId, comodinAllowed, exactScore } = body as {
     matchId: string;
     comodinAllowed: boolean;
@@ -65,4 +59,4 @@ export async function POST(request: NextRequest) {
   `;
 
   return NextResponse.json({ ok: true });
-}
+});

@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 import { isMatchLocked } from "@/lib/lockCheck";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const GET = withAuth(async (req, session) => {
   const sql = getDb();
   const rows = await sql`
     SELECT match_id, home_score, away_score FROM exact_score_predictions WHERE user_id = ${session.id}
@@ -20,13 +17,10 @@ export async function GET() {
     };
   }
   return NextResponse.json({ predictions });
-}
+});
 
-export async function POST(request: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
-  const { matchId, homeScore, awayScore } = await request.json() as {
+export const POST = withAuth(async (req, session) => {
+  const { matchId, homeScore, awayScore } = await req.json() as {
     matchId: string;
     homeScore: number;
     awayScore: number;
@@ -68,13 +62,10 @@ export async function POST(request: NextRequest) {
   `;
 
   return NextResponse.json({ ok: true });
-}
+});
 
-export async function DELETE(request: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
-  const { matchId } = await request.json() as { matchId: string };
+export const DELETE = withAuth(async (req, session) => {
+  const { matchId } = await req.json() as { matchId: string };
 
   if (await isMatchLocked(matchId)) {
     return NextResponse.json({ error: "Partido cerrado" }, { status: 403 });
@@ -84,4 +75,4 @@ export async function DELETE(request: NextRequest) {
   await sql`DELETE FROM exact_score_predictions WHERE user_id = ${session.id} AND match_id = ${matchId}`;
 
   return NextResponse.json({ ok: true });
-}
+});

@@ -1,18 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 import { getResults } from "@/lib/resultsService";
 import {
   getTodayUnifiedMatches,
   getAllUnifiedMatches,
 } from "@/lib/unifiedMatches";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
-
+export const GET = withAuth(async (req, session) => {
   const sql = getDb();
 
   const [lockRows, predictionRows, resultsMap, bonusQuestionRows, bonusPredRows] = await Promise.all([
@@ -98,4 +93,4 @@ export async function GET() {
     locks,
     predictionStatus,
   });
-}
+});

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 import { getResults } from "@/lib/resultsService";
 import { getOutcome } from "@/lib/outcomeStyles";
 import { fetchRankingMaps, computeMatchPoints } from "@/lib/rankingService";
@@ -11,12 +11,7 @@ interface LiveScoreParam {
   awayScore: number;
 }
 
-export async function GET(req: NextRequest) {
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
-
+export const GET = withAuth(async (req, session) => {
   const scoresParam = req.nextUrl.searchParams.get("scores");
   if (!scoresParam) {
     return NextResponse.json({ error: "scores requerido" }, { status: 400 });
@@ -111,4 +106,4 @@ export async function GET(req: NextRequest) {
   }));
 
   return NextResponse.json({ ranking: result });
-}
+});
