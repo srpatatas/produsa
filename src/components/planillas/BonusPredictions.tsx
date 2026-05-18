@@ -60,7 +60,7 @@ function BonusSelect({
   sourceType: string;
   locked?: boolean;
 }) {
-  const { bonusPredictions, setBonusPrediction } = usePlanilla();
+  const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const value = bonusPredictions[questionId] ?? "";
@@ -75,6 +75,8 @@ function BonusSelect({
     if (trimmed === value) return;
     if (trimmed) {
       setBonusPrediction(questionId, trimmed);
+    } else if (value) {
+      removeBonusPrediction(questionId);
     }
   };
 

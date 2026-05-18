@@ -40,3 +40,18 @@ export const POST = withAuth(async (req, session) => {
 
   return NextResponse.json({ ok: true });
 });
+
+export const DELETE = withAuth(async (req, session) => {
+  const { questionId } = await req.json();
+  if (!questionId) return NextResponse.json({ error: "questionId requerido" }, { status: 400 });
+
+  const sql = getDb();
+
+  const questionRows = await sql`SELECT lock_scope FROM bonus_questions WHERE id = ${questionId}`;
+  if (questionRows.length > 0 && await isScopeLocked(questionRows[0].lock_scope as string)) {
+    return NextResponse.json({ error: "Puntos extra cerrados para esta fase" }, { status: 403 });
+  }
+
+  await sql`DELETE FROM bonus_predictions WHERE user_id = ${session.id} AND question_id = ${questionId}`;
+  return NextResponse.json({ ok: true });
+});

@@ -20,6 +20,7 @@ interface PlanillaContextValue {
   setPrediction: (matchId: string, outcome: PlanillaOutcome) => Promise<boolean>;
   removePrediction: (matchId: string) => Promise<boolean>;
   setBonusPrediction: (questionId: string, value: string) => Promise<boolean>;
+  removeBonusPrediction: (questionId: string) => Promise<boolean>;
   getDoubleMatchId: (matchday: number, matchIds: string[]) => string | null;
 }
 
@@ -31,6 +32,7 @@ const PlanillaContext = createContext<PlanillaContextValue>({
   setPrediction: async () => false,
   removePrediction: async () => false,
   setBonusPrediction: async () => false,
+  removeBonusPrediction: async () => false,
   getDoubleMatchId: () => null,
 });
 
@@ -146,6 +148,31 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
     [showSaved, showError],
   );
 
+  const removeBonusPrediction = useCallback(
+    async (questionId: string): Promise<boolean> => {
+      setSaveStatus("saving");
+      try {
+        const res = await fetch("/api/bonus", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ questionId }),
+        });
+        if (!res.ok) { showError(); return false; }
+        setBonusPredictions((prev) => {
+          const next = { ...prev };
+          delete next[questionId];
+          return next;
+        });
+        showSaved();
+        return true;
+      } catch {
+        showError();
+        return false;
+      }
+    },
+    [showSaved, showError],
+  );
+
   const getDoubleMatchId = useCallback(
     (_matchday: number, matchIds: string[]): string | null => {
       for (const id of matchIds) {
@@ -167,6 +194,7 @@ export function PlanillaProvider({ children }: { children: ReactNode }) {
         setPrediction,
         removePrediction,
         setBonusPrediction,
+        removeBonusPrediction,
         getDoubleMatchId,
       }}
     >
