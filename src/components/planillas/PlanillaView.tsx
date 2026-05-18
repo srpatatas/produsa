@@ -248,6 +248,7 @@ export function PlanillaView() {
               onDragStart={handleComodinDragStart}
               onDragEnd={handleComodinDragEnd}
               onTouchDrop={(matchId) => {
+                setComodinDragging(false);
                 if (hasComodinRestrictions && !matchSettings[matchId]?.comodinAllowed) {
                   const msgs = [
                     "¡Ese partido es muy fácil, elegí otro!",

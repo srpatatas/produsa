@@ -257,6 +257,7 @@ export function KnockoutPlanillaView() {
           onDragStart={handleComodinDragStart}
           onDragEnd={handleComodinDragEnd}
           onTouchDrop={(matchId) => {
+            setComodinDragging(false);
             const hasRestrictions = Object.values(matchSettings).some((s) => s.comodinAllowed);
             if (hasRestrictions && !matchSettings[matchId]?.comodinAllowed) {
               const msgs = [
