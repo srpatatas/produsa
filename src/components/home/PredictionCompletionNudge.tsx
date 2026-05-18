@@ -25,10 +25,20 @@ const scopeLabels: Record<string, string> = {
   FINAL: "Final",
 };
 
+const knockoutScopes = new Set(["R32", "R16", "QF", "SF", "FINAL"]);
+
 export function PredictionCompletionNudge({
   predictionStatus,
+  locks,
 }: PredictionCompletionNudgeProps) {
+  const groupsFinished = ["fecha-1", "fecha-2", "fecha-3"].every((s) => locks[s]?.isLocked);
+
   const all = Object.entries(predictionStatus)
+    .filter(([scope]) => {
+      if (locks[scope]?.isLocked) return false;
+      if (knockoutScopes.has(scope) && !groupsFinished) return false;
+      return true;
+    })
     .sort(([a], [b]) => (scopeOrder.indexOf(a) ?? 99) - (scopeOrder.indexOf(b) ?? 99));
 
   if (all.length === 0) return null;
