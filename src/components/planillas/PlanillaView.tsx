@@ -247,7 +247,19 @@ export function PlanillaView() {
               onTogglePlacementMode={handleTogglePlacementMode}
               onDragStart={handleComodinDragStart}
               onDragEnd={handleComodinDragEnd}
-              onTouchDrop={handleComodinDrop}
+              onTouchDrop={(matchId) => {
+                if (hasComodinRestrictions && !matchSettings[matchId]?.comodinAllowed) {
+                  const msgs = [
+                    "¡Ese partido es muy fácil, elegí otro!",
+                    "¡No seas vivo! Buscá un partido más difícil",
+                    "¡Ahí no vale! Probá con otro partido",
+                    "¡Muy cantado ese resultado! Elegí otro",
+                  ];
+                  handleComodinReject(msgs[Math.floor(Math.random() * msgs.length)]);
+                  return;
+                }
+                handleComodinDrop(matchId);
+              }}
               image={getComodinConfig(`fecha-${fecha}`).image}
             />
           )}
