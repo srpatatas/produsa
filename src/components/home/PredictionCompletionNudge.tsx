@@ -1,5 +1,9 @@
 "use client";
 
+import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
+import { KnockoutRound } from "@/types";
+
 interface ScopeStatus {
   total: number;
   completed: number;
@@ -25,18 +29,29 @@ const scopeLabels: Record<string, string> = {
   FINAL: "Final",
 };
 
-const knockoutScopes = new Set(["R32", "R16", "QF", "SF", "FINAL"]);
+const knockoutScopeRounds: Record<string, KnockoutRound[]> = {
+  R32: ["R32"],
+  R16: ["R16"],
+  QF: ["QF"],
+  SF: ["SF"],
+  FINAL: ["3P", "F"],
+};
+
+function isScopePredictable(scope: string): boolean {
+  const rounds = knockoutScopeRounds[scope];
+  if (!rounds) return true;
+  const matches = rounds.flatMap((r) => getKnockoutMatchesByRound(r));
+  return matches.length > 0 && matches.every((m) => isKnockoutMatchPredictable(m));
+}
 
 export function PredictionCompletionNudge({
   predictionStatus,
   locks,
 }: PredictionCompletionNudgeProps) {
-  const groupsFinished = ["fecha-1", "fecha-2", "fecha-3"].every((s) => locks[s]?.isLocked);
-
   const all = Object.entries(predictionStatus)
     .filter(([scope]) => {
       if (locks[scope]?.isLocked) return false;
-      if (knockoutScopes.has(scope) && !groupsFinished) return false;
+      if (knockoutScopeRounds[scope] && !isScopePredictable(scope)) return false;
       return true;
     })
     .sort(([a], [b]) => (scopeOrder.indexOf(a) ?? 99) - (scopeOrder.indexOf(b) ?? 99));
