@@ -149,7 +149,7 @@ function BonusSelect({
               ✕
             </span>
           )}
-          <span className="text-fifa-dark-gray/40">▾</span>
+          <span className="text-sm text-fifa-dark-gray/40">▾</span>
         </span>
       </button>
 
