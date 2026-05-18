@@ -197,8 +197,8 @@ export function KnockoutPlanillaMatchRow({
                 featured ? "h-12 w-12 text-lg" : "h-10 w-10 text-base"),
               currentOutcome === o
                 ? o === "L"
-                  ? "bg-fifa-green text-white shadow-lg shadow-fifa-green/20"
-                  : "bg-fifa-red text-white shadow-lg shadow-fifa-red/20"
+                  ? "bg-outcome-local text-white shadow-lg shadow-outcome-local/20"
+                  : "bg-outcome-visitante text-white shadow-lg shadow-outcome-visitante/20"
                 : disabled
                   ? "bg-surface/50 text-fifa-dark-gray/30"
                   : "bg-surface text-fifa-dark-gray hover:bg-white/10",

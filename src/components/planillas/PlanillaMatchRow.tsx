@@ -342,10 +342,10 @@ export function PlanillaMatchRow({
               "flex h-10 w-10 items-center justify-center rounded-lg font-display text-base tracking-wider transition-all",
               isSelected(currentOutcome, o)
                 ? o === "L"
-                  ? "bg-fifa-green text-white shadow-lg shadow-fifa-green/20"
+                  ? "bg-outcome-local text-white shadow-lg shadow-outcome-local/20"
                   : o === "E"
-                    ? "bg-fifa-blue text-white shadow-lg shadow-fifa-blue/20"
-                    : "bg-fifa-red text-white shadow-lg shadow-fifa-red/20"
+                    ? "bg-outcome-empate text-white shadow-lg shadow-outcome-empate/20"
+                    : "bg-outcome-visitante text-white shadow-lg shadow-outcome-visitante/20"
                 : "bg-surface text-fifa-dark-gray hover:bg-white/10",
             )}
           >
