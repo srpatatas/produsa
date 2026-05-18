@@ -26,6 +26,7 @@ interface GroupPairCardProps {
   exactScores?: ExactScoresMap;
   onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
+  onComodinTouchDrop?: (matchId: string) => void;
   onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
@@ -61,6 +62,7 @@ function GroupSection({
   exactScores,
   onExactScoreChange,
   onComodinDrop,
+  onComodinTouchDrop,
   onComodinReject,
   onComodinRemove,
   onComodinDragStart,
@@ -79,6 +81,7 @@ function GroupSection({
   exactScores?: ExactScoresMap;
   onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
+  onComodinTouchDrop?: (matchId: string) => void;
   onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
@@ -113,6 +116,7 @@ function GroupSection({
             exactScore={exactScores?.[match.id]}
             onExactScoreChange={onExactScoreChange}
             onComodinDrop={onComodinDrop}
+            onComodinTouchDrop={onComodinTouchDrop}
             onComodinReject={onComodinReject}
             onComodinRemove={onComodinRemove}
             onComodinDragStart={onComodinDragStart}
@@ -139,6 +143,7 @@ export function GroupPairCard({
   exactScores,
   onExactScoreChange,
   onComodinDrop,
+  onComodinTouchDrop,
   onComodinReject,
   onComodinRemove,
   onComodinDragStart,
@@ -160,6 +165,7 @@ export function GroupPairCard({
         exactScores={exactScores}
         onExactScoreChange={onExactScoreChange}
         onComodinDrop={onComodinDrop}
+        onComodinTouchDrop={onComodinTouchDrop}
         onComodinReject={onComodinReject}
         onComodinRemove={onComodinRemove}
         onComodinDragStart={onComodinDragStart}
@@ -179,6 +185,7 @@ export function GroupPairCard({
         exactScores={exactScores}
         onExactScoreChange={onExactScoreChange}
         onComodinDrop={onComodinDrop}
+        onComodinTouchDrop={onComodinTouchDrop}
         onComodinReject={onComodinReject}
         onComodinRemove={onComodinRemove}
         onComodinDragStart={onComodinDragStart}
