@@ -17,8 +17,28 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0c0e1a]/80 backdrop-blur-xl border-b border-white/5">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
+    <header className="sticky top-0 z-50 border-b border-white/5 overflow-hidden">
+      <div className="absolute inset-0 sm:hidden">
+        <Image
+          src="/images/wc2026-banner.jpg"
+          alt=""
+          fill
+          className="object-cover object-right opacity-30"
+          priority
+        />
+        <div className="absolute inset-0 bg-[#0c0e1a]/70 backdrop-blur-sm" />
+      </div>
+      <div className="hidden sm:block absolute inset-0">
+        <Image
+          src="/images/wc2026-banner.jpg"
+          alt=""
+          fill
+          className="object-cover object-right opacity-40"
+          priority
+        />
+        <div className="absolute inset-0 bg-[#0c0e1a]/60 backdrop-blur-sm" />
+      </div>
+      <div className="relative mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2.5">
           <Image
             src="/images/wc2026-logo.png"
