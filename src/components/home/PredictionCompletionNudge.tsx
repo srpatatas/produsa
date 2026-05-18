@@ -59,6 +59,7 @@ export function PredictionCompletionNudge({
   if (all.length === 0) return null;
 
   return (
+    <div className="flex justify-center">
     <div className="inline-flex flex-col rounded-xl bg-surface/60 px-4 py-2.5 ring-1 ring-white/5">
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Estado de predicciones
@@ -106,6 +107,7 @@ export function PredictionCompletionNudge({
           );
         })}
       </div>
+    </div>
     </div>
   );
 }
