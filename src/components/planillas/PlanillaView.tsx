@@ -260,7 +260,7 @@ export function PlanillaView() {
             />
           )}
 
-          <BonusPredictions locked={isFechaLocked} />
+          <BonusPredictions locked={isFechaLocked} scope={`fecha-${fecha}`} />
         </>
       ) : (
         <KnockoutPlanillaView />
