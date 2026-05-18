@@ -47,7 +47,7 @@ export function PlanillaView() {
       setLocks(lockData.locks);
       setMatchSettings(settingsData.settings);
       setExactScores(exactData.predictions);
-    }).catch(() => {});
+    }).catch((err) => console.error("[PlanillaView] Failed to load initial data:", err));
   }, []);
 
   const isFechaLocked = locks[`fecha-${fecha}`]?.isLocked ?? false;
