@@ -416,6 +416,7 @@ export function PlanillaMatchRow({
             }}
             disabled={locked || exactSaving}
             placeholder="—"
+            aria-label={`Goles ${getTeam(match.homeTeamId).shortName}`}
             className="w-8 rounded bg-card-bg px-1 py-0.5 text-center text-xs text-foreground outline-none ring-1 ring-white/10 focus:ring-fifa-gold/40 placeholder:text-fifa-dark-gray/30"
             onClick={(e) => e.stopPropagation()}
           />
@@ -442,6 +443,7 @@ export function PlanillaMatchRow({
             }}
             disabled={locked || exactSaving}
             placeholder="—"
+            aria-label={`Goles ${getTeam(match.awayTeamId).shortName}`}
             className="w-8 rounded bg-card-bg px-1 py-0.5 text-center text-xs text-foreground outline-none ring-1 ring-white/10 focus:ring-fifa-gold/40 placeholder:text-fifa-dark-gray/30"
             onClick={(e) => e.stopPropagation()}
           />
