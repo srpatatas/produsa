@@ -33,10 +33,10 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const [bonusPointsOverride, setBonusPointsOverride] = useState<Record<string, number>>({});
   const [bonusSaving, setBonusSaving] = useState<string | null>(null);
 
-  const [bonusQuestions, setBonusQuestions] = useState<{ id: string; label: string; sourceType: string; lockScope: string }[]>([]);
+  const [bonusQuestions, setBonusQuestions] = useState<{ id: string; label: string; subtitle?: string; sourceType: string; lockScope: string }[]>([]);
   const [bonusQuestionsLoaded, setBonusQuestionsLoaded] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
-  const [questionEdit, setQuestionEdit] = useState<{ label: string; sourceType: string; lockScope: string }>({ label: "", sourceType: "teams", lockScope: "fecha-1" });
+  const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1" });
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; sourceType: string; lockScope: string }>({ id: "", label: "", sourceType: "teams", lockScope: "fecha-1" });
 
@@ -290,7 +290,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                           type="text"
                           value={questionEdit.label}
                           onChange={(e) => setQuestionEdit((prev) => ({ ...prev, label: e.target.value }))}
+                          placeholder="Título"
                           className="rounded-md bg-surface px-2 py-1 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40"
+                        />
+                        <input
+                          type="text"
+                          value={questionEdit.subtitle}
+                          onChange={(e) => setQuestionEdit((prev) => ({ ...prev, subtitle: e.target.value }))}
+                          placeholder="Subtítulo (descripción)"
+                          className="rounded-md bg-surface px-2 py-1 text-[10px] text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
                         />
                         <div className="flex gap-1.5">
                           <select
@@ -319,25 +327,30 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                         </div>
                       </div>
                     ) : (
-                      <div className="flex flex-1 items-center gap-1.5 min-w-0">
-                        <span className="text-xs font-medium text-foreground truncate">{q.label}</span>
-                        <span className="text-[9px] text-fifa-dark-gray/40 flex-shrink-0">{typeLabels[q.sourceType] ?? q.sourceType}</span>
-                        <button
-                          onClick={() => { setEditingQuestion(q.id); setQuestionEdit({ label: q.label, sourceType: q.sourceType, lockScope: q.lockScope }); }}
-                          className="flex-shrink-0 rounded-md p-1 text-fifa-dark-gray/40 hover:text-fifa-teal hover:bg-white/5 transition-colors"
-                        >
-                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={() => handleDeleteQuestion(q.id)}
-                          className="flex-shrink-0 rounded-md p-1 text-fifa-dark-gray/40 hover:text-fifa-red hover:bg-fifa-red/5 transition-colors"
-                        >
+                      <div className="flex flex-1 flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-medium text-foreground truncate">{q.label}</span>
+                          <span className="text-[9px] text-fifa-dark-gray/40 flex-shrink-0">{typeLabels[q.sourceType] ?? q.sourceType}</span>
+                          <button
+                            onClick={() => { setEditingQuestion(q.id); setQuestionEdit({ label: q.label, subtitle: q.subtitle || "", sourceType: q.sourceType, lockScope: q.lockScope }); }}
+                            className="flex-shrink-0 rounded-md p-1 text-fifa-dark-gray/40 hover:text-fifa-teal hover:bg-white/5 transition-colors"
+                          >
+                            <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                          </button>
+                          <button
+                            onClick={() => handleDeleteQuestion(q.id)}
+                            className="flex-shrink-0 rounded-md p-1 text-fifa-dark-gray/40 hover:text-fifa-red hover:bg-fifa-red/5 transition-colors"
+                          >
                           <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
                         </button>
+                        </div>
+                        {q.subtitle && (
+                          <p className="text-[9px] text-fifa-dark-gray/50 truncate mt-0.5">{q.subtitle}</p>
+                        )}
                       </div>
                     )}
                     {!isEditingQ && (

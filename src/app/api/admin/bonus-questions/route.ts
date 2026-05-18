@@ -4,11 +4,12 @@ import { withAdmin } from "@/lib/apiAuth";
 
 export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
-  const rows = await sql`SELECT id, label, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
+  const rows = await sql`SELECT id, label, subtitle, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
 
   const questions = rows.map((r) => ({
     id: r.id as string,
     label: r.label as string,
+    subtitle: (r.subtitle as string) || undefined,
     sourceType: r.source_type as string,
     lockScope: r.lock_scope as string,
     sortOrder: r.sort_order as number,
@@ -18,7 +19,7 @@ export const GET = withAdmin(async (req, session) => {
 });
 
 export const POST = withAdmin(async (req, session) => {
-  const { id, label, sourceType, lockScope } = await req.json();
+  const { id, label, subtitle, sourceType, lockScope } = await req.json();
 
   if (!id || !label || !sourceType || !lockScope) {
     return NextResponse.json({ error: "Todos los campos son requeridos" }, { status: 400 });
@@ -35,10 +36,10 @@ export const POST = withAdmin(async (req, session) => {
   const sortOrder = maxSort[0].next as number;
 
   await sql`
-    INSERT INTO bonus_questions (id, label, source_type, lock_scope, sort_order)
-    VALUES (${id}, ${label}, ${sourceType}, ${lockScope}, ${sortOrder})
+    INSERT INTO bonus_questions (id, label, subtitle, source_type, lock_scope, sort_order)
+    VALUES (${id}, ${label}, ${subtitle || null}, ${sourceType}, ${lockScope}, ${sortOrder})
     ON CONFLICT (id)
-    DO UPDATE SET label = ${label}, source_type = ${sourceType}, lock_scope = ${lockScope}, updated_at = NOW()
+    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, source_type = ${sourceType}, lock_scope = ${lockScope}, updated_at = NOW()
   `;
 
   return NextResponse.json({ ok: true });
