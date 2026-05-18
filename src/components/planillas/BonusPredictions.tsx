@@ -64,6 +64,19 @@ function BonusSelect({
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const value = bonusPredictions[questionId] ?? "";
+  const [localText, setLocalText] = useState(value);
+
+  useEffect(() => {
+    setLocalText(value);
+  }, [value]);
+
+  const saveTextInput = () => {
+    const trimmed = localText.trim();
+    if (trimmed === value) return;
+    if (trimmed) {
+      setBonusPrediction(questionId, trimmed);
+    }
+  };
 
   const options =
     sourceType === "teams"
@@ -89,8 +102,10 @@ function BonusSelect({
         </label>
         <input
           type={sourceType === "exact_value" ? "number" : "text"}
-          value={value}
-          onChange={(e) => setBonusPrediction(questionId, e.target.value)}
+          value={localText}
+          onChange={(e) => setLocalText(e.target.value)}
+          onBlur={saveTextInput}
+          onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
           placeholder={sourceType === "exact_value" ? "Ingresá un número" : "Escribí tu predicción"}
           disabled={locked}
           className={cn(
