@@ -15,13 +15,16 @@ export async function GET() {
 
   const sql = getDb();
 
-  const [resultsRows, users, predictions, comodines, exactScoreRows, matchSettingsRows] = await Promise.all([
+  const [resultsRows, users, predictions, comodines, exactScoreRows, matchSettingsRows, bonusResultRows, bonusPredRows, bonusQuestionRows] = await Promise.all([
     sql`SELECT match_id, home_score, away_score FROM match_results`,
     sql`SELECT id, name, avatar FROM users WHERE pin != 'PENDING' ORDER BY name`,
     sql`SELECT user_id, match_id, outcome FROM planilla_predictions`,
     sql`SELECT user_id, scope, match_id FROM planilla_comodines`,
     sql`SELECT user_id, match_id, home_score, away_score FROM exact_score_predictions`,
     sql`SELECT match_id FROM match_settings WHERE exact_score = true`,
+    sql`SELECT question_id, correct_answer, points FROM bonus_results`,
+    sql`SELECT user_id, question_id, answer FROM bonus_predictions`,
+    sql`SELECT id, source_type FROM bonus_questions`,
   ]);
 
   const matchResults: Record<string, MatchResult> = {};
@@ -63,6 +66,54 @@ export async function GET() {
   // Set of matches with exact score enabled
   const exactScoreMatches = new Set(matchSettingsRows.map((r) => r.match_id as string));
 
+  // Bonus question types
+  const questionTypes: Record<string, string> = {};
+  for (const bq of bonusQuestionRows) {
+    questionTypes[bq.id as string] = bq.source_type as string;
+  }
+
+  // Bonus results: question → { correctAnswer, points }
+  const bonusAnswers: Record<string, { correctAnswer: string; points: number }> = {};
+  for (const br of bonusResultRows) {
+    bonusAnswers[br.question_id as string] = {
+      correctAnswer: (br.correct_answer as string).toLowerCase(),
+      points: br.points as number,
+    };
+  }
+
+  // Bonus predictions per user: questionId → answer
+  const bonusPredByUser: Record<number, Record<string, string>> = {};
+  for (const bp of bonusPredRows) {
+    const uid = bp.user_id as number;
+    if (!bonusPredByUser[uid]) bonusPredByUser[uid] = {};
+    bonusPredByUser[uid][bp.question_id as string] = bp.answer as string;
+  }
+
+  // For exact_value questions: find closest prediction per question
+  const exactValueWinners: Record<string, Set<number>> = {};
+  for (const [qId, result] of Object.entries(bonusAnswers)) {
+    if (questionTypes[qId] !== "exact_value") continue;
+    const correctVal = parseFloat(result.correctAnswer);
+    if (isNaN(correctVal)) continue;
+
+    let minDiff = Infinity;
+    const candidates: { uid: number; diff: number }[] = [];
+    for (const user of users) {
+      const uid = user.id as number;
+      const userAnswer = bonusPredByUser[uid]?.[qId];
+      if (!userAnswer) continue;
+      const val = parseFloat(userAnswer);
+      if (isNaN(val)) continue;
+      const diff = Math.abs(val - correctVal);
+      candidates.push({ uid, diff });
+      if (diff < minDiff) minDiff = diff;
+    }
+
+    exactValueWinners[qId] = new Set(
+      candidates.filter((c) => c.diff === minDiff).map((c) => c.uid),
+    );
+  }
+
   // Compute points per user
   const ranking = users.map((user) => {
     const uid = user.id as number;
@@ -75,6 +126,7 @@ export async function GET() {
     let wrong = 0;
     let comodinPoints = 0;
     let exactScorePoints = 0;
+    let bonusPoints = 0;
 
     for (const [matchId, result] of Object.entries(matchResults)) {
       const actual = getActualOutcome(result.homeScore, result.awayScore);
@@ -111,6 +163,23 @@ export async function GET() {
       }
     }
 
+    // Bonus points
+    const userBonusPreds = bonusPredByUser[uid] ?? {};
+    for (const [qId, result] of Object.entries(bonusAnswers)) {
+      if (questionTypes[qId] === "exact_value") {
+        if (exactValueWinners[qId]?.has(uid)) {
+          points += result.points;
+          bonusPoints += result.points;
+        }
+      } else {
+        const userAnswer = userBonusPreds[qId];
+        if (userAnswer && userAnswer.toLowerCase() === result.correctAnswer) {
+          points += result.points;
+          bonusPoints += result.points;
+        }
+      }
+    }
+
     return {
       user: {
         id: uid,
@@ -122,6 +191,7 @@ export async function GET() {
       wrong,
       comodinPoints,
       exactScorePoints,
+      bonusPoints,
     };
   });
 

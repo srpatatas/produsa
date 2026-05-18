@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { bonusQuestions } from "@/data/bonusQuestions";
+import { useState, useEffect } from "react";
 import { teams } from "@/data/teams";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
+
+interface BonusQuestion {
+  id: string;
+  label: string;
+  sourceType: string;
+  lockScope: string;
+}
 
 const teamOptions = Object.values(teams)
   .map((t) => ({ value: t.id, label: t.name }))
@@ -37,7 +43,7 @@ function BonusSelect({
         ? participantOptions
         : [];
 
-  const isTextInput = sourceType === "players";
+  const isTextInput = sourceType === "players" || sourceType === "exact_value";
   const filtered = options.filter((o) =>
     o.label.toLowerCase().includes(search.toLowerCase()),
   );
@@ -51,10 +57,10 @@ function BonusSelect({
           {label}
         </label>
         <input
-          type="text"
+          type={sourceType === "exact_value" ? "number" : "text"}
           value={value}
           onChange={(e) => setBonusPrediction(questionId, e.target.value)}
-          placeholder="Escribí tu predicción"
+          placeholder={sourceType === "exact_value" ? "Ingresá un número" : "Escribí tu predicción"}
           disabled={locked}
           className={cn(
             "w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30",
@@ -130,7 +136,19 @@ function BonusSelect({
   );
 }
 
-export function BonusPredictions({ locked }: { locked?: boolean }) {
+export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: string }) {
+  const [questions, setQuestions] = useState<BonusQuestion[]>([]);
+
+  useEffect(() => {
+    fetch("/api/bonus-questions")
+      .then((r) => r.ok ? r.json() : { questions: [] })
+      .then((data) => setQuestions(data.questions))
+      .catch(() => {});
+  }, []);
+
+  const filtered = scope ? questions.filter((q) => q.lockScope === scope) : questions;
+  if (filtered.length === 0) return null;
+
   return (
     <div className={cn(
       "rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5",
@@ -141,7 +159,7 @@ export function BonusPredictions({ locked }: { locked?: boolean }) {
         Puntos Extra
       </h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {bonusQuestions.map((q) => (
+        {filtered.map((q) => (
           <BonusSelect
             key={q.id}
             questionId={q.id}

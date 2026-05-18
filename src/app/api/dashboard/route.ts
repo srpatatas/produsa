@@ -15,10 +15,12 @@ export async function GET() {
 
   const sql = getDb();
 
-  const [lockRows, predictionRows, resultsMap] = await Promise.all([
+  const [lockRows, predictionRows, resultsMap, bonusQuestionRows, bonusPredRows] = await Promise.all([
     sql`SELECT scope, locks_at FROM lock_deadlines`,
     sql`SELECT match_id, outcome FROM planilla_predictions WHERE user_id = ${session.id}`,
     getResults(),
+    sql`SELECT id, lock_scope FROM bonus_questions ORDER BY sort_order`,
+    sql`SELECT question_id FROM bonus_predictions WHERE user_id = ${session.id}`,
   ]);
 
   // Locks
@@ -46,10 +48,34 @@ export async function GET() {
     matchesByScope[m.scope].push(m.id);
   }
 
-  const predictionStatus: Record<string, { total: number; completed: number }> = {};
-  for (const [scope, matchIds] of Object.entries(matchesByScope)) {
-    const completed = matchIds.filter((id) => userPredictions.has(id)).length;
-    predictionStatus[scope] = { total: matchIds.length, completed };
+  // Bonus questions per scope
+  const bonusByScope: Record<string, string[]> = {};
+  for (const bq of bonusQuestionRows) {
+    const scope = bq.lock_scope as string;
+    if (!bonusByScope[scope]) bonusByScope[scope] = [];
+    bonusByScope[scope].push(bq.id as string);
+  }
+  const userBonusPreds = new Set(bonusPredRows.map((r) => r.question_id as string));
+
+  // Prediction completion per scope (matches + bonus)
+  const allScopes = new Set([...Object.keys(matchesByScope), ...Object.keys(bonusByScope)]);
+  const predictionStatus: Record<string, {
+    total: number;
+    completed: number;
+    matches: { total: number; completed: number };
+    bonus: { total: number; completed: number };
+  }> = {};
+  for (const scope of allScopes) {
+    const matchIds = matchesByScope[scope] ?? [];
+    const bonusIds = bonusByScope[scope] ?? [];
+    const matchCompleted = matchIds.filter((id) => userPredictions.has(id)).length;
+    const bonusCompleted = bonusIds.filter((id) => userBonusPreds.has(id)).length;
+    predictionStatus[scope] = {
+      total: matchIds.length + bonusIds.length,
+      completed: matchCompleted + bonusCompleted,
+      matches: { total: matchIds.length, completed: matchCompleted },
+      bonus: { total: bonusIds.length, completed: bonusCompleted },
+    };
   }
 
   // Today's matches — exclude finished (have a DB result)

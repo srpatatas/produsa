@@ -6,6 +6,7 @@ import { getKnockoutMatchesByRound, knockoutMatches as allKnockoutMatches } from
 import { getComodinConfig } from "@/data/comodinConfig";
 import { knockoutGroupings } from "@/data/knockoutGroupings";
 import { KnockoutPlanillaMatchRow } from "./KnockoutPlanillaMatchRow";
+import { BonusPredictions } from "./BonusPredictions";
 import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
@@ -258,6 +259,8 @@ export function KnockoutPlanillaView() {
           image={comodin.image}
         />
       )}
+
+      <BonusPredictions locked={effectiveLocked} scope={activeTab} />
 
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </div>
