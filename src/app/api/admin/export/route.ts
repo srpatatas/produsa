@@ -1,21 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { matches } from "@/data/matches";
-import { knockoutMatches } from "@/data/knockoutMatches";
-import { getTeam } from "@/data/teams";
-
-function matchLabel(matchId: string): string {
-  const gMatch = matches.find((m) => m.id === matchId);
-  if (gMatch) {
-    return `${getTeam(gMatch.homeTeamId).shortName} vs ${getTeam(gMatch.awayTeamId).shortName}`;
-  }
-  const kMatch = knockoutMatches.find((m) => m.id === matchId);
-  if (kMatch) {
-    return `${kMatch.homeSlot.label} vs ${kMatch.awaySlot.label}`;
-  }
-  return matchId;
-}
+import { matchLabel } from "@/lib/utils";
 
 export async function GET() {
   const session = await getSession();

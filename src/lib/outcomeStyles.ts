@@ -18,8 +18,10 @@ export function getOutcomeBg(outcome: string): string {
   return outcomeConfig[outcome]?.bg ?? "bg-surface";
 }
 
-export function getLiveOutcome(home: number, away: number): "L" | "E" | "V" {
+export function getOutcome(home: number, away: number): "L" | "E" | "V" {
   if (home > away) return "L";
   if (home < away) return "V";
   return "E";
 }
+
+export const getLiveOutcome = getOutcome;

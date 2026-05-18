@@ -3,7 +3,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { groups } from "@/data/groups";
 import { matches } from "@/data/matches";
-import { getTeam } from "@/data/teams";
 import { PlanillaTabs } from "./PlanillaTabs";
 import { GroupPairCard } from "./GroupPairCard";
 import { BonusPredictions } from "./BonusPredictions";
@@ -14,7 +13,7 @@ import { SaveIndicator } from "./SaveIndicator";
 import { LockCountdown } from "./LockCountdown";
 import { getComodinConfig } from "@/data/comodinConfig";
 import { usePlanilla } from "@/context/PlanillaContext";
-import { cn } from "@/lib/utils";
+import { cn, matchLabel } from "@/lib/utils";
 
 const groupPairs = [
   [groups[0], groups[1]],
@@ -24,14 +23,6 @@ const groupPairs = [
   [groups[8], groups[9]],
   [groups[10], groups[11]],
 ];
-
-function matchLabel(matchId: string): string {
-  const match = matches.find((m) => m.id === matchId);
-  if (!match) return matchId;
-  const home = getTeam(match.homeTeamId);
-  const away = getTeam(match.awayTeamId);
-  return `${home.shortName} vs ${away.shortName}`;
-}
 
 export function PlanillaView() {
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
