@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
-import { getOutcomeBg } from "@/lib/outcomeStyles";
+import { getOutcomeBg, getLiveOutcome } from "@/lib/outcomeStyles";
 
 interface PredictionEntry {
   user: { id: number; name: string; avatar: string };
   outcome: string;
+  exactScore: { home: number; away: number } | null;
 }
 
 interface MatchPredictionsDropdownProps {
@@ -60,15 +61,25 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredic
         {predictions.map((pred) => {
           const isCorrect = actualOutcome ? pred.outcome.includes(actualOutcome) : null;
           const dimmed = isCorrect === false;
+          const hasExact = !!pred.exactScore;
+          const ringOutcome = hasExact
+            ? getLiveOutcome(pred.exactScore!.home, pred.exactScore!.away)
+            : pred.outcome;
+          const badgeBg = hasExact
+            ? getOutcomeBg(getLiveOutcome(pred.exactScore!.home, pred.exactScore!.away))
+            : getOutcomeBg(pred.outcome);
+          const badgeLabel = hasExact
+            ? `${pred.exactScore!.home}-${pred.exactScore!.away}`
+            : pred.outcome;
 
           return (
             <div key={pred.user.id} className={`flex flex-col items-center gap-1.5 transition-opacity ${dimmed ? "opacity-30" : ""}`}>
               <div className="relative mb-1">
-                <div className={`rounded-full ring-2 ${outcomeRing[pred.outcome] ?? "ring-white/20"}`}>
+                <div className={`rounded-full ring-2 ${outcomeRing[ringOutcome] ?? "ring-white/20"}`}>
                   <AvatarDisplay avatar={pred.user.avatar} size="lg" />
                 </div>
-                <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-px text-[9px] font-bold text-white whitespace-nowrap ${getOutcomeBg(pred.outcome)}`}>
-                  {pred.outcome}
+                <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-px text-[9px] font-bold text-white whitespace-nowrap ${badgeBg}`}>
+                  {badgeLabel}
                 </span>
               </div>
               <span className="text-[10px] text-fifa-dark-gray truncate max-w-full">
