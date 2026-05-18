@@ -94,6 +94,7 @@ export interface BonusQuestion {
   id: string;
   label: string;
   subtitle?: string;
+  points?: number;
   sourceType: BonusSourceType;
   lockScope: string;
 }
