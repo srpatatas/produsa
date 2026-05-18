@@ -247,6 +247,7 @@ export function PlanillaView() {
               onTogglePlacementMode={handleTogglePlacementMode}
               onDragStart={handleComodinDragStart}
               onDragEnd={handleComodinDragEnd}
+              onTouchDrop={handleComodinDrop}
               image={getComodinConfig(`fecha-${fecha}`).image}
             />
           )}

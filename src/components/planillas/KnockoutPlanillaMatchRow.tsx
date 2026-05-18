@@ -129,6 +129,7 @@ export function KnockoutPlanillaMatchRow({
 
   return (
     <div
+      data-match-id={match.id}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}

@@ -256,6 +256,7 @@ export function KnockoutPlanillaView() {
           onTogglePlacementMode={handleTogglePlacementMode}
           onDragStart={handleComodinDragStart}
           onDragEnd={handleComodinDragEnd}
+          onTouchDrop={handleComodinDrop}
           image={comodin.image}
         />
       )}
