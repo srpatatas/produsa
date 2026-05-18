@@ -27,6 +27,7 @@ interface PlanillaMatchRowProps {
   exactScore?: { homeScore: number; awayScore: number };
   onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
+  onComodinTouchDrop?: (matchId: string) => void;
   onComodinReject?: (message: string) => void;
   onComodinRemove: () => void;
   onComodinDragStart: () => void;
@@ -67,6 +68,7 @@ export function PlanillaMatchRow({
   doubleMatchId,
   comodinMatchId,
   onComodinDrop,
+  onComodinTouchDrop,
   onComodinReject,
   onComodinRemove,
   onComodinDragStart,
@@ -106,6 +108,51 @@ export function PlanillaMatchRow({
 
   // Comodín restrictions: if admin set any, only allow on marked matches
   const canReceiveComodin = !hasComodinRestrictions || (comodinAllowed ?? false);
+
+  // Touch drag for repositioning comodín from this match
+  const [touchDragging, setTouchDragging] = useState(false);
+  const [touchPos, setTouchPos] = useState({ x: 0, y: 0 });
+  const touchStartPos = useRef({ x: 0, y: 0 });
+  const touchMoved = useRef(false);
+
+  const handleComodinTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+    touchMoved.current = false;
+  };
+
+  const handleComodinTouchMove = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    const dx = touch.clientX - touchStartPos.current.x;
+    const dy = touch.clientY - touchStartPos.current.y;
+    if (!touchMoved.current && Math.abs(dx) + Math.abs(dy) > 10) {
+      touchMoved.current = true;
+      setTouchDragging(true);
+      onComodinDragStart();
+    }
+    if (touchMoved.current) {
+      e.preventDefault();
+      setTouchPos({ x: touch.clientX, y: touch.clientY });
+    }
+  };
+
+  const handleComodinTouchEnd = () => {
+    if (!touchMoved.current) {
+      onComodinRemove();
+      return;
+    }
+    setTouchDragging(false);
+    const el = document.elementFromPoint(touchPos.x, touchPos.y);
+    const matchRow = el?.closest("[data-match-id]");
+    if (matchRow && onComodinTouchDrop) {
+      const targetId = matchRow.getAttribute("data-match-id");
+      if (targetId && targetId !== match.id) {
+        onComodinTouchDrop(targetId);
+        return;
+      }
+    }
+    onComodinDragEnd();
+  };
 
   const [saving, setSaving] = useState(false);
 
@@ -312,9 +359,15 @@ export function PlanillaMatchRow({
           onDragEnd={() => {
             onComodinDragEnd();
           }}
+          onTouchStart={handleComodinTouchStart}
+          onTouchMove={handleComodinTouchMove}
+          onTouchEnd={handleComodinTouchEnd}
           title="Arrastrá a otro partido o hacé click para quitar"
           onClick={onComodinRemove}
-          className="absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20"
+          className={cn(
+            "absolute -left-2 -top-2 z-10 h-8 w-8 rounded-full overflow-hidden ring-2 ring-fifa-gold cursor-grab active:cursor-grabbing hover:scale-110 transition-transform shadow-lg shadow-fifa-gold/20 touch-none",
+            touchDragging && "opacity-30",
+          )}
         >
           <Image
             src={comodinImage}
@@ -322,6 +375,15 @@ export function PlanillaMatchRow({
             fill
             className="object-cover pointer-events-none"
           />
+        </div>
+      )}
+
+      {touchDragging && (
+        <div
+          className="fixed z-[100] h-10 w-10 rounded-full overflow-hidden ring-2 ring-fifa-gold shadow-2xl shadow-fifa-gold/40 pointer-events-none"
+          style={{ left: touchPos.x - 20, top: touchPos.y - 20 }}
+        >
+          <Image src={comodinImage} alt="Comodín" fill className="object-cover" />
         </div>
       )}
 

@@ -233,6 +233,21 @@ export function KnockoutPlanillaView() {
                         comodinAllowed={matchSettings[match.id]?.comodinAllowed}
                         hasComodinRestrictions={Object.values(matchSettings).some((s) => s.comodinAllowed)}
                         onComodinDrop={handleComodinDrop}
+                        onComodinTouchDrop={(matchId) => {
+                          setComodinDragging(false);
+                          const hasRestrictions = Object.values(matchSettings).some((s) => s.comodinAllowed);
+                          if (hasRestrictions && !matchSettings[matchId]?.comodinAllowed) {
+                            const msgs = [
+                              "¡Ese partido es muy fácil, elegí otro!",
+                              "¡No seas vivo! Buscá un partido más difícil",
+                              "¡Ahí no vale! Probá con otro partido",
+                              "¡Muy cantado ese resultado! Elegí otro",
+                            ];
+                            handleComodinReject(msgs[Math.floor(Math.random() * msgs.length)]);
+                            return;
+                          }
+                          handleComodinDrop(matchId);
+                        }}
                         onComodinReject={handleComodinReject}
                         onComodinRemove={handleComodinRemove}
                         onComodinDragStart={handleComodinDragStart}
