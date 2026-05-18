@@ -144,12 +144,12 @@ function BonusSelect({
             <span
               role="button"
               onClick={(e) => { e.stopPropagation(); removeBonusPrediction(questionId); }}
-              className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] text-fifa-dark-gray/40 hover:bg-white/10 hover:text-foreground"
+              className="flex h-5 w-5 items-center justify-center rounded-full text-xs text-fifa-red/60 hover:bg-fifa-red/10 hover:text-fifa-red"
             >
               ✕
             </span>
           )}
-          <span className="text-sm text-fifa-dark-gray/40">▾</span>
+          <span className="text-base text-fifa-dark-gray/70">▾</span>
         </span>
       </button>
 
