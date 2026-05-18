@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
+import { getOutcomeBg } from "@/lib/outcomeStyles";
 
 interface PredictionEntry {
   user: { id: number; name: string; avatar: string };
@@ -14,27 +15,15 @@ interface MatchPredictionsDropdownProps {
 }
 
 const outcomeRing: Record<string, string> = {
-  L: "ring-fifa-green",
-  E: "ring-fifa-blue",
-  V: "ring-fifa-red",
-  LE: "ring-fifa-green",
-  EL: "ring-fifa-green",
-  EV: "ring-fifa-blue",
-  VE: "ring-fifa-blue",
-  LV: "ring-fifa-green",
-  VL: "ring-fifa-green",
-};
-
-const outcomeBadgeBg: Record<string, string> = {
-  L: "bg-fifa-green",
-  E: "bg-fifa-blue",
-  V: "bg-fifa-red",
-  LE: "bg-gradient-to-r from-fifa-green to-fifa-blue",
-  EL: "bg-gradient-to-r from-fifa-green to-fifa-blue",
-  EV: "bg-gradient-to-r from-fifa-blue to-fifa-red",
-  VE: "bg-gradient-to-r from-fifa-blue to-fifa-red",
-  LV: "bg-gradient-to-r from-fifa-green to-fifa-red",
-  VL: "bg-gradient-to-r from-fifa-green to-fifa-red",
+  L: "ring-outcome-local",
+  E: "ring-outcome-empate",
+  V: "ring-outcome-visitante",
+  LE: "ring-outcome-local",
+  EL: "ring-outcome-local",
+  EV: "ring-outcome-empate",
+  VE: "ring-outcome-empate",
+  LV: "ring-outcome-local",
+  VL: "ring-outcome-local",
 };
 
 export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredictionsDropdownProps) {
@@ -78,7 +67,7 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredic
                 <div className={`rounded-full ring-2 ${outcomeRing[pred.outcome] ?? "ring-white/20"}`}>
                   <AvatarDisplay avatar={pred.user.avatar} size="lg" />
                 </div>
-                <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-px text-[9px] font-bold text-white whitespace-nowrap ${outcomeBadgeBg[pred.outcome] ?? "bg-surface"}`}>
+                <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-px text-[9px] font-bold text-white whitespace-nowrap ${getOutcomeBg(pred.outcome)}`}>
                   {pred.outcome}
                 </span>
               </div>

@@ -1,13 +1,13 @@
 export const outcomeConfig: Record<string, { label: string; bg: string }> = {
-  L: { label: "LOCAL", bg: "bg-fifa-green" },
-  E: { label: "EMPATE", bg: "bg-fifa-blue" },
-  V: { label: "VISITANTE", bg: "bg-fifa-red" },
-  LE: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-fifa-green to-fifa-blue" },
-  EL: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-fifa-green to-fifa-blue" },
-  EV: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-fifa-blue to-fifa-red" },
-  VE: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-fifa-blue to-fifa-red" },
-  LV: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-fifa-green to-fifa-red" },
-  VL: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-fifa-green to-fifa-red" },
+  L: { label: "LOCAL", bg: "bg-outcome-local" },
+  E: { label: "EMPATE", bg: "bg-outcome-empate" },
+  V: { label: "VISITANTE", bg: "bg-outcome-visitante" },
+  LE: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-outcome-local to-outcome-empate" },
+  EL: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-outcome-local to-outcome-empate" },
+  EV: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-outcome-empate to-outcome-visitante" },
+  VE: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-outcome-empate to-outcome-visitante" },
+  LV: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-outcome-local to-outcome-visitante" },
+  VL: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-outcome-local to-outcome-visitante" },
 };
 
 export function getOutcomeLabel(outcome: string): string {

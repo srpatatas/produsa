@@ -33,6 +33,9 @@
   --fifa-lime: #c5e34a;
   --fifa-teal: #2dd4bf;
   --fifa-gold-light: rgba(251, 191, 36, 0.1);
+  --outcome-local: #4ade80;
+  --outcome-empate: #6381f5;
+  --outcome-visitante: #f43f5e;
   --card-bg: #161829;
   --card-border: transparent;
   --surface: #1e2035;
@@ -54,6 +57,9 @@
   --color-fifa-lime: var(--fifa-lime);
   --color-fifa-teal: var(--fifa-teal);
   --color-fifa-gold-light: var(--fifa-gold-light);
+  --color-outcome-local: var(--outcome-local);
+  --color-outcome-empate: var(--outcome-empate);
+  --color-outcome-visitante: var(--outcome-visitante);
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-surface: var(--surface);
