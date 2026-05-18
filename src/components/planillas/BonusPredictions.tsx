@@ -139,7 +139,18 @@ function BonusSelect({
         )}
       >
         <span className="truncate">{value ? selectedLabel : "Elegir..."}</span>
-        <span className="text-fifa-dark-gray/40">▾</span>
+        <span className="flex items-center gap-1">
+          {value && !locked && (
+            <span
+              role="button"
+              onClick={(e) => { e.stopPropagation(); removeBonusPrediction(questionId); }}
+              className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] text-fifa-dark-gray/40 hover:bg-white/10 hover:text-foreground"
+            >
+              ✕
+            </span>
+          )}
+          <span className="text-fifa-dark-gray/40">▾</span>
+        </span>
       </button>
 
       {open && (
