@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { withAuth } from "@/lib/apiAuth";
 import { isMatchLocked } from "@/lib/lockCheck";
+import { VALID_OUTCOMES } from "@/lib/outcomeStyles";
 
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
@@ -28,8 +29,7 @@ export const POST = withAuth(async (req, session) => {
     return NextResponse.json({ error: "matchId y outcome requeridos" }, { status: 400 });
   }
 
-  const validOutcomes = ["L", "E", "V", "LE", "EL", "EV", "VE", "LV", "VL"];
-  if (!validOutcomes.includes(outcome)) {
+  if (!VALID_OUTCOMES.includes(outcome)) {
     return NextResponse.json({ error: "Outcome inválido" }, { status: 400 });
   }
 

@@ -81,8 +81,8 @@ async function syncFromOpenFootball(): Promise<void> {
         DO UPDATE SET home_score = ${homeScore}, away_score = ${awayScore}, updated_at = NOW()
       `;
     }
-  } catch {
-    // Sync failed — DB retains existing results
+  } catch (err) {
+    console.error("[resultsService] OpenFootball sync failed:", err);
   }
 }
 

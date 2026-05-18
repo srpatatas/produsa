@@ -39,7 +39,8 @@ export async function GET() {
   let scores: Record<string, LiveScoreResult>;
   try {
     scores = await fetchLiveScores(key);
-  } catch {
+  } catch (err) {
+    console.error("[live-score] Failed to fetch live scores:", err);
     return NextResponse.json({ scores: {}, finished: [] });
   }
 
@@ -50,7 +51,9 @@ export async function GET() {
       finished.push(matchId);
       try {
         await saveFinishedMatch(matchId, lastScore);
-      } catch {}
+      } catch (err) {
+        console.error(`[live-score] Failed to save finished match ${matchId}:`, err);
+      }
       trackedLive.delete(matchId);
     }
   }

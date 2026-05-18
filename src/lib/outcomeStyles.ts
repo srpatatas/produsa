@@ -10,6 +10,8 @@ export const outcomeConfig: Record<string, { label: string; bg: string }> = {
   VL: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-outcome-local to-outcome-visitante" },
 };
 
+export const VALID_OUTCOMES = Object.keys(outcomeConfig);
+
 export function getOutcomeLabel(outcome: string): string {
   return outcomeConfig[outcome]?.label ?? outcome;
 }

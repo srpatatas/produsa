@@ -36,9 +36,15 @@ async function apiFetch<T>(endpoint: string): Promise<T[]> {
     next: { revalidate: 300 },
   });
 
-  if (!res.ok) return [];
+  if (!res.ok) {
+    console.error(`[apiFootball] ${endpoint} returned ${res.status}`);
+    return [];
+  }
 
   const data: ApiResponse<T> = await res.json();
+  if (data.errors && Object.keys(data.errors).length > 0) {
+    console.error(`[apiFootball] ${endpoint} errors:`, data.errors);
+  }
   return data.response;
 }
 
