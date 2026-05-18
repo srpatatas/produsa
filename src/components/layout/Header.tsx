@@ -17,8 +17,8 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/5 overflow-hidden">
-      <div className="absolute inset-0 sm:hidden">
+    <header className="sticky top-0 z-50 border-b border-white/5">
+      <div className="absolute inset-0 overflow-hidden sm:hidden">
         <Image
           src="/images/wc2026-banner.jpg"
           alt=""
@@ -28,7 +28,7 @@ export function Header() {
         />
         <div className="absolute inset-0 bg-[#0c0e1a]/70 backdrop-blur-sm" />
       </div>
-      <div className="hidden sm:block absolute inset-0">
+      <div className="hidden sm:block absolute inset-0 overflow-hidden">
         <Image
           src="/images/wc2026-banner.jpg"
           alt=""
