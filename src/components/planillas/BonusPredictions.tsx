@@ -83,8 +83,9 @@ function BonusSelect({
 
   return (
     <div className="relative">
-      <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
+      <label className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
         {label}
+        {!!points && <span className="rounded-full bg-fifa-gold/20 px-1.5 py-0.5 text-[8px] font-bold text-fifa-gold normal-case tracking-normal">+{points}</span>}
       </label>
       {subtitle && (
         <p className="mb-1.5 text-[9px] text-fifa-dark-gray/60">{subtitle}</p>
