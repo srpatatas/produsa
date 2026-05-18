@@ -4,6 +4,7 @@ import { LiveScore } from "@/types";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
+import { getOutcomeLabel, getOutcomeBg, getLiveOutcome } from "@/lib/outcomeStyles";
 
 export interface LivePlayerPrediction {
   user: { id: number; name: string; avatar: string };
@@ -13,30 +14,6 @@ export interface LivePlayerPrediction {
 interface PlayerPredictionsListProps {
   predictions: LivePlayerPrediction[];
   liveScore: LiveScore;
-}
-
-const outcomeLabels: Record<string, string> = {
-  L: "LOCAL",
-  E: "EMPATE",
-  V: "VISITANTE",
-  LE: "LOCAL / EMPATE",
-  EL: "LOCAL / EMPATE",
-  EV: "EMPATE / VISITANTE",
-  VE: "EMPATE / VISITANTE",
-  LV: "LOCAL / VISITANTE",
-  VL: "LOCAL / VISITANTE",
-};
-
-const outcomeBg: Record<string, string> = {
-  L: "bg-fifa-green",
-  E: "bg-fifa-blue",
-  V: "bg-fifa-red",
-};
-
-function getLiveOutcome(home: number, away: number): "L" | "E" | "V" {
-  if (home > away) return "L";
-  if (home < away) return "V";
-  return "E";
 }
 
 export function PlayerPredictionsList({
@@ -69,17 +46,7 @@ export function PlayerPredictionsList({
           const isCurrentUser = pred.user.id === currentUser.id;
           const isCorrect = liveOutcome ? pred.outcome.includes(liveOutcome) : null;
 
-          // Determine pill color
-          const singleOutcome = pred.outcome.length === 1 ? pred.outcome : null;
-          const pillBg = singleOutcome
-            ? outcomeBg[singleOutcome] || "bg-surface"
-            : pred.outcome.length === 2
-              ? `bg-gradient-to-r ${
-                  pred.outcome.includes("L") && pred.outcome.includes("E") ? "from-fifa-green to-fifa-blue"
-                  : pred.outcome.includes("E") && pred.outcome.includes("V") ? "from-fifa-blue to-fifa-red"
-                  : "from-fifa-green to-fifa-red"
-                }`
-              : "bg-surface";
+          const pillBg = getOutcomeBg(pred.outcome);
 
           return (
             <div
@@ -115,7 +82,7 @@ export function PlayerPredictionsList({
               </div>
 
               <div className={cn("rounded-lg px-3 py-1.5 text-xs font-semibold text-white", pillBg)}>
-                {outcomeLabels[pred.outcome] || pred.outcome}
+                {getOutcomeLabel(pred.outcome)}
               </div>
             </div>
           );

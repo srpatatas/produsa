@@ -8,6 +8,8 @@ import { getNextUnifiedMatch } from "@/lib/unifiedMatches";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { getComodinConfig } from "@/data/comodinConfig";
+import { outcomeConfig } from "@/lib/outcomeStyles";
+import { MatchPredictionsDropdown } from "./MatchPredictionsDropdown";
 
 interface TimeLeft {
   days: number;
@@ -39,23 +41,13 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
   );
 }
 
-const outcomeConfig: Record<string, { label: string; bg: string }> = {
-  L: { label: "LOCAL", bg: "bg-fifa-green" },
-  E: { label: "EMPATE", bg: "bg-fifa-blue" },
-  V: { label: "VISITANTE", bg: "bg-fifa-red" },
-  LE: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-fifa-green to-fifa-blue" },
-  EL: { label: "LOCAL / EMPATE", bg: "bg-gradient-to-r from-fifa-green to-fifa-blue" },
-  EV: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-fifa-blue to-fifa-red" },
-  VE: { label: "EMPATE / VISITANTE", bg: "bg-gradient-to-r from-fifa-blue to-fifa-red" },
-  LV: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-fifa-green to-fifa-red" },
-  VL: { label: "LOCAL / VISITANTE", bg: "bg-gradient-to-r from-fifa-green to-fifa-red" },
-};
-
 export function NextMatchCountdown() {
   const [match, setMatch] = useState<UnifiedMatch | undefined>();
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [ready, setReady] = useState(false);
   const [comodines, setComodines] = useState<Record<string, string>>({});
+  const [isLocked, setIsLocked] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const { predictions } = usePlanilla();
 
   useEffect(() => {
@@ -67,6 +59,16 @@ export function NextMatchCountdown() {
     fetch("/api/comodines")
       .then((r) => r.ok ? r.json() : { comodines: {} })
       .then((data) => setComodines(data.comodines))
+      .catch(() => {});
+
+    fetch("/api/locks")
+      .then((r) => r.ok ? r.json() : { locks: {} })
+      .then((data) => {
+        if (next) {
+          const lock = data.locks?.[next.scope];
+          setIsLocked(lock?.isLocked ?? false);
+        }
+      })
       .catch(() => {});
   }, []);
 
@@ -167,6 +169,30 @@ export function NextMatchCountdown() {
           {match.venue}, {match.city}
         </div>
       </div>
+
+      {isLocked && (
+        <div>
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="flex w-full items-center justify-center gap-2 border-t border-white/5 px-4 py-2.5"
+          >
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
+              Predicciones
+            </span>
+            <svg
+              className={`h-3.5 w-3.5 text-fifa-dark-gray/50 transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          {expanded && <MatchPredictionsDropdown matchId={match.id} />}
+        </div>
+      )}
     </div>
   );
 }

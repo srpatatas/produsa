@@ -1,21 +1,13 @@
 import { MatchResult } from "@/data/results";
 import { getDb } from "./db";
 import { matches } from "@/data/matches";
+import { isAnyMatchInLiveWindow } from "./unifiedMatches";
 
 const OPENFOOTBALL_URL =
   "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
 
 const SYNC_INTERVAL_DEFAULT = 30 * 60 * 1000; // 30 minutes
 const SYNC_INTERVAL_LIVE = 5 * 60 * 1000; // 5 minutes during matches
-
-function isAnyMatchInProgress(): boolean {
-  const now = Date.now();
-  const WINDOW_MS = 3 * 60 * 60 * 1000;
-  return matches.some((m) => {
-    const kickoff = new Date(m.kickoff).getTime();
-    return now >= kickoff && now <= kickoff + WINDOW_MS;
-  });
-}
 
 const TEAM_NAME_TO_ID: Record<string, string> = {
   "Mexico": "MEX", "South Africa": "RSA", "Korea Republic": "KOR", "South Korea": "KOR",
@@ -96,7 +88,7 @@ async function syncFromOpenFootball(): Promise<void> {
 
 async function maybeSyncFromOpenFootball(): Promise<void> {
   const now = Date.now();
-  const interval = isAnyMatchInProgress() ? SYNC_INTERVAL_LIVE : SYNC_INTERVAL_DEFAULT;
+  const interval = isAnyMatchInLiveWindow() ? SYNC_INTERVAL_LIVE : SYNC_INTERVAL_DEFAULT;
   if (now - lastSyncTimestamp < interval) return;
   lastSyncTimestamp = now;
   await syncFromOpenFootball();

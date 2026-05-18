@@ -1,9 +1,5 @@
-import { NextMatchCountdown } from "@/components/home/NextMatchCountdown";
+import { InicioDashboard } from "@/components/home/InicioDashboard";
 
 export default function Home() {
-  return (
-    <div>
-      <NextMatchCountdown />
-    </div>
-  );
+  return <InicioDashboard />;
 }
