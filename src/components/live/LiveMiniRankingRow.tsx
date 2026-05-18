@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import Image from "next/image";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { getOutcomeBg, getOutcomeLabel, getLiveOutcome } from "@/lib/outcomeStyles";
@@ -18,7 +19,7 @@ interface LiveMiniRankingRowProps {
   hasComodin: boolean;
 }
 
-export function LiveMiniRankingRow({
+export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
   position,
   previousPosition,
   user,
@@ -83,4 +84,4 @@ export function LiveMiniRankingRow({
       <span className="text-sm font-bold text-foreground">{totalPoints}</span>
     </div>
   );
-}
+});

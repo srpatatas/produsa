@@ -46,7 +46,7 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
             )}
           </div>
 
-          <div className="flex items-center gap-4 px-4">
+          <div className="flex items-center gap-4 px-4" aria-live="polite" aria-atomic="true">
             <span className="font-display text-7xl leading-none">
               {hasScore ? liveScore.homeScore : "–"}
             </span>

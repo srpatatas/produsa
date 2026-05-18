@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useMemo } from "react";
 import { Group, GroupId } from "@/types";
 import { getTeam } from "@/data/teams";
 import { getMatchesForGroup } from "@/data/matches";
@@ -15,10 +16,10 @@ interface FixtureGroupCardProps {
   results: Record<string, MatchResult>;
 }
 
-export function FixtureGroupCard({ group, results }: FixtureGroupCardProps) {
+export const FixtureGroupCard = memo(function FixtureGroupCard({ group, results }: FixtureGroupCardProps) {
   const gradient = groupAccents[group.id];
   const groupMatches = getMatchesForGroup(group.id);
-  const standings = computeStandings([...group.teams], groupMatches, results);
+  const standings = useMemo(() => computeStandings([...group.teams], groupMatches, results), [group.id, results]);
   const hasResults = groupMatches.some((m) => results[m.id]);
   const { predictions } = usePlanilla();
 
@@ -148,7 +149,7 @@ export function FixtureGroupCard({ group, results }: FixtureGroupCardProps) {
       </div>
     </div>
   );
-}
+});
 
 const groupAccents: Record<GroupId, string> = {
   A: "from-fifa-green to-fifa-teal",
