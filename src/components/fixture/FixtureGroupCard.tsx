@@ -6,18 +6,13 @@ import { getMatchesForGroup } from "@/data/matches";
 import { MatchResult } from "@/data/results";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { computeStandings } from "@/lib/scoring";
+import { getOutcome } from "@/lib/outcomeStyles";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { cn } from "@/lib/utils";
 
 interface FixtureGroupCardProps {
   group: Group;
   results: Record<string, MatchResult>;
-}
-
-function getActualOutcome(homeScore: number, awayScore: number): "L" | "E" | "V" {
-  if (homeScore > awayScore) return "L";
-  if (homeScore < awayScore) return "V";
-  return "E";
 }
 
 export function FixtureGroupCard({ group, results }: FixtureGroupCardProps) {
@@ -94,7 +89,7 @@ export function FixtureGroupCard({ group, results }: FixtureGroupCardProps) {
 
             let predResult: "correct" | "wrong" | null = null;
             if (result && planillaPred) {
-              const actual = getActualOutcome(result.homeScore, result.awayScore);
+              const actual = getOutcome(result.homeScore, result.awayScore);
               predResult = planillaPred.outcome.includes(actual) ? "correct" : "wrong";
             }
 

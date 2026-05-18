@@ -10,7 +10,7 @@ import { getTeam } from "@/data/teams";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { GroupId } from "@/types";
-import { cn } from "@/lib/utils";
+import { cn, matchLabel } from "@/lib/utils";
 
 const groupAccents: Record<string, string> = {
   A: "from-fifa-green to-fifa-teal",
@@ -26,18 +26,6 @@ const groupAccents: Record<string, string> = {
   K: "from-fifa-gold to-amber-600",
   L: "from-fifa-red to-fifa-blue",
 };
-
-function matchLabel(matchId: string): string {
-  const gMatch = matches.find((m) => m.id === matchId);
-  if (gMatch) {
-    return `${getTeam(gMatch.homeTeamId).shortName} vs ${getTeam(gMatch.awayTeamId).shortName}`;
-  }
-  const kMatch = knockoutMatches.find((m) => m.id === matchId);
-  if (kMatch) {
-    return `${kMatch.homeSlot.label} vs ${kMatch.awaySlot.label}`;
-  }
-  return matchId;
-}
 
 interface AdminUser {
   id: number;
