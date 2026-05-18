@@ -93,6 +93,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
     }
 
     setTouchDragging(false);
+    onDockDragEnd?.();
 
     const el = document.elementFromPoint(touchPos.x, touchPos.y);
     const matchRow = el?.closest("[data-match-id]");
@@ -100,11 +101,8 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
       const matchId = matchRow.getAttribute("data-match-id");
       if (matchId) {
         onTouchDrop(matchId);
-        return;
       }
     }
-
-    onDockDragEnd?.();
   };
 
   if (isPlaced) return null;
