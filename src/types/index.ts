@@ -93,6 +93,7 @@ export type BonusSourceType = "teams" | "players" | "participants";
 export interface BonusQuestion {
   id: string;
   label: string;
+  subtitle?: string;
   sourceType: BonusSourceType;
   lockScope: string;
 }

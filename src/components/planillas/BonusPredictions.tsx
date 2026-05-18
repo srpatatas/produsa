@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 interface BonusQuestion {
   id: string;
   label: string;
+  subtitle?: string;
   sourceType: string;
   lockScope: string;
 }
@@ -23,11 +24,13 @@ const participantOptions = [
 function BonusSelect({
   questionId,
   label,
+  subtitle,
   sourceType,
   locked,
 }: {
   questionId: string;
   label: string;
+  subtitle?: string;
   sourceType: string;
   locked?: boolean;
 }) {
@@ -56,6 +59,9 @@ function BonusSelect({
         <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
           {label}
         </label>
+        {subtitle && (
+          <p className="mb-1.5 text-[9px] text-fifa-dark-gray/60">{subtitle}</p>
+        )}
         <input
           type={sourceType === "exact_value" ? "number" : "text"}
           value={value}
@@ -76,6 +82,9 @@ function BonusSelect({
       <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
         {label}
       </label>
+      {subtitle && (
+        <p className="mb-1.5 text-[9px] text-fifa-dark-gray/60">{subtitle}</p>
+      )}
       <button
         type="button"
         onClick={() => !locked && setOpen(!open)}
@@ -164,6 +173,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             key={q.id}
             questionId={q.id}
             label={q.label}
+            subtitle={q.subtitle}
             sourceType={q.sourceType}
             locked={locked}
           />
