@@ -25,21 +25,22 @@ const participantOptions = [
 function InfoTooltip({ text }: { text: string }) {
   const [show, setShow] = useState(false);
   return (
-    <span className="relative">
+    <span className="relative group">
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setShow(!show); }}
         onBlur={() => setShow(false)}
-        className="flex h-4 w-4 items-center justify-center rounded-full bg-white/5 text-[9px] font-bold text-fifa-dark-gray hover:bg-white/10 hover:text-foreground transition-colors"
+        className="flex h-4 w-4 items-center justify-center rounded-full bg-white/5 text-[8px] italic font-bold text-fifa-dark-gray hover:bg-white/10 hover:text-foreground transition-colors"
       >
-        ?
+        i
       </button>
-      {show && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 w-52 rounded-lg bg-card-bg px-3 py-2 text-[10px] text-foreground shadow-xl ring-1 ring-white/10 normal-case tracking-normal font-normal">
-          {text}
-          <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-card-bg ring-1 ring-white/10 ring-t-0 ring-l-0" />
-        </div>
-      )}
+      <div className={cn(
+        "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 w-52 rounded-lg bg-card-bg px-3 py-2 text-[10px] text-foreground shadow-xl ring-1 ring-white/10 normal-case tracking-normal font-normal transition-opacity duration-150 pointer-events-none",
+        show ? "opacity-100" : "opacity-0 sm:group-hover:opacity-100",
+      )}>
+        {text}
+        <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-card-bg ring-1 ring-white/10" />
+      </div>
     </span>
   );
 }
@@ -106,10 +107,8 @@ function BonusSelect({
       <label className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
         {label}
         {!!points && <span className="rounded-full bg-fifa-gold/20 px-1.5 py-0.5 text-[8px] font-bold text-fifa-gold normal-case tracking-normal">+{points}</span>}
+        {subtitle && <InfoTooltip text={subtitle} />}
       </label>
-      {subtitle && (
-        <p className="mb-1.5 text-[9px] text-fifa-dark-gray/60">{subtitle}</p>
-      )}
       <button
         type="button"
         onClick={() => !locked && setOpen(!open)}
