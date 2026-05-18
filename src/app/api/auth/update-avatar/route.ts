@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession, createSessionToken, SessionUser } from "@/lib/auth";
+import { createSessionToken, SessionUser } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 
-export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const POST = withAuth(async (req, session) => {
   const { avatar } = await req.json();
   if (!avatar) return NextResponse.json({ error: "Avatar requerido" }, { status: 400 });
 
@@ -25,4 +23,4 @@ export async function POST(req: NextRequest) {
   });
 
   return response;
-}
+});

@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 
-export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-  }
-
+export const POST = withAuth(async (req, session) => {
   const { currentPin, newPin } = await req.json();
 
   if (!currentPin || !newPin) {
@@ -35,4 +30,4 @@ export async function POST(req: NextRequest) {
   await sql`UPDATE users SET pin = ${hashedPin} WHERE id = ${session.id}`;
 
   return NextResponse.json({ ok: true });
-}
+});

@@ -1,17 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAdmin } from "@/lib/apiAuth";
 
-async function requireAdmin() {
-  const session = await getSession();
-  if (!session?.is_admin) return null;
-  return session;
-}
-
-export async function GET() {
-  const admin = await requireAdmin();
-  if (!admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
   const users = await sql`
     SELECT id, name, invite_code, avatar, is_admin, pin != 'PENDING' as registered, created_at
@@ -19,12 +10,9 @@ export async function GET() {
   `;
 
   return NextResponse.json({ users });
-}
+});
 
-export async function POST(req: NextRequest) {
-  const admin = await requireAdmin();
-  if (!admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const POST = withAdmin(async (req, session) => {
   const { name, inviteCode, avatar } = await req.json();
 
   if (!name || !inviteCode) {
@@ -43,16 +31,13 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
-}
+});
 
-export async function DELETE(req: NextRequest) {
-  const admin = await requireAdmin();
-  if (!admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const DELETE = withAdmin(async (req, session) => {
   const { userId } = await req.json();
   if (!userId) return NextResponse.json({ error: "userId requerido" }, { status: 400 });
 
-  if (userId === admin.id) {
+  if (userId === session.id) {
     return NextResponse.json({ error: "No podés eliminarte a vos mismo" }, { status: 400 });
   }
 
@@ -60,4 +45,4 @@ export async function DELETE(req: NextRequest) {
   await sql`DELETE FROM users WHERE id = ${userId}`;
 
   return NextResponse.json({ ok: true });
-}
+});

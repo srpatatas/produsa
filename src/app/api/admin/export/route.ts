@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAdmin } from "@/lib/apiAuth";
 import { matchLabel } from "@/lib/utils";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session?.is_admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
 
   const users = await sql`
@@ -66,4 +63,4 @@ export async function GET() {
       "Content-Disposition": `attachment; filename="produsa-export-${date}.csv"`,
     },
   });
-}
+});

@@ -1,13 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 import { MatchResult } from "@/data/results";
 import { fetchRankingMaps, fetchBonusMaps, computeMatchPoints, computeBonusPoints } from "@/lib/rankingService";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const GET = withAuth(async (req, session) => {
   const sql = getDb();
 
   const [maps, resultsRows] = await Promise.all([
@@ -48,4 +45,4 @@ export async function GET() {
   });
 
   return NextResponse.json({ ranking });
-}
+});

@@ -1,11 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAuth } from "@/lib/apiAuth";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
-
+export const GET = withAuth(async (req, session) => {
   const sql = getDb();
   const rows = await sql`SELECT id, label, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
 
@@ -17,4 +14,4 @@ export async function GET() {
   }));
 
   return NextResponse.json({ questions });
-}
+});

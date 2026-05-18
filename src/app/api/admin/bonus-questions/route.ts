@@ -1,11 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { withAdmin } from "@/lib/apiAuth";
 
-export async function GET() {
-  const session = await getSession();
-  if (!session?.is_admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
   const rows = await sql`SELECT id, label, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
 
@@ -18,12 +15,9 @@ export async function GET() {
   }));
 
   return NextResponse.json({ questions });
-}
+});
 
-export async function POST(req: NextRequest) {
-  const session = await getSession();
-  if (!session?.is_admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const POST = withAdmin(async (req, session) => {
   const { id, label, sourceType, lockScope } = await req.json();
 
   if (!id || !label || !sourceType || !lockScope) {
@@ -48,12 +42,9 @@ export async function POST(req: NextRequest) {
   `;
 
   return NextResponse.json({ ok: true });
-}
+});
 
-export async function DELETE(req: NextRequest) {
-  const session = await getSession();
-  if (!session?.is_admin) return NextResponse.json({ error: "No autorizado" }, { status: 403 });
-
+export const DELETE = withAdmin(async (req, session) => {
   const { id } = await req.json();
   if (!id) return NextResponse.json({ error: "id requerido" }, { status: 400 });
 
@@ -63,4 +54,4 @@ export async function DELETE(req: NextRequest) {
   await sql`DELETE FROM bonus_questions WHERE id = ${id}`;
 
   return NextResponse.json({ ok: true });
-}
+});
