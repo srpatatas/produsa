@@ -42,7 +42,7 @@ export default function MiCuentaPage() {
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) { setError("Máximo 2MB"); return; }
+    if (file.size > 5 * 1024 * 1024) { setError("Máximo 5MB"); return; }
     if (!file.type.startsWith("image/")) { setError("Solo imágenes"); return; }
 
     setUploading(true);
