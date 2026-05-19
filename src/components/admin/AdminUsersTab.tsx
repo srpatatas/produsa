@@ -186,7 +186,7 @@ export function AdminUsersTab({ flashStatus }: AdminUsersTabProps) {
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (!file) return;
-                        if (file.size > 2 * 1024 * 1024) { alert("Máximo 2MB"); return; }
+                        if (file.size > 5 * 1024 * 1024) { alert("Máximo 5MB"); return; }
                         const formData = new FormData();
                         formData.append("file", file);
                         formData.append("userId", String(u.id));
