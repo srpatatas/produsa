@@ -51,6 +51,7 @@ function BonusSelect({
   sourceType,
   locked,
   participantOptions = [],
+  playerOptions = [],
 }: {
   questionId: string;
   label: string;
@@ -59,6 +60,7 @@ function BonusSelect({
   sourceType: string;
   locked?: boolean;
   participantOptions?: { value: string; label: string }[];
+  playerOptions?: { value: string; label: string }[];
 }) {
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
   const [open, setOpen] = useState(false);
@@ -85,9 +87,11 @@ function BonusSelect({
       ? teamOptions
       : sourceType === "participants"
         ? participantOptions
-        : [];
+        : sourceType === "players" && playerOptions.length > 0
+          ? playerOptions
+          : [];
 
-  const isTextInput = sourceType === "players" || sourceType === "exact_value";
+  const isTextInput = (sourceType === "players" && playerOptions.length === 0) || sourceType === "exact_value";
   const filtered = options.filter((o) =>
     o.label.toLowerCase().includes(search.toLowerCase()),
   );
@@ -200,6 +204,7 @@ function BonusSelect({
 export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: string }) {
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
   const [participants, setParticipants] = useState<{ value: string; label: string }[]>([]);
+  const [players, setPlayers] = useState<{ value: string; label: string }[]>([]);
 
   useEffect(() => {
     fetch("/api/bonus-questions")
@@ -209,6 +214,10 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
     fetch("/api/participants")
       .then((r) => r.ok ? r.json() : { participants: [] })
       .then((data) => setParticipants(data.participants.map((p: { name: string }) => ({ value: p.name, label: p.name }))))
+      .catch(() => {});
+    fetch("/api/players")
+      .then((r) => r.ok ? r.json() : { players: [] })
+      .then((data) => setPlayers(data.players.map((p: { name: string; teamId: string }) => ({ value: p.name, label: `${p.name} (${p.teamId})` }))))
       .catch(() => {});
   }, []);
 
@@ -235,6 +244,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             sourceType={q.sourceType}
             locked={locked}
             participantOptions={participants}
+            playerOptions={players}
           />
         ))}
       </div>
