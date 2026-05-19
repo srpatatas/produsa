@@ -127,6 +127,18 @@ async function main() {
   `;
   console.log("  ✓ exact_score_predictions");
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS players (
+      id SERIAL PRIMARY KEY,
+      team_id VARCHAR(10) NOT NULL,
+      name VARCHAR(200) NOT NULL,
+      position VARCHAR(5),
+      number INTEGER,
+      UNIQUE(team_id, name)
+    )
+  `;
+  console.log("  ✓ players");
+
   // Seed lock deadlines from match data
   // Group stage: earliest kickoff per matchday
   // Knockout: earliest kickoff per round
