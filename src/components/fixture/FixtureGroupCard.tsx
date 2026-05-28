@@ -142,7 +142,7 @@ export const FixtureGroupCard = memo(function FixtureGroupCard({ group, results 
                   </span>
                 </div>
                 </div>
-                <p className="text-center text-[8px] text-fifa-dark-gray/60 pb-0.5">
+                <p className="text-center text-[9px] text-fifa-dark-gray pb-0.5">
                   {new Date(match.kickoff).toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "America/Argentina/Buenos_Aires" })} · {new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" })}h
                 </p>
               </div>
