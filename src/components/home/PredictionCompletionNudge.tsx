@@ -98,7 +98,7 @@ export function PredictionCompletionNudge({
           const lockStr = lockDate ? lockDate.toLocaleDateString("es-AR", { day: "numeric", month: "short" }) : null;
 
           return (
-            <div key={scope} className="flex items-center gap-1.5">
+            <div key={scope} className={cn("flex items-center gap-1.5", locks[scope]?.isLocked && "opacity-50")}>
               <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
                 {scopeLabels[scope] ?? scope}
               </span>
