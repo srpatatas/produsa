@@ -8,6 +8,8 @@ interface PredictionEntry {
   user: { id: number; name: string; avatar: string };
   outcome: string;
   exactScore: { home: number; away: number } | null;
+  isComodin?: boolean;
+  isDoble?: boolean;
 }
 
 interface MatchPredictionsDropdownProps {
@@ -75,12 +77,18 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredic
           return (
             <div key={pred.user.id} className={`flex flex-col items-center gap-1.5 transition-opacity ${dimmed ? "opacity-30" : ""}`}>
               <div className="relative mb-1">
-                <div className={`rounded-full ring-2 ${outcomeRing[ringOutcome] ?? "ring-white/20"}`}>
+                <div className={`rounded-full ring-2 ${pred.isComodin ? "ring-fifa-gold" : outcomeRing[ringOutcome] ?? "ring-white/20"}`}>
                   <AvatarDisplay avatar={pred.user.avatar} size="lg" />
                 </div>
                 <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-px text-[9px] font-bold text-white whitespace-nowrap ${badgeBg}`}>
                   {badgeLabel}
                 </span>
+                {pred.isComodin && (
+                  <span className="absolute -top-1 -right-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
+                )}
+                {pred.isDoble && (
+                  <span className="absolute -top-1 -left-1 rounded-full bg-fifa-purple px-1 py-px text-[7px] font-bold text-white">2x</span>
+                )}
               </div>
               <span className="text-[10px] text-fifa-dark-gray truncate max-w-full">
                 {pred.user.name}

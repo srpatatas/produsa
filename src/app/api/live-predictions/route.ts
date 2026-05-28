@@ -8,7 +8,7 @@ export const GET = withAuth(async (req, session) => {
 
   const sql = getDb();
 
-  const [rows, exactRows, settingsRows] = await Promise.all([
+  const [rows, exactRows, settingsRows, comodinRows] = await Promise.all([
     sql`
       SELECT u.id, u.name, u.avatar, p.outcome
       FROM planilla_predictions p
@@ -22,6 +22,7 @@ export const GET = withAuth(async (req, session) => {
       WHERE match_id = ${matchId}
     `,
     sql`SELECT 1 FROM match_settings WHERE match_id = ${matchId} AND exact_score = true`,
+    sql`SELECT user_id FROM planilla_comodines WHERE match_id = ${matchId}`,
   ]);
 
   const exactByUser: Record<number, { home: number; away: number }> = {};
@@ -32,10 +33,14 @@ export const GET = withAuth(async (req, session) => {
     };
   }
 
+  const comodinUserIds = new Set(comodinRows.map((r) => r.user_id as number));
+
   const predictions = rows.map((r) => ({
     user: { id: r.id as number, name: r.name as string, avatar: r.avatar as string },
     outcome: r.outcome as string,
     exactScore: exactByUser[r.id as number] ?? null,
+    isComodin: comodinUserIds.has(r.id as number),
+    isDoble: (r.outcome as string).length === 2,
   }));
 
   return NextResponse.json({
