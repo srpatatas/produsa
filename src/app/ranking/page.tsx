@@ -30,7 +30,7 @@ export default function RankingPage() {
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          Ranking
+          Posiciones
         </h1>
         <p className="mt-1 text-xs text-fifa-dark-gray">
           Tabla parcial de posiciones. Los puntos extra se suman al final del juego
