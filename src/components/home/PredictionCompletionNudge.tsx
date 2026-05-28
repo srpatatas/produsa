@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
 import { matches as groupMatches } from "@/data/matches";
 import { cn } from "@/lib/utils";
@@ -88,21 +89,24 @@ export function PredictionCompletionNudge({
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Estado de tus pronósticos
       </p>
-      <div className="flex flex-col gap-2">
+      <div className="flex justify-center">
+      <div className="inline-grid gap-x-2 gap-y-1.5 items-center" style={{ gridTemplateColumns: "auto auto auto auto auto auto" }}>
         {all.map(([scope, status]) => {
           const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
           const complete = pct === 100;
           const m = status.matches;
           const b = status.bonus;
+          const isLocked = locks[scope]?.isLocked;
           const lockDate = locks[scope]?.locksAt ? new Date(locks[scope].locksAt) : null;
           const lockStr = lockDate ? lockDate.toLocaleDateString("es-AR", { day: "numeric", month: "short" }) : null;
+          const rowOpacity = isLocked ? "opacity-50" : "";
 
           return (
-            <div key={scope} className={cn("flex items-center gap-1.5", locks[scope]?.isLocked && "opacity-50")}>
-              <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
+            <React.Fragment key={scope}>
+              <span className={cn("text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap", rowOpacity)}>
                 {scopeLabels[scope] ?? scope}
               </span>
-              <div className="h-1.5 w-20 flex-shrink-0 rounded-full bg-white/5">
+              <div className={cn("h-1.5 w-20 rounded-full bg-white/5", rowOpacity)}>
                 <div
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     complete ? "bg-fifa-green" : "bg-fifa-blue"
@@ -110,29 +114,28 @@ export function PredictionCompletionNudge({
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <span className={`text-[10px] font-semibold whitespace-nowrap ${
+              <span className={cn(`text-[10px] font-semibold whitespace-nowrap text-right ${
                 complete ? "text-fifa-green" : "text-fifa-dark-gray/70"
-              }`}>
+              }`, rowOpacity)}>
                 {pct}%
               </span>
-              {m && m.total > 0 && (
-                <span className={`text-[9px] font-medium whitespace-nowrap ${m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
-                  {m.completed}/{m.total} part.
-                </span>
-              )}
-              {b && b.total > 0 && (
-                <span className={`text-[9px] font-medium whitespace-nowrap ${b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
-                  {b.completed}/{b.total} bonus
-                </span>
-              )}
-              {lockStr && (
-                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap ml-auto">
-                  {locks[scope]?.isLocked ? "🔒" : "🔓"} {lockStr}
-                </span>
-              )}
-            </div>
+              <span className={cn(`text-[9px] font-medium whitespace-nowrap ${
+                m && m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"
+              }`, rowOpacity)}>
+                {m && m.total > 0 ? `${m.completed}/${m.total} part.` : ""}
+              </span>
+              <span className={cn(`text-[9px] font-medium whitespace-nowrap ${
+                b && b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"
+              }`, rowOpacity)}>
+                {b && b.total > 0 ? `${b.completed}/${b.total} bonus` : ""}
+              </span>
+              <span className={cn("text-[9px] text-fifa-dark-gray whitespace-nowrap", rowOpacity)}>
+                {lockStr ? `${isLocked ? "🔒" : "🔓"} ${lockStr}` : ""}
+              </span>
+            </React.Fragment>
           );
         })}
+      </div>
       </div>
     </div>
   );
