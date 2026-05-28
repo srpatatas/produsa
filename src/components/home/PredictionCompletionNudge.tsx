@@ -116,16 +116,18 @@ export function PredictionCompletionNudge({
               }`}>
                 {pct}%
               </span>
-              {m && m.total > 0 && (
-                <span className={`text-[9px] font-medium whitespace-nowrap ${m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
-                  {m.completed}/{m.total} part.
-                </span>
-              )}
-              {b && b.total > 0 && (
-                <span className={`text-[9px] font-medium whitespace-nowrap ${b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
-                  {b.completed}/{b.total} bonus
-                </span>
-              )}
+              <div className="flex items-center gap-1.5 w-28">
+                {m && m.total > 0 && (
+                  <span className={`text-[9px] font-medium whitespace-nowrap ${m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
+                    {m.completed}/{m.total} part.
+                  </span>
+                )}
+                {b && b.total > 0 && (
+                  <span className={`text-[9px] font-medium whitespace-nowrap ${b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
+                    {b.completed}/{b.total} bonus
+                  </span>
+                )}
+              </div>
               {lockStr && (
                 <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap">
                   {locks[scope]?.isLocked ? "🔒" : "🔓"} {lockStr}
