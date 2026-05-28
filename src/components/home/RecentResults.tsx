@@ -82,6 +82,7 @@ function RecentResultCard({ r }: { r: RecentResult }) {
         <MatchPredictionsDropdown
           matchId={r.id}
           actualOutcome={getLiveOutcome(r.homeScore, r.awayScore)}
+          actualScore={{ home: r.homeScore, away: r.awayScore }}
         />
       )}
     </div>
