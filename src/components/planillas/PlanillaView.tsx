@@ -155,45 +155,44 @@ export function PlanillaView() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Pronósticos
-          </h1>
-          <p className="mt-1 text-xs text-fifa-dark-gray">
-            {phase === "grupos"
-              ? "Tenés un doble, un resultado exacto (+2 puntos) y un comodín (+2 puntos) por fecha. No vas a poder combinar ninguno de ellos"
-              : "Predecí los partidos de eliminatorias"}
-          </p>
-        </div>
-        <div className="relative flex-shrink-0 flex h-10 w-[190px] items-center rounded-full bg-surface ring-1 ring-white/5">
-          <div className={cn(
-            "absolute h-9 w-[92px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
-            phase === "grupos" ? "left-0.5" : "left-[96px]",
-          )} />
-          <button
-            onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
-            className={cn(
-              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
-              phase === "grupos"
-                ? "text-white"
-                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
-            )}
-          >
-            Grupos
-          </button>
-          <button
-            onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
-            className={cn(
-              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
-              phase === "eliminatorias"
-                ? "text-white"
-                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
-            )}
-          >
-            Elimin.
-          </button>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          Pronósticos
+        </h1>
+        <p className="mt-1 text-xs text-fifa-dark-gray">
+          {phase === "grupos"
+            ? "Tenés un doble, un resultado exacto (+2 puntos) y un comodín (+2 puntos) por fecha. No vas a poder combinar ninguno de ellos"
+            : "Predecí los partidos de eliminatorias"}
+        </p>
+      </div>
+
+      <div className="relative flex h-10 w-[190px] items-center rounded-full bg-surface ring-1 ring-white/5">
+        <div className={cn(
+          "absolute h-9 w-[92px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
+          phase === "grupos" ? "left-0.5" : "left-[96px]",
+        )} />
+        <button
+          onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
+          className={cn(
+            "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
+            phase === "grupos"
+              ? "text-white"
+              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+          )}
+        >
+          Grupos
+        </button>
+        <button
+          onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
+          className={cn(
+            "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
+            phase === "eliminatorias"
+              ? "text-white"
+              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+          )}
+        >
+          Elimin.
+        </button>
       </div>
 
       {phase === "grupos" ? (
