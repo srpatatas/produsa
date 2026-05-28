@@ -88,7 +88,7 @@ export function PredictionCompletionNudge({
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Estado de tus pronósticos
       </p>
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col gap-2">
         {all.map(([scope, status]) => {
           const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
           const complete = pct === 100;
@@ -126,7 +126,7 @@ export function PredictionCompletionNudge({
                 </span>
               )}
               {lockStr && (
-                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap">
+                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap ml-auto">
                   {locks[scope]?.isLocked ? "🔒" : "🔓"} {lockStr}
                 </span>
               )}
