@@ -16,7 +16,7 @@ const roundGradients: Record<KnockoutRound, string> = {
   R32: "from-fifa-teal to-cyan-500",
   R16: "from-fifa-blue to-indigo-600",
   QF: "from-fifa-purple to-fuchsia-600",
-  SF: "from-amber-500 to-fifa-gold",
+  SF: "from-fifa-red to-rose-600",
   "3P": "from-fifa-green to-lime-500",
   F: "from-fifa-gold to-amber-600",
 };
