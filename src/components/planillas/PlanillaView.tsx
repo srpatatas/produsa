@@ -158,11 +158,11 @@ export function PlanillaView() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Planillas
+            Pronósticos
           </h1>
-          <p className="mt-1 text-base text-fifa-dark-gray">
+          <p className="mt-1 text-sm text-fifa-dark-gray">
             {phase === "grupos"
-              ? "Completá tu planilla para cada fecha · 1 doble por fecha"
+              ? "Tenés un doble, un resultado exacto (+2 puntos) y un comodín (+1 punto) por fecha. No vas a poder combinar ninguno de ellos"
               : "Predecí los partidos de eliminatorias"}
           </p>
         </div>
