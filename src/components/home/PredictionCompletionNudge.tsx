@@ -85,12 +85,11 @@ export function PredictionCompletionNudge({
   if (all.length === 0) return null;
 
   return (
-    <div className="mx-auto max-w-md w-full rounded-xl bg-surface/60 px-4 py-2.5 ring-1 ring-white/5">
+    <div className="mx-auto max-w-md w-full rounded-xl bg-surface/60 px-4 py-2.5 ring-1 ring-white/5 overflow-hidden">
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Estado de tus pronósticos
       </p>
-      <div className="flex justify-center">
-      <div className="inline-grid gap-x-2 gap-y-1.5 items-center" style={{ gridTemplateColumns: "auto auto auto auto auto auto" }}>
+      <div className="grid gap-x-2 gap-y-1.5 items-center" style={{ gridTemplateColumns: "auto 1fr auto auto auto" }}>
         {all.map(([scope, status]) => {
           const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
           const complete = pct === 100;
@@ -106,7 +105,7 @@ export function PredictionCompletionNudge({
               <span className={cn("text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap", rowOpacity)}>
                 {scopeLabels[scope] ?? scope}
               </span>
-              <div className={cn("h-1.5 w-20 rounded-full bg-white/5", rowOpacity)}>
+              <div className={cn("h-1.5 min-w-8 rounded-full bg-white/5", rowOpacity)}>
                 <div
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     complete ? "bg-fifa-green" : "bg-fifa-blue"
@@ -119,23 +118,20 @@ export function PredictionCompletionNudge({
               }`, rowOpacity)}>
                 {pct}%
               </span>
-              <span className={cn(`text-[9px] font-medium whitespace-nowrap ${
-                m && m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"
-              }`, rowOpacity)}>
-                {m && m.total > 0 ? `${m.completed}/${m.total} part.` : ""}
+              <span className={cn("text-[9px] font-medium whitespace-nowrap flex gap-1.5", rowOpacity)}>
+                {m && m.total > 0 && (
+                  <span className={m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}>{m.completed}/{m.total} part.</span>
+                )}
+                {b && b.total > 0 && (
+                  <span className={b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}>{b.completed}/{b.total} bonus</span>
+                )}
               </span>
-              <span className={cn(`text-[9px] font-medium whitespace-nowrap ${
-                b && b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"
-              }`, rowOpacity)}>
-                {b && b.total > 0 ? `${b.completed}/${b.total} bonus` : ""}
-              </span>
-              <span className={cn("text-[9px] text-fifa-dark-gray whitespace-nowrap", rowOpacity)}>
+              <span className={cn("text-[9px] text-fifa-dark-gray whitespace-nowrap text-right", rowOpacity)}>
                 {lockStr ? `${isLocked ? "🔒" : "🔓"} ${lockStr}` : ""}
               </span>
             </React.Fragment>
           );
         })}
-      </div>
       </div>
     </div>
   );
