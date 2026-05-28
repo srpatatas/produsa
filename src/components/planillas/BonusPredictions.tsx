@@ -12,6 +12,7 @@ interface BonusQuestion {
   points?: number;
   sourceType: string;
   lockScope: string;
+  excludedTeams?: string[];
 }
 
 const teamOptions = Object.values(teams)
@@ -52,6 +53,7 @@ function BonusSelect({
   locked,
   participantOptions = [],
   playerOptions = [],
+  excludedTeams,
   isOpen,
   onToggleOpen,
 }: {
@@ -63,6 +65,7 @@ function BonusSelect({
   locked?: boolean;
   participantOptions?: { value: string; label: string }[];
   playerOptions?: { value: string; label: string }[];
+  excludedTeams?: string[];
   isOpen?: boolean;
   onToggleOpen?: (id: string | null) => void;
 }) {
@@ -86,9 +89,10 @@ function BonusSelect({
     }
   };
 
+  const excludedSet = excludedTeams ? new Set(excludedTeams) : null;
   const options =
     sourceType === "teams"
-      ? teamOptions
+      ? (excludedSet ? teamOptions.filter((o) => !excludedSet.has(o.value)) : teamOptions)
       : sourceType === "participants"
         ? participantOptions
         : sourceType === "players" && playerOptions.length > 0
@@ -249,6 +253,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             locked={locked}
             participantOptions={participants}
             playerOptions={players}
+            excludedTeams={q.excludedTeams}
             isOpen={openDropdownId === q.id}
             onToggleOpen={setOpenDropdownId}
           />
