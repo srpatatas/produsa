@@ -161,8 +161,8 @@ export function PlanillaView() {
         </h1>
         <p className="mt-1 text-xs text-fifa-dark-gray">
           {phase === "grupos"
-            ? "Tenés un doble, un resultado exacto (+2 puntos) y un comodín (+2 puntos) por fecha. No vas a poder combinar ninguno de ellos"
-            : "Predecí los partidos de eliminatorias"}
+            ? "Tenés un doble, un resultado exacto (+2 puntos) y un comodín (+2 puntos) por fecha. No vas a poder combinar ninguno de ellos."
+            : "Predecí los partidos de eliminatorias."}
         </p>
       </div>
 
