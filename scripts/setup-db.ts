@@ -143,9 +143,9 @@ async function main() {
   // Group stage: earliest kickoff per matchday
   // Knockout: earliest kickoff per round
   const deadlines = [
-    { scope: "fecha-1", locks_at: "2026-06-11T17:00:00Z" },
-    { scope: "fecha-2", locks_at: "2026-06-15T16:00:00Z" },
-    { scope: "fecha-3", locks_at: "2026-06-19T17:00:00Z" },
+    { scope: "fecha-1", locks_at: "2026-06-11T19:00:00Z" },
+    { scope: "fecha-2", locks_at: "2026-06-18T16:00:00Z" },
+    { scope: "fecha-3", locks_at: "2026-06-24T19:00:00Z" },
     { scope: "R32", locks_at: "2026-06-28T19:00:00Z" },
     { scope: "R16", locks_at: "2026-07-04T17:00:00Z" },
     { scope: "QF", locks_at: "2026-07-09T20:00:00Z" },
