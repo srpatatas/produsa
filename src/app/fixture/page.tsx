@@ -143,7 +143,7 @@ export default function FixturePage() {
                             )}
                           </div>
                         </div>
-                        <p className="text-center text-[8px] text-fifa-dark-gray/30 pb-0.5">
+                        <p className="text-center text-[8px] text-fifa-dark-gray/60 pb-0.5">
                           {new Date(km.kickoff).toLocaleDateString("es-AR", { day: "numeric", month: "short" })} · {new Date(km.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
                         </p>
                       </div>
