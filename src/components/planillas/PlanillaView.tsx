@@ -76,6 +76,7 @@ export function PlanillaView() {
     const scope = `fecha-${fecha}`;
     setComodinByFecha((prev) => ({ ...prev, [scope]: matchId }));
     setPlacementMode(false);
+    setComodinDragging(false);
     try {
       const res = await fetch("/api/comodines", {
         method: "POST",
