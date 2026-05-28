@@ -27,7 +27,7 @@ const groupPairs = [
 export function PlanillaView() {
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
-  const { predictions, setPrediction } = usePlanilla();
+  const { predictions, setPrediction, removePrediction } = usePlanilla();
   const [comodinByFecha, setComodinByFecha] = useState<Record<string, string | null>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
@@ -70,8 +70,7 @@ export function PlanillaView() {
     const pred = predictions[matchId];
     const hadDouble = pred && pred.outcome.length === 2;
     if (hadDouble) {
-      const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
-      await setPrediction(matchId, singleOutcome);
+      await removePrediction(matchId);
     }
     dropSucceeded.current = true;
     const scope = `fecha-${fecha}`;
@@ -93,7 +92,7 @@ export function PlanillaView() {
       setComodinByFecha((prev) => ({ ...prev, [scope]: null }));
       setToast("✗ Error al guardar comodín");
     }
-  }, [predictions, setPrediction, fecha]);
+  }, [predictions, setPrediction, removePrediction, fecha]);
 
   const handleComodinRemove = useCallback(async () => {
     try {
