@@ -90,39 +90,44 @@ export default function FixturePage() {
                     return (
                       <div
                         key={km.id}
-                        className={cn(
-                          "flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2.5 ring-1 text-sm",
-                          result ? "ring-fifa-teal/20" : "ring-white/5",
-                        )}
+                        className="text-xs"
                       >
-                        <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                          {home ? (
-                            <>
-                              <FlagImage code={home.flagCode} name={home.name} size="sm" />
-                              <span className="font-display text-xs tracking-wider truncate">{home.shortName}</span>
-                            </>
-                          ) : (
-                            <span className="text-xs text-fifa-dark-gray/50 truncate">{km.homeSlot.label}</span>
-                          )}
-                        </div>
-
-                        {result ? (
-                          <span className="font-display text-base text-foreground">
-                            {result.homeScore} : {result.awayScore}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-fifa-dark-gray/30">vs</span>
-                        )}
-
-                        <div className="flex items-center gap-1.5 flex-1 min-w-0 justify-end">
-                          {away ? (
-                            <>
-                              <span className="font-display text-xs tracking-wider truncate text-right">{away.shortName}</span>
-                              <FlagImage code={away.flagCode} name={away.name} size="sm" />
-                            </>
-                          ) : (
-                            <span className="text-xs text-fifa-dark-gray/50 truncate text-right">{km.awaySlot.label}</span>
-                          )}
+                        <div className="flex items-center gap-1.5 px-2 py-1">
+                          <div className="flex items-center gap-1 flex-1 min-w-0 justify-end">
+                            {home ? (
+                              <>
+                                <span className="font-display tracking-wider text-foreground truncate">{home.shortName}</span>
+                                <FlagImage code={home.flagCode} name={home.name} size="sm" />
+                              </>
+                            ) : (
+                              <span className="text-fifa-dark-gray/50 truncate">{km.homeSlot.label}</span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1 px-1">
+                            <span className={cn(
+                              "font-display text-sm w-5 text-center",
+                              result ? "text-foreground" : "text-fifa-dark-gray/30",
+                            )}>
+                              {result ? result.homeScore : "–"}
+                            </span>
+                            <span className="text-fifa-dark-gray/30">:</span>
+                            <span className={cn(
+                              "font-display text-sm w-5 text-center",
+                              result ? "text-foreground" : "text-fifa-dark-gray/30",
+                            )}>
+                              {result ? result.awayScore : "–"}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 flex-1 min-w-0">
+                            {away ? (
+                              <>
+                                <FlagImage code={away.flagCode} name={away.name} size="sm" />
+                                <span className="font-display tracking-wider text-foreground truncate">{away.shortName}</span>
+                              </>
+                            ) : (
+                              <span className="text-fifa-dark-gray/50 truncate">{km.awaySlot.label}</span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     );
