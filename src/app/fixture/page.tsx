@@ -21,8 +21,8 @@ export default function FixturePage() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Fixture
         </h1>
-        <p className="mt-1 text-base text-fifa-dark-gray">
-          Fase de grupos · Resultados y posiciones oficiales
+        <p className="mt-1 text-xs text-fifa-dark-gray">
+          Resultados y posiciones oficiales.
         </p>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
