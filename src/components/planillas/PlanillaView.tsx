@@ -27,7 +27,7 @@ const groupPairs = [
 export function PlanillaView() {
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
-  const { predictions, setPrediction } = usePlanilla();
+  const { predictions, setPrediction, removePrediction } = usePlanilla();
   const [comodinByFecha, setComodinByFecha] = useState<Record<string, string | null>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
@@ -69,14 +69,14 @@ export function PlanillaView() {
   const handleComodinDrop = useCallback(async (matchId: string) => {
     const pred = predictions[matchId];
     if (pred && pred.outcome.length === 2) {
-      const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
-      await setPrediction(matchId, singleOutcome);
-      setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
+      handleComodinReject("Primero sacá el DOBLE de ese partido");
+      return;
     }
     dropSucceeded.current = true;
     const scope = `fecha-${fecha}`;
     setComodinByFecha((prev) => ({ ...prev, [scope]: matchId }));
     setPlacementMode(false);
+    setComodinDragging(false);
     try {
       const res = await fetch("/api/comodines", {
         method: "POST",
@@ -93,7 +93,7 @@ export function PlanillaView() {
       setComodinByFecha((prev) => ({ ...prev, [scope]: null }));
       setToast("✗ Error al guardar comodín");
     }
-  }, [predictions, setPrediction, fecha]);
+  }, [predictions, setPrediction, removePrediction, fecha]);
 
   const handleComodinRemove = useCallback(async () => {
     try {
@@ -155,45 +155,44 @@ export function PlanillaView() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Planillas
-          </h1>
-          <p className="mt-1 text-base text-fifa-dark-gray">
-            {phase === "grupos"
-              ? "Completá tu planilla para cada fecha · 1 doble por fecha"
-              : "Predecí los partidos de eliminatorias"}
-          </p>
-        </div>
-        <div className="relative flex-shrink-0 flex h-10 w-[190px] items-center rounded-full bg-surface ring-1 ring-white/5">
-          <div className={cn(
-            "absolute h-9 w-[92px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
-            phase === "grupos" ? "left-0.5" : "left-[96px]",
-          )} />
-          <button
-            onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
-            className={cn(
-              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
-              phase === "grupos"
-                ? "text-white"
-                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
-            )}
-          >
-            Grupos
-          </button>
-          <button
-            onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
-            className={cn(
-              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
-              phase === "eliminatorias"
-                ? "text-white"
-                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
-            )}
-          >
-            Elimin.
-          </button>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          Pronósticos
+        </h1>
+        <p className="mt-1 text-xs text-fifa-dark-gray">
+          {phase === "grupos"
+            ? "Tenés un doble, un resultado exacto (+2 puntos) y un comodín (+2 puntos) por fecha. No vas a poder combinar ninguno de ellos"
+            : "Predecí los partidos de eliminatorias"}
+        </p>
+      </div>
+
+      <div className="relative flex h-10 w-[260px] ml-auto items-center rounded-full bg-surface ring-1 ring-white/5">
+        <div className={cn(
+          "absolute h-9 w-[127px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
+          phase === "grupos" ? "left-0.5" : "left-[131px]",
+        )} />
+        <button
+          onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
+          className={cn(
+            "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
+            phase === "grupos"
+              ? "text-white"
+              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+          )}
+        >
+          Grupos
+        </button>
+        <button
+          onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
+          className={cn(
+            "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
+            phase === "eliminatorias"
+              ? "text-white"
+              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+          )}
+        >
+          Eliminatorias
+        </button>
       </div>
 
       {phase === "grupos" ? (
