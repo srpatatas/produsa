@@ -15,6 +15,7 @@ interface PredictionEntry {
 interface MatchPredictionsDropdownProps {
   matchId: string;
   actualOutcome?: "L" | "E" | "V";
+  actualScore?: { home: number; away: number };
 }
 
 const outcomeRing: Record<string, string> = {
@@ -29,7 +30,7 @@ const outcomeRing: Record<string, string> = {
   VL: "ring-outcome-local",
 };
 
-export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredictionsDropdownProps) {
+export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }: MatchPredictionsDropdownProps) {
   const [predictions, setPredictions] = useState<PredictionEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -85,6 +86,9 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredic
                 </span>
                 {pred.isComodin && (
                   <span className="absolute -top-1 -right-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
+                )}
+                {hasExact && actualScore && pred.exactScore!.home === actualScore.home && pred.exactScore!.away === actualScore.away && (
+                  <span className="absolute -top-1 -left-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
                 )}
               </div>
               <span className="text-[10px] text-fifa-dark-gray truncate max-w-full">
