@@ -28,9 +28,9 @@ function InfoTooltip({ text }: { text: string }) {
         type="button"
         onClick={(e) => { e.stopPropagation(); setShow(!show); }}
         onBlur={() => setShow(false)}
-        className="flex h-4 w-4 items-center justify-center rounded-full bg-white/5 text-[8px] italic font-bold text-fifa-dark-gray hover:bg-white/10 hover:text-foreground transition-colors"
+        className="flex items-center justify-center text-sm leading-none transition-opacity hover:opacity-80"
       >
-        i
+        ℹ️
       </button>
       <div className={cn(
         "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 w-52 rounded-lg bg-card-bg px-3 py-2 text-[10px] text-foreground shadow-xl ring-1 ring-white/10 normal-case tracking-normal font-normal transition-opacity duration-150 pointer-events-none",
@@ -52,6 +52,8 @@ function BonusSelect({
   locked,
   participantOptions = [],
   playerOptions = [],
+  isOpen,
+  onToggleOpen,
 }: {
   questionId: string;
   label: string;
@@ -61,9 +63,11 @@ function BonusSelect({
   locked?: boolean;
   participantOptions?: { value: string; label: string }[];
   playerOptions?: { value: string; label: string }[];
+  isOpen?: boolean;
+  onToggleOpen?: (id: string | null) => void;
 }) {
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
-  const [open, setOpen] = useState(false);
+  const open = isOpen ?? false;
   const [search, setSearch] = useState("");
   const value = bonusPredictions[questionId] ?? "";
   const [localText, setLocalText] = useState(value);
@@ -112,7 +116,7 @@ function BonusSelect({
           onChange={(e) => setLocalText(e.target.value)}
           onBlur={saveTextInput}
           onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
-          placeholder={sourceType === "exact_value" ? "Ingresá un número" : "Escribí tu predicción"}
+          placeholder={sourceType === "exact_value" ? "Ingresá un número" : "Escribí tu pronóstico"}
           disabled={locked}
           className={cn(
             "w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30",
@@ -132,7 +136,7 @@ function BonusSelect({
       </label>
       <button
         type="button"
-        onClick={() => !locked && setOpen(!open)}
+        onClick={() => !locked && onToggleOpen?.(open ? null : questionId)}
         disabled={locked}
         className={cn(
           "flex w-full items-center justify-between rounded-lg bg-surface px-3 py-2 text-xs text-left ring-1 ring-white/5 transition-all",
@@ -166,7 +170,6 @@ function BonusSelect({
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar..."
               className="w-full rounded-lg bg-surface px-3 py-1.5 text-xs text-foreground outline-none placeholder:text-fifa-dark-gray/30"
-              autoFocus
             />
           </div>
           <div className="max-h-40 overflow-y-auto px-1 pb-1">
@@ -176,7 +179,7 @@ function BonusSelect({
                 type="button"
                 onClick={() => {
                   setBonusPrediction(questionId, o.value);
-                  setOpen(false);
+                  onToggleOpen?.(null);
                   setSearch("");
                 }}
                 className={cn(
@@ -205,6 +208,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
   const [participants, setParticipants] = useState<{ value: string; label: string }[]>([]);
   const [players, setPlayers] = useState<{ value: string; label: string }[]>([]);
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/bonus-questions")
@@ -245,6 +249,8 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             locked={locked}
             participantOptions={participants}
             playerOptions={players}
+            isOpen={openDropdownId === q.id}
+            onToggleOpen={setOpenDropdownId}
           />
         ))}
       </div>
