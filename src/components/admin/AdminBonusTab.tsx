@@ -258,14 +258,11 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                 <option key={s} value={s}>{scopeLabels[s] ?? s}</option>
               ))}
             </select>
-            <input
-              type="number"
-              min={0}
-              value={newQuestion.points}
-              onChange={(e) => setNewQuestion((prev) => ({ ...prev, points: e.target.value }))}
-              placeholder="Puntos"
-              className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
-            />
+            <div className="flex items-center gap-0.5 rounded-lg bg-surface ring-1 ring-white/5 self-center justify-center">
+              <button type="button" onClick={() => setNewQuestion((prev) => ({ ...prev, points: String(Math.max(0, parseInt(prev.points) - 1)) }))} className="px-2 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground">−</button>
+              <span className="px-1 text-xs font-bold text-fifa-gold">{newQuestion.points}pts</span>
+              <button type="button" onClick={() => setNewQuestion((prev) => ({ ...prev, points: String(parseInt(prev.points) + 1) }))} className="px-2 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground">+</button>
+            </div>
           </div>
           {newQuestion.sourceType === "teams" && (
             <input
