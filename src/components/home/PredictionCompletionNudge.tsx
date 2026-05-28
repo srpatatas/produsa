@@ -126,7 +126,7 @@ export function PredictionCompletionNudge({
                 </span>
               )}
               {lockStr && (
-                <span className="text-[9px] text-fifa-dark-gray/50 whitespace-nowrap ml-auto">
+                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap ml-auto">
                   {locks[scope]?.isLocked ? "🔒" : "🔓"} {lockStr}
                 </span>
               )}
