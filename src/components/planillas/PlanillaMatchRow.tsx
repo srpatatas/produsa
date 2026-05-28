@@ -340,7 +340,7 @@ export function PlanillaMatchRow({
             : (placementMode || comodinDragging) && !locked
               ? canReceiveComodin
                 ? "ring-fifa-gold/20 cursor-pointer hover:ring-fifa-gold/40 hover:bg-fifa-gold/5"
-                : "ring-white/5 cursor-not-allowed opacity-60 hover:ring-fifa-red/30 hover:bg-fifa-red/5"
+                : "ring-white/5 cursor-not-allowed opacity-30 hover:ring-fifa-red/30 hover:bg-fifa-red/5"
               : exactScore
                 ? "ring-fifa-gold/30 bg-fifa-gold/[0.03]"
                 : isDouble
