@@ -33,7 +33,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const [bonusPointsOverride, setBonusPointsOverride] = useState<Record<string, number>>({});
   const [bonusSaving, setBonusSaving] = useState<string | null>(null);
 
-  const [bonusQuestions, setBonusQuestions] = useState<{ id: string; label: string; subtitle?: string; sourceType: string; lockScope: string }[]>([]);
+  const [bonusQuestions, setBonusQuestions] = useState<{ id: string; label: string; subtitle?: string; points?: number; sourceType: string; lockScope: string }[]>([]);
   const [bonusQuestionsLoaded, setBonusQuestionsLoaded] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
   const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1" });
@@ -138,8 +138,12 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
     }
   };
 
-  const getBonusPoints = (questionId: string) =>
-    bonusPointsOverride[questionId] ?? bonusResults[questionId]?.points ?? 1;
+  const getBonusPoints = (questionId: string) => {
+    if (bonusPointsOverride[questionId] != null) return bonusPointsOverride[questionId];
+    if (bonusResults[questionId]?.points != null) return bonusResults[questionId].points;
+    const q = bonusQuestions.find((bq) => bq.id === questionId);
+    return q?.points ?? 1;
+  };
 
   const handleUpdateBonusPoints = async (questionId: string, delta: number) => {
     const newPoints = Math.max(0, getBonusPoints(questionId) + delta);

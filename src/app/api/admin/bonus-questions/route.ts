@@ -4,12 +4,13 @@ import { withAdmin } from "@/lib/apiAuth";
 
 export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
-  const rows = await sql`SELECT id, label, subtitle, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
+  const rows = await sql`SELECT id, label, subtitle, points, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
 
   const questions = rows.map((r) => ({
     id: r.id as string,
     label: r.label as string,
     subtitle: (r.subtitle as string) || undefined,
+    points: (r.points as number) || 0,
     sourceType: r.source_type as string,
     lockScope: r.lock_scope as string,
     sortOrder: r.sort_order as number,
