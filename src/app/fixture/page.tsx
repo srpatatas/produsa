@@ -10,6 +10,16 @@ import { FlagImage } from "@/components/teams/FlagImage";
 import { MatchResult } from "@/data/results";
 import { FixtureGroupCard } from "@/components/fixture/FixtureGroupCard";
 import { cn } from "@/lib/utils";
+import { KnockoutRound } from "@/types";
+
+const roundGradients: Record<KnockoutRound, string> = {
+  R32: "from-fifa-teal to-cyan-500",
+  R16: "from-fifa-blue to-indigo-600",
+  QF: "from-fifa-purple to-fuchsia-600",
+  SF: "from-amber-500 to-fifa-gold",
+  "3P": "from-fifa-green to-lime-500",
+  F: "from-fifa-gold to-amber-600",
+};
 
 export default function FixturePage() {
   const [results, setResults] = useState<Record<string, MatchResult>>({});
@@ -74,7 +84,7 @@ export default function FixturePage() {
             const matches = getKnockoutMatchesByRound(round.id);
             return (
               <div key={round.id} className="overflow-hidden rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
-                <div className="h-1.5 bg-gradient-to-r from-fifa-purple to-fifa-teal" />
+                <div className={`h-1.5 bg-gradient-to-r ${roundGradients[round.id] || "from-fifa-purple to-fifa-teal"}`} />
                 <div className="p-4">
                   <div className="mb-3 flex items-baseline justify-between">
                     <span className="font-display text-base tracking-wider text-fifa-dark-gray">
