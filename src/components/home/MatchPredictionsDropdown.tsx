@@ -78,7 +78,10 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }
           return (
             <div key={pred.user.id} className={`flex flex-col items-center gap-1.5 transition-opacity ${dimmed ? "opacity-30" : ""}`}>
               <div className="relative mb-1">
-                <div className={`rounded-full ring-2 ${pred.isComodin ? "ring-fifa-gold" : outcomeRing[ringOutcome] ?? "ring-white/20"}`}>
+                <div className={`rounded-full ring-2 ${
+                  pred.isComodin || (hasExact && actualScore && pred.exactScore!.home === actualScore.home && pred.exactScore!.away === actualScore.away)
+                    ? "ring-fifa-gold" : outcomeRing[ringOutcome] ?? "ring-white/20"
+                }`}>
                   <AvatarDisplay avatar={pred.user.avatar} size="lg" />
                 </div>
                 <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full px-1.5 py-px text-[9px] font-bold text-white whitespace-nowrap ${badgeBg}`}>
