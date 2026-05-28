@@ -38,7 +38,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
   const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
   const [showAddQuestion, setShowAddQuestion] = useState(false);
-  const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; sourceType: string; lockScope: string }>({ id: "", label: "", sourceType: "teams", lockScope: "fecha-1" });
+  const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string }>({ id: "", label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
 
   const loadBonusQuestions = async () => {
     const res = await fetch("/api/admin/bonus-questions");
@@ -75,7 +75,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
       if (res.ok) {
         await loadBonusQuestions();
         setShowAddQuestion(false);
-        setNewQuestion({ id: "", label: "", sourceType: "teams", lockScope: "fecha-1" });
+        setNewQuestion({ id: "", label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
         flashStatus("saved");
       } else { flashStatus("error"); }
     } catch { flashStatus("error"); }
@@ -250,6 +250,20 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
               ))}
             </select>
           </div>
+          <input
+            type="text"
+            value={newQuestion.subtitle}
+            onChange={(e) => setNewQuestion((prev) => ({ ...prev, subtitle: e.target.value }))}
+            placeholder="Subtítulo / descripción (opcional)"
+            className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+          />
+          <input
+            type="text"
+            value={newQuestion.excludedTeams}
+            onChange={(e) => setNewQuestion((prev) => ({ ...prev, excludedTeams: e.target.value.toUpperCase() }))}
+            placeholder="Equipos excluidos (ej: ARG,BRA,FRA) (opcional)"
+            className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+          />
           <div className="flex justify-end gap-2">
             <button onClick={() => setShowAddQuestion(false)} className="rounded-xl px-4 py-2 text-sm text-fifa-dark-gray hover:text-foreground">Cancelar</button>
             <button onClick={handleAddQuestion} className="rounded-xl bg-fifa-teal px-4 py-2 text-sm font-medium text-white">Agregar</button>
