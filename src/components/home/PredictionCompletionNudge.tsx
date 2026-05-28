@@ -76,7 +76,7 @@ export function PredictionCompletionNudge({
           return (
             <div key={scope} className="flex flex-col gap-0.5">
               <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-semibold text-fifa-dark-gray">
+                <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
                   {scopeLabels[scope] ?? scope}
                 </span>
                 <div className="h-1.5 w-14 rounded-full bg-white/5">
