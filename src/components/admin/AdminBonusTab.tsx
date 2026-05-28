@@ -259,13 +259,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
               ))}
             </select>
           </div>
-          <input
-            type="text"
-            value={newQuestion.excludedTeams}
-            onChange={(e) => setNewQuestion((prev) => ({ ...prev, excludedTeams: e.target.value.toUpperCase() }))}
-            placeholder="Equipos excluidos (ej: ARG,BRA,FRA) (opcional)"
-            className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
-          />
+          {newQuestion.sourceType === "teams" && (
+            <input
+              type="text"
+              value={newQuestion.excludedTeams}
+              onChange={(e) => setNewQuestion((prev) => ({ ...prev, excludedTeams: e.target.value.toUpperCase() }))}
+              placeholder="Equipos excluidos (ej: ARG,BRA,FRA) (opcional)"
+              className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+            />
+          )}
           <div className="flex justify-end gap-2">
             <button onClick={() => setShowAddQuestion(false)} className="rounded-xl px-4 py-2 text-sm text-fifa-dark-gray hover:text-foreground">Cancelar</button>
             <button onClick={handleAddQuestion} className="rounded-xl bg-fifa-teal px-4 py-2 text-sm font-medium text-white">Agregar</button>
@@ -341,13 +343,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                             ))}
                           </select>
                         </div>
-                        <input
-                          type="text"
-                          value={questionEdit.excludedTeams}
-                          onChange={(e) => setQuestionEdit((prev) => ({ ...prev, excludedTeams: e.target.value.toUpperCase() }))}
-                          placeholder="Equipos excluidos (ej: ARG,BRA,FRA)"
-                          className="rounded-md bg-surface px-2 py-1 text-[10px] text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
-                        />
+                        {questionEdit.sourceType === "teams" && (
+                          <input
+                            type="text"
+                            value={questionEdit.excludedTeams}
+                            onChange={(e) => setQuestionEdit((prev) => ({ ...prev, excludedTeams: e.target.value.toUpperCase() }))}
+                            placeholder="Equipos excluidos (ej: ARG,BRA,FRA)"
+                            className="rounded-md bg-surface px-2 py-1 text-[10px] text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+                          />
+                        )}
                         <div className="flex gap-1">
                           <button onClick={() => handleSaveQuestion(q.id)} className="rounded-md bg-fifa-green/20 px-2 py-0.5 text-[10px] text-fifa-green hover:bg-fifa-green/30">✓</button>
                           <button onClick={() => setEditingQuestion(null)} className="rounded-md px-2 py-0.5 text-[10px] text-fifa-dark-gray hover:text-foreground">✗</button>
