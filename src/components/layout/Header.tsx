@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
+  { href: "/planillas", label: "Pronósticos" },
+  { href: "/ranking", label: "Posiciones" },
   { href: "/fixture", label: "Fixture" },
-  { href: "/planillas", label: "Planillas" },
-  { href: "/ranking", label: "Ranking" },
 ];
 
 export function Header() {

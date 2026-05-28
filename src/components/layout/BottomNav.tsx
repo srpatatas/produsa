@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", label: "Inicio", icon: "🏠" },
+  { href: "/planillas", label: "Pronósticos", icon: "📋" },
+  { href: "/ranking", label: "Posiciones", icon: "🏆" },
   { href: "/fixture", label: "Fixture", icon: "🏟️" },
-  { href: "/planillas", label: "Planillas", icon: "📋" },
-  { href: "/ranking", label: "Ranking", icon: "🏆" },
 ];
 
 export function BottomNav() {
