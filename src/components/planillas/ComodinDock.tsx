@@ -64,6 +64,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
   }, [isPlaced, isPlacementMode, showRandomPhrase]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    usedTouch.current = true;
     const touch = e.touches[0];
     touchStartPos.current = { x: touch.clientX, y: touch.clientY };
     hasMoved.current = false;
@@ -108,6 +109,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
   };
 
   const didDrag = useRef(false);
+  const usedTouch = useRef(false);
 
   if (isPlaced) return null;
 
@@ -117,7 +119,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
         <div className="relative">
           <button
             type="button"
-            onClick={() => { if (!didDrag.current) onTogglePlacementMode(); didDrag.current = false; }}
+            onClick={() => { if (usedTouch.current) { usedTouch.current = false; return; } if (!didDrag.current) onTogglePlacementMode(); didDrag.current = false; }}
             draggable
             onDragStart={(e) => {
               didDrag.current = true;
