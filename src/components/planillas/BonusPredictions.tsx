@@ -166,7 +166,6 @@ function BonusSelect({
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar..."
               className="w-full rounded-lg bg-surface px-3 py-1.5 text-xs text-foreground outline-none placeholder:text-fifa-dark-gray/30"
-              autoFocus
             />
           </div>
           <div className="max-h-40 overflow-y-auto px-1 pb-1">
