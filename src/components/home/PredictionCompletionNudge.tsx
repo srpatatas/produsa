@@ -1,6 +1,7 @@
 "use client";
 
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { matches as groupMatches } from "@/data/matches";
 import { cn } from "@/lib/utils";
 import { isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
 import { KnockoutRound } from "@/types";
@@ -38,6 +39,29 @@ const knockoutScopeRounds: Record<string, KnockoutRound[]> = {
   FINAL: ["3P", "F"],
 };
 
+function isScopeFinished(scope: string): boolean {
+  const now = Date.now();
+  let lastKickoff = 0;
+
+  const matchday = scope.match(/^fecha-(\d)$/)?.[1];
+  if (matchday) {
+    const scopeMatches = groupMatches.filter((m) => m.matchday === parseInt(matchday));
+    if (scopeMatches.length === 0) return false;
+    lastKickoff = Math.max(...scopeMatches.map((m) => new Date(m.kickoff).getTime()));
+  } else {
+    const rounds = knockoutScopeRounds[scope];
+    if (!rounds) return false;
+    const koMatches = rounds.flatMap((r) => getKnockoutMatchesByRound(r));
+    if (koMatches.length === 0) return false;
+    lastKickoff = Math.max(...koMatches.map((m) => new Date(m.kickoff).getTime()));
+  }
+
+  const nextDay = new Date(lastKickoff);
+  nextDay.setDate(nextDay.getDate() + 1);
+  nextDay.setHours(0, 0, 0, 0);
+  return now >= nextDay.getTime();
+}
+
 function isScopePredictable(scope: string): boolean {
   const rounds = knockoutScopeRounds[scope];
   if (!rounds) return true;
@@ -51,7 +75,7 @@ export function PredictionCompletionNudge({
 }: PredictionCompletionNudgeProps) {
   const all = Object.entries(predictionStatus)
     .filter(([scope]) => {
-      if (locks[scope]?.isLocked) return false;
+      if (isScopeFinished(scope)) return false;
       if (knockoutScopeRounds[scope] && !isScopePredictable(scope)) return false;
       return true;
     })
@@ -64,7 +88,7 @@ export function PredictionCompletionNudge({
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Estado de tus pronósticos
       </p>
-      <div className={cn("grid gap-2", all.length === 1 && "grid-cols-1", all.length === 2 && "grid-cols-2", all.length >= 3 && "grid-cols-3")}>
+      <div className="flex flex-col gap-2">
         {all.map(([scope, status]) => {
           const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
           const complete = pct === 100;
@@ -74,40 +98,36 @@ export function PredictionCompletionNudge({
           const lockStr = lockDate ? lockDate.toLocaleDateString("es-AR", { day: "numeric", month: "short" }) : null;
 
           return (
-            <div key={scope} className="flex flex-col gap-0.5">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
-                  {scopeLabels[scope] ?? scope}
-                </span>
-                <div className="h-1.5 w-14 rounded-full bg-white/5">
-                  <div
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      complete ? "bg-fifa-green" : "bg-fifa-blue"
-                    }`}
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                <span className={`text-[10px] font-semibold ${
-                  complete ? "text-fifa-green" : "text-fifa-dark-gray/70"
-                }`}>
-                  {pct}%
-                </span>
+            <div key={scope} className={cn("flex items-center gap-1.5", locks[scope]?.isLocked && "opacity-50")}>
+              <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
+                {scopeLabels[scope] ?? scope}
+              </span>
+              <div className="h-1.5 w-20 flex-shrink-0 rounded-full bg-white/5">
+                <div
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    complete ? "bg-fifa-green" : "bg-fifa-blue"
+                  }`}
+                  style={{ width: `${pct}%` }}
+                />
               </div>
-              <div className="flex items-center gap-1.5 pl-0.5">
-                {m && m.total > 0 && (
-                  <span className={`text-[9px] font-medium ${m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
-                    {m.completed}/{m.total} partidos
-                  </span>
-                )}
-                {b && b.total > 0 && (
-                  <span className={`text-[9px] font-medium ${b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
-                    {b.completed}/{b.total} bonus
-                  </span>
-                )}
-              </div>
+              <span className={`text-[10px] font-semibold whitespace-nowrap ${
+                complete ? "text-fifa-green" : "text-fifa-dark-gray/70"
+              }`}>
+                {pct}%
+              </span>
+              {m && m.total > 0 && (
+                <span className={`text-[9px] font-medium whitespace-nowrap ${m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
+                  {m.completed}/{m.total} part.
+                </span>
+              )}
+              {b && b.total > 0 && (
+                <span className={`text-[9px] font-medium whitespace-nowrap ${b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
+                  {b.completed}/{b.total} bonus
+                </span>
+              )}
               {lockStr && (
-                <span className="text-[9px] text-fifa-dark-gray/50 pl-0.5">
-                  cierra {lockStr}
+                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap ml-auto">
+                  {locks[scope]?.isLocked ? "🔒" : "🔓"} {lockStr}
                 </span>
               )}
             </div>
