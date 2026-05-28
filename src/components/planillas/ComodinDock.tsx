@@ -115,6 +115,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
         <div className="relative">
           <button
             type="button"
+            onClick={onTogglePlacementMode}
             draggable
             onDragStart={(e) => {
               e.dataTransfer.setData("text/plain", "comodin");
