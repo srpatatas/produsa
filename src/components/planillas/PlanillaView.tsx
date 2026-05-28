@@ -166,7 +166,7 @@ export function PlanillaView() {
         </p>
       </div>
 
-      <div className="relative flex h-10 w-[190px] items-center rounded-full bg-surface ring-1 ring-white/5">
+      <div className="relative flex h-10 w-[190px] ml-auto items-center rounded-full bg-surface ring-1 ring-white/5">
         <div className={cn(
           "absolute h-9 w-[92px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
           phase === "grupos" ? "left-0.5" : "left-[96px]",
