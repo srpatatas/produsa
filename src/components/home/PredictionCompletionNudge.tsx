@@ -1,6 +1,7 @@
 "use client";
 
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { cn } from "@/lib/utils";
 import { isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
 import { KnockoutRound } from "@/types";
 
@@ -19,9 +20,9 @@ interface PredictionCompletionNudgeProps {
 const scopeOrder = ["fecha-1", "fecha-2", "fecha-3", "R32", "R16", "QF", "SF", "FINAL"];
 
 const scopeLabels: Record<string, string> = {
-  "fecha-1": "F1",
-  "fecha-2": "F2",
-  "fecha-3": "F3",
+  "fecha-1": "FECHA 1",
+  "fecha-2": "FECHA 2",
+  "fecha-3": "FECHA 3",
   R32: "16vos",
   R16: "8vos",
   QF: "4tos",
@@ -59,17 +60,18 @@ export function PredictionCompletionNudge({
   if (all.length === 0) return null;
 
   return (
-    <div className="flex justify-center">
-    <div className="inline-flex flex-col rounded-xl bg-surface/60 px-4 py-2.5 ring-1 ring-white/5">
+    <div className="mx-auto max-w-md w-full rounded-xl bg-surface/60 px-4 py-2.5 ring-1 ring-white/5">
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
-        Estado de predicciones
+        Estado de tus pronósticos
       </p>
-      <div className="flex flex-wrap items-start gap-x-4 gap-y-2">
+      <div className={cn("grid gap-2", all.length === 1 && "grid-cols-1", all.length === 2 && "grid-cols-2", all.length >= 3 && "grid-cols-3")}>
         {all.map(([scope, status]) => {
           const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
           const complete = pct === 100;
           const m = status.matches;
           const b = status.bonus;
+          const lockDate = locks[scope]?.locksAt ? new Date(locks[scope].locksAt) : null;
+          const lockStr = lockDate ? lockDate.toLocaleDateString("es-AR", { day: "numeric", month: "short" }) : null;
 
           return (
             <div key={scope} className="flex flex-col gap-0.5">
@@ -103,11 +105,15 @@ export function PredictionCompletionNudge({
                   </span>
                 )}
               </div>
+              {lockStr && (
+                <span className="text-[9px] text-fifa-dark-gray/50 pl-0.5">
+                  cierra {lockStr}
+                </span>
+              )}
             </div>
           );
         })}
       </div>
-    </div>
     </div>
   );
 }
