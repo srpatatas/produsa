@@ -4,7 +4,7 @@ import { withAdmin } from "@/lib/apiAuth";
 
 export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
-  const rows = await sql`SELECT id, label, subtitle, points, source_type, lock_scope, sort_order FROM bonus_questions ORDER BY sort_order, id`;
+  const rows = await sql`SELECT id, label, subtitle, points, source_type, lock_scope, excluded_teams, sort_order FROM bonus_questions ORDER BY sort_order, id`;
 
   const questions = rows.map((r) => ({
     id: r.id as string,
@@ -13,6 +13,7 @@ export const GET = withAdmin(async (req, session) => {
     points: (r.points as number) || 0,
     sourceType: r.source_type as string,
     lockScope: r.lock_scope as string,
+    excludedTeams: (r.excluded_teams as string) || "",
     sortOrder: r.sort_order as number,
   }));
 
@@ -20,7 +21,7 @@ export const GET = withAdmin(async (req, session) => {
 });
 
 export const POST = withAdmin(async (req, session) => {
-  const { id, label, subtitle, sourceType, lockScope } = await req.json();
+  const { id, label, subtitle, sourceType, lockScope, excludedTeams } = await req.json();
 
   if (!id || !label || !sourceType || !lockScope) {
     return NextResponse.json({ error: "Todos los campos son requeridos" }, { status: 400 });
@@ -37,10 +38,10 @@ export const POST = withAdmin(async (req, session) => {
   const sortOrder = maxSort[0].next as number;
 
   await sql`
-    INSERT INTO bonus_questions (id, label, subtitle, source_type, lock_scope, sort_order)
-    VALUES (${id}, ${label}, ${subtitle || null}, ${sourceType}, ${lockScope}, ${sortOrder})
+    INSERT INTO bonus_questions (id, label, subtitle, source_type, lock_scope, excluded_teams, sort_order)
+    VALUES (${id}, ${label}, ${subtitle || null}, ${sourceType}, ${lockScope}, ${excludedTeams || null}, ${sortOrder})
     ON CONFLICT (id)
-    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, source_type = ${sourceType}, lock_scope = ${lockScope}, updated_at = NOW()
+    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, source_type = ${sourceType}, lock_scope = ${lockScope}, excluded_teams = ${excludedTeams || null}, updated_at = NOW()
   `;
 
   return NextResponse.json({ ok: true });
