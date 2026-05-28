@@ -38,7 +38,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
   const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
   const [showAddQuestion, setShowAddQuestion] = useState(false);
-  const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string }>({ id: "", label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
+  const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; subtitle: string; points: string; sourceType: string; lockScope: string; excludedTeams: string }>({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
 
   const loadBonusQuestions = async () => {
     const res = await fetch("/api/admin/bonus-questions");
@@ -75,7 +75,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
       if (res.ok) {
         await loadBonusQuestions();
         setShowAddQuestion(false);
-        setNewQuestion({ id: "", label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
+        setNewQuestion({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
         flashStatus("saved");
       } else { flashStatus("error"); }
     } catch { flashStatus("error"); }
@@ -238,7 +238,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
             placeholder="Subtítulo / descripción (opcional)"
             className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
           />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <select
               value={newQuestion.sourceType}
               onChange={(e) => setNewQuestion((prev) => ({ ...prev, sourceType: e.target.value }))}
@@ -258,6 +258,14 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                 <option key={s} value={s}>{scopeLabels[s] ?? s}</option>
               ))}
             </select>
+            <input
+              type="number"
+              min={0}
+              value={newQuestion.points}
+              onChange={(e) => setNewQuestion((prev) => ({ ...prev, points: e.target.value }))}
+              placeholder="Puntos"
+              className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+            />
           </div>
           {newQuestion.sourceType === "teams" && (
             <input
