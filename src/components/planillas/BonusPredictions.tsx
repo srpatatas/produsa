@@ -52,6 +52,8 @@ function BonusSelect({
   locked,
   participantOptions = [],
   playerOptions = [],
+  isOpen,
+  onToggleOpen,
 }: {
   questionId: string;
   label: string;
@@ -61,9 +63,11 @@ function BonusSelect({
   locked?: boolean;
   participantOptions?: { value: string; label: string }[];
   playerOptions?: { value: string; label: string }[];
+  isOpen?: boolean;
+  onToggleOpen?: (id: string | null) => void;
 }) {
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
-  const [open, setOpen] = useState(false);
+  const open = isOpen ?? false;
   const [search, setSearch] = useState("");
   const value = bonusPredictions[questionId] ?? "";
   const [localText, setLocalText] = useState(value);
@@ -132,7 +136,7 @@ function BonusSelect({
       </label>
       <button
         type="button"
-        onClick={() => !locked && setOpen(!open)}
+        onClick={() => !locked && onToggleOpen?.(open ? null : questionId)}
         disabled={locked}
         className={cn(
           "flex w-full items-center justify-between rounded-lg bg-surface px-3 py-2 text-xs text-left ring-1 ring-white/5 transition-all",
@@ -175,7 +179,7 @@ function BonusSelect({
                 type="button"
                 onClick={() => {
                   setBonusPrediction(questionId, o.value);
-                  setOpen(false);
+                  onToggleOpen?.(null);
                   setSearch("");
                 }}
                 className={cn(
@@ -204,6 +208,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
   const [participants, setParticipants] = useState<{ value: string; label: string }[]>([]);
   const [players, setPlayers] = useState<{ value: string; label: string }[]>([]);
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/bonus-questions")
@@ -244,6 +249,8 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             locked={locked}
             participantOptions={participants}
             playerOptions={players}
+            isOpen={openDropdownId === q.id}
+            onToggleOpen={setOpenDropdownId}
           />
         ))}
       </div>
