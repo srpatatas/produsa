@@ -30,7 +30,7 @@ function InfoTooltip({ text }: { text: string }) {
         onBlur={() => setShow(false)}
         className="flex items-center justify-center text-sm leading-none transition-opacity hover:opacity-80"
       >
-        ❓
+        ℹ️
       </button>
       <div className={cn(
         "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 w-52 rounded-lg bg-card-bg px-3 py-2 text-[10px] text-foreground shadow-xl ring-1 ring-white/10 normal-case tracking-normal font-normal transition-opacity duration-150 pointer-events-none",
