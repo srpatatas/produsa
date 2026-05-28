@@ -230,6 +230,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
               placeholder="Título (ej: Mejor jugador)"
               className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
             />
+          </div>
+          <input
+            type="text"
+            value={newQuestion.subtitle}
+            onChange={(e) => setNewQuestion((prev) => ({ ...prev, subtitle: e.target.value }))}
+            placeholder="Subtítulo / descripción (opcional)"
+            className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+          />
+          <div className="grid grid-cols-2 gap-3">
             <select
               value={newQuestion.sourceType}
               onChange={(e) => setNewQuestion((prev) => ({ ...prev, sourceType: e.target.value }))}
@@ -252,17 +261,10 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
           </div>
           <input
             type="text"
-            value={newQuestion.subtitle}
-            onChange={(e) => setNewQuestion((prev) => ({ ...prev, subtitle: e.target.value }))}
-            placeholder="Subtítulo / descripción (opcional)"
-            className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
-          />
-          <input
-            type="text"
             value={newQuestion.excludedTeams}
             onChange={(e) => setNewQuestion((prev) => ({ ...prev, excludedTeams: e.target.value.toUpperCase() }))}
             placeholder="Equipos excluidos (ej: ARG,BRA,FRA) (opcional)"
-            className="rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+            className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
           />
           <div className="flex justify-end gap-2">
             <button onClick={() => setShowAddQuestion(false)} className="rounded-xl px-4 py-2 text-sm text-fifa-dark-gray hover:text-foreground">Cancelar</button>
