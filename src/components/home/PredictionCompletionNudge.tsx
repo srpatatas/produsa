@@ -102,7 +102,7 @@ export function PredictionCompletionNudge({
               <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
                 {scopeLabels[scope] ?? scope}
               </span>
-              <div className="h-1.5 min-w-20 flex-1 rounded-full bg-white/5">
+              <div className="h-1.5 w-20 flex-shrink-0 rounded-full bg-white/5">
                 <div
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     complete ? "bg-fifa-green" : "bg-fifa-blue"
@@ -126,7 +126,7 @@ export function PredictionCompletionNudge({
                 </span>
               )}
               {lockStr && (
-                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap">
+                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap ml-auto">
                   {locks[scope]?.isLocked ? "🔒" : "🔓"} {lockStr}
                 </span>
               )}
