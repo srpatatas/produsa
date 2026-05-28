@@ -68,10 +68,10 @@ export function PlanillaView() {
 
   const handleComodinDrop = useCallback(async (matchId: string) => {
     const pred = predictions[matchId];
-    if (pred && pred.outcome.length === 2) {
+    const hadDouble = pred && pred.outcome.length === 2;
+    if (hadDouble) {
       const singleOutcome = pred.outcome[0] as "L" | "E" | "V";
       await setPrediction(matchId, singleOutcome);
-      setToast(`Se removió el DOBLE de ${matchLabel(matchId)}`);
     }
     dropSucceeded.current = true;
     const scope = `fecha-${fecha}`;
@@ -84,7 +84,7 @@ export function PlanillaView() {
         body: JSON.stringify({ scope, matchId }),
       });
       if (res.ok) {
-        setToast("✓ Comodín guardado");
+        setToast(hadDouble ? "✓ Comodín guardado · Se removió el DOBLE" : "✓ Comodín guardado");
       } else {
         setComodinByFecha((prev) => ({ ...prev, [scope]: null }));
         setToast("✗ Error al guardar comodín");
