@@ -166,10 +166,10 @@ export function PlanillaView() {
         </p>
       </div>
 
-      <div className="relative flex h-10 w-[190px] ml-auto items-center rounded-full bg-surface ring-1 ring-white/5">
+      <div className="relative flex h-10 w-[260px] ml-auto items-center rounded-full bg-surface ring-1 ring-white/5">
         <div className={cn(
-          "absolute h-9 w-[92px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
-          phase === "grupos" ? "left-0.5" : "left-[96px]",
+          "absolute h-9 w-[127px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
+          phase === "grupos" ? "left-0.5" : "left-[131px]",
         )} />
         <button
           onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
@@ -191,7 +191,7 @@ export function PlanillaView() {
               : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
           )}
         >
-          Elimin.
+          Eliminatorias
         </button>
       </div>
 
