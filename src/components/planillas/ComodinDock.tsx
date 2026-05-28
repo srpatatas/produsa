@@ -107,6 +107,8 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
     onDockDragEnd?.();
   };
 
+  const didDrag = useRef(false);
+
   if (isPlaced) return null;
 
   return (
@@ -115,9 +117,10 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
         <div className="relative">
           <button
             type="button"
-            onClick={onTogglePlacementMode}
+            onClick={() => { if (!didDrag.current) onTogglePlacementMode(); didDrag.current = false; }}
             draggable
             onDragStart={(e) => {
+              didDrag.current = true;
               e.dataTransfer.setData("text/plain", "comodin");
               e.dataTransfer.effectAllowed = "move";
               onDockDragStart?.();
