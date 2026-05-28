@@ -21,7 +21,8 @@ export const GET = withAdmin(async (req, session) => {
 });
 
 export const POST = withAdmin(async (req, session) => {
-  const { id, label, subtitle, sourceType, lockScope, excludedTeams } = await req.json();
+  const { id, label, subtitle, points, sourceType, lockScope, excludedTeams } = await req.json();
+  const pointsNum = parseInt(points, 10) || 0;
 
   if (!id || !label || !sourceType || !lockScope) {
     return NextResponse.json({ error: "Todos los campos son requeridos" }, { status: 400 });
@@ -38,10 +39,10 @@ export const POST = withAdmin(async (req, session) => {
   const sortOrder = maxSort[0].next as number;
 
   await sql`
-    INSERT INTO bonus_questions (id, label, subtitle, source_type, lock_scope, excluded_teams, sort_order)
-    VALUES (${id}, ${label}, ${subtitle || null}, ${sourceType}, ${lockScope}, ${excludedTeams || null}, ${sortOrder})
+    INSERT INTO bonus_questions (id, label, subtitle, points, source_type, lock_scope, excluded_teams, sort_order)
+    VALUES (${id}, ${label}, ${subtitle || null}, ${pointsNum}, ${sourceType}, ${lockScope}, ${excludedTeams || null}, ${sortOrder})
     ON CONFLICT (id)
-    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, source_type = ${sourceType}, lock_scope = ${lockScope}, excluded_teams = ${excludedTeams || null}, updated_at = NOW()
+    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, points = ${pointsNum}, source_type = ${sourceType}, lock_scope = ${lockScope}, excluded_teams = ${excludedTeams || null}, updated_at = NOW()
   `;
 
   return NextResponse.json({ ok: true });
