@@ -3,9 +3,9 @@ import { Match } from "@/types";
 export const matches: Match[] = [
   // Group A: Mexico, South Africa, South Korea, Czechia
   // MOCK: set to "now" for live preview — revert before merging to main
-  { id: "A-1", groupId: "A", homeTeamId: "MEX", awayTeamId: "RSA", matchday: 1, kickoff: "2026-05-28T21:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
-  { id: "A-2", groupId: "A", homeTeamId: "KOR", awayTeamId: "CZE", matchday: 1, kickoff: "2026-05-28T21:10:00Z", venue: "Estadio Akron", city: "Guadalajara" },
-  { id: "A-3", groupId: "A", homeTeamId: "CZE", awayTeamId: "RSA", matchday: 2, kickoff: "2026-06-18T16:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
+  { id: "A-1", groupId: "A", homeTeamId: "MEX", awayTeamId: "RSA", matchday: 1, kickoff: "2026-05-28T21:15:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
+  { id: "A-2", groupId: "A", homeTeamId: "KOR", awayTeamId: "CZE", matchday: 1, kickoff: "2026-05-28T21:25:00Z", venue: "Estadio Akron", city: "Guadalajara" },
+  { id: "A-3", groupId: "A", homeTeamId: "CZE", awayTeamId: "RSA", matchday: 2, kickoff: "2026-05-28T23:30:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
   { id: "A-4", groupId: "A", homeTeamId: "MEX", awayTeamId: "KOR", matchday: 2, kickoff: "2026-06-19T01:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
   { id: "A-5", groupId: "A", homeTeamId: "MEX", awayTeamId: "CZE", matchday: 3, kickoff: "2026-06-25T01:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
   { id: "A-6", groupId: "A", homeTeamId: "RSA", awayTeamId: "KOR", matchday: 3, kickoff: "2026-06-25T01:00:00Z", venue: "Estadio BBVA", city: "Monterrey" },
