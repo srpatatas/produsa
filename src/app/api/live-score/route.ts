@@ -26,9 +26,30 @@ async function getFinishedMatchIds(): Promise<Set<string>> {
   return new Set(rows.map((r) => r.match_id as string));
 }
 
+// MOCK: fake live scores for preview
+function getMockScores(): Record<string, LiveScoreResult> {
+  const liveMatches = getLiveUnifiedMatches();
+  const mock: Record<string, LiveScoreResult> = {};
+  for (const m of liveMatches) {
+    const elapsed = Math.floor((Date.now() - new Date(m.kickoff).getTime()) / 60000);
+    if (m.id === "A-1") {
+      mock[m.id] = { homeScore: 2, awayScore: 1, minute: elapsed, status: "LIVE" };
+    } else if (m.id === "A-2") {
+      mock[m.id] = { homeScore: 0, awayScore: 0, minute: elapsed, status: "LIVE" };
+    }
+  }
+  return mock;
+}
+
 export async function GET() {
   if (!isAnyMatchInLiveWindow()) {
     return NextResponse.json({ scores: {}, finished: [] });
+  }
+
+  // MOCK: return fake scores for preview
+  const mockScores = getMockScores();
+  if (Object.keys(mockScores).length > 0) {
+    return NextResponse.json({ scores: mockScores, finished: [] });
   }
 
   const key = process.env.API_FOOTBALL_KEY;
