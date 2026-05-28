@@ -116,7 +116,7 @@ export function PredictionCompletionNudge({
               }`}>
                 {pct}%
               </span>
-              <div className="flex items-center gap-1.5 w-28">
+              <div className="flex items-center gap-1.5 w-28 flex-shrink-0">
                 {m && m.total > 0 && (
                   <span className={`text-[9px] font-medium whitespace-nowrap ${m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}`}>
                     {m.completed}/{m.total} part.
