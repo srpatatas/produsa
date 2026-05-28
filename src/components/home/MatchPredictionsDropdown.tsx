@@ -86,9 +86,6 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome }: MatchPredic
                 {pred.isComodin && (
                   <span className="absolute -top-1 -right-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
                 )}
-                {pred.isDoble && (
-                  <span className="absolute -top-1 -left-1 rounded-full bg-fifa-purple px-1 py-px text-[7px] font-bold text-white">2x</span>
-                )}
               </div>
               <span className="text-[10px] text-fifa-dark-gray truncate max-w-full">
                 {pred.user.name}
