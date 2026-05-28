@@ -111,7 +111,7 @@ export function PredictionCompletionNudge({
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <span className={`text-[10px] font-semibold whitespace-nowrap ${
+              <span className={`text-[10px] font-semibold whitespace-nowrap w-8 text-right ${
                 complete ? "text-fifa-green" : "text-fifa-dark-gray/70"
               }`}>
                 {pct}%
