@@ -28,9 +28,9 @@ function InfoTooltip({ text }: { text: string }) {
         type="button"
         onClick={(e) => { e.stopPropagation(); setShow(!show); }}
         onBlur={() => setShow(false)}
-        className="flex h-4 w-4 items-center justify-center rounded-full bg-white/5 text-[8px] italic font-bold text-fifa-dark-gray hover:bg-white/10 hover:text-foreground transition-colors"
+        className="flex items-center justify-center text-sm leading-none transition-opacity hover:opacity-80"
       >
-        i
+        ❓
       </button>
       <div className={cn(
         "absolute left-1/2 -translate-x-1/2 bottom-full mb-2 z-50 w-52 rounded-lg bg-card-bg px-3 py-2 text-[10px] text-foreground shadow-xl ring-1 ring-white/10 normal-case tracking-normal font-normal transition-opacity duration-150 pointer-events-none",
