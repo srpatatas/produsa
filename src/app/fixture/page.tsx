@@ -69,18 +69,22 @@ export default function FixturePage() {
           ))}
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {knockoutRounds.map((round) => {
             const matches = getKnockoutMatchesByRound(round.id);
             return (
-              <div key={round.id}>
-                <div className="mb-3 flex items-center gap-2">
-                  <div className="h-1 w-6 rounded-full bg-gradient-to-r from-fifa-purple to-fifa-teal" />
-                  <h3 className="font-display text-base uppercase tracking-wider text-foreground">
-                    {round.label}
-                  </h3>
-                </div>
-                <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+              <div key={round.id} className="overflow-hidden rounded-2xl bg-card-bg shadow-sm shadow-black/20 ring-1 ring-white/5">
+                <div className="h-1.5 bg-gradient-to-r from-fifa-purple to-fifa-teal" />
+                <div className="p-4">
+                  <div className="mb-3 flex items-baseline justify-between">
+                    <span className="font-display text-base tracking-wider text-fifa-dark-gray">
+                      {round.label}
+                    </span>
+                    <span className="text-[10px] text-fifa-dark-gray/50">
+                      {matches.length} partidos
+                    </span>
+                  </div>
+                <div className="space-y-0">
                   {matches.map((km) => {
                     const resolved = resolveKnockoutMatch(km);
                     const home = resolved.homeTeamId ? getTeam(resolved.homeTeamId) : null;
@@ -132,6 +136,7 @@ export default function FixturePage() {
                       </div>
                     );
                   })}
+                </div>
                 </div>
               </div>
             );
