@@ -35,11 +35,15 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
   const hasMoved = useRef(false);
   const ghostRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    setPhrase(phrases[0]);
+  }, [phrases]);
+
   const showRandomPhrase = useCallback(() => {
     setPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
     setShowBubble(true);
     setTimeout(() => setShowBubble(false), 4000);
-  }, []);
+  }, [phrases]);
 
   useEffect(() => {
     if (isPlaced || isPlacementMode) return;
