@@ -14,20 +14,19 @@ interface ComodinDockProps {
   onDragEnd?: () => void;
   onTouchDrop?: (matchId: string) => void;
   image?: string;
+  customPhrases?: string[];
 }
 
-const phrases = [
+const defaultPhrases = [
   "Pssst... ¿querés 2 puntitos extra?",
   "Eh, vos... sí, vos. Tengo algo para vos.",
-  "¿Estás seguro de ese resultado? Yo te puedo ayudar...",
   "Dale, arrastrame a un partido.",
   "No seas amarrete, usame.",
-  "¿Qué mirás? Agarrame y poneme en un partido.",
   "2 puntos gratis. De nada.",
-  "Soy tu amigo, confía en mí.",
 ];
 
-export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppressBubble, onTogglePlacementMode, onDragStart: onDockDragStart, onDragEnd: onDockDragEnd, onTouchDrop, image = "/images/comodino.JPG" }: ComodinDockProps) {
+export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppressBubble, onTogglePlacementMode, onDragStart: onDockDragStart, onDragEnd: onDockDragEnd, onTouchDrop, image = "/images/comodino.JPG", customPhrases }: ComodinDockProps) {
+  const phrases = customPhrases && customPhrases.length > 0 ? customPhrases : defaultPhrases;
   const [showBubble, setShowBubble] = useState(false);
   const [phrase, setPhrase] = useState(phrases[0]);
   const [touchDragging, setTouchDragging] = useState(false);
