@@ -42,12 +42,9 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
 
   useEffect(() => {
     if (!touchDragging) return;
-    document.body.style.overflow = "hidden";
-    document.body.style.touchAction = "none";
-    return () => {
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    };
+    const prevent = (e: TouchEvent) => e.preventDefault();
+    document.addEventListener("touchmove", prevent, { passive: false });
+    return () => document.removeEventListener("touchmove", prevent);
   }, [touchDragging]);
 
   const showRandomPhrase = useCallback(() => {
