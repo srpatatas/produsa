@@ -34,10 +34,11 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "¡GOOOL DE LA PREDICCIÓN! Ah no, todavía no me pusiste.",
       "Dale, arrastrame. ¡No te quedes ahí mirando!",
       "¡ES IMPRESIONANTE LO QUE PUEDE PASAR SI ME USÁS!",
-      "Yo ya sé quién gana. ¿Vos?",
       "¡METEME EN UN PARTIDO QUE ESTOY ON FIRE!",
       "¿Sabías que con las orejas de Minnie tengo más poder?",
       "¡2 PUNTITOS EXTRA, SEÑORES! ¡QUÉ EMOCIÓN!",
+      "Viví, sentí, disfrutá y sumá 2 puntitos conmigo.",
+      "¡Usalo, usalo, usalo, usalo!",
     ],
   },
   "fecha-3": {
