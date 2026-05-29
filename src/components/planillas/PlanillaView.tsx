@@ -275,6 +275,7 @@ export function PlanillaView() {
                 handleComodinDrop(matchId);
               }}
               image={getComodinConfig(`fecha-${fecha}`).image}
+              customPhrases={getComodinConfig(`fecha-${fecha}`).phrases}
             />
           )}
 

@@ -287,6 +287,7 @@ export function KnockoutPlanillaView() {
             handleComodinDrop(matchId);
           }}
           image={comodin.image}
+          customPhrases={comodin.phrases}
         />
       )}
 
