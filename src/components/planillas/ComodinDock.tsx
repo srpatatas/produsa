@@ -163,9 +163,11 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
           </button>
 
           <div className={cn(
-            "absolute bottom-full right-0 mb-3 w-52 rounded-xl px-3 py-2 text-[11px] font-medium shadow-lg transition-all duration-300 pointer-events-none",
+            "absolute bottom-full right-0 mb-3 w-52 rounded-xl px-3 py-2 text-[11px] font-medium shadow-lg pointer-events-none",
             rejectMessage ? "bg-fifa-red text-white" : "bg-fifa-gold text-black",
-            (rejectMessage || (!suppressBubble && (showBubble || isPlacementMode))) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1",
+            (rejectMessage || (!suppressBubble && (showBubble || isPlacementMode)))
+              ? "opacity-100 translate-y-0 transition-all duration-300"
+              : "opacity-0 translate-y-1",
           )}>
             <span className="italic">
               {rejectMessage ?? (isPlacementMode ? (placementPhrase || "Dale, elegí un partido...") : phrase)}
