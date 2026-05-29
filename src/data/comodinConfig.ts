@@ -55,7 +55,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "Viví, sentí, disfrutá y sumá 2 puntitos conmigo.",
       "¡Usalo, usalo, usalo, usalo!",
     ],
-    placementPhrase: "¡¡¡ELEGÍ UN PARTIDO, SEÑORES!!!",
+    placementPhrase: "¡Tocá un partido, que esto es EN VIVO!",
     rejectPhrases: [
       "¡¡¡ESE NO, ESE NO!!!",
       "¡Ese partido es más fácil que un penal sin arquero!",
