@@ -166,7 +166,8 @@ export function NextMatchCountdown() {
         )}
 
         <div className="mt-4 text-center text-[10px] text-fifa-dark-gray/50">
-          {match.venue}, {match.city}
+          <p>{new Date(match.kickoff).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Argentina/Buenos_Aires" })} · {new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" })}h</p>
+          <p>{match.venue}, {match.city}</p>
         </div>
       </div>
 
