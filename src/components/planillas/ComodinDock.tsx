@@ -37,6 +37,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
 
   useEffect(() => {
     setPhrase(phrases[0]);
+    setShowBubble(false);
   }, [phrases]);
 
   const showRandomPhrase = useCallback(() => {
