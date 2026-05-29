@@ -56,6 +56,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "Mucha gente dice que soy the best comodín. Mucha gente.",
       "Make your prode great again. Arrastrame.",
       "¿La gorra? Es de Donald Duck. Very classy, very cool.",
+      "Poneme ahí y make that match great again.",
     ],
   },
   "R32": { scope: "R32", image: "/images/comodin-R32.jpg", name: "Comodín Dieciseisavos", phrases: [] },
