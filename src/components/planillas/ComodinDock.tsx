@@ -40,6 +40,16 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
     setShowBubble(false);
   }, [phrases]);
 
+  useEffect(() => {
+    if (!touchDragging) return;
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [touchDragging]);
+
   const showRandomPhrase = useCallback(() => {
     setPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
     setShowBubble(true);

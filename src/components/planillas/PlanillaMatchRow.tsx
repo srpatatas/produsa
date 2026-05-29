@@ -115,6 +115,16 @@ export function PlanillaMatchRow({
   const touchStartPos = useRef({ x: 0, y: 0 });
   const touchMoved = useRef(false);
 
+  useEffect(() => {
+    if (!touchDragging) return;
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [touchDragging]);
+
   const handleComodinTouchStart = (e: React.TouchEvent) => {
     const touch = e.touches[0];
     touchStartPos.current = { x: touch.clientX, y: touch.clientY };
