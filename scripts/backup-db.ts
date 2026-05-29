@@ -18,7 +18,7 @@ for (const line of envFile.split("\n")) {
 }
 
 const isProd = process.argv.includes("--prod");
-const PROD_URL = "postgresql://neondb_owner:npg_L8Rxn4zFaXMC@ep-red-bonus-apk4gvsr-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require";
+const PROD_URL = process.env.PROD_DATABASE_URL;
 
 const TABLES = [
   "users",
@@ -35,7 +35,11 @@ const TABLES = [
 ];
 
 async function main() {
-  const dbUrl = isProd ? PROD_URL : process.env.DATABASE_URL!;
+  const dbUrl = isProd ? PROD_URL! : process.env.DATABASE_URL!;
+  if (isProd && !PROD_URL) {
+    console.error("PROD_DATABASE_URL not set in .env.local");
+    process.exit(1);
+  }
   const pool = new Pool({ connectionString: dbUrl });
 
   console.log(`Backing up ${isProd ? "PROD" : "DEV"} database...`);
