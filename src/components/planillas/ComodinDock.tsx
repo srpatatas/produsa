@@ -56,6 +56,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
 
   useEffect(() => {
     if (isPlaced || isPlacementMode) return;
+    setShowBubble(false);
 
     let timeout: ReturnType<typeof setTimeout>;
 
