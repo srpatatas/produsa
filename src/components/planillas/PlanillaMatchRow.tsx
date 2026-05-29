@@ -179,17 +179,9 @@ export function PlanillaMatchRow({
     setSaving(false);
   };
 
-  const rejectMessages = [
-    "¡Ese partido es muy fácil, elegí otro!",
-    "¡No seas vivo! Buscá un partido más difícil",
-    "¡Ahí no vale! Probá con otro partido",
-    "¡Muy cantado ese resultado! Elegí otro",
-  ];
-
   const rejectComodin = () => {
     if (onComodinReject) {
-      const msg = rejectMessages[Math.floor(Math.random() * rejectMessages.length)];
-      onComodinReject(msg);
+      onComodinReject("");
     }
   };
 

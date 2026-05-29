@@ -124,13 +124,19 @@ export function PlanillaView() {
 
   const handleComodinReject = useCallback((message: string) => {
     if (rejectTimer.current) clearTimeout(rejectTimer.current);
-    setComodinReject(message);
+    let msg = message;
+    if (!msg) {
+      const config = getComodinConfig(`fecha-${fecha}`);
+      const msgs = config.rejectPhrases;
+      msg = msgs.length > 0 ? msgs[Math.floor(Math.random() * msgs.length)] : "¡Ese partido no permite comodín!";
+    }
+    setComodinReject(msg);
     setSuppressBubble(true);
     rejectTimer.current = setTimeout(() => {
       setComodinReject(null);
       setTimeout(() => setSuppressBubble(false), 1000);
     }, 3000);
-  }, []);
+  }, [fecha]);
 
   const handleTogglePlacementMode = useCallback(() => {
     if (comodinMatchId) {
@@ -231,13 +237,12 @@ export function PlanillaView() {
                 onComodinTouchDrop={(matchId) => {
                   setComodinDragging(false);
                   if (hasComodinRestrictions && !matchSettings[matchId]?.comodinAllowed) {
-                    const msgs = [
-                      "¡Ese partido es muy fácil, elegí otro!",
-                      "¡No seas vivo! Buscá un partido más difícil",
-                      "¡Ahí no vale! Probá con otro partido",
-                      "¡Muy cantado ese resultado! Elegí otro",
-                    ];
-                    handleComodinReject(msgs[Math.floor(Math.random() * msgs.length)]);
+                    const msgs = getComodinConfig(`fecha-${fecha}`).rejectPhrases;
+                    if (msgs.length > 0) {
+                      handleComodinReject(msgs[Math.floor(Math.random() * msgs.length)]);
+                    } else {
+                      handleComodinReject("¡Ese partido no permite comodín!");
+                    }
                     return;
                   }
                   handleComodinDrop(matchId);
@@ -263,19 +268,19 @@ export function PlanillaView() {
               onTouchDrop={(matchId) => {
                 setComodinDragging(false);
                 if (hasComodinRestrictions && !matchSettings[matchId]?.comodinAllowed) {
-                  const msgs = [
-                    "¡Ese partido es muy fácil, elegí otro!",
-                    "¡No seas vivo! Buscá un partido más difícil",
-                    "¡Ahí no vale! Probá con otro partido",
-                    "¡Muy cantado ese resultado! Elegí otro",
-                  ];
-                  handleComodinReject(msgs[Math.floor(Math.random() * msgs.length)]);
+                  const msgs = getComodinConfig(`fecha-${fecha}`).rejectPhrases;
+                  if (msgs.length > 0) {
+                    handleComodinReject(msgs[Math.floor(Math.random() * msgs.length)]);
+                  } else {
+                    handleComodinReject("¡Ese partido no permite comodín!");
+                  }
                   return;
                 }
                 handleComodinDrop(matchId);
               }}
               image={getComodinConfig(`fecha-${fecha}`).image}
               customPhrases={getComodinConfig(`fecha-${fecha}`).phrases}
+              placementPhrase={getComodinConfig(`fecha-${fecha}`).placementPhrase}
             />
           )}
 

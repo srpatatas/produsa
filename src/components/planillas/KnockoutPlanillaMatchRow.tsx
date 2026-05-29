@@ -30,12 +30,6 @@ interface KnockoutPlanillaMatchRowProps {
 
 const outcomes: ("L" | "V")[] = ["L", "V"];
 
-const rejectMessages = [
-  "¡Ese partido es muy fácil, elegí otro!",
-  "¡No seas vivo! Buscá un partido más difícil",
-  "¡Ahí no vale! Probá con otro partido",
-  "¡Muy cantado ese resultado! Elegí otro",
-];
 
 export function KnockoutPlanillaMatchRow({
   match,
@@ -134,8 +128,7 @@ export function KnockoutPlanillaMatchRow({
 
   const rejectComodin = () => {
     if (onComodinReject) {
-      const msg = rejectMessages[Math.floor(Math.random() * rejectMessages.length)];
-      onComodinReject(msg);
+      onComodinReject("");
     }
   };
 
