@@ -122,6 +122,7 @@ export function PlanillaMatchRow({
   };
 
   const handleComodinTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
     const touch = e.touches[0];
     const dx = touch.clientX - touchStartPos.current.x;
     const dy = touch.clientY - touchStartPos.current.y;
@@ -131,7 +132,6 @@ export function PlanillaMatchRow({
       onComodinDragStart();
     }
     if (touchMoved.current) {
-      e.preventDefault();
       setTouchPos({ x: touch.clientX, y: touch.clientY });
     }
   };

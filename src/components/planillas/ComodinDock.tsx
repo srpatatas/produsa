@@ -75,6 +75,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
     const touch = e.touches[0];
     const dx = touch.clientX - touchStartPos.current.x;
     const dy = touch.clientY - touchStartPos.current.y;
@@ -86,7 +87,6 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
     }
 
     if (hasMoved.current) {
-      e.preventDefault();
       setTouchPos({ x: touch.clientX, y: touch.clientY });
     }
   };
