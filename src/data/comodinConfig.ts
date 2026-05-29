@@ -21,6 +21,12 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "Soy tu amigo, confía en mí.",
       "Yo manejo la AFA, ¿no voy a poder manejar tu prode?",
       "Poneme en un partido y te hago la segunda.",
+      "La pelota no se mancha... pero tu planilla sí si no me usás.",
+      "Esto es como la Libertadores, hay que tener huevos. Poneme.",
+      "Yo arreglé fixtures más difíciles que este. Dale, usame.",
+      "¿Vas a dejar 2 puntos en la mesa? No seas Higuaín.",
+      "Conmigo no hay VAR que te salve. Arrastrame.",
+      "Los puntos son como los dólares, siempre querés más.",
     ],
   },
   "fecha-2": {
