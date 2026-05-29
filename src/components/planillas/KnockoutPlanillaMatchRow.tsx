@@ -89,7 +89,6 @@ export function KnockoutPlanillaMatchRow({
     touchMoved.current = false;
   };
   const handleComodinTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
     const touch = e.touches[0];
     if (!touchMoved.current && Math.abs(touch.clientX - touchStartPos.current.x) + Math.abs(touch.clientY - touchStartPos.current.y) > 10) {
       touchMoved.current = true;
@@ -97,6 +96,7 @@ export function KnockoutPlanillaMatchRow({
       onComodinDragStart();
     }
     if (touchMoved.current) {
+      e.preventDefault();
       setTouchPos({ x: touch.clientX, y: touch.clientY });
     }
   };
