@@ -61,6 +61,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "¡Ese partido es más fácil que un penal sin arquero!",
       "¡NO ME PONGAS AHÍ QUE ME ABURRO!",
       "¡Buscá uno más picante, dale!",
+      "No lo cante, no lo grite, no se abrace. ¡Ahí no se puede!",
     ],
   },
   "fecha-3": {
