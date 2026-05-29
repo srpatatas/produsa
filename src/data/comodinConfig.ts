@@ -3,6 +3,8 @@ export interface ComodinConfig {
   image: string;
   name: string;
   phrases: string[];
+  placementPhrase: string;
+  rejectPhrases: string[];
 }
 
 export const comodinConfigs: Record<string, ComodinConfig> = {
@@ -28,6 +30,13 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "Conmigo no hay VAR que te salve. Arrastrame.",
       "Los puntos son como los dólares, siempre querés más.",
     ],
+    placementPhrase: "Dale, elegí un partido. Yo me encargo.",
+    rejectPhrases: [
+      "¡Ahí no, eso ya lo arreglé yo!",
+      "Ese partido es muy fácil, elegí otro.",
+      "No seas vivo, buscá uno más difícil.",
+      "¡Ahí no vale! Probá con otro.",
+    ],
   },
   "fecha-2": {
     scope: "fecha-2",
@@ -45,6 +54,13 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "¡2 PUNTITOS EXTRA, SEÑORES! ¡QUÉ EMOCIÓN!",
       "Viví, sentí, disfrutá y sumá 2 puntitos conmigo.",
       "¡Usalo, usalo, usalo, usalo!",
+    ],
+    placementPhrase: "¡¡¡ELEGÍ UN PARTIDO, SEÑORES!!!",
+    rejectPhrases: [
+      "¡¡¡ESE NO, ESE NO!!!",
+      "¡Ese partido es más fácil que un penal sin arquero!",
+      "¡NO ME PONGAS AHÍ QUE ME ABURRO!",
+      "¡Buscá uno más picante, dale!",
     ],
   },
   "fecha-3": {
@@ -64,12 +80,19 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "The hat? It's a Donald Duck hat. Very classy, very cool.",
       "Put me there and make that match great again.",
     ],
+    placementPhrase: "Pick a match. Make it great again.",
+    rejectPhrases: [
+      "That match is a DISASTER. Pick another one.",
+      "WRONG match. Try again.",
+      "That's a loser match. I only do winners.",
+      "Not that one. SAD!",
+    ],
   },
-  "R32": { scope: "R32", image: "/images/comodin-R32.jpg", name: "Comodín Dieciseisavos", phrases: [] },
-  "R16": { scope: "R16", image: "/images/comodin-R16.jpg", name: "Comodín Octavos", phrases: [] },
-  "QF": { scope: "QF", image: "/images/comodin-QF.jpg", name: "Comodín Cuartos", phrases: [] },
-  "SF": { scope: "SF", image: "/images/comodin-SF.jpg", name: "Comodín Semifinales", phrases: [] },
-  "FINAL": { scope: "FINAL", image: "/images/comodin-FINAL.jpg", name: "Comodín Final", phrases: [] },
+  "R32": { scope: "R32", image: "/images/comodin-R32.jpg", name: "Comodín Dieciseisavos", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
+  "R16": { scope: "R16", image: "/images/comodin-R16.jpg", name: "Comodín Octavos", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
+  "QF": { scope: "QF", image: "/images/comodin-QF.jpg", name: "Comodín Cuartos", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
+  "SF": { scope: "SF", image: "/images/comodin-SF.jpg", name: "Comodín Semifinales", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
+  "FINAL": { scope: "FINAL", image: "/images/comodin-FINAL.jpg", name: "Comodín Final", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
 };
 
 export function getComodinConfig(scope: string): ComodinConfig {

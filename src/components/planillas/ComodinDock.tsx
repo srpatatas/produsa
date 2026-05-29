@@ -15,6 +15,7 @@ interface ComodinDockProps {
   onTouchDrop?: (matchId: string) => void;
   image?: string;
   customPhrases?: string[];
+  placementPhrase?: string;
 }
 
 const defaultPhrases = [
@@ -25,7 +26,7 @@ const defaultPhrases = [
   "2 puntos gratis. De nada.",
 ];
 
-export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppressBubble, onTogglePlacementMode, onDragStart: onDockDragStart, onDragEnd: onDockDragEnd, onTouchDrop, image = "/images/comodino.JPG", customPhrases }: ComodinDockProps) {
+export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppressBubble, onTogglePlacementMode, onDragStart: onDockDragStart, onDragEnd: onDockDragEnd, onTouchDrop, image = "/images/comodino.JPG", customPhrases, placementPhrase }: ComodinDockProps) {
   const phrases = customPhrases && customPhrases.length > 0 ? customPhrases : defaultPhrases;
   const [showBubble, setShowBubble] = useState(false);
   const [phrase, setPhrase] = useState(phrases[0]);
@@ -166,7 +167,7 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
             (rejectMessage || (!suppressBubble && (showBubble || isPlacementMode))) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1",
           )}>
             <span className="italic">
-              {rejectMessage ?? (isPlacementMode ? "Dale, elegí un partido..." : phrase)}
+              {rejectMessage ?? (isPlacementMode ? (placementPhrase || "Dale, elegí un partido...") : phrase)}
             </span>
             <div className={cn("absolute -bottom-1 right-5 h-2 w-2 rotate-45", rejectMessage ? "bg-fifa-red" : "bg-fifa-gold")} />
           </div>
