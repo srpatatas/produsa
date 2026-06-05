@@ -1,0 +1,8738 @@
+[
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Melvin Mastil",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Aissa Mandi",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Achraf Abada",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Mohamed Amine Tougai",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Zineddine Belaid",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Ramiz Zerrouki",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Riyad Mahrez",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Houssem Aouar",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Amine Gouiri",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Fares Chaibi",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Anis Hadj Moussa",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Nadhir Benbouali",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Jaouen Hadjam",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Hicham Boudaoui",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Rayan Ait-Nouri",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Oussama Benbot",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Ra k Belghali",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Mohamed Amoura",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Nabil Bentaleb",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Adil Boulbina",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Ramy Bensebaini",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Ibrahim Maza",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Luca Zidane",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Yassine Titraoui",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Fares Ghedjemis",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "ALG",
+    "teamName": "Algeria",
+    "name": "Samir Chergui",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Juan Musso",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Leonardo Balerdi",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Nicolas Tagliafico",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Gonzalo Montiel",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Leandro Paredes",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Lisandro Martinez",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Rodrigo De Paul",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Valentin Barco",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Julian Alvarez",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Lionel Messi",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Giovani Lo Celso",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Geronimo Rulli",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Cristian Romero",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Exequiel Palacios",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Nico Gonzalez",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Thiago Almada",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Giuliano Simeone",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Nico Paz",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Nicolas Otamendi",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Alexis Mac Allister",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Jose Manuel Lopez",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Lautaro Martinez",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Emiliano Martinez",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Enzo Fernandez",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Facundo Medina",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "ARG",
+    "teamName": "Argentina",
+    "name": "Nahuel Molina",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Mathew Ryan",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Milos Degenek",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Alessandro Circati",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Jacob Italiano",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Jordan Bos",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Jason Geria",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Mathew Leckie",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Connor Metcalfe",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Mohamed Toure",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Ajdin Hrustic",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Awer Mabil",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Paul Izzo",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Aiden Oneill",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Cameron Devlin",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Kai Trewin",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Aziz Behich",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Nestory Irankunda",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Patrick Beach",
+    "position": "GK",
+    "number": 18
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Harry Souttar",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Cristian Volpato",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Cameron Burgess",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Jackson Irvine",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Nishan Velupillay",
+    "position": "FW",
+    "number": 23
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Paul Okon-Engstler",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Lucas Herrington",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "AUS",
+    "teamName": "Australia",
+    "name": "Tete Yengi",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Alexander Schlager",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "David Affengruber",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Kevin Danso",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Xaver Schlager",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Stefan Posch",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Nicolas Seiwald",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Marko Arnautovic",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "David Alaba",
+    "position": "DF",
+    "number": 8
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Marcel Sabitzer",
+    "position": "MF",
+    "number": 9
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Florian Grillitsch",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Michael Gregoritsch",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Florian Wiegele",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Patrick Pentz",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Sasa Kalajdzic",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Philipp Lienhart",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Phillip Mwene",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Carney Chukwuemeka",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Romano Schmid",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Christoph Baumgartner",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Konrad Laimer",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Patrick Wimmer",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Alexander Prass",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Marco Friedl",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Paul Wanner",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Michael Svoboda",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "AUT",
+    "teamName": "Austria",
+    "name": "Alessandro Schoepf",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Thibaut Courtois",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Zeno Debast",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Arthur Theate",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Brandon Mechele",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Maxim De Cuyper",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Axel Witsel",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Kevin De Bruyne",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Youri Tielemans",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Romelu Lukaku",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Leandro Trossard",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Jeremy Doku",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Senne Lammens",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Mike Penders",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Dodi Lukebakio",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Thomas Meunier",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Koni De Winter",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Charles De Ketelaere",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Joaquin Seys",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Diego Moreira",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Hans Vanaken",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Timothy Castagne",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Alexis Saelemaekers",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Nicolas Raskin",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Amadou Onana",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Nathan Ngoy",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "BEL",
+    "teamName": "Belgium",
+    "name": "Matias Fernandez-Pardo",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Nikola Vasilj",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Nihad Mujakic",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Dennis Hadzikadunic",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Tarik Muharemovic",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Sead Kolasinac",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Benjamin Tahirovic",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Amar Dedic",
+    "position": "DF",
+    "number": 7
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Armin Gigovic",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Samed Bazdar",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Ermedin Demirovic",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Edin Dzeko",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Mladen Jurkas",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Ivan Basic",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Ivan Sunjic",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Amar Memic",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Amir Hadziahmetovic",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Dzenis Burnic",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Nikola Katic",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Kerim Alajbegovic",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Esmir Bajraktarevic",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Stjepan Radeljic",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Martin Zlomislic",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Haris Tabakovic",
+    "position": "FW",
+    "number": 23
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Nidal Celik",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Jovo Lukic",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "BIH",
+    "teamName": "Bosnia And Herzegovina",
+    "name": "Ermin Mahmic",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Alisson",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Wesley",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Gabriel Magalhaes",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Marquinhos",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Casemiro",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Alex Sandro",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Vinicius Junior",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Bruno Guimaraes",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Matheus Cunha",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Neymar Jr",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Raphinha",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Weverton",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Danilo",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Bremer",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Leo Pereira",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Douglas Santos",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Fabinho",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Danilo Santos",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Endrick",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Lucas Paqueta",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Luiz Henrique",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Gabriel Martinelli",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Ederson",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Roger Ibanez",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Igor Thiago",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "BRA",
+    "teamName": "Brazil",
+    "name": "Rayan",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Vozinha",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Stopira",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Diney Borges",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Pico Lopes",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Logan Costa",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Kevin Pina",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Jovane Cabral",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Joao Paulo",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Gilson Benchimol",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Jamiro Monteiro",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Garry Rodrigues",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Marcio Rosa",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Sidny Lopes Cabral",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Deroy Duarte",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Laros Duarte",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Yannick Semedo",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Willy Semedo",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Telmo Arcanjo",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Dailon Livramento",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Ryan Mendes",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Nuno Da Costa",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Steven Moreira",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Cj Dos Santos",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Wagner Pina",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Kelvin Pires",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "CPV",
+    "teamName": "Cabo Verde",
+    "name": "Helio Varela",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Dayne St. Clair",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Alistair Johnston",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Al e Jones",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Luc De Fougerolles",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Joel Waterman",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Mathieu Choiniere",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Stephen Eustaquio",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Ismael Kone",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Cyle Larin",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Jonathan David",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Liam Millar",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Tani Oluwaseyi",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Derek Cornelius",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Jacob Shaffelburg",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Moise Bombito",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Maxime Crepeau",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Tajon Buchanan",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Owen Goodman",
+    "position": "GK",
+    "number": 18
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Alphonso Davies",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Ali Ahmed",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Jonathan Osorio",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Richie Laryea",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Niko Sigur",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Promise David",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Nathan Saliba",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "CAN",
+    "teamName": "Canada",
+    "name": "Marcelo Flores",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "David Ospina",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Daniel Munoz",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Jhon Lucumi",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Santiago Arias",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Kevin Castano",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Richard Rios",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Luis Diaz",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Jorge Carrascal",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Jhon Cordoba",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "James Rodriguez",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Jhon Arias",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Camilo Vargas",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Yerry Mina",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Gustavo Puerta",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Juan Portilla",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Jefferson Lerma",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Johan Mojica",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Willer Ditta",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Cucho Hernandez",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Juan Quintero",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Jaminton Campaz",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Deiver Machado",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Davinson Sanchez",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Alvaro Montero",
+    "position": "GK",
+    "number": 24
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Luis Suarez",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "COL",
+    "teamName": "Colombia",
+    "name": "Andres Gomez",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Lionel Mpasi",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Aaron Wan-Bissaka",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Steve Kapuadi",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Axel Tuanzebe",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Dylan Batubinsika",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Ngalayel Mukau",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Nathanael Mbuku",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Samuel Moutoussamy",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Brian Cipenga",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Theo Bongonda",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Gael Kakuta",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Joris Kayembe",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Meschack Elia",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Noah Sadiki",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Aaron Tshibola",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Timothy Fayulu",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Cedric Bakambu",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Charles Pickel",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Fiston Mayele",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Yoane Wissa",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Matthieu Epolo",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Chancel Mbemba",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Simon Banza",
+    "position": "FW",
+    "number": 23
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Gedeon Kalulu",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Edo Kayembe",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "COD",
+    "teamName": "Congo DR",
+    "name": "Arthur Masuaku",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Yahia Fofana",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Ousmane Diomande",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Ghislain Konan",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Jean Michael Seri",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Wilfried Singo",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Seko Fofana",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Odilon Kossounou",
+    "position": "DF",
+    "number": 7
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Franck Kessie",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Ange-Yoan Bonny",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Simon Adingra",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Yan Diomande",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Elye Wahi",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Christopher Operi",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Oumar Diakite",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Amad Diallo",
+    "position": "FW",
+    "number": 15
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Mohamed Kone",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Guela Doue",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Ibrahim Sangare",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Nicolas Pepe",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Emmanuel Agbadou",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Evan Ndicka",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Evann Guessand",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Alban Lafont",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Bazoumana Toure",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Parfait Guiagon",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "CIV",
+    "teamName": "Côte D'Ivoire",
+    "name": "Christ Inao Oulai",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Dominik Livakovic",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Josip Stanisic",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Marin Pongracic",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Josko Gvardiol",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Duje Caleta-Car",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Josip Sutalo",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Nikola Moro",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Mateo Kovacic",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Andrej Kramaric",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Luka Modric",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Ante Budimir",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Ivor Pandur",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Nikola Vlasic",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Ivan Perisic",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Mario Pasalic",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Martin Baturina",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Petar Sucic",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Kristijan Jakic",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Toni Fruk",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Igor Matanovic",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Luka Sucic",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Luka Vuskovic",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Dominik Kotarski",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Marco Pasalic",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Martin Erlic",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "CRO",
+    "teamName": "Croatia",
+    "name": "Petar Musa",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Eloy Room",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Shurandy Sambo",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Jurien Gaari",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Roshon Van Eijma",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Sherel Floranus",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Godfried Roemeratoe",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Juninho Bacuna",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Livano Comenencia",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Juergen Locadia",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Leandro Bacuna",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Jeremy Antonisse",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Sontje Hansen",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Tyrese Noslin",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Kenji Gorre",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Arjany Martha",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Jearl Margaritha",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Brandley Kuwas",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Armando Obispo",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Gervane Kastaneer",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Joshua Brenet",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Tahith Chong",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Kevin Felida",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Riechedly Bazoer",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Deveron Fonville",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Tyrick Bodak",
+    "position": "GK",
+    "number": 25
+  },
+  {
+    "teamCode": "CUW",
+    "teamName": "Curaçao",
+    "name": "Trevor Doornbusch",
+    "position": "GK",
+    "number": 26
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Matej Kovar",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "David Zima",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Tomas Holes",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Robin Hranac",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Vladimir Coufal",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Stepan Chaloupek",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Ladislav Krejci",
+    "position": "DF",
+    "number": 7
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Vladimir Darida",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Adam Hlozek",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Patrik Schick",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Jan Kuchta",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Lukas Cerv",
+    "position": "MF",
+    "number": 12
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Mojmir Chytil",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "David Jurasek",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Pavel Sulc",
+    "position": "FW",
+    "number": 15
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Jindrich Stanek",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Lukas Provod",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Michal Sadilek",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Tomas Chory",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Jaroslav Zeleny",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "David Doudera",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Tomas Soucek",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Lukas Hornicek",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Alexandr Sojka",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Hugo Sochurek",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "CZE",
+    "teamName": "Czechia",
+    "name": "Denis Visinsky",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Hernan Galindez",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Felix Torres",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Piero Hincapie",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Joel Ordonez",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Jordy Alcivar",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Willian Pacho",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Pervis Estupinan",
+    "position": "DF",
+    "number": 7
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Anthony Valencia",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "John Yeboah",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Kendry Paez",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Kevin Rodriguez",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Moises Ramirez",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Enner Valencia",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Alan Minda",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Pedro Vite",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Jordy Caicedo",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Angelo Preciado",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Denil Castillo",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Gonzalo Plata",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Nilson Angulo",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Alan Franco",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Gonzalo Valle",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Moises Caicedo",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Jeremy Arevalo",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Jackson Porozo",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "ECU",
+    "teamName": "Ecuador",
+    "name": "Yaimar Medina",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mohamed Elshenawy",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Yasser Ibrahim",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mohamed Hany",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Hossam Abdelmaguid",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Ramy Rabia",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mohamed Abdelmoneim",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Trezeguet",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Emam Ashour",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Hamza Abdelkarim",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mohamed Salah",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mostafa Zico",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Haissem Hassan",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Ahmed Fatouh",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Hamdy Fathy",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Karim Hafez",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mahdy Soliman",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mohanad Lashin",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Nabil Donga",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Marawan Attia",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Ibrahim Adel",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mahmoud Saber",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Omar Marmoush",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mostafa Shoubir",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Tarek Alaa",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Zizo",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "EGY",
+    "teamName": "Egypt",
+    "name": "Mohamed Alaa",
+    "position": "GK",
+    "number": 26
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Jordan Pickford",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Ezri Konsa",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Nico Oreilly",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Declan Rice",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "John Stones",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Marc Guehi",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Bukayo Saka",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Elliot Anderson",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Harry Kane",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Jude Bellingham",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Marcus Rashford",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Tino Livramento",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Dean Henderson",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Jordan Henderson",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Dan Burn",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Kobbie Mainoo",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Morgan Rogers",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Anthony Gordon",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Ollie Watkins",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Noni Madueke",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Eberechi Eze",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Ivan Toney",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "James Trafford",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Reece James",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Djed Spence",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "ENG",
+    "teamName": "England",
+    "name": "Jarell Quansah",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Brice Samba",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Malo Gusto",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Lucas Digne",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Dayot Upamecano",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Jules Kounde",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Manu Kone",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Ousmane Dembele",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Aurelien Tchouameni",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Marcus Thuram",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Kylian Mbappe",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Michael Olise",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Bradley Barcola",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Ngolo Kante",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Adrien Rabiot",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Ibrahima Konate",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Mike Maignan",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "William Saliba",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Warren Zaire-Emery",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Theo Hernandez",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Desire Doue",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Lucas Hernandez",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Jean-Philippe Mateta",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Robin Risser",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Rayan Cherki",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Maghnes Akliouche",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "FRA",
+    "teamName": "France",
+    "name": "Maxence Lacroix",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Manuel Neuer",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Antonio Ruediger",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Waldemar Anton",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Jonathan Tah",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Aleksandar Pavlovic",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Joshua Kimmich",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Kai Havertz",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Leon Goretzka",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Jamie Leweling",
+    "position": "MF",
+    "number": 9
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Jamal Musiala",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Nick Woltemade",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Oliver Baumann",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Pascal Gross",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Maximilian Beier",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Nico Schlotterbeck",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Angelo Stiller",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Florian Wirtz",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Nathaniel Brown",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Leroy Sane",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Nadiem Amiri",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Alexander Nuebel",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "David Raum",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Felix Nmecha",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Malick Thiaw",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Lennart Karl",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "GER",
+    "teamName": "Germany",
+    "name": "Deniz Undav",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Lawrence Ati Zigi",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Alidu Seidu",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Caleb Yirenkyi",
+    "position": "MF",
+    "number": 3
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Jonas Adjetey",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Thomas Partey",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Abdul Mumin",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Fatawu Issahaku",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Kwasi Sibo",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Jordan Ayew",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Brandon Thomas-Asante",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Antoine Semenyo",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Joseph Anang",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Christopher Bonsu Baah",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Gideon Mensah",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Elisha Owusu",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Benjamin Asare",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Baba Rahman",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Jerome Opoku",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Inaki Williams",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Augustine Boakye",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Kojo Peprah Oppong",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Kamaldeen Sulemana",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Derrick Luckassen",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Ernest Nuamah",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Prince Adu",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "GHA",
+    "teamName": "Ghana",
+    "name": "Marvin Senaya",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Johny Placide",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Carlens Arcus",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Keeto Thermoncy",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Ricardo Ade",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Hannes Delcroix",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Carl Sainte",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Derrick Etienne",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Martin Experience",
+    "position": "DF",
+    "number": 8
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Duckens Nazon",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Jean-Ricner Bellegarde",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Louicius Deedson",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Alexandre Pierre",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Markhus Lacroix",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Leverton Pierre",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Ruben Providence",
+    "position": "FW",
+    "number": 15
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Lenny Joseph",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Danley Jean Jacques",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Wilson Isidor",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Yassin Fortune",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Frantzdy Pierrot",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Josue Casimir",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Jean-Kevin Duverne",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Josue Duverger",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Wilguens Paugain",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Dominique Simon",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "HAI",
+    "teamName": "Haiti",
+    "name": "Woodensky Pierre",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Alireza Beiranvand",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Saleh Hardani",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Ehsan Hajisafi",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Shoja Khalilzadeh",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Milad Mohammadi",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Saeid Ezatolahi",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Alireza Jahanbakhsh",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Mohammad Mohebbi",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Mehdi Taremi",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Mehdi Ghayedi",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Ali Alipour",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Payam Niazmand",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Hossein Kanani",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Saman Ghoddos",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Roozbeh Cheshmi",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Mehdi Torabi",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Arya Yousefi",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Amirhossein Hosseinzadeh",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Ali Nemati",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Shahriyar Moghanloo",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Mohammad Ghorbani",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Hossein Hosseini",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Ramin Rezaeian",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Dennis Dargahi",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Danial Iri",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "IRN",
+    "teamName": "IR Iran",
+    "name": "Amirmohammad Razaghinia",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Fahad Talib",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Rebin Ghareeb",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Hussein Ali",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Zaid Tahseen",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Akam Hashim",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Munaf Younus",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Youssef Amyn",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ibrahim Bayesh",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ali Alhamadi",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Mohanad Ali",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ahmed Qasim",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Jalal Hassan",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ali Yousif",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Zidane Iqbal",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ahmed Yahya",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Amir Alammari",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ali Jasim",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Aymen Hussein",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Kevin Yakob",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Aimar Sher",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Marko Farji",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Ahmed Basil",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Merchas Doski",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Zaid Ismael",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Mustafa Saadoon",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "IRQ",
+    "teamName": "Iraq",
+    "name": "Frans Putros",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Zion Suzuki",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Yukinari Sugawara",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Shogo Taniguchi",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Kou Itakura",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Yuto Nagatomo",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Wataru Endo",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Ao Tanaka",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Takefusa Kubo",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Keisuke Goto",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Ritsu Doan",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Daizen Maeda",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Keisuke Osako",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Keito Nakamura",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Junya Ito",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Daichi Kamada",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Tsuyoshi Watanabe",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Yuito Suzuki",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Ayase Ueda",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Koki Ogawa",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Ayumu Seko",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Hiroki Ito",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Takehiro Tomiyasu",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Tomoki Hayakawa",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Kaishu Sano",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Junnosuke Suzuki",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "JPN",
+    "teamName": "Japan",
+    "name": "Kento Shiogai",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Yazeed Abulaila",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mohammad Abuhasheesh",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Abdallah Nasib",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Husam Abudahab",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Yazan Alarab",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Amer Jamous",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mohammad Abuzraiq",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Noor Alrawabdeh",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Ali Olwan",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mousa Altamari",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Odeh Fakhoury",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Nour Baniateyah",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mahmoud Almardi",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Rajaei Ayed",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Ibrahim Sadeh",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mohammad Abualnadi",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Saleem Obaid",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Ibrahim Sabra",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Saed Alrosan",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mohannad Abutaha",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Nizar Alrashdan",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Abdallah Alfakhori",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Ehsan Haddad",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Ali Azaizeh",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Mohammad Aldaoud",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "JOR",
+    "teamName": "Jordan",
+    "name": "Anas Badawi",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Seunggyu Kim",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Hanbeom Lee",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Gihyuk Lee",
+    "position": "MF",
+    "number": 3
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Minjae Kim",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Taehyeon Kim",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Inbeom Hwang",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Heungmin Son",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Seungho Paik",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Guesung Cho",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Jaesung Lee",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Heechan Hwang",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Bumkeun Song",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Taeseok Lee",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Wije Cho",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Moonhwan Kim",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Jinseob Park",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Junho Bae",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Hyeongyu Oh",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Kangin Lee",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Hyunjun Yang",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Hyeonwoo Jo",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Youngwoo Seol",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Jens Castrop",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Jingyu Kim",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Jisung Eom",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "KOR",
+    "teamName": "Korea Republic",
+    "name": "Donggyeong Lee",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Raul Rangel",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Jorge Sanchez",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Cesar Montes",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Edson Alvarez",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Johan Vasquez",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Erik Lira",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Luis Romo",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Alvaro Fidalgo",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Raul Jimenez",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Alexis Vega",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Santiago Gimenez",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Carlos Acevedo",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Guillermo Ochoa",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Armando Gonzalez",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Israel Reyes",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Julian Quinones",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Orbelin Pineda",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Obed Vargas",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Gilberto Mora",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Mateo Chavez",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Cesar Huerta",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Guillermo Martinez",
+    "position": "FW",
+    "number": 22
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Jesus Gallardo",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Luis Chavez",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Roberto Alvarado",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "MEX",
+    "teamName": "Mexico",
+    "name": "Brian Gutierrez",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Yassine Bounou",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Achraf Hakimi",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Noussair Mazraoui",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Sofyan Amrabat",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Nayef Aguerd",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Ayyoub Bouaddi",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Chemsdine Talbi",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Azzedine Ounahi",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Sou ane Rahimi",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Brahim Diaz",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Ismael Saibari",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Munir El Kajoui",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Zakaria El Ouahdi",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Issa Diop",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Samir El Mourabet",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Gessime Yassine",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Abde Ezzalzouli",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Chadi Riad",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Youssef Belammari",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Ayoub El Kaabi",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Ayoub Amaimouni",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Ahmed Reda Tagnaouti",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Bilal El Khannouss",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Neil El Aynaoui",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Redouane Halhal",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "MAR",
+    "teamName": "Morocco",
+    "name": "Anass Salah Eddine",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Bart Verbruggen",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Jurrien Timber",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Marten De Roon",
+    "position": "MF",
+    "number": 3
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Virgil Van Dijk",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Nathan Ake",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Jan Paul Van Hecke",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Justin Kluivert",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Ryan Gravenberch",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Wout Weghorst",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Memphis Depay",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Cody Gakpo",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Mats Wieffer",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Robin Roefs",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Tijjani Reijnders",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Micky Van De Ven",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Guus Til",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Noa Lang",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Donyell Malen",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Brian Brobbey",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Teun Koopmeiners",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Frenkie De Jong",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Denzel Dumfries",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Mark Flekken",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Crysencio Summerville",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Jorrel Hato",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "NED",
+    "teamName": "Netherlands",
+    "name": "Quinten Timber",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Max Crocombe",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Tim Payne",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Francis De Vries",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Tyler Bindon",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Michael Boxall",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Joe Bell",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Matthew Garbett",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Marko Stamenic",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Chris Wood",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Sarpreet Singh",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Elijah Just",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Alex Paulsen",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Liberato Cacace",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Alex Rufer",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Nando Pijnaker",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Finn Surman",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Kosta Barbarouses",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Ben Waine",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Ben Old",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Mccowatt Callum",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Jesse Randall",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Michael Woud",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Ryan Thomas",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Callan Elliot",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Lachlan Bayliss",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "NZL",
+    "teamName": "New Zealand",
+    "name": "Tommy Smith",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Orjan Nyland",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Morten Thorsby",
+    "position": "MF",
+    "number": 2
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Kristoffer Ajer",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Leo Ostigard",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "David Moller Wolfe",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Patrick Berg",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Alexander Sorloth",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Sander Berge",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Erling Haaland",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Martin Odegaard",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Jorgen Strand Larsen",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Sander Tangvik",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Egil Selvik",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Fredrik Aursnes",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Fredrik Andre Bjorkan",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Marcus Holmgren Pedersen",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Torbjorn Heggem",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Kristian Thorstvedt",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Thelo Aasgaard",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Antonio Nusa",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Andreas Schjelderup",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Oscar Bobb",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Jens Petter Hauge",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Sondre Langas",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Henrik Falchener",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "NOR",
+    "teamName": "Norway",
+    "name": "Julian Ryerson",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Luis Mejia",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Cesar Blackman",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Jose Cordoba",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Fidel Escobar",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Edgardo Farina",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Cristian Martinez",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Jose Luis Rodriguez",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Adalberto Carrasquilla",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Tomas Rodriguez",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Ismael Diaz",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Edgar Yoel Barcenas",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Cesar Samudio",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Jiovany Ramos",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Carlos Harvey",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Eric Davis",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Andres Andrade",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Jose Fajardo",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Cecilio Waterman",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Alberto Quintero",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Anibal Godoy",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Cesar Yanis",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Orlando Mosquera",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Amir Murillo",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Azarias Londono",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Roderick Miller",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "PAN",
+    "teamName": "Panama",
+    "name": "Jorge Gutierrez",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Gatito Fernandez",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Gustavo Velazquez",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Omar Alderete",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Juan Jose Caceres",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Fabian Balbuena",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Junior Alonso",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Ramon Sosa",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Diego Gomez",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Antonio Sanabria",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Miguel Almiron",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Mauricio",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Orlando Gill",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Jose Canale",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Andres Cubas",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Gustavo Gomez",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Damian Bobadilla",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Alejandro Romero Gamarra",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Alex Arce",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Julio Enciso",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Braian Ojeda",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Gabriel Avalos",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Gaston Olveira",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Matias Galarza",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Gustavo Caballero",
+    "position": "MF",
+    "number": 24
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Isidro Pitta",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "PAR",
+    "teamName": "Paraguay",
+    "name": "Alexandro Maidana",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Diogo Costa",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Nelson Semedo",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Ruben Dias",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Tomas Araujo",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Diogo Dalot",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Matheus Nunes",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Cristiano Ronaldo",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Bruno Fernandes",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Goncalo Ramos",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Bernardo Silva",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Joao Felix",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Jose Sa",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Renato Veiga",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Goncalo Inacio",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Joao Neves",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Francisco Trincao",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Rafael Leao",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Pedro Neto",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Goncalo Guedes",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Joao Cancelo",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Ruben Neves",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Rui Silva",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Vitinha",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Samu Costa",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Nuno Mendes",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "POR",
+    "teamName": "Portugal",
+    "name": "Francisco Conceicao",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Mahmoud Abunada",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Pedro Miguel",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Lucas Mendes",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Issa Laye",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Jassem Gaber",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Abdulaziz Hatem",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Ahmed Alaaeldin",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Edmilson Junior",
+    "position": "FW",
+    "number": 8
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Mohammed Muntari",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Hassan Alhaydos",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Akram Afif",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Karim Boudiaf",
+    "position": "MF",
+    "number": 12
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Ayoub Aloui",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Homam Ahmed",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Yusuf Abdurisag",
+    "position": "FW",
+    "number": 15
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Boualem Khoukhi",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Ahmed Alganehi",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Sultan Albrake",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Almoez Ali",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Ahmed Fathy",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Salah Zakaria",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Meshaal Barsham",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Assim Madibo",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Tahsin Jamshid",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Alhashmi Alhussein",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "QAT",
+    "teamName": "Qatar",
+    "name": "Mohamed Manai",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Nawaf Alaqidi",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Ali Majrashi",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Ali Lajami",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Abdulelah Alamri",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Hassan Altambakti",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Nasser Aldawsari",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Musab Aljuwayr",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Aiman Yahya",
+    "position": "FW",
+    "number": 8
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Feras Albrikan",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Salem Aldawsari",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Saleh Alshehri",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Saud Abdulhamid",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Nawaf Bu Washl",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Hassan Kadish",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Abdullah Alkhaibari",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Ziyad Aljohani",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Khalid Alghannam",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Ala Alhajji",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Abdullah Alhamddan",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Sultan Mandash",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Mohammed Alowais",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Ahmed Alkassar",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Mohamed Kanno",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Moteb Alharbi",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Jehad Thikri",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "KSA",
+    "teamName": "Saudi Arabia",
+    "name": "Mohammed Abu Alshamat",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Angus Gunn",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Aaron Hickey",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Andy Robertson",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Mctominay Scott",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Grant Hanley",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Kieran Tierney",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Mcginn John",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Tyler Fletcher",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Lyndon Dykes",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Che Adams",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Ryan Christie",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Liam Kelly",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Jack Hendry",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Ross Stewart",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "John Souttar",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Dominic Hyam",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Ben Gannon-Doak",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "George Hirst",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Lewis Ferguson",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Lawrence Shankland",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Craig Gordon",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Nathan Patterson",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Mclean Kenny",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Anthony Ralston",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Findlay Curtis",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "SCO",
+    "teamName": "Scotland",
+    "name": "Mckenna Scott",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Yehvann Diouf",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Mamadou Sarr",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Kalidou Koulibaly",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Abdoulaye Seck",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Idrissa Gana Gueye",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Pathe Ciss",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Assane Diao",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Lamine Camara",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Bamba Dieng",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Sadio Mane",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Nicolas Jackson",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Cherif Ndiaye",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Iliman Ndiaye",
+    "position": "FW",
+    "number": 13
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Ismail Jakobs",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Krepin Diatta",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Edouard Mendy",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Pape Matar Sarr",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Ismaila Sarr",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Moussa Niakhate",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Ibrahim Mbaye",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Habib Diarra",
+    "position": "MF",
+    "number": 21
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Bara Sapoko Ndiaye",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Mory Diaw",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Antoine Mendy",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "El Hadji Malick Diouf",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "SEN",
+    "teamName": "Senegal",
+    "name": "Pape Gueye",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Ronwen Williams",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Thabang Matuludi",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Khulumani Ndamane",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Teboho Mokoena",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Thalente Mbatha",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Aubrey Modiba",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Oswin Appollis",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Tshepang Moremi",
+    "position": "FW",
+    "number": 8
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Lyle Foster",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Relebohile Mofokeng",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Themba Zwane",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Thapelo Maseko",
+    "position": "FW",
+    "number": 12
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Sphephelo Sithole",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Mbekezeli Mbokazi",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Iqraam Rayners",
+    "position": "FW",
+    "number": 15
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Sipho Chaine",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Evidence Makgopa",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Samukelo Kabini",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Nkosinathi Sibisi",
+    "position": "DF",
+    "number": 19
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Khuliso Mudau",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Ime Okon",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Ricardo Goss",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Jayden Adams",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Olwethu Makhanya",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Kamogelo Sebelebele",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "RSA",
+    "teamName": "South Africa",
+    "name": "Bradley Cross",
+    "position": "DF",
+    "number": 26
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "David Raya",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Marc Pubill",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Alex Grimaldo",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Eric Garcia",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Marcos Llorente",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Mikel Merino",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Ferran Torres",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Fabian Ruiz",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Gavi",
+    "position": "MF",
+    "number": 9
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Dani Olmo",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Yeremy Pino",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Pedro Porro",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Joan Garcia",
+    "position": "GK",
+    "number": 13
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Aymeric Laporte",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Alex Baena",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Rodri",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Nico Williams",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Martin Zubimendi",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Lamine Yamal",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Pedri",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Mikel Oyarzabal",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Pau Cubarsi",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Unai Simon",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Marc Cucurella",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Victor Munoz",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "ESP",
+    "teamName": "Spain",
+    "name": "Borja Iglesias",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Jacob Widell Zetterstrom",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Gustaf Lagerbielke",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Victor Lindelof",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Isak Hien",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Gabriel Gudmundsson",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Herman Johansson",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Lucas Bergvall",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Daniel Svensson",
+    "position": "DF",
+    "number": 8
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Alexander Isak",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Benjamin Nygren",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Anthony Elanga",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Viktor Johansson",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Ken Sema",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Hjalmar Ekdal",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Carl Starfelt",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Jesper Karlstrom",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Viktor Gyokeres",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Yasin Ayari",
+    "position": "MF",
+    "number": 18
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Mattias Svanberg",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Eric Smith",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Alexander Bernhardsson",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Besfort Zeneli",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Kristoffer Nordfeldt",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Elliot Stroud",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Gustaf Nilsson",
+    "position": "FW",
+    "number": 25
+  },
+  {
+    "teamCode": "SWE",
+    "teamName": "Sweden",
+    "name": "Taha Ali",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Gregor Kobel",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Miro Muheim",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Silvan Widmer",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Nico Elvedi",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Manuel Akanji",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Denis Zakaria",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Breel Embolo",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Remo Freuler",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Johan Manzambi",
+    "position": "MF",
+    "number": 9
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Granit Xhaka",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Dan Ndoye",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Yvon Mvogo",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Ricardo Rodriguez",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Ardon Jashari",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Djibril Sow",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Christian Fassnacht",
+    "position": "FW",
+    "number": 16
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Ruben Vargas",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Eray Coemert",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Noah Okafor",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Michel Aebischer",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Marvin Keller",
+    "position": "GK",
+    "number": 21
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Fabian Rieder",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Zeki Amdouni",
+    "position": "FW",
+    "number": 23
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Aurele Amenda",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Luca Jaquez",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "SUI",
+    "teamName": "Switzerland",
+    "name": "Cedric Itten",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Mouhib Chamakh",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Ali Abdi",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Montassar Talbi",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Omar Rekik",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Adam Arous",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Dylan Bronn",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Elias Achouri",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Elias Saad",
+    "position": "FW",
+    "number": 8
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Hazem Mastouri",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Hannibal Mejbri",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Ismael Gharbi",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Mortadha Ben Ouanes",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Rani Khedira",
+    "position": "MF",
+    "number": 13
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Khalil Ayari",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Mohamed Hadj Mahmoud",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Aymen Dahmen",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Ellyes Skhiri",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Rayan Elloumi",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Firas Chaouat",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Yan Valery",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Mohamed Amine Ben Hmida",
+    "position": "DF",
+    "number": 21
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Sabri Ben Hessen",
+    "position": "GK",
+    "number": 22
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Moutaz Neffati",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Raed Chikhaoui",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Anis Slimane",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "TUN",
+    "teamName": "Tunisia",
+    "name": "Sebastian Tounekti",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Mert Gunok",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Zeki Celik",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Merih Demiral",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Caglar Soyuncu",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Salih Ozcan",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Orkun Kokcu",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Kerem Akturkoglu",
+    "position": "FW",
+    "number": 7
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Arda Guler",
+    "position": "FW",
+    "number": 8
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Deniz Gul",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Hakan Calhanoglu",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Kenan Yildiz",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Altay Bayindir",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Eren Elmali",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Abdulkerim Bardakci",
+    "position": "DF",
+    "number": 14
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Ozan Kabak",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Ismail Yuksek",
+    "position": "MF",
+    "number": 16
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Irfan Can Kahveci",
+    "position": "FW",
+    "number": 17
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Mert Muldur",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Yunus Akgun",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Ferdi Kadioglu",
+    "position": "DF",
+    "number": 20
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Baris Alper Yilmaz",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Kaan Ayhan",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Ugurcan Cakir",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Oguz Aydin",
+    "position": "FW",
+    "number": 24
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Samet Akaydin",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "TUR",
+    "teamName": "Türkiye",
+    "name": "Can Uzun",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Sergio Rochet",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Jose Maria Gimenez",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Sebastian Caceres",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Ronald Araujo",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Manuel Ugarte",
+    "position": "MF",
+    "number": 5
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Rodrigo Bentancur",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Nicolas De La Cruz",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Federico Valverde",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Darwin Nunez",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Giorgian De Arrascaeta",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Facundo Pellistri",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Santiago Mele",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Guillermo Varela",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Agustin Canobbio",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Emiliano Martinez",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Mathias Olivera",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Matias Vina",
+    "position": "DF",
+    "number": 17
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Brian Rodriguez",
+    "position": "FW",
+    "number": 18
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Rodrigo Aguirre",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Maxi Araujo",
+    "position": "MF",
+    "number": 20
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Federico Vinas",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Joaquin Piquerez",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Fernando Muslera",
+    "position": "GK",
+    "number": 23
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Santiago Bueno",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Juan Manuel Sanabria",
+    "position": "MF",
+    "number": 25
+  },
+  {
+    "teamCode": "URU",
+    "teamName": "Uruguay",
+    "name": "Rodrigo Zalazar",
+    "position": "MF",
+    "number": 26
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Matt Turner",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Sergino Dest",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Chris Richards",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Tyler Adams",
+    "position": "MF",
+    "number": 4
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Antonee Robinson",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Auston Trusty",
+    "position": "DF",
+    "number": 6
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Giovanni Reyna",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Mckennie Weston",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Ricardo Pepi",
+    "position": "FW",
+    "number": 9
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Christian Pulisic",
+    "position": "FW",
+    "number": 10
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Brenden Aaronson",
+    "position": "FW",
+    "number": 11
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Miles Robinson",
+    "position": "DF",
+    "number": 12
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Tim Ream",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Sebastian Berhalter",
+    "position": "MF",
+    "number": 14
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Cristian Roldan",
+    "position": "MF",
+    "number": 15
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Alex Freeman",
+    "position": "DF",
+    "number": 16
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Malik Tillman",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Max Arfsten",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Haji Wright",
+    "position": "FW",
+    "number": 19
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Folarin Balogun",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Timothy Weah",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Mckenzie Mark",
+    "position": "DF",
+    "number": 22
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Joe Scally",
+    "position": "DF",
+    "number": 23
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Matt Freese",
+    "position": "GK",
+    "number": 24
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Chris Brady",
+    "position": "GK",
+    "number": 25
+  },
+  {
+    "teamCode": "USA",
+    "teamName": "USA",
+    "name": "Alex Zendejas",
+    "position": "FW",
+    "number": 26
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Utkir Yusupov",
+    "position": "GK",
+    "number": 1
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Abdukodir Khusanov",
+    "position": "DF",
+    "number": 2
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Khojiakbar Alijonov",
+    "position": "DF",
+    "number": 3
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Farrukh Sayfiev",
+    "position": "DF",
+    "number": 4
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Rustam Ashurmatov",
+    "position": "DF",
+    "number": 5
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Akmal Mozgovoy",
+    "position": "MF",
+    "number": 6
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Otabek Shukurov",
+    "position": "MF",
+    "number": 7
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Jamshid Iskanderov",
+    "position": "MF",
+    "number": 8
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Odiljon Xamrobekov",
+    "position": "MF",
+    "number": 9
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Jaloliddin Masharipov",
+    "position": "MF",
+    "number": 10
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Oston Urunov",
+    "position": "MF",
+    "number": 11
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Abduvohid Nematov",
+    "position": "GK",
+    "number": 12
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Sherzod Nasrullaev",
+    "position": "DF",
+    "number": 13
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Eldor Shomurodov",
+    "position": "FW",
+    "number": 14
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Umar Eshmurodov",
+    "position": "DF",
+    "number": 15
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Botirali Ergashev",
+    "position": "GK",
+    "number": 16
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Dostonbek Khamdamov",
+    "position": "MF",
+    "number": 17
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Abdulla Abdullaev",
+    "position": "DF",
+    "number": 18
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Azizjon Ganiev",
+    "position": "MF",
+    "number": 19
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Azizbek Amonov",
+    "position": "FW",
+    "number": 20
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Igor Sergeev",
+    "position": "FW",
+    "number": 21
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Abbosbek Fayzullaev",
+    "position": "MF",
+    "number": 22
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Sherzod Esanov",
+    "position": "MF",
+    "number": 23
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Behruzjon Karimov",
+    "position": "DF",
+    "number": 24
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Avazbek Ulmasaliyev",
+    "position": "DF",
+    "number": 25
+  },
+  {
+    "teamCode": "UZB",
+    "teamName": "Uzbekistan",
+    "name": "Jakhongir Urozov",
+    "position": "DF",
+    "number": 26
+  }
+]

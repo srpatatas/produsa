@@ -4,7 +4,7 @@ import { withAdmin } from "@/lib/apiAuth";
 
 export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
-  const rows = await sql`SELECT id, label, subtitle, points, source_type, lock_scope, excluded_teams, sort_order FROM bonus_questions ORDER BY sort_order, id`;
+  const rows = await sql`SELECT id, label, subtitle, points, source_type, lock_scope, excluded_teams, team_filter, sort_order FROM bonus_questions ORDER BY sort_order, id`;
 
   const questions = rows.map((r) => ({
     id: r.id as string,
@@ -14,6 +14,7 @@ export const GET = withAdmin(async (req, session) => {
     sourceType: r.source_type as string,
     lockScope: r.lock_scope as string,
     excludedTeams: (r.excluded_teams as string) || "",
+    teamFilter: (r.team_filter as string) || "",
     sortOrder: r.sort_order as number,
   }));
 
@@ -21,7 +22,7 @@ export const GET = withAdmin(async (req, session) => {
 });
 
 export const POST = withAdmin(async (req, session) => {
-  const { id, label, subtitle, points, sourceType, lockScope, excludedTeams } = await req.json();
+  const { id, label, subtitle, points, sourceType, lockScope, excludedTeams, teamFilter } = await req.json();
   const pointsNum = parseInt(points, 10) || 0;
 
   if (!id || !label || !sourceType || !lockScope) {
@@ -39,10 +40,10 @@ export const POST = withAdmin(async (req, session) => {
   const sortOrder = maxSort[0].next as number;
 
   await sql`
-    INSERT INTO bonus_questions (id, label, subtitle, points, source_type, lock_scope, excluded_teams, sort_order)
-    VALUES (${id}, ${label}, ${subtitle || null}, ${pointsNum}, ${sourceType}, ${lockScope}, ${excludedTeams || null}, ${sortOrder})
+    INSERT INTO bonus_questions (id, label, subtitle, points, source_type, lock_scope, excluded_teams, team_filter, sort_order)
+    VALUES (${id}, ${label}, ${subtitle || null}, ${pointsNum}, ${sourceType}, ${lockScope}, ${excludedTeams || null}, ${teamFilter || null}, ${sortOrder})
     ON CONFLICT (id)
-    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, points = ${pointsNum}, source_type = ${sourceType}, lock_scope = ${lockScope}, excluded_teams = ${excludedTeams || null}, updated_at = NOW()
+    DO UPDATE SET label = ${label}, subtitle = ${subtitle || null}, points = ${pointsNum}, source_type = ${sourceType}, lock_scope = ${lockScope}, excluded_teams = ${excludedTeams || null}, team_filter = ${teamFilter || null}, updated_at = NOW()
   `;
 
   return NextResponse.json({ ok: true });
