@@ -33,12 +33,12 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const [bonusPointsOverride, setBonusPointsOverride] = useState<Record<string, number>>({});
   const [bonusSaving, setBonusSaving] = useState<string | null>(null);
 
-  const [bonusQuestions, setBonusQuestions] = useState<{ id: string; label: string; subtitle?: string; points?: number; sourceType: string; lockScope: string; excludedTeams?: string }[]>([]);
+  const [bonusQuestions, setBonusQuestions] = useState<{ id: string; label: string; subtitle?: string; points?: number; sourceType: string; lockScope: string; excludedTeams?: string; teamFilter?: string }[]>([]);
   const [bonusQuestionsLoaded, setBonusQuestionsLoaded] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
-  const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
+  const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string; teamFilter: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "", teamFilter: "" });
   const [showAddQuestion, setShowAddQuestion] = useState(false);
-  const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; subtitle: string; points: string; sourceType: string; lockScope: string; excludedTeams: string }>({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
+  const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; subtitle: string; points: string; sourceType: string; lockScope: string; excludedTeams: string; teamFilter: string }>({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "", teamFilter: "" });
 
   const loadBonusQuestions = async () => {
     const res = await fetch("/api/admin/bonus-questions");
@@ -75,7 +75,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
       if (res.ok) {
         await loadBonusQuestions();
         setShowAddQuestion(false);
-        setNewQuestion({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "" });
+        setNewQuestion({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "", teamFilter: "" });
         flashStatus("saved");
       } else { flashStatus("error"); }
     } catch { flashStatus("error"); }
@@ -162,6 +162,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
           sourceType: q.sourceType,
           lockScope: q.lockScope,
           excludedTeams: q.excludedTeams || "",
+          teamFilter: q.teamFilter || "",
         }),
       });
       flashStatus(res.ok ? "saved" : "error");
@@ -273,6 +274,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
               className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
             />
           )}
+          {newQuestion.sourceType === "players" && (
+            <input
+              type="text"
+              value={newQuestion.teamFilter}
+              onChange={(e) => setNewQuestion((prev) => ({ ...prev, teamFilter: e.target.value.toUpperCase() }))}
+              placeholder="Filtrar por equipo (ej: ARG) (opcional)"
+              className="w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+            />
+          )}
           <div className="flex justify-end gap-2">
             <button onClick={() => setShowAddQuestion(false)} className="rounded-xl px-4 py-2 text-sm text-fifa-dark-gray hover:text-foreground">Cancelar</button>
             <button onClick={handleAddQuestion} className="rounded-xl bg-fifa-teal px-4 py-2 text-sm font-medium text-white">Agregar</button>
@@ -357,6 +367,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                             className="rounded-md bg-surface px-2 py-1 text-[10px] text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
                           />
                         )}
+                        {questionEdit.sourceType === "players" && (
+                          <input
+                            type="text"
+                            value={questionEdit.teamFilter}
+                            onChange={(e) => setQuestionEdit((prev) => ({ ...prev, teamFilter: e.target.value.toUpperCase() }))}
+                            placeholder="Filtrar por equipo (ej: ARG)"
+                            className="rounded-md bg-surface px-2 py-1 text-[10px] text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+                          />
+                        )}
                         <div className="flex gap-1">
                           <button onClick={() => handleSaveQuestion(q.id)} className="rounded-md bg-fifa-green/20 px-2 py-0.5 text-[10px] text-fifa-green hover:bg-fifa-green/30">✓</button>
                           <button onClick={() => setEditingQuestion(null)} className="rounded-md px-2 py-0.5 text-[10px] text-fifa-dark-gray hover:text-foreground">✗</button>
@@ -368,7 +387,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                           <span className="text-xs font-medium text-foreground truncate">{q.label}</span>
                           <span className="text-[9px] text-fifa-dark-gray/40 flex-shrink-0">{typeLabels[q.sourceType] ?? q.sourceType}</span>
                           <button
-                            onClick={() => { setEditingQuestion(q.id); setQuestionEdit({ label: q.label, subtitle: q.subtitle || "", sourceType: q.sourceType, lockScope: q.lockScope, excludedTeams: q.excludedTeams || "" }); }}
+                            onClick={() => { setEditingQuestion(q.id); setQuestionEdit({ label: q.label, subtitle: q.subtitle || "", sourceType: q.sourceType, lockScope: q.lockScope, excludedTeams: q.excludedTeams || "", teamFilter: q.teamFilter || "" }); }}
                             className="flex-shrink-0 rounded-md p-1 text-fifa-dark-gray/40 hover:text-fifa-teal hover:bg-white/5 transition-colors"
                           >
                             <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

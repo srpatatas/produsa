@@ -55,6 +55,7 @@ function BonusSelect({
   participantOptions = [],
   playerOptions = [],
   excludedTeams,
+  teamFilter,
   isOpen,
   onToggleOpen,
 }: {
@@ -67,6 +68,7 @@ function BonusSelect({
   participantOptions?: { value: string; label: string }[];
   playerOptions?: { value: string; label: string }[];
   excludedTeams?: string[];
+  teamFilter?: string;
   isOpen?: boolean;
   onToggleOpen?: (id: string | null) => void;
 }) {
@@ -92,13 +94,16 @@ function BonusSelect({
   };
 
   const excludedSet = excludedTeams ? new Set(excludedTeams) : null;
+  const filteredPlayers = teamFilter
+    ? playerOptions.filter((o) => o.value.endsWith(`(${teamFilter})`))
+    : playerOptions;
   const options =
     sourceType === "teams"
       ? (excludedSet ? teamOptions.filter((o) => !excludedSet.has(o.value)) : teamOptions)
       : sourceType === "participants"
         ? participantOptions
-        : sourceType === "players" && playerOptions.length > 0
-          ? playerOptions
+        : sourceType === "players" && filteredPlayers.length > 0
+          ? filteredPlayers
           : [];
 
   const isTextInput = (sourceType === "players" && playerOptions.length === 0) || sourceType === "exact_value";
@@ -275,6 +280,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             participantOptions={participantsExcludingSelf}
             playerOptions={players}
             excludedTeams={q.excludedTeams}
+            teamFilter={q.teamFilter}
             isOpen={openDropdownId === q.id}
             onToggleOpen={setOpenDropdownId}
           />
