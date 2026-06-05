@@ -73,21 +73,23 @@ export async function fetchBonusMaps(
   users: RankingUser[],
 ): Promise<BonusMaps> {
   const [bonusResultRows, bonusPredRows, bonusQuestionRows] = await Promise.all([
-    sql`SELECT question_id, correct_answer, points FROM bonus_results`,
+    sql`SELECT question_id, correct_answer FROM bonus_results`,
     sql`SELECT user_id, question_id, answer FROM bonus_predictions`,
-    sql`SELECT id, source_type FROM bonus_questions`,
+    sql`SELECT id, source_type, points FROM bonus_questions`,
   ]);
 
   const questionTypes: Record<string, string> = {};
+  const questionPoints: Record<string, number> = {};
   for (const bq of bonusQuestionRows) {
     questionTypes[bq.id as string] = bq.source_type as string;
+    questionPoints[bq.id as string] = (bq.points as number) || 0;
   }
 
   const bonusAnswers: Record<string, { correctAnswer: string; points: number }> = {};
   for (const br of bonusResultRows) {
     bonusAnswers[br.question_id as string] = {
       correctAnswer: (br.correct_answer as string).toLowerCase(),
-      points: br.points as number,
+      points: questionPoints[br.question_id as string] ?? 0,
     };
   }
 
