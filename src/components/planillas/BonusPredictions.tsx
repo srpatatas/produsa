@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { teams } from "@/data/teams";
 import { usePlanilla } from "@/context/PlanillaContext";
+import { useUser } from "@/context/UserContext";
 import { cn } from "@/lib/utils";
 
 interface BonusQuestion {
@@ -213,6 +214,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
   const [participants, setParticipants] = useState<{ value: string; label: string }[]>([]);
   const [players, setPlayers] = useState<{ value: string; label: string }[]>([]);
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const user = useUser();
 
   useEffect(() => {
     fetch("/api/bonus-questions")
@@ -228,6 +230,8 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
       .then((data) => setPlayers(data.players.map((p: { name: string; teamId: string }) => ({ value: p.name, label: `${p.name} (${p.teamId})` }))))
       .catch(() => {});
   }, []);
+
+  const participantsExcludingSelf = participants.filter((p) => p.value !== user.name);
 
   const filtered = scope ? questions.filter((q) => q.lockScope === scope) : questions;
   if (filtered.length === 0) return null;
@@ -251,7 +255,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
             points={q.points}
             sourceType={q.sourceType}
             locked={locked}
-            participantOptions={participants}
+            participantOptions={participantsExcludingSelf}
             playerOptions={players}
             excludedTeams={q.excludedTeams}
             isOpen={openDropdownId === q.id}

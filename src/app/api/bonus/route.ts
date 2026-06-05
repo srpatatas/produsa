@@ -27,7 +27,7 @@ export const POST = withAuth(async (req, session) => {
 
   const sql = getDb();
 
-  const questionRows = await sql`SELECT lock_scope, excluded_teams FROM bonus_questions WHERE id = ${questionId}`;
+  const questionRows = await sql`SELECT lock_scope, excluded_teams, source_type FROM bonus_questions WHERE id = ${questionId}`;
   if (questionRows.length > 0 && await isScopeLocked(questionRows[0].lock_scope as string)) {
     return NextResponse.json({ error: "Puntos extra cerrados para esta fase" }, { status: 403 });
   }
@@ -35,6 +35,12 @@ export const POST = withAuth(async (req, session) => {
     const excluded = (questionRows[0].excluded_teams as string).split(",");
     if (excluded.includes(answer)) {
       return NextResponse.json({ error: "Ese equipo no está permitido para esta pregunta" }, { status: 400 });
+    }
+  }
+  if (questionRows.length > 0 && questionRows[0].source_type === "participants") {
+    const userRows = await sql`SELECT name FROM users WHERE id = ${session.id}`;
+    if (userRows.length > 0 && userRows[0].name === answer) {
+      return NextResponse.json({ error: "No podés elegirte a vos mismo" }, { status: 400 });
     }
   }
   await sql`
