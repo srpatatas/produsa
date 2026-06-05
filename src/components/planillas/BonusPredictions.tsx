@@ -73,8 +73,7 @@ function BonusSelect({
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
   const open = isOpen ?? false;
   const [search, setSearch] = useState("");
-  const [openUpward, setOpenUpward] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const value = bonusPredictions[questionId] ?? "";
   const [localText, setLocalText] = useState(value);
 
@@ -109,6 +108,22 @@ function BonusSelect({
 
   const selectedLabel = options.find((o) => o.value === value)?.label ?? value;
 
+  useEffect(() => {
+    if (open && containerRef.current) {
+      requestAnimationFrame(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const navHeight = 80;
+        const dropdownHeight = 210;
+        const needed = rect.top + rect.height + dropdownHeight + navHeight;
+        if (needed > window.innerHeight) {
+          window.scrollBy({ top: needed - window.innerHeight, behavior: "smooth" });
+        }
+      });
+    }
+  }, [open]);
+
   if (isTextInput) {
     return (
       <div>
@@ -135,23 +150,15 @@ function BonusSelect({
   }
 
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <label className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
         {label}
         {subtitle && <InfoTooltip text={subtitle} />}
         {!!points && <span className="rounded-full bg-fifa-gold/20 px-1.5 py-0.5 text-[8px] font-bold text-fifa-gold normal-case tracking-normal">+{points}</span>}
       </label>
       <button
-        ref={triggerRef}
         type="button"
-        onClick={() => {
-          if (locked) return;
-          if (!open && triggerRef.current) {
-            const rect = triggerRef.current.getBoundingClientRect();
-            setOpenUpward(rect.bottom + 200 > window.innerHeight);
-          }
-          onToggleOpen?.(open ? null : questionId);
-        }}
+        onClick={() => !locked && onToggleOpen?.(open ? null : questionId)}
         disabled={locked}
         className={cn(
           "flex w-full items-center justify-between rounded-lg bg-surface px-3 py-2 text-xs text-left ring-1 ring-white/5 transition-all",
@@ -177,10 +184,7 @@ function BonusSelect({
       </button>
 
       {open && (
-        <div className={cn(
-          "absolute z-[60] w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10",
-          openUpward ? "bottom-full mb-1" : "mt-1",
-        )}>
+        <div className="absolute z-[60] mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
           <div className="p-2">
             <input
               type="text"
