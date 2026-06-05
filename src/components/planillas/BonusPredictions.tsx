@@ -244,7 +244,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
       .catch(() => {});
     fetch("/api/players")
       .then((r) => r.ok ? r.json() : { players: [] })
-      .then((data) => setPlayers(data.players.map((p: { name: string; teamId: string }) => ({ value: p.name, label: `${p.name} (${p.teamId})` }))))
+      .then((data) => setPlayers(data.players.map((p: { name: string; teamId: string }) => ({ value: `${p.name} (${p.teamId})`, label: `${p.name} (${p.teamId})` }))))
       .catch(() => {});
   }, []);
 
