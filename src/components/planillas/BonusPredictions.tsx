@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { teams } from "@/data/teams";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { useUser } from "@/context/UserContext";
@@ -73,6 +73,7 @@ function BonusSelect({
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
   const open = isOpen ?? false;
   const [search, setSearch] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
   const value = bonusPredictions[questionId] ?? "";
   const [localText, setLocalText] = useState(value);
 
@@ -107,6 +108,22 @@ function BonusSelect({
 
   const selectedLabel = options.find((o) => o.value === value)?.label ?? value;
 
+  useEffect(() => {
+    if (open && containerRef.current) {
+      requestAnimationFrame(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const navHeight = 80;
+        const dropdownHeight = 210;
+        const needed = rect.top + rect.height + dropdownHeight + navHeight;
+        if (needed > window.innerHeight) {
+          window.scrollBy({ top: needed - window.innerHeight, behavior: "smooth" });
+        }
+      });
+    }
+  }, [open]);
+
   if (isTextInput) {
     return (
       <div>
@@ -133,7 +150,7 @@ function BonusSelect({
   }
 
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <label className="mb-1 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-fifa-dark-gray">
         {label}
         {subtitle && <InfoTooltip text={subtitle} />}
@@ -167,7 +184,7 @@ function BonusSelect({
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
+        <div className="absolute z-[60] mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
           <div className="p-2">
             <input
               type="text"
@@ -238,7 +255,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
 
   return (
     <div className={cn(
-      "rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5",
+      "rounded-2xl bg-card-bg p-5 pb-20 shadow-sm shadow-black/20 ring-1 ring-white/5 sm:pb-5",
       locked && "opacity-75",
     )}>
       <h3 className="mb-4 flex items-center gap-2 font-display text-base uppercase tracking-wider text-fifa-gold">
