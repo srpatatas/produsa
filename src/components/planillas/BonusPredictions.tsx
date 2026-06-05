@@ -14,6 +14,7 @@ interface BonusQuestion {
   sourceType: string;
   lockScope: string;
   excludedTeams?: string[];
+  teamFilter?: string;
 }
 
 const teamOptions = Object.values(teams)
