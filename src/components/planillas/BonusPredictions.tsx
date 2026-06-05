@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { teams } from "@/data/teams";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { useUser } from "@/context/UserContext";
@@ -73,6 +73,8 @@ function BonusSelect({
   const { bonusPredictions, setBonusPrediction, removeBonusPrediction } = usePlanilla();
   const open = isOpen ?? false;
   const [search, setSearch] = useState("");
+  const [openUpward, setOpenUpward] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const value = bonusPredictions[questionId] ?? "";
   const [localText, setLocalText] = useState(value);
 
@@ -140,8 +142,16 @@ function BonusSelect({
         {!!points && <span className="rounded-full bg-fifa-gold/20 px-1.5 py-0.5 text-[8px] font-bold text-fifa-gold normal-case tracking-normal">+{points}</span>}
       </label>
       <button
+        ref={triggerRef}
         type="button"
-        onClick={() => !locked && onToggleOpen?.(open ? null : questionId)}
+        onClick={() => {
+          if (locked) return;
+          if (!open && triggerRef.current) {
+            const rect = triggerRef.current.getBoundingClientRect();
+            setOpenUpward(rect.bottom + 200 > window.innerHeight);
+          }
+          onToggleOpen?.(open ? null : questionId);
+        }}
         disabled={locked}
         className={cn(
           "flex w-full items-center justify-between rounded-lg bg-surface px-3 py-2 text-xs text-left ring-1 ring-white/5 transition-all",
@@ -167,7 +177,10 @@ function BonusSelect({
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
+        <div className={cn(
+          "absolute z-[60] w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10",
+          openUpward ? "bottom-full mb-1" : "mt-1",
+        )}>
           <div className="p-2">
             <input
               type="text"
@@ -238,7 +251,7 @@ export function BonusPredictions({ locked, scope }: { locked?: boolean; scope?: 
 
   return (
     <div className={cn(
-      "rounded-2xl bg-card-bg p-5 shadow-sm shadow-black/20 ring-1 ring-white/5",
+      "rounded-2xl bg-card-bg p-5 pb-20 shadow-sm shadow-black/20 ring-1 ring-white/5 sm:pb-5",
       locked && "opacity-75",
     )}>
       <h3 className="mb-4 flex items-center gap-2 font-display text-base uppercase tracking-wider text-fifa-gold">
