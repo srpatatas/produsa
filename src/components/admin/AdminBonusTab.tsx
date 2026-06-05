@@ -27,9 +27,9 @@ const scopeGradients: Record<string, string> = {
 };
 
 export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
-  const [bonusResults, setBonusResults] = useState<Record<string, { correctAnswer: string; points: number }>>({});
+  const [bonusResults, setBonusResults] = useState<Record<string, { correctAnswer: string }>>({});
   const [bonusLoaded, setBonusLoaded] = useState(false);
-  const [bonusEdits, setBonusEdits] = useState<Record<string, { answer: string; points: string }>>({});
+  const [bonusEdits, setBonusEdits] = useState<Record<string, { answer: string }>>({});
   const [bonusPointsOverride, setBonusPointsOverride] = useState<Record<string, number>>({});
   const [bonusSaving, setBonusSaving] = useState<string | null>(null);
 
@@ -114,18 +114,16 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const handleSaveBonus = async (questionId: string) => {
     const edit = bonusEdits[questionId];
     if (!edit?.answer?.trim()) return;
-    const points = parseInt(edit.points, 10);
-    if (isNaN(points) || points < 0) return;
 
     setBonusSaving(questionId);
     try {
       const res = await fetch("/api/admin/bonus-results", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ questionId, correctAnswer: edit.answer.trim(), points }),
+        body: JSON.stringify({ questionId, correctAnswer: edit.answer.trim() }),
       });
       if (res.ok) {
-        setBonusResults((prev) => ({ ...prev, [questionId]: { correctAnswer: edit.answer.trim(), points } }));
+        setBonusResults((prev) => ({ ...prev, [questionId]: { correctAnswer: edit.answer.trim() } }));
         setBonusEdits((prev) => { const next = { ...prev }; delete next[questionId]; return next; });
         flashStatus("saved");
       } else {
@@ -140,7 +138,6 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
 
   const getBonusPoints = (questionId: string) => {
     if (bonusPointsOverride[questionId] != null) return bonusPointsOverride[questionId];
-    if (bonusResults[questionId]?.points != null) return bonusResults[questionId].points;
     const q = bonusQuestions.find((bq) => bq.id === questionId);
     return q?.points ?? 1;
   };
@@ -148,20 +145,23 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const handleUpdateBonusPoints = async (questionId: string, delta: number) => {
     const newPoints = Math.max(0, getBonusPoints(questionId) + delta);
     setBonusPointsOverride((prev) => ({ ...prev, [questionId]: newPoints }));
+    setBonusQuestions((prev) => prev.map((q) => q.id === questionId ? { ...q, points: newPoints } : q));
 
-    const saved = bonusResults[questionId];
-    if (saved) {
-      setBonusResults((prev) => ({ ...prev, [questionId]: { ...prev[questionId], points: newPoints } }));
-    }
+    const q = bonusQuestions.find((bq) => bq.id === questionId);
+    if (!q) return;
 
     try {
-      const res = await fetch("/api/admin/bonus-results", {
+      const res = await fetch("/api/admin/bonus-questions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          questionId,
-          correctAnswer: saved?.correctAnswer || "(pendiente)",
+          id: questionId,
+          label: q.label,
+          subtitle: q.subtitle || "",
           points: newPoints,
+          sourceType: q.sourceType,
+          lockScope: q.lockScope,
+          excludedTeams: q.excludedTeams || "",
         }),
       });
       flashStatus(res.ok ? "saved" : "error");
@@ -416,11 +416,11 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                   ) : saved ? (
                     <div className="flex items-center gap-1.5">
                       <span className="flex-1 truncate rounded-lg bg-fifa-teal/10 px-2 py-1 text-xs font-medium text-fifa-teal">{saved.correctAnswer}</span>
-                      <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: saved.correctAnswer, points: String(saved.points) } }))} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-dark-gray hover:bg-white/5 hover:text-foreground">Editar</button>
+                      <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: saved.correctAnswer } }))} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-dark-gray hover:bg-white/5 hover:text-foreground">Editar</button>
                       <button onClick={() => handleDeleteBonus(q.id)} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-red/50 hover:text-fifa-red">Borrar</button>
                     </div>
                   ) : (
-                    <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: "", points: "1" } }))} className="w-full rounded-lg bg-white/5 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10">+ Cargar respuesta</button>
+                    <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: "" } }))} className="w-full rounded-lg bg-white/5 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10">+ Cargar respuesta</button>
                   ))}
                 </div>
               );
