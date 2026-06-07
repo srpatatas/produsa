@@ -152,7 +152,9 @@ export function computeMatchPoints(
 
   for (const [matchId, result] of Object.entries(matchResults)) {
     if (skipMatchIds?.has(matchId)) continue;
-    const actual = getOutcome(result.homeScore, result.awayScore);
+    const actual = result.homePenalty != null && result.awayPenalty != null
+      ? (result.homePenalty > result.awayPenalty ? "L" : "V") as "L" | "V"
+      : getOutcome(result.homeScore, result.awayScore);
     const prediction = userPreds[matchId];
 
     if (!prediction) {

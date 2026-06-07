@@ -5,6 +5,8 @@ export interface MatchResult {
   matchId: string;
   homeScore: number;
   awayScore: number;
+  homePenalty?: number;
+  awayPenalty?: number;
 }
 
 export const matchResults: Record<string, MatchResult> = {};
