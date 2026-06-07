@@ -1,10 +1,9 @@
+import { fixtureToMatch } from "@/data/fixtureMap";
+
 const API_BASE = "https://v3.football.api-sports.io";
+const LIVE_STATUSES = "1H-HT-2H-ET-P-BT-LIVE";
 
-const FIXTURE_TO_MATCH: Record<number, string> = {
-  1525713: "B-1",
-};
-
-const FIXTURE_IDS = new Set(Object.keys(FIXTURE_TO_MATCH).map(Number));
+const FIXTURE_IDS = new Set(Object.keys(fixtureToMatch).map(Number));
 
 export interface LiveScoreResult {
   homeScore: number;
@@ -17,9 +16,10 @@ export async function fetchLiveScores(
   apiKey: string,
   fetchFn: typeof fetch = fetch,
 ): Promise<Record<string, LiveScoreResult>> {
-  const res = await fetchFn(`${API_BASE}/fixtures?live=all`, {
-    headers: { "x-apisports-key": apiKey },
-  });
+  const res = await fetchFn(
+    `${API_BASE}/fixtures?league=1&season=2026&status=${LIVE_STATUSES}`,
+    { headers: { "x-apisports-key": apiKey } },
+  );
 
   if (!res.ok) return {};
 
@@ -30,7 +30,7 @@ export async function fetchLiveScores(
     const fixtureId = f.fixture.id as number;
     if (!FIXTURE_IDS.has(fixtureId)) continue;
 
-    const matchId = FIXTURE_TO_MATCH[fixtureId];
+    const matchId = fixtureToMatch[fixtureId];
     scores[matchId] = {
       homeScore: f.goals.home ?? 0,
       awayScore: f.goals.away ?? 0,
