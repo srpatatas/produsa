@@ -89,6 +89,8 @@ async function main() {
       match_id VARCHAR(20) PRIMARY KEY,
       home_score INTEGER NOT NULL,
       away_score INTEGER NOT NULL,
+      home_penalty INTEGER,
+      away_penalty INTEGER,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
     )

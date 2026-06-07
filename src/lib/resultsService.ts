@@ -103,15 +103,18 @@ export async function getResults(): Promise<Record<string, MatchResult>> {
   }
 
   const sql = getDb();
-  const rows = await sql`SELECT match_id, home_score, away_score FROM match_results`;
+  const rows = await sql`SELECT match_id, home_score, away_score, home_penalty, away_penalty FROM match_results`;
 
   const results: Record<string, MatchResult> = {};
   for (const row of rows) {
-    results[row.match_id as string] = {
+    const r: MatchResult = {
       matchId: row.match_id as string,
       homeScore: row.home_score as number,
       awayScore: row.away_score as number,
     };
+    if (row.home_penalty != null) r.homePenalty = row.home_penalty as number;
+    if (row.away_penalty != null) r.awayPenalty = row.away_penalty as number;
+    results[row.match_id as string] = r;
   }
 
   cachedResults = results;

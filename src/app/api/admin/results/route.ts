@@ -5,33 +5,39 @@ import { invalidateResultsCache } from "@/lib/resultsService";
 
 export const GET = withAdmin(async (req, session) => {
   const sql = getDb();
-  const rows = await sql`SELECT match_id, home_score, away_score FROM match_results ORDER BY match_id`;
+  const rows = await sql`SELECT match_id, home_score, away_score, home_penalty, away_penalty FROM match_results ORDER BY match_id`;
 
-  const results: Record<string, { matchId: string; homeScore: number; awayScore: number }> = {};
+  const results: Record<string, { matchId: string; homeScore: number; awayScore: number; homePenalty?: number; awayPenalty?: number }> = {};
   for (const row of rows) {
-    results[row.match_id as string] = {
+    const r: typeof results[string] = {
       matchId: row.match_id as string,
       homeScore: row.home_score as number,
       awayScore: row.away_score as number,
     };
+    if (row.home_penalty != null) r.homePenalty = row.home_penalty as number;
+    if (row.away_penalty != null) r.awayPenalty = row.away_penalty as number;
+    results[row.match_id as string] = r;
   }
 
   return NextResponse.json({ results });
 });
 
 export const POST = withAdmin(async (req, session) => {
-  const { matchId, homeScore, awayScore } = await req.json();
+  const { matchId, homeScore, awayScore, homePenalty, awayPenalty } = await req.json();
 
   if (!matchId || homeScore === undefined || awayScore === undefined) {
     return NextResponse.json({ error: "matchId, homeScore y awayScore requeridos" }, { status: 400 });
   }
 
   const sql = getDb();
+  const hp = homePenalty ?? null;
+  const ap = awayPenalty ?? null;
   await sql`
-    INSERT INTO match_results (match_id, home_score, away_score)
-    VALUES (${matchId}, ${homeScore}, ${awayScore})
+    INSERT INTO match_results (match_id, home_score, away_score, home_penalty, away_penalty)
+    VALUES (${matchId}, ${homeScore}, ${awayScore}, ${hp}, ${ap})
     ON CONFLICT (match_id)
-    DO UPDATE SET home_score = ${homeScore}, away_score = ${awayScore}, updated_at = NOW()
+    DO UPDATE SET home_score = ${homeScore}, away_score = ${awayScore},
+      home_penalty = ${hp}, away_penalty = ${ap}, updated_at = NOW()
   `;
 
   invalidateResultsCache();
