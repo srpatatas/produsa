@@ -3,6 +3,7 @@ import { fetchLiveScores, LiveScoreResult } from "@/lib/liveScoreApi";
 import { isAnyMatchInLiveWindow, getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import { getDb } from "@/lib/db";
 import { invalidateResultsCache } from "@/lib/resultsService";
+import { syncFinishedResults } from "@/lib/resultSync";
 
 const trackedLive = new Map<string, LiveScoreResult>();
 
@@ -67,6 +68,13 @@ export async function GET() {
 
   for (const [matchId, score] of Object.entries(scores)) {
     trackedLive.set(matchId, score);
+  }
+
+  const synced = await syncFinishedResults();
+  if (synced.length > 0) {
+    for (const id of synced) {
+      if (!finished.includes(id)) finished.push(id);
+    }
   }
 
   return NextResponse.json({ scores, finished });
