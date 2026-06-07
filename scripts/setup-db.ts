@@ -99,7 +99,7 @@ async function main() {
     CREATE TABLE IF NOT EXISTS lock_deadlines (
       id SERIAL PRIMARY KEY,
       scope VARCHAR(20) UNIQUE NOT NULL,
-      locks_at TIMESTAMP NOT NULL
+      locks_at TIMESTAMPTZ NOT NULL
     )
   `;
   console.log("  ✓ lock_deadlines");
