@@ -116,11 +116,21 @@ export interface UnifiedMatch {
   scope: string;
 }
 
+export interface LiveEvent {
+  minute: number;
+  extra?: number | null;
+  type: "goal" | "red" | "yellow";
+  side: "home" | "away";
+  player: string;
+  detail?: string;
+}
+
 export interface LiveScore {
   matchId: string;
   homeScore: number;
   awayScore: number;
   minute: number;
+  events?: LiveEvent[];
 }
 
 export interface LeaderboardEntry {
