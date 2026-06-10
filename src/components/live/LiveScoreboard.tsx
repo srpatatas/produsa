@@ -1,6 +1,7 @@
 import { UnifiedMatch, LiveScore } from "@/types";
 import { getTeam } from "@/data/teams";
 import { FlagImage } from "@/components/teams/FlagImage";
+import { LiveEventTimeline } from "./LiveEventTimeline";
 
 interface LiveScoreboardProps {
   match: UnifiedMatch;
@@ -12,6 +13,7 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
   const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
   const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
   const hasScore = liveScore.homeScore >= 0 && liveScore.awayScore >= 0;
+  const events = liveScore.events ?? [];
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-fifa-purple via-fifa-blue to-fifa-teal p-6 text-white shadow-xl shadow-fifa-purple/20">
@@ -34,7 +36,7 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
           </span>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-between">
           <div className="flex flex-1 flex-col items-center gap-2">
             {home ? (
               <>
@@ -44,9 +46,14 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
             ) : (
               <span className="text-sm text-white/50">{match.homeLabel}</span>
             )}
+            {events.length > 0 && (
+              <div className="mt-1 w-full px-1">
+                <LiveEventTimeline events={events} side="home" />
+              </div>
+            )}
           </div>
 
-          <div className="flex items-center gap-4 px-4" aria-live="polite" aria-atomic="true">
+          <div className="flex items-center gap-4 px-4 pt-3" aria-live="polite" aria-atomic="true">
             <span className="font-display text-7xl leading-none">
               {hasScore ? liveScore.homeScore : "–"}
             </span>
@@ -64,6 +71,11 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
               </>
             ) : (
               <span className="text-sm text-white/50">{match.awayLabel}</span>
+            )}
+            {events.length > 0 && (
+              <div className="mt-1 w-full px-1">
+                <LiveEventTimeline events={events} side="away" />
+              </div>
             )}
           </div>
         </div>

@@ -10,7 +10,7 @@ import { RecentResults } from "./RecentResults";
 import { LiveCarousel } from "@/components/live/LiveCarousel";
 import { LiveMiniRanking } from "@/components/live/LiveMiniRanking";
 
-const POLL_INTERVAL_MS = 300_000;
+const POLL_INTERVAL_MS = 5_000;
 
 interface RecentResult extends UnifiedMatch {
   homeScore: number;
@@ -32,36 +32,55 @@ export function InicioDashboard() {
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => {
+  const refreshDashboard = useCallback(() => {
     fetch("/api/dashboard")
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => setData(d))
+      .then((d) => { if (d) setData(d); })
       .catch(() => {});
-
-    setLiveMatches(getLiveUnifiedMatches());
   }, []);
 
-  const fetchLiveScores = useCallback(async () => {
+  useEffect(() => {
+    refreshDashboard();
+  }, [refreshDashboard]);
+
+  const dashboardRefreshedRef = useRef(false);
+
+  const pollTick = useCallback(async () => {
+    const live = getLiveUnifiedMatches();
+    if (live.length === 0) {
+      if (dashboardRefreshedRef.current) {
+        dashboardRefreshedRef.current = false;
+      }
+      return;
+    }
+
     try {
       const res = await fetch("/api/live-score");
       if (!res.ok) return;
       const { scores, finished } = await res.json();
 
-      if (finished?.length) {
-        setLiveMatches((prev) => {
-          const finishedSet = new Set<string>(finished);
-          const next = prev.filter((m) => !finishedSet.has(m.id));
-          if (next.length === 0) setActiveMatchIndex(0);
-          else setActiveMatchIndex((i) => Math.min(i, next.length - 1));
-          return next;
-        });
+      const activeIds = live
+        .filter((m) => scores?.[m.id] && !finished?.includes(m.id))
+        .map((m) => m.id);
+      const activeMatches = live.filter((m) => activeIds.includes(m.id));
+
+      setLiveMatches((prev) => {
+        if (activeMatches.length === prev.length && activeMatches.every((m, i) => m.id === prev[i]?.id)) return prev;
+        if (activeMatches.length === 0) setActiveMatchIndex(0);
+        else setActiveMatchIndex((i) => Math.min(i, activeMatches.length - 1));
+        return activeMatches;
+      });
+
+      if (finished?.length && !dashboardRefreshedRef.current) {
+        dashboardRefreshedRef.current = true;
+        refreshDashboard();
       }
 
       setLiveScores((prev) => {
         const next = { ...prev };
         const newStale = new Set<string>();
 
-        for (const m of getLiveUnifiedMatches()) {
+        for (const m of activeMatches) {
           const apiScore = scores?.[m.id];
           if (apiScore) {
             next[m.id] = {
@@ -69,11 +88,10 @@ export function InicioDashboard() {
               homeScore: apiScore.homeScore,
               awayScore: apiScore.awayScore,
               minute: apiScore.minute,
+              events: apiScore.events,
             };
           } else if (prev[m.id] && prev[m.id].homeScore >= 0) {
             newStale.add(m.id);
-          } else {
-            next[m.id] = { matchId: m.id, homeScore: -1, awayScore: -1, minute: 0 };
           }
         }
 
@@ -81,23 +99,23 @@ export function InicioDashboard() {
         return next;
       });
     } catch {}
-  }, []);
+  }, [refreshDashboard]);
 
   useEffect(() => {
-    if (liveMatches.length === 0) return;
-
-    fetchLiveScores();
-    pollRef.current = setInterval(fetchLiveScores, POLL_INTERVAL_MS);
+    pollTick();
+    pollRef.current = setInterval(pollTick, POLL_INTERVAL_MS);
     return () => { if (pollRef.current) clearInterval(pollRef.current); };
-  }, [liveMatches.length, fetchLiveScores]);
+  }, [pollTick]);
 
   const isLive = liveMatches.length > 0;
   const liveMatchIds = new Set(liveMatches.map((m) => m.id));
   const nextMatch = getNextUnifiedMatch();
   const activeMatch = liveMatches[activeMatchIndex];
 
+  const now = Date.now();
   const todayFiltered = (data?.todayMatches ?? []).filter((m) => {
     if (liveMatchIds.has(m.id)) return false;
+    if (new Date(m.kickoff).getTime() <= now) return false;
     if (!isLive && nextMatch && m.id === nextMatch.id) return false;
     return true;
   });
