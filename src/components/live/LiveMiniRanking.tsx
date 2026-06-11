@@ -20,21 +20,21 @@ interface RankingEntry {
 interface LiveMiniRankingProps {
   scores: Record<string, LiveScore>;
   activeMatchId: string;
+  liveMatchIds: string[];
 }
 
-export function LiveMiniRanking({ scores, activeMatchId }: LiveMiniRankingProps) {
+export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMiniRankingProps) {
   const currentUser = useUser();
   const [ranking, setRanking] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchRanking = useCallback(async () => {
-    const scoreParams = Object.values(scores)
-      .filter((s) => s.homeScore >= 0)
-      .map((s) => ({
-        matchId: s.matchId,
-        homeScore: s.homeScore,
-        awayScore: s.awayScore,
-      }));
+    const scoreParams = liveMatchIds.map((id) => {
+      const s = scores[id];
+      return s && s.homeScore >= 0
+        ? { matchId: id, homeScore: s.homeScore, awayScore: s.awayScore }
+        : { matchId: id, homeScore: -1, awayScore: -1 };
+    });
 
     if (scoreParams.length === 0) return;
 
@@ -48,7 +48,7 @@ export function LiveMiniRanking({ scores, activeMatchId }: LiveMiniRankingProps)
       }
     } catch {}
     setLoading(false);
-  }, [scores]);
+  }, [scores, liveMatchIds]);
 
   useEffect(() => {
     fetchRanking();
@@ -79,7 +79,9 @@ export function LiveMiniRanking({ scores, activeMatchId }: LiveMiniRankingProps)
         ))}
       </div>
       <p className="mt-2 text-center text-[9px] text-fifa-dark-gray/40">
-        Proyección si se mantiene el resultado actual
+        {Object.values(scores).some((s) => s.homeScore >= 0)
+          ? "Proyección si se mantiene el resultado actual"
+          : "Pronósticos de cada participante"}
       </p>
     </div>
   );

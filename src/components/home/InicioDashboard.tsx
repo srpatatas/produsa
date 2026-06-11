@@ -136,10 +136,11 @@ export function InicioDashboard() {
             onActiveIndexChange={setActiveMatchIndex}
           />
 
-          {activeMatch && liveScores[activeMatch.id] && (
+          {activeMatch && (
             <LiveMiniRanking
               scores={liveScores}
               activeMatchId={activeMatch.id}
+              liveMatchIds={liveMatches.map((m) => m.id)}
             />
           )}
         </>
