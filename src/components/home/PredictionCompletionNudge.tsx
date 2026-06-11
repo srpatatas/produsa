@@ -12,6 +12,9 @@ interface ScopeStatus {
   completed: number;
   matches?: { total: number; completed: number };
   bonus?: { total: number; completed: number };
+  comodin?: boolean;
+  doble?: boolean;
+  exacto?: { total: number; completed: number } | null;
 }
 
 interface PredictionCompletionNudgeProps {
@@ -70,6 +73,22 @@ function isScopePredictable(scope: string): boolean {
   return matches.length > 0 && matches.every((m) => isKnockoutMatchPredictable(m));
 }
 
+function Chip({ done, label }: { done: boolean; label: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-0.5 rounded-full px-1.5 py-px text-[9px] font-medium",
+        done
+          ? "bg-fifa-green/15 text-fifa-green"
+          : "bg-white/5 text-fifa-dark-gray/60",
+      )}
+    >
+      <span className="text-[8px]">{done ? "✓" : "✗"}</span>
+      {label}
+    </span>
+  );
+}
+
 export function PredictionCompletionNudge({
   predictionStatus,
   locks,
@@ -89,7 +108,7 @@ export function PredictionCompletionNudge({
       <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Estado de tus pronósticos
       </p>
-      <div className="grid gap-x-2 gap-y-1.5 items-center" style={{ gridTemplateColumns: "auto 1fr auto auto auto" }}>
+      <div className="flex flex-col gap-2">
         {all.map(([scope, status]) => {
           const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
           const complete = pct === 100;
@@ -100,36 +119,51 @@ export function PredictionCompletionNudge({
           const lockStr = lockDate ? lockDate.toLocaleDateString("es-AR", { day: "numeric", month: "short" }) : null;
           const rowOpacity = isLocked ? "opacity-50" : "";
 
+          const hasComodin = status.comodin ?? false;
+          const hasDoble = status.doble ?? false;
+          const exacto = status.exacto;
+          const allExtrasComplete = hasComodin && hasDoble
+            && (!exacto || exacto.completed === exacto.total);
+
+          const fullyComplete = complete && allExtrasComplete;
+
           return (
-            <React.Fragment key={scope}>
-              <span className={cn("text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap", rowOpacity)}>
-                {scopeLabels[scope] ?? scope}
-              </span>
-              <div className={cn("h-1.5 min-w-8 rounded-full bg-white/5", rowOpacity)}>
-                <div
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    complete ? "bg-fifa-green" : "bg-fifa-blue"
-                  }`}
-                  style={{ width: `${pct}%` }}
-                />
+            <div key={scope} className={cn("flex flex-col gap-1", rowOpacity)}>
+              <div className="grid items-center gap-x-2" style={{ gridTemplateColumns: "auto 1fr auto auto" }}>
+                <span className="text-[11px] font-semibold text-fifa-dark-gray whitespace-nowrap">
+                  {scopeLabels[scope] ?? scope}
+                </span>
+                <div className="h-1.5 min-w-8 rounded-full bg-white/5">
+                  <div
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      fullyComplete ? "bg-fifa-green" : "bg-fifa-blue"
+                    }`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                <span className={`text-[10px] font-semibold whitespace-nowrap text-right ${
+                  fullyComplete ? "text-fifa-green" : "text-fifa-dark-gray/70"
+                }`}>
+                  {pct}%
+                </span>
+                <span className="text-[9px] text-fifa-dark-gray whitespace-nowrap text-right">
+                  {lockStr ? `${isLocked ? "🔒" : "🔓"} ${lockStr}` : ""}
+                </span>
               </div>
-              <span className={cn(`text-[10px] font-semibold whitespace-nowrap text-right ${
-                complete ? "text-fifa-green" : "text-fifa-dark-gray/70"
-              }`, rowOpacity)}>
-                {pct}%
-              </span>
-              <span className={cn("text-[9px] font-medium whitespace-nowrap flex gap-1.5", rowOpacity)}>
+              <div className="flex items-center gap-1.5 pl-0.5">
                 {m && m.total > 0 && (
-                  <span className={m.completed === m.total ? "text-fifa-green" : "text-fifa-dark-gray"}>{m.completed}/{m.total} part.</span>
+                  <Chip done={m.completed === m.total} label={`${m.completed}/${m.total} part.`} />
                 )}
                 {b && b.total > 0 && (
-                  <span className={b.completed === b.total ? "text-fifa-green" : "text-fifa-dark-gray"}>{b.completed}/{b.total} bonus</span>
+                  <Chip done={b.completed === b.total} label={`${b.completed}/${b.total} bonus`} />
                 )}
-              </span>
-              <span className={cn("text-[9px] text-fifa-dark-gray whitespace-nowrap text-right", rowOpacity)}>
-                {lockStr ? `${isLocked ? "🔒" : "🔓"} ${lockStr}` : ""}
-              </span>
-            </React.Fragment>
+                <Chip done={hasComodin} label="Comodín" />
+                <Chip done={hasDoble} label="Doble" />
+                {exacto && (
+                  <Chip done={exacto.completed === exacto.total} label="Exacto" />
+                )}
+              </div>
+            </div>
           );
         })}
       </div>
