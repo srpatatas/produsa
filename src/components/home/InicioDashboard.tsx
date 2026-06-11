@@ -59,10 +59,8 @@ export function InicioDashboard() {
       if (!res.ok) return;
       const { scores, finished } = await res.json();
 
-      const activeIds = live
-        .filter((m) => scores?.[m.id] && !finished?.includes(m.id))
-        .map((m) => m.id);
-      const activeMatches = live.filter((m) => activeIds.includes(m.id));
+      const finishedSet = new Set<string>(finished ?? []);
+      const activeMatches = live.filter((m) => !finishedSet.has(m.id));
 
       setLiveMatches((prev) => {
         if (activeMatches.length === prev.length && activeMatches.every((m, i) => m.id === prev[i]?.id)) return prev;
@@ -138,7 +136,7 @@ export function InicioDashboard() {
             onActiveIndexChange={setActiveMatchIndex}
           />
 
-          {activeMatch && Object.keys(liveScores).length > 0 && (
+          {activeMatch && liveScores[activeMatch.id] && (
             <LiveMiniRanking
               scores={liveScores}
               activeMatchId={activeMatch.id}
