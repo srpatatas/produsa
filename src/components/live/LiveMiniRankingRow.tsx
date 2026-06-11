@@ -6,6 +6,18 @@ import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { getOutcomeBg, getOutcomeLabel, getLiveOutcome } from "@/lib/outcomeStyles";
 import { cn } from "@/lib/utils";
 
+const BIRTHDAYS: Record<string, string> = {
+  "Chekoloko": "06-11",
+};
+
+function isBirthday(name: string) {
+  const mmdd = BIRTHDAYS[name];
+  if (!mmdd) return false;
+  const now = new Date();
+  const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  return today === mmdd;
+}
+
 interface LiveMiniRankingRowProps {
   position: number;
   previousPosition: number;
@@ -30,12 +42,14 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
   hasComodin,
 }: LiveMiniRankingRowProps) {
   const diff = previousPosition - position;
+  const bday = isBirthday(user.name);
 
   return (
     <div
       className={cn(
-        "flex items-center gap-2.5 rounded-xl px-3 py-2 transition-all duration-500",
+        "relative flex items-center gap-2.5 rounded-xl px-3 py-2 transition-all duration-500",
         hasComodin ? "bg-fifa-gold-light ring-1 ring-fifa-gold/30" : isCurrentUser ? "bg-fifa-blue/10 ring-1 ring-fifa-blue/20" : "bg-card-bg",
+        bday && "birthday-row-mini !ring-0",
       )}
     >
       <div className="flex w-10 items-center gap-1">
@@ -55,7 +69,7 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
       <AvatarDisplay avatar={user.avatar} size="sm" />
 
       <span className="flex-1 truncate text-xs font-medium text-foreground">
-        {user.name}
+        {user.name}{bday && <span className="ml-1 birthday-bounce">🎂</span>}
       </span>
 
       <div className="flex items-center gap-1.5">
