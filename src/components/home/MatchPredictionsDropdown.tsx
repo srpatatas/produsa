@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
-import { getOutcomeBg, getLiveOutcome } from "@/lib/outcomeStyles";
+import { getOutcomeBg, getLiveOutcome, normalizeOutcome } from "@/lib/outcomeStyles";
 
 interface PredictionEntry {
   user: { id: number; name: string; avatar: string };
@@ -73,7 +73,7 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }
             : getOutcomeBg(pred.outcome);
           const badgeLabel = hasExact
             ? `${pred.exactScore!.home}-${pred.exactScore!.away}`
-            : pred.outcome;
+            : normalizeOutcome(pred.outcome);
 
           return (
             <div key={pred.user.id} className={`flex flex-col items-center gap-1.5 transition-opacity ${dimmed ? "opacity-30" : ""}`}>
