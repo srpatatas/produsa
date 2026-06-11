@@ -1,9 +1,10 @@
-import { fixtureToMatch } from "@/data/fixtureMap";
+import { fixtureToMatch, matchToFixture } from "@/data/fixtureMap";
+import { getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import type { LiveEvent } from "@/types";
 
 const API_BASE = "https://v3.football.api-sports.io";
-const LIVE_STATUSES = "1H-HT-2H-ET-P-BT-LIVE";
 const CACHE_TTL_MS = 15_000;
+const LIVE_STATUSES = new Set(["1H", "HT", "2H", "ET", "P", "BT", "LIVE"]);
 
 const FIXTURE_IDS = new Set(Object.keys(fixtureToMatch).map(Number));
 
@@ -63,8 +64,19 @@ export async function fetchLiveScores(
   const now = Date.now();
   if (now - cacheTimestamp < CACHE_TTL_MS) return cachedScores;
 
+  const liveMatches = getLiveUnifiedMatches();
+  const liveFixtureIds = liveMatches
+    .map((m) => matchToFixture[m.id])
+    .filter(Boolean);
+
+  if (liveFixtureIds.length === 0) {
+    cachedScores = {};
+    cacheTimestamp = now;
+    return cachedScores;
+  }
+
   const res = await fetchFn(
-    `${API_BASE}/fixtures?league=1&season=2026&status=${LIVE_STATUSES}`,
+    `${API_BASE}/fixtures?ids=${liveFixtureIds.join("-")}`,
     { headers: { "x-apisports-key": apiKey } },
   );
 
@@ -76,6 +88,7 @@ export async function fetchLiveScores(
   for (const f of data.response) {
     const fixtureId = f.fixture.id as number;
     if (!FIXTURE_IDS.has(fixtureId)) continue;
+    if (!LIVE_STATUSES.has(f.fixture.status.short)) continue;
 
     const matchId = fixtureToMatch[fixtureId];
     const homeTeamId = (f.teams?.home?.id as number) ?? 0;

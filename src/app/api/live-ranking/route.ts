@@ -47,15 +47,18 @@ export const GET = withAuth(async (req, session) => {
 
     for (const ls of liveScores) {
       const prediction = userPreds[ls.matchId];
+      const hasRealScore = ls.homeScore >= 0 && ls.awayScore >= 0;
       if (prediction) {
         livePredictions[ls.matchId] = prediction;
-        const liveOutcome = getOutcome(ls.homeScore, ls.awayScore);
-        if (prediction.includes(liveOutcome)) {
-          livePoints += 1;
-          for (const comodinMatchId of Object.values(userComodines)) {
-            if (comodinMatchId === ls.matchId) {
-              livePoints += 2;
-              break;
+        if (hasRealScore) {
+          const liveOutcome = getOutcome(ls.homeScore, ls.awayScore);
+          if (prediction.includes(liveOutcome)) {
+            livePoints += 1;
+            for (const comodinMatchId of Object.values(userComodines)) {
+              if (comodinMatchId === ls.matchId) {
+                livePoints += 2;
+                break;
+              }
             }
           }
         }
@@ -63,7 +66,7 @@ export const GET = withAuth(async (req, session) => {
       if (maps.exactScoreMatches.has(ls.matchId) && userExact[ls.matchId]) {
         const ex = userExact[ls.matchId];
         liveExactScores[ls.matchId] = { home: ex.homeScore, away: ex.awayScore };
-        if (ex.homeScore === ls.homeScore && ex.awayScore === ls.awayScore) {
+        if (hasRealScore && ex.homeScore === ls.homeScore && ex.awayScore === ls.awayScore) {
           livePoints += 2;
         }
       }
