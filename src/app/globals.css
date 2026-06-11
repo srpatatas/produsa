@@ -102,6 +102,46 @@ body {
   }
 }
 
+@keyframes birthday-spin {
+  to { --birthday-angle: 360deg; }
+}
+
+@keyframes birthday-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@property --birthday-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.birthday-row {
+  --birthday-angle: 0deg;
+  position: relative;
+  animation: birthday-spin 3s linear infinite;
+  background:
+    linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+    conic-gradient(from var(--birthday-angle), #f43f5e, #fbbf24, #4ade80, #6381f5, #8b5cf6, #ec4899, #f43f5e) border-box;
+  border: 2px solid transparent;
+}
+
+.birthday-row-mini {
+  --birthday-angle: 0deg;
+  position: relative;
+  animation: birthday-spin 3s linear infinite;
+  background:
+    linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+    conic-gradient(from var(--birthday-angle), #f43f5e, #fbbf24, #4ade80, #6381f5, #8b5cf6, #ec4899, #f43f5e) border-box;
+  border: 2px solid transparent;
+}
+
+.birthday-bounce {
+  animation: birthday-bounce 1s ease-in-out infinite;
+  display: inline-block;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
