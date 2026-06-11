@@ -10,12 +10,15 @@ import {
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
 
-  const [lockRows, predictionRows, resultsMap, bonusQuestionRows, bonusPredRows] = await Promise.all([
+  const [lockRows, predictionRows, resultsMap, bonusQuestionRows, bonusPredRows, comodinRows, matchSettingsRows, exactScoreRows] = await Promise.all([
     sql`SELECT scope, locks_at FROM lock_deadlines`,
     sql`SELECT match_id, outcome FROM planilla_predictions WHERE user_id = ${session.id}`,
     getResults(),
     sql`SELECT id, lock_scope FROM bonus_questions ORDER BY sort_order`,
     sql`SELECT question_id FROM bonus_predictions WHERE user_id = ${session.id}`,
+    sql`SELECT scope, match_id FROM planilla_comodines WHERE user_id = ${session.id}`,
+    sql`SELECT match_id, exact_score FROM match_settings WHERE exact_score = true`,
+    sql`SELECT match_id FROM exact_score_predictions WHERE user_id = ${session.id}`,
   ]);
 
   // Locks
@@ -29,11 +32,23 @@ export const GET = withAuth(async (req, session) => {
     };
   }
 
-  // User predictions set
+  // User predictions set + detect doble (2-char outcome) per scope
   const userPredictions = new Set<string>();
+  const userPredOutcomes = new Map<string, string>();
   for (const row of predictionRows) {
     userPredictions.add(row.match_id as string);
+    userPredOutcomes.set(row.match_id as string, row.outcome as string);
   }
+
+  // Comodín by scope
+  const userComodines = new Set<string>();
+  for (const row of comodinRows) {
+    userComodines.add(row.scope as string);
+  }
+
+  // Exact score matches and user's exact predictions
+  const exactScoreMatchIds = new Set(matchSettingsRows.map((r) => r.match_id as string));
+  const userExactPreds = new Set(exactScoreRows.map((r) => r.match_id as string));
 
   // Prediction completion per scope
   const allMatches = getAllUnifiedMatches();
@@ -52,24 +67,39 @@ export const GET = withAuth(async (req, session) => {
   }
   const userBonusPreds = new Set(bonusPredRows.map((r) => r.question_id as string));
 
-  // Prediction completion per scope (matches + bonus)
+  // Prediction completion per scope (matches + bonus + extras)
   const allScopes = new Set([...Object.keys(matchesByScope), ...Object.keys(bonusByScope)]);
   const predictionStatus: Record<string, {
     total: number;
     completed: number;
     matches: { total: number; completed: number };
     bonus: { total: number; completed: number };
+    comodin: boolean;
+    doble: boolean;
+    exacto: { total: number; completed: number } | null;
   }> = {};
   for (const scope of allScopes) {
     const matchIds = matchesByScope[scope] ?? [];
     const bonusIds = bonusByScope[scope] ?? [];
     const matchCompleted = matchIds.filter((id) => userPredictions.has(id)).length;
     const bonusCompleted = bonusIds.filter((id) => userBonusPreds.has(id)).length;
+
+    const hasComodin = userComodines.has(scope);
+    const hasDoble = matchIds.some((id) => (userPredOutcomes.get(id)?.length ?? 0) === 2);
+
+    const scopeExactMatches = matchIds.filter((id) => exactScoreMatchIds.has(id));
+    const exactoStatus = scopeExactMatches.length > 0
+      ? { total: scopeExactMatches.length, completed: scopeExactMatches.filter((id) => userExactPreds.has(id)).length }
+      : null;
+
     predictionStatus[scope] = {
       total: matchIds.length + bonusIds.length,
       completed: matchCompleted + bonusCompleted,
       matches: { total: matchIds.length, completed: matchCompleted },
       bonus: { total: bonusIds.length, completed: bonusCompleted },
+      comodin: hasComodin,
+      doble: hasDoble,
+      exacto: exactoStatus,
     };
   }
 
