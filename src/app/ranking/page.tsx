@@ -16,6 +16,7 @@ interface RankingEntry {
 const BIRTHDAYS: Record<string, string> = {
   "Chekoloko": "06-11",
   "El Poeta": "06-13",
+  "La Tia de todos": "06-29",
 };
 
 function isBirthday(name: string) {
