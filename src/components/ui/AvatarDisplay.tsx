@@ -2,11 +2,12 @@ import Image from "next/image";
 
 interface AvatarDisplayProps {
   avatar: string;
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   className?: string;
 }
 
 const sizeClasses = {
+  xs: "h-5 w-5 text-[10px]",
   sm: "h-8 w-8 text-sm",
   md: "h-10 w-10 text-xl",
   lg: "h-11 w-11 text-xl",
