@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 const BIRTHDAYS: Record<string, string> = {
   "Chekoloko": "06-11",
+  "El Poeta": "06-13",
 };
 
 function isBirthday(name: string) {
