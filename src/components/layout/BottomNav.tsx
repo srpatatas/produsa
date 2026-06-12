@@ -8,6 +8,7 @@ const navItems = [
   { href: "/", label: "Inicio", icon: "🏠" },
   { href: "/planillas", label: "Pronósticos", icon: "📋" },
   { href: "/ranking", label: "Posiciones", icon: "🏆" },
+  { href: "/extras", label: "Extras", icon: "⭐" },
   { href: "/fixture", label: "Fixture", icon: "🏟️" },
 ];
 
@@ -26,7 +27,7 @@ export function BottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex flex-col items-center gap-0.5 rounded-xl px-5 py-1.5 font-display text-[11px] uppercase tracking-wider transition-all",
+                "flex min-w-0 flex-col items-center gap-0.5 rounded-xl px-1.5 py-1.5 font-display text-[9px] uppercase tracking-wide transition-all",
                 isActive
                   ? "text-fifa-blue"
                   : "text-white/30 hover:text-white/60",

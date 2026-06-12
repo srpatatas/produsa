@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/planillas", label: "Pronósticos" },
   { href: "/ranking", label: "Posiciones" },
+  { href: "/extras", label: "Extras" },
   { href: "/fixture", label: "Fixture" },
 ];
 

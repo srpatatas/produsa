@@ -351,7 +351,7 @@ export default function ExtraEPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Puntos Extra</h1>
         <p className="mt-1 text-xs text-fifa-dark-gray">
-          Predicciones de todos los participantes. Se resuelven al final del torneo.
+          Pronósticos de puntos extra de todos los participantes. Se resuelven al final del torneo.
         </p>
       </div>
 
