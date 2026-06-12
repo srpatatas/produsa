@@ -95,8 +95,8 @@ export default function RankingPage() {
 
                 <AvatarDisplay avatar={entry.user.avatar} size="lg" />
 
-                <div className="flex flex-1 flex-col">
-                  <span className="text-sm font-semibold text-foreground">
+                <div className="flex flex-1 min-w-0 flex-col">
+                  <span className="text-sm font-semibold text-foreground truncate">
                     {entry.user.name}
                     {bday && <span className="ml-1 birthday-bounce">🎂</span>}
                     {isCurrentUser && (
@@ -105,20 +105,16 @@ export default function RankingPage() {
                       </span>
                     )}
                   </span>
-                  <div className="flex gap-3 text-[11px] text-fifa-dark-gray">
+                  <div className="flex flex-wrap gap-x-2 gap-y-0 text-[11px] text-fifa-dark-gray">
                     <span>{entry.correct} aciertos</span>
-                    <span className="text-fifa-dark-gray/30">·</span>
                     <span>{entry.wrong} fallos</span>
                     {entry.comodinPoints > 0 && (
-                      <>
-                        <span className="text-fifa-dark-gray/30">·</span>
-                        <span className="text-fifa-gold">+{entry.comodinPoints} comodín</span>
-                      </>
+                      <span className="text-fifa-gold">+{entry.comodinPoints} comodín</span>
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col items-end">
+                <div className="flex flex-shrink-0 flex-col items-end">
                   <span className="font-display text-3xl text-foreground">
                     {entry.points}
                   </span>
