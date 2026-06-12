@@ -13,7 +13,15 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
   const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
   const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
   const hasScore = liveScore.homeScore >= 0 && liveScore.awayScore >= 0;
+  const status = liveScore.status;
   const events = liveScore.events ?? [];
+
+  const statusLabels: Record<string, string> = {
+    HT: "Entretiempo",
+    ET: "Tiempo extra",
+    P: "Penales",
+    BT: "Entretiempo",
+  };
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-fifa-purple via-fifa-blue to-fifa-teal p-6 text-white shadow-xl shadow-fifa-purple/20">
@@ -30,9 +38,11 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
           <span className="text-xs font-semibold uppercase tracking-widest text-white/70">
             {!hasScore
               ? "En vivo · Esperando datos"
-              : stale
-                ? `En vivo · ${liveScore.minute}' (última actualización)`
-                : `En vivo · ${liveScore.minute}'`}
+              : status && statusLabels[status]
+                ? `En vivo · ${statusLabels[status]}`
+                : stale
+                  ? `En vivo · ${liveScore.minute}' (última actualización)`
+                  : `En vivo · ${liveScore.minute}'`}
           </span>
         </div>
 
