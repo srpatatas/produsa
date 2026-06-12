@@ -109,10 +109,14 @@ export function movePlayer(state: GameState, dir: Direction): GameState {
       grid[state.player.y][state.player.x] = CellState.TRAIL;
       const claimed = claimTerritory(grid, state.enemy);
       const pct = calcRevealedPct(claimed);
+      let landPos = { x: nx, y: ny };
+      if (!isOnBorder(claimed, nx, ny)) {
+        landPos = findNearestBorderCell(claimed, landPos);
+      }
       return {
         ...state,
         grid: claimed,
-        player: { x: nx, y: ny },
+        player: landPos,
         trail: [],
         isVenturing: false,
         revealedPct: pct,
@@ -303,6 +307,22 @@ function randomWalk(grid: CellState[][], pos: Pos): Pos {
     if (grid[ny][nx] === CellState.UNCLAIMED) return { x: nx, y: ny };
   }
   return pos;
+}
+
+function findNearestBorderCell(grid: CellState[][], from: Pos): Pos {
+  let best: Pos = from;
+  let minDist = Infinity;
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) {
+      if (!isOnBorder(grid, x, y)) continue;
+      const dist = Math.abs(x - from.x) + Math.abs(y - from.y);
+      if (dist < minDist) {
+        minDist = dist;
+        best = { x, y };
+      }
+    }
+  }
+  return best;
 }
 
 function findBorderSpawn(grid: CellState[][], enemy: Pos): Pos {
