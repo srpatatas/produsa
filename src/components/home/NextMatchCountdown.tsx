@@ -143,11 +143,10 @@ export function NextMatchCountdown() {
 
         <Link
           href="/panic"
-          className="mb-4 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-fifa-purple via-fifa-blue to-fifa-teal px-5 py-2.5 text-white shadow-lg shadow-fifa-purple/20 transition-transform hover:scale-105 active:scale-95"
+          className="mb-4 block w-full rounded-full bg-gradient-to-r from-fifa-purple via-fifa-blue to-fifa-teal py-2.5 text-center text-white shadow-lg shadow-fifa-purple/20 transition-transform hover:scale-105 active:scale-95"
         >
-          <span className="text-sm">🎮</span>
           <span className="text-xs font-semibold uppercase tracking-wide">
-            Jugá al Produsa Panic mientras esperás
+            🎮 Jugá al Produsa Panic mientras esperás
           </span>
         </Link>
 

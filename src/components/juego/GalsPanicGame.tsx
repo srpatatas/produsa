@@ -21,15 +21,32 @@ interface LeaderboardEntry {
 }
 
 function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Direction | null) => void; label: string }) {
+  const ref = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const start = (e: TouchEvent) => { e.preventDefault(); onDir(dir); };
+    const end = (e: TouchEvent) => { e.preventDefault(); onDir(null); };
+    el.addEventListener("touchstart", start, { passive: false });
+    el.addEventListener("touchend", end, { passive: false });
+    el.addEventListener("touchcancel", end, { passive: false });
+    return () => {
+      el.removeEventListener("touchstart", start);
+      el.removeEventListener("touchend", end);
+      el.removeEventListener("touchcancel", end);
+    };
+  }, [dir, onDir]);
+
   return (
     <button
+      ref={ref}
       type="button"
-      onTouchStart={(e) => { e.preventDefault(); onDir(dir); }}
-      onTouchEnd={(e) => { e.preventDefault(); onDir(null); }}
       onMouseDown={() => onDir(dir)}
       onMouseUp={() => onDir(null)}
       onMouseLeave={() => onDir(null)}
       className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-lg text-white/70 active:bg-white/20 active:text-white select-none"
+      style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none", touchAction: "none" }}
     >
       {label}
     </button>
