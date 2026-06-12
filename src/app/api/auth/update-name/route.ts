@@ -10,9 +10,17 @@ export const POST = withAuth(async (req, session) => {
   }
 
   const sql = getDb();
-  await sql`UPDATE users SET name = ${name.trim()} WHERE id = ${session.id}`;
+  const oldName = session.name;
+  const newName = name.trim();
+  await sql`UPDATE users SET name = ${newName} WHERE id = ${session.id}`;
 
-  const updatedUser: SessionUser = { ...session, name: name.trim() };
+  const participantQIds = await sql`SELECT id FROM bonus_questions WHERE source_type = 'participants'`;
+  if (participantQIds.length > 0) {
+    const qIds = participantQIds.map((r) => r.id as string);
+    await sql`UPDATE bonus_predictions SET answer = ${newName} WHERE answer = ${oldName} AND question_id = ANY(${qIds})`;
+  }
+
+  const updatedUser: SessionUser = { ...session, name: newName };
   const token = createSessionToken(updatedUser);
 
   const response = NextResponse.json({ ok: true });
