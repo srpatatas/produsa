@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
 
@@ -95,9 +95,12 @@ function AnswerRow({ g, totalUsers, isCorrect }: { g: AnswerGroup; totalUsers: n
 
 function QuestionCarousel({ questions, totalUsers }: { questions: BonusQuestion[]; totalUsers: number }) {
   const [current, setCurrent] = useState(0);
+  const qIds = questions.map((q) => q.id).join(",");
+  useEffect(() => { setCurrent(0); }, [qIds]);
 
   if (questions.length === 0) return null;
-  const q = questions[current];
+  const safeIndex = Math.min(current, questions.length - 1);
+  const q = questions[safeIndex];
 
   return (
     <div>
@@ -158,10 +161,41 @@ function QuestionCarousel({ questions, totalUsers }: { questions: BonusQuestion[
   );
 }
 
+interface SectionData {
+  title: string;
+  icon: string;
+  ids: string[];
+  gradient: string;
+  questions: BonusQuestion[];
+}
+
+function SectionCard({ section, index, totalUsers }: { section: SectionData; index: number; totalUsers: number }) {
+  return (
+    <div
+      data-section-card
+      data-index={index}
+      className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${section.gradient} p-5 text-white shadow-xl shadow-black/20`}
+    >
+      <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-fifa-lime/10" />
+      <div className="absolute -left-4 bottom-4 h-16 w-16 rounded-full bg-fifa-red/10" />
+      <div className="absolute right-12 bottom-0 h-10 w-10 rounded-full bg-white/5" />
+      <div className="relative">
+        <h2 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-white drop-shadow-sm">
+          <span>{section.icon}</span>
+          {section.title}
+        </h2>
+        <QuestionCarousel questions={section.questions} totalUsers={totalUsers} />
+      </div>
+    </div>
+  );
+}
+
 export default function ExtraEPage() {
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [loading, setLoading] = useState(true);
+  const desktopRef = useRef<HTMLDivElement>(null);
+  const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
     fetch("/api/extras")
@@ -171,9 +205,41 @@ export default function ExtraEPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const scrollToSection = useCallback((idx: number) => {
+    desktopRef.current
+      ?.querySelectorAll("[data-section-card]")
+      [idx]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, []);
+
+  useEffect(() => {
+    const container = desktopRef.current;
+    if (!container) return;
+    const cards = container.querySelectorAll<HTMLElement>("[data-section-card]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            const idx = Number(entry.target.getAttribute("data-index"));
+            if (!isNaN(idx)) setActiveSection(idx);
+          }
+        }
+      },
+      { root: container, threshold: 0.6 },
+    );
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [questions]);
+
   if (loading) return <div className="flex justify-center py-12 text-fifa-dark-gray">Cargando...</div>;
 
   const qMap = new Map(questions.map((q) => [q.id, q]));
+
+  const sectionData = SECTIONS
+    .map((section) => ({
+      ...section,
+      questions: section.ids.map((id) => qMap.get(id)).filter(Boolean) as BonusQuestion[],
+    }))
+    .filter((s) => s.questions.length > 0);
 
   return (
     <div>
@@ -184,25 +250,64 @@ export default function ExtraEPage() {
         </p>
       </div>
 
-      <div className="mx-auto max-w-md space-y-6">
-        {SECTIONS.map((section) => {
-          const sectionQuestions = section.ids.map((id) => qMap.get(id)).filter(Boolean) as BonusQuestion[];
-          if (sectionQuestions.length === 0) return null;
-          return (
-            <div key={section.title} className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${section.gradient} p-5 text-white shadow-xl shadow-black/20`}>
-              <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-fifa-lime/10" />
-              <div className="absolute -left-4 bottom-4 h-16 w-16 rounded-full bg-fifa-red/10" />
-              <div className="absolute right-12 bottom-0 h-10 w-10 rounded-full bg-white/5" />
-              <div className="relative">
-                <h2 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-white drop-shadow-sm">
-                  <span>{section.icon}</span>
-                  {section.title}
-                </h2>
-                <QuestionCarousel questions={sectionQuestions} totalUsers={totalUsers} />
-              </div>
-            </div>
-          );
-        })}
+      {/* Mobile: stacked */}
+      <div className="mx-auto max-w-md space-y-6 md:hidden">
+        {sectionData.map((section, i) => (
+          <SectionCard key={section.title} section={section} index={i} totalUsers={totalUsers} />
+        ))}
+      </div>
+
+      {/* Desktop: one section at a time with side arrows */}
+      <div className="hidden md:block">
+        <div className="mb-4 flex justify-center gap-2">
+          {sectionData.map((section, i) => (
+            <button
+              key={section.title}
+              type="button"
+              onClick={() => setActiveSection(i)}
+              className={cn(
+                "rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide transition-all duration-200",
+                i === activeSection
+                  ? "bg-fifa-blue text-white"
+                  : "bg-white/5 text-fifa-dark-gray hover:bg-white/10",
+              )}
+            >
+              {section.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex items-start justify-center gap-4">
+          <div className="flex-shrink-0 pt-52">
+            <button
+              type="button"
+              onClick={() => setActiveSection((s) => s - 1)}
+              disabled={activeSection === 0}
+              className="rounded-full bg-white/5 p-2.5 text-foreground ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-20"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          </div>
+          <div className="max-w-lg flex-1">
+            {sectionData[activeSection] && (
+              <SectionCard section={sectionData[activeSection]} index={activeSection} totalUsers={totalUsers} />
+            )}
+          </div>
+          <div className="flex-shrink-0 pt-52">
+            <button
+              type="button"
+              onClick={() => setActiveSection((s) => s + 1)}
+              disabled={activeSection === sectionData.length - 1}
+              className="rounded-full bg-white/5 p-2.5 text-foreground ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-20"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
