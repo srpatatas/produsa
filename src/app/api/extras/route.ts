@@ -14,7 +14,10 @@ export const GET = withAuth(async (req, session) => {
 
   const resultsMap: Record<string, string> = {};
   for (const r of results) {
-    resultsMap[r.question_id as string] = r.correct_answer as string;
+    const answer = r.correct_answer as string;
+    if (answer && answer !== "(pendiente)") {
+      resultsMap[r.question_id as string] = answer;
+    }
   }
 
   const predsByQuestion: Record<string, Array<{ userId: number; userName: string; avatar: string; answer: string }>> = {};
