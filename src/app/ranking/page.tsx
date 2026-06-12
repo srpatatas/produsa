@@ -13,14 +13,14 @@ interface RankingEntry {
   comodinPoints: number;
 }
 
-const BIRTHDAYS: Record<string, string> = {
-  "Chekoloko": "06-11",
-  "El Poeta": "06-13",
-  "La Tia de todos": "06-29",
+const BIRTHDAYS: Record<number, string> = {
+  24: "06-11", // Chekoloko
+  2: "06-13",  // El Poeta
+  22: "06-29", // La Tia de todos
 };
 
-function isBirthday(name: string) {
-  const mmdd = BIRTHDAYS[name];
+function isBirthday(userId: number) {
+  const mmdd = BIRTHDAYS[userId];
   if (!mmdd) return false;
   const now = new Date();
   const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -67,7 +67,7 @@ export default function RankingPage() {
           {ranking.map((entry, i) => {
             const isCurrentUser = entry.user.id === currentUser.id;
             const isTop3 = i < 3;
-            const bday = isBirthday(entry.user.name);
+            const bday = isBirthday(entry.user.id);
 
             return (
               <div

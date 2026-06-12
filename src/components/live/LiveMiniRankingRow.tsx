@@ -6,14 +6,14 @@ import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { getOutcomeBg, getOutcomeLabel, getLiveOutcome } from "@/lib/outcomeStyles";
 import { cn } from "@/lib/utils";
 
-const BIRTHDAYS: Record<string, string> = {
-  "Chekoloko": "06-11",
-  "El Poeta": "06-13",
-  "La Tia de todos": "06-29",
+const BIRTHDAYS: Record<number, string> = {
+  24: "06-11", // Chekoloko
+  2: "06-13",  // El Poeta
+  22: "06-29", // La Tia de todos
 };
 
-function isBirthday(name: string) {
-  const mmdd = BIRTHDAYS[name];
+function isBirthday(userId: number) {
+  const mmdd = BIRTHDAYS[userId];
   if (!mmdd) return false;
   const now = new Date();
   const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
@@ -44,7 +44,7 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
   hasComodin,
 }: LiveMiniRankingRowProps) {
   const diff = previousPosition - position;
-  const bday = isBirthday(user.name);
+  const bday = isBirthday(user.id);
 
   return (
     <div
