@@ -20,6 +20,22 @@ interface LeaderboardEntry {
   livesLeft: number;
 }
 
+function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Direction | null) => void; label: string }) {
+  return (
+    <button
+      type="button"
+      onTouchStart={(e) => { e.preventDefault(); onDir(dir); }}
+      onTouchEnd={(e) => { e.preventDefault(); onDir(null); }}
+      onMouseDown={() => onDir(dir)}
+      onMouseUp={() => onDir(null)}
+      onMouseLeave={() => onDir(null)}
+      className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-lg text-white/70 active:bg-white/20 active:text-white select-none"
+    >
+      {label}
+    </button>
+  );
+}
+
 export function GalsPanicGame() {
   const user = useUser();
   const [canvasWidth, setCanvasWidth] = useState(360);
@@ -327,11 +343,24 @@ export function GalsPanicGame() {
           </div>
 
           {status === "playing" && (
-            <p className="text-[10px] text-fifa-dark-gray/50">
-              {typeof window !== "undefined" && "ontouchstart" in window
-                ? "Deslizá para moverte"
-                : "Usá las flechas para moverte"}
-            </p>
+            <>
+              <p className="text-[10px] text-fifa-dark-gray/50 hidden md:block">
+                Usá las flechas para moverte
+              </p>
+              <div className="md:hidden select-none" style={{ touchAction: "none" }}>
+                <div className="grid grid-cols-3 gap-1 w-32 mx-auto">
+                  <div />
+                  <DPadButton dir={Direction.UP} onDir={setDirection} label="▲" />
+                  <div />
+                  <DPadButton dir={Direction.LEFT} onDir={setDirection} label="◀" />
+                  <div />
+                  <DPadButton dir={Direction.RIGHT} onDir={setDirection} label="▶" />
+                  <div />
+                  <DPadButton dir={Direction.DOWN} onDir={setDirection} label="▼" />
+                  <div />
+                </div>
+              </div>
+            </>
           )}
 
         </div>
