@@ -12,6 +12,7 @@ export interface LiveScoreResult {
   homeScore: number;
   awayScore: number;
   minute: number;
+  extra: number | null;
   status: string;
   events: LiveEvent[];
 }
@@ -98,6 +99,7 @@ export async function fetchLiveScores(
       homeScore: f.goals.home ?? 0,
       awayScore: f.goals.away ?? 0,
       minute: f.fixture.status.elapsed ?? 0,
+      extra: f.fixture.status.extra ?? null,
       status: f.fixture.status.short,
       events: parseEvents(rawEvents, homeTeamId),
     };

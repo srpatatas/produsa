@@ -42,7 +42,9 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
                 ? `En vivo · ${statusLabels[status]}`
                 : stale
                   ? `En vivo · ${liveScore.minute}' (última actualización)`
-                  : `En vivo · ${liveScore.minute}'`}
+                  : liveScore.extra
+                    ? `En vivo · ${liveScore.minute}+${liveScore.extra}'`
+                    : `En vivo · ${liveScore.minute}'`}
           </span>
         </div>
 

@@ -86,6 +86,7 @@ export function InicioDashboard() {
               homeScore: apiScore.homeScore,
               awayScore: apiScore.awayScore,
               minute: apiScore.minute,
+              extra: apiScore.extra,
               status: apiScore.status,
               events: apiScore.events,
             };
