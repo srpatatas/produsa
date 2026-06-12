@@ -130,6 +130,7 @@ export interface LiveScore {
   homeScore: number;
   awayScore: number;
   minute: number;
+  extra?: number | null;
   status?: string;
   events?: LiveEvent[];
 }
