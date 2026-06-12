@@ -39,25 +39,29 @@ export function useGameLoop(
   const [lives, setLives] = useState(3);
   const [elapsed, setElapsed] = useState(0);
   const [enemyScreenPos, setEnemyScreenPos] = useState({ x: 0, y: 0 });
-  const [status, setStatus] = useState<"loading" | "ready" | "playing" | "won" | "lost">("loading");
+  const [status, setStatus] = useState<"loading" | "ready" | "playing" | "revealing" | "won" | "lost">("loading");
   const startTimeRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const initialLoadDone = useRef(false);
+
   useEffect(() => {
     let cancelled = false;
-    Promise.all([
+    const loadAll = Promise.all([
       loadImage(bgImageUrl),
       loadImage(enemyImageUrl),
       playerAvatarUrl ? loadImage(playerAvatarUrl).catch(() => null) : Promise.resolve(null),
-    ]).then(([bg, enemy, player]) => {
+    ]);
+    loadAll.then(([bg, enemy, player]) => {
       if (cancelled) return;
       bgImgRef.current = bg;
       enemyImgRef.current = enemy;
       playerImgRef.current = player;
-      setStatus("ready");
-    }).catch(() => {
-      if (!cancelled) setStatus("ready");
-    });
+      if (!initialLoadDone.current) {
+        initialLoadDone.current = true;
+        setStatus("ready");
+      }
+    }).catch(() => {});
     return () => { cancelled = true; };
   }, [bgImageUrl, enemyImageUrl, playerAvatarUrl]);
 
@@ -101,8 +105,13 @@ export function useGameLoop(
         y: (s.enemy.y / GRID_H) * canvasHeight,
       });
       if (s.status !== "playing") {
-        setStatus(s.status);
         setElapsed(Math.round((Date.now() - startTimeRef.current) / 1000));
+        if (s.status === "won") {
+          setStatus("revealing");
+          setTimeout(() => setStatus("won"), 2500);
+        } else {
+          setStatus(s.status);
+        }
       }
     }, TICK_MS);
 
@@ -117,7 +126,7 @@ export function useGameLoop(
   }, [status]);
 
   useEffect(() => {
-    if (status !== "playing" && status !== "won" && status !== "lost") return;
+    if (status !== "playing" && status !== "revealing" && status !== "won" && status !== "lost") return;
 
     const cellW = canvasWidth / GRID_W;
     const cellH = canvasHeight / GRID_H;
@@ -141,24 +150,32 @@ export function useGameLoop(
         ctx.drawImage(bgImgRef.current, 0, 0, canvasWidth, canvasHeight);
       }
 
-      for (let y = 0; y < GRID_H; y++) {
-        for (let x = 0; x < GRID_W; x++) {
-          const cell = s.grid[y][x];
-          const px = x * cellW;
-          const py = y * cellH;
+      const showCover = status === "playing" || status === "lost";
+      if (showCover) {
+        for (let y = 0; y < GRID_H; y++) {
+          for (let x = 0; x < GRID_W; x++) {
+            const cell = s.grid[y][x];
+            const px = x * cellW;
+            const py = y * cellH;
 
-          if (cell === CellState.UNCLAIMED) {
-            ctx.fillStyle = "#161829";
-            ctx.fillRect(px, py, cellW + 0.5, cellH + 0.5);
-          } else if (cell === CellState.TRAIL) {
-            ctx.fillStyle = "rgba(244, 63, 94, 0.6)";
-            ctx.fillRect(px, py, cellW + 0.5, cellH + 0.5);
-          }
-          if ((cell === CellState.CLAIMED || cell === CellState.BORDER) && isOnBorder(s.grid, x, y)) {
-            ctx.fillStyle = "rgba(99, 129, 245, 0.25)";
-            ctx.fillRect(px, py, cellW + 0.5, cellH + 0.5);
+            if (cell === CellState.UNCLAIMED) {
+              ctx.fillStyle = "#000000";
+              ctx.fillRect(px, py, cellW + 0.5, cellH + 0.5);
+            } else if (cell === CellState.TRAIL) {
+              ctx.fillStyle = "rgba(244, 63, 94, 0.6)";
+              ctx.fillRect(px, py, cellW + 0.5, cellH + 0.5);
+            }
+            if ((cell === CellState.CLAIMED || cell === CellState.BORDER) && isOnBorder(s.grid, x, y)) {
+              ctx.fillStyle = "rgba(99, 129, 245, 0.25)";
+              ctx.fillRect(px, py, cellW + 0.5, cellH + 0.5);
+            }
           }
         }
+      }
+
+      if (status === "revealing" || status === "won") {
+        rafRef.current = requestAnimationFrame(render);
+        return;
       }
 
       const enemySize = cellW * 5;

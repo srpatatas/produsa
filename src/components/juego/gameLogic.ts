@@ -195,17 +195,17 @@ export function moveEnemy(state: GameState): GameState {
   const tickRate = getEnemyTickRate(state.revealedPct);
   if (tick % tickRate !== 0) return { ...state, enemyTick: tick };
 
-  const { enemy, grid, isVenturing, player } = state;
-  let target: Pos | null = null;
-
-  if (isVenturing) {
-    target = player;
-  }
+  const { enemy, grid, isVenturing, player, trail } = state;
 
   let nextPos: Pos;
-  if (target) {
-    const path = bfsPath(grid, enemy, target);
-    nextPos = path || enemy;
+  if (isVenturing && trail.length > 0) {
+    const nearest = findNearestTrail(grid, enemy, trail);
+    if (nearest) {
+      const step = bfsPath(grid, enemy, nearest);
+      nextPos = step || moveTowardClosingIn(enemy, player, grid);
+    } else {
+      nextPos = moveTowardClosingIn(enemy, player, grid);
+    }
   } else {
     nextPos = randomWalk(grid, enemy);
   }
@@ -215,6 +215,30 @@ export function moveEnemy(state: GameState): GameState {
     enemy: nextPos,
     enemyTick: tick,
   };
+}
+
+function moveTowardClosingIn(from: Pos, to: Pos, grid: CellState[][]): Pos {
+  const dx = Math.abs(from.x - to.x);
+  const dy = Math.abs(from.y - to.y);
+
+  const closingDirs: Direction[] = [];
+  if (dy > 0) closingDirs.push(from.y < to.y ? Direction.DOWN : Direction.UP);
+  if (dx > 0) closingDirs.push(from.x < to.x ? Direction.RIGHT : Direction.LEFT);
+  if (dy <= dx) {
+    closingDirs.reverse();
+  }
+
+  for (const d of closingDirs) {
+    const delta = DELTA[d];
+    const nx = from.x + delta.x;
+    const ny = from.y + delta.y;
+    if (nx < 0 || nx >= GRID_W || ny < 0 || ny >= GRID_H) continue;
+    if (grid[ny][nx] === CellState.UNCLAIMED || grid[ny][nx] === CellState.TRAIL) {
+      return { x: nx, y: ny };
+    }
+  }
+
+  return randomWalk(grid, from);
 }
 
 function findNearestTrail(grid: CellState[][], from: Pos, trail: Pos[]): Pos | null {

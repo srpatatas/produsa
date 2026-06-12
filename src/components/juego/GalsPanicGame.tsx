@@ -2,11 +2,22 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useUser } from "@/context/UserContext";
+import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { Direction, BACKGROUND_IMAGES, ENEMIES, WIN_PCT, MAX_LIVES, type EnemyConfig } from "./gameTypes";
 import { useGameLoop } from "./useGameLoop";
 
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+interface LeaderboardEntry {
+  position: number;
+  userId: number;
+  name: string;
+  avatar: string;
+  score: number;
+  timeSeconds: number;
+  livesLeft: number;
 }
 
 export function GalsPanicGame() {
@@ -18,6 +29,8 @@ export function GalsPanicGame() {
   const [enemy, setEnemy] = useState<EnemyConfig>(() => pickRandom(ENEMIES));
   const [taunt, setTaunt] = useState<string | null>(null);
   const tauntTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const scoreSavedRef = useRef(false);
 
   const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
 
@@ -131,19 +144,44 @@ export function GalsPanicGame() {
     };
   }, [setDirection]);
 
+  useEffect(() => {
+    fetch("/api/panic")
+      .then((r) => r.ok ? r.json() : { leaderboard: [] })
+      .then((d) => setLeaderboard(d.leaderboard))
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (status !== "won" && status !== "lost") return;
+    if (status === "won" && !scoreSavedRef.current) {
+      scoreSavedRef.current = true;
+      const score = calcScore();
+      fetch("/api/panic", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ score, timeSeconds: elapsed, livesLeft: lives, revealedPct }),
+      }).catch(() => {});
+    }
+    fetch("/api/panic")
+      .then((r) => r.ok ? r.json() : { leaderboard: [] })
+      .then((d) => setLeaderboard(d.leaderboard))
+      .catch(() => {});
+  }, [status]);
+
   const handleRestart = useCallback(() => {
     setEnemy(pickRandom(ENEMIES));
     setTaunt(null);
-    restart();
-  }, [restart]);
+    scoreSavedRef.current = false;
+    start();
+  }, [start]);
 
   const pctNorm = Math.min(100, Math.round((revealedPct / WIN_PCT) * 100));
   const formatTime = (s: number) => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+  const INITIAL_PCT = 11;
   const calcScore = () => {
-    const pctBonus = Math.max(0, revealedPct - WIN_PCT) * 10;
-    const timeBonus = Math.max(0, 300 - elapsed) * 2;
-    const livesBonus = lives * 500;
-    return pctBonus + timeBonus + livesBonus;
+    const pctPoints = Math.max(0, revealedPct - INITIAL_PCT) * 100;
+    const livesBonus = status === "won" ? lives * 500 : 0;
+    return pctPoints + livesBonus;
   };
 
   return (
@@ -172,7 +210,7 @@ export function GalsPanicGame() {
         </div>
       )}
 
-      {(status === "playing" || status === "won" || status === "lost") && (
+      {(status === "playing" || status === "revealing" || status === "won" || status === "lost") && (
         <div className="flex flex-col items-center gap-3">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-1">
@@ -182,6 +220,7 @@ export function GalsPanicGame() {
                 </span>
               ))}
             </div>
+            <span className="font-display text-lg text-fifa-gold">{calcScore()}</span>
             <span className="font-display text-sm text-fifa-dark-gray">{formatTime(elapsed)}</span>
           </div>
 
@@ -218,6 +257,32 @@ export function GalsPanicGame() {
                 <div className="relative rounded-lg bg-white px-2.5 py-1 text-[10px] font-semibold text-black shadow-lg text-center max-w-[180px]">
                   {taunt}
                   <div className="absolute left-1/2 -bottom-1.5 -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent border-t-white" />
+                </div>
+              </div>
+            )}
+
+            {status === "revealing" && (
+              <div className="absolute inset-0 pointer-events-none rounded-2xl overflow-hidden">
+                <div className="birthday-confetti">
+                  {Array.from({ length: 30 }).map((_, j) => {
+                    const colors = ["#f43f5e", "#fbbf24", "#4ade80", "#6381f5", "#8b5cf6", "#ec4899", "#06b6d4", "#f97316"];
+                    return (
+                      <span
+                        key={j}
+                        style={{
+                          left: `${5 + (j * 47) % 90}%`,
+                          top: `${-5 + (j * 13) % 10}%`,
+                          backgroundColor: colors[j % colors.length],
+                          animationDuration: `${1.5 + (j % 5) * 0.3}s`,
+                          animationDelay: `${(j % 7) * 0.15}s`,
+                          animationIterationCount: "infinite",
+                          borderRadius: j % 3 === 0 ? "50%" : "1px",
+                          width: j % 4 === 0 ? "5px" : "7px",
+                          height: j % 4 === 0 ? "5px" : "7px",
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -261,13 +326,47 @@ export function GalsPanicGame() {
             )}
           </div>
 
-          <p className="text-[10px] text-fifa-dark-gray/50">
-            {typeof window !== "undefined" && "ontouchstart" in window
-              ? "Deslizá para moverte"
-              : "Usá las flechas para moverte"}
-          </p>
+          {status === "playing" && (
+            <p className="text-[10px] text-fifa-dark-gray/50">
+              {typeof window !== "undefined" && "ontouchstart" in window
+                ? "Deslizá para moverte"
+                : "Usá las flechas para moverte"}
+            </p>
+          )}
+
         </div>
       )}
+
+      <div className="mx-auto max-w-lg mt-4 rounded-2xl bg-card-bg p-4 ring-1 ring-white/5">
+        <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-fifa-dark-gray">
+          🏆 Produsa Panic
+        </h3>
+        {leaderboard.length === 0 ? (
+          <p className="text-center text-xs text-fifa-dark-gray/50 py-2">
+            Nadie ganó todavía. ¡Sé el primero!
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {leaderboard.map((entry) => (
+              <div
+                key={entry.userId}
+                className={`flex items-center gap-2.5 rounded-xl px-3 py-2 ${
+                  entry.userId === user.id ? "bg-fifa-blue/10 ring-1 ring-fifa-blue/20" : "bg-white/[0.02]"
+                }`}
+              >
+                <span className="w-5 text-center font-display text-sm text-fifa-dark-gray">
+                  {entry.position}
+                </span>
+                <AvatarDisplay avatar={entry.avatar} size="sm" />
+                <span className="flex-1 text-xs font-medium text-foreground truncate">
+                  {entry.name}
+                </span>
+                <span className="font-display text-lg text-foreground">{entry.score}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
