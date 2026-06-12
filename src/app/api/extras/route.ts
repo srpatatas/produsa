@@ -61,5 +61,10 @@ export const GET = withAuth(async (req, session) => {
     };
   });
 
-  return NextResponse.json({ questions: data, totalUsers: users.length });
+  const participants: Record<string, string> = {};
+  for (const u of users) {
+    participants[u.name as string] = u.avatar as string;
+  }
+
+  return NextResponse.json({ questions: data, totalUsers: users.length, participants });
 });

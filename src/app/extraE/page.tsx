@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
+import { FlagImage } from "@/components/teams/FlagImage";
+import { teams } from "@/data/teams";
 import { cn } from "@/lib/utils";
 
 interface AnswerGroup {
@@ -15,6 +17,7 @@ interface BonusQuestion {
   label: string;
   subtitle: string | null;
   points: number;
+  sourceType: string;
   correctAnswer: string | null;
   totalPredictions: number;
   grouped: AnswerGroup[];
@@ -27,7 +30,50 @@ const SECTIONS = [
   { title: "Produsa", icon: "🎯", ids: ["primer-prode", "ultimo-prode"], gradient: "from-rose-600 via-pink-600 to-fuchsia-700" },
 ];
 
-function AnswerRow({ g, totalUsers, isCorrect }: { g: AnswerGroup; totalUsers: number; isCorrect: boolean | null }) {
+function AnswerLabel({ answer, sourceType, participants }: { answer: string; sourceType: string; participants: Record<string, string> }) {
+  if (sourceType === "teams") {
+    const team = teams[answer];
+    if (team) {
+      return (
+        <span className="inline-flex items-center gap-1.5">
+          <FlagImage code={team.flagCode} name={team.name} size="sm" />
+          <span className="font-display text-sm tracking-wider">{team.shortName}</span>
+        </span>
+      );
+    }
+  }
+  if (sourceType === "players") {
+    const match = answer.match(/^(.+?)\s*\((\w+)\)$/);
+    if (match) {
+      const [, name, teamId] = match;
+      const team = teams[teamId];
+      if (team) {
+        return (
+          <span className="inline-flex items-center gap-1.5">
+            {name}
+            <FlagImage code={team.flagCode} name={team.name} size="sm" />
+          </span>
+        );
+      }
+    }
+  }
+  if (sourceType === "participants") {
+    const avatar = participants[answer];
+    if (avatar) {
+      return (
+        <span className="inline-flex items-center gap-1.5">
+          <div className="rounded-full ring-1 ring-white/30">
+            <AvatarDisplay avatar={avatar} size="xs" />
+          </div>
+          {answer}
+        </span>
+      );
+    }
+  }
+  return <>{answer}</>;
+}
+
+function AnswerRow({ g, totalUsers, isCorrect, sourceType, participants }: { g: AnswerGroup; totalUsers: number; isCorrect: boolean | null; sourceType: string; participants: Record<string, string> }) {
   const [expanded, setExpanded] = useState(false);
   const pct = totalUsers > 0 ? Math.round((g.count / totalUsers) * 100) : 0;
 
@@ -46,12 +92,12 @@ function AnswerRow({ g, totalUsers, isCorrect }: { g: AnswerGroup; totalUsers: n
             "text-xs font-medium",
             isCorrect === true ? "text-emerald-300" : "text-white",
           )}>
-            {g.answer} {isCorrect === true && "✓"}
+            <AnswerLabel answer={g.answer} sourceType={sourceType} participants={participants} /> {isCorrect === true && "✓"}
           </span>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-white/60">{g.count} ({pct}%)</span>
+            <span className="text-[11px] font-semibold text-white/80">{g.count} ({pct}%)</span>
             <svg
-              className={cn("h-3.5 w-3.5 text-white/40 transition-transform duration-200", expanded && "rotate-180")}
+              className={cn("h-3.5 w-3.5 text-white/80 transition-transform duration-200", expanded && "rotate-180")}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -93,7 +139,7 @@ function AnswerRow({ g, totalUsers, isCorrect }: { g: AnswerGroup; totalUsers: n
   );
 }
 
-function QuestionCarousel({ questions, totalUsers }: { questions: BonusQuestion[]; totalUsers: number }) {
+function QuestionCarousel({ questions, totalUsers, participants }: { questions: BonusQuestion[]; totalUsers: number; participants: Record<string, string> }) {
   const [current, setCurrent] = useState(0);
   const qIds = questions.map((q) => q.id).join(",");
   useEffect(() => { setCurrent(0); }, [qIds]);
@@ -118,9 +164,9 @@ function QuestionCarousel({ questions, totalUsers }: { questions: BonusQuestion[
         <div className="text-center">
           <h4 className="text-sm font-semibold text-white">{q.label}</h4>
           <div className="flex items-center justify-center gap-2">
-            <span className="text-[10px] text-fifa-lime">+{q.points} pts</span>
+            <span className="text-[11px] font-semibold text-white">+{q.points} pts</span>
             {questions.length > 1 && (
-              <span className="text-[10px] text-white/50">{current + 1}/{questions.length}</span>
+              <span className="text-[11px] font-semibold text-white/80">{current + 1}/{questions.length}</span>
             )}
           </div>
         </div>
@@ -138,7 +184,7 @@ function QuestionCarousel({ questions, totalUsers }: { questions: BonusQuestion[
 
       <div className="space-y-2.5">
         {q.grouped.map((g) => (
-          <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={q.correctAnswer ? g.answer === q.correctAnswer : null} />
+          <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={q.correctAnswer ? g.answer === q.correctAnswer : null} sourceType={q.sourceType} participants={participants} />
         ))}
       </div>
 
@@ -169,7 +215,7 @@ interface SectionData {
   questions: BonusQuestion[];
 }
 
-function SectionCard({ section, index, totalUsers }: { section: SectionData; index: number; totalUsers: number }) {
+function SectionCard({ section, index, totalUsers, participants }: { section: SectionData; index: number; totalUsers: number; participants: Record<string, string> }) {
   return (
     <div
       data-section-card
@@ -184,7 +230,7 @@ function SectionCard({ section, index, totalUsers }: { section: SectionData; ind
           <span>{section.icon}</span>
           {section.title}
         </h2>
-        <QuestionCarousel questions={section.questions} totalUsers={totalUsers} />
+        <QuestionCarousel questions={section.questions} totalUsers={totalUsers} participants={participants} />
       </div>
     </div>
   );
@@ -193,6 +239,7 @@ function SectionCard({ section, index, totalUsers }: { section: SectionData; ind
 export default function ExtraEPage() {
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [participants, setParticipants] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const desktopRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState(0);
@@ -200,7 +247,7 @@ export default function ExtraEPage() {
   useEffect(() => {
     fetch("/api/extras")
       .then((r) => r.ok ? r.json() : { questions: [], totalUsers: 0 })
-      .then((d) => { setQuestions(d.questions); setTotalUsers(d.totalUsers); })
+      .then((d) => { setQuestions(d.questions); setTotalUsers(d.totalUsers); setParticipants(d.participants ?? {}); })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
@@ -253,7 +300,7 @@ export default function ExtraEPage() {
       {/* Mobile: stacked */}
       <div className="mx-auto max-w-md space-y-6 md:hidden">
         {sectionData.map((section, i) => (
-          <SectionCard key={section.title} section={section} index={i} totalUsers={totalUsers} />
+          <SectionCard key={section.title} section={section} index={i} totalUsers={totalUsers} participants={participants} />
         ))}
       </div>
 
@@ -292,7 +339,7 @@ export default function ExtraEPage() {
           </div>
           <div className="max-w-lg flex-1">
             {sectionData[activeSection] && (
-              <SectionCard section={sectionData[activeSection]} index={activeSection} totalUsers={totalUsers} />
+              <SectionCard section={sectionData[activeSection]} index={activeSection} totalUsers={totalUsers} participants={participants} />
             )}
           </div>
           <div className="flex-shrink-0 pt-52">
