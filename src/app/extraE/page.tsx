@@ -26,7 +26,7 @@ interface BonusQuestion {
 const SECTIONS = [
   { title: "Podio", icon: "🏆", ids: ["campeon", "subcampeon", "tercer-puesto"], gradient: "from-yellow-500/90 via-fifa-gold to-amber-500" },
   { title: "Equipos", icon: "🌍", ids: ["ultimo-mundial", "valla-menos", "valla-mas", "revelacion", "abuela-choli", "fair-play", "anti-fair-play"], gradient: "from-fifa-purple via-fifa-blue to-fifa-teal" },
-  { title: "Goleadores", icon: "⚽", ids: ["goleador", "balon-oro", "primer-gol-arg", "ultimo-gol-arg"], gradient: "from-emerald-600 via-teal-600 to-cyan-700" },
+  { title: "Jugadores", icon: "⚽", ids: ["goleador", "balon-oro", "primer-gol-arg", "ultimo-gol-arg"], gradient: "from-emerald-600 via-teal-600 to-cyan-700" },
   { title: "Produsa", icon: "🎯", ids: ["primer-prode", "ultimo-prode"], gradient: "from-rose-600 via-pink-600 to-fuchsia-700" },
 ];
 
@@ -141,51 +141,109 @@ function AnswerRow({ g, totalUsers, isCorrect, sourceType, participants }: { g: 
 
 function QuestionCarousel({ questions, totalUsers, participants }: { questions: BonusQuestion[]; totalUsers: number; participants: Record<string, string> }) {
   const [current, setCurrent] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const locked = useRef<"h" | "v" | null>(null);
   const qIds = questions.map((q) => q.id).join(",");
   useEffect(() => { setCurrent(0); }, [qIds]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    locked.current = null;
+    setIsDragging(true);
+    setDragOffset(0);
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    const dx = e.touches[0].clientX - touchStartX.current;
+    const dy = e.touches[0].clientY - touchStartY.current;
+    if (!locked.current) {
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+        locked.current = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+      }
+      return;
+    }
+    if (locked.current === "v") return;
+    e.preventDefault();
+    setDragOffset(dx);
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+    const threshold = 60;
+    if (locked.current === "h" && Math.abs(dragOffset) > threshold) {
+      if (dragOffset < 0) setCurrent((c) => Math.min(questions.length - 1, c + 1));
+      else setCurrent((c) => Math.max(0, c - 1));
+    }
+    setDragOffset(0);
+  }, [dragOffset, questions.length]);
 
   if (questions.length === 0) return null;
   const safeIndex = Math.min(current, questions.length - 1);
   const q = questions[safeIndex];
 
-  return (
-    <div>
-      <div className="mb-3 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={() => setCurrent((c) => Math.max(0, c - 1))}
-          disabled={current === 0}
-          className="rounded-full bg-black/20 p-1.5 text-white disabled:opacity-20"
-        >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <div className="text-center">
-          <h4 className="text-sm font-semibold text-white">{q.label}</h4>
-          <div className="flex items-center justify-center gap-2">
-            <span className="text-[11px] font-semibold text-white">+{q.points} pts</span>
-            {questions.length > 1 && (
-              <span className="text-[11px] font-semibold text-white/80">{current + 1}/{questions.length}</span>
-            )}
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setCurrent((c) => Math.min(questions.length - 1, c + 1))}
-          disabled={current === questions.length - 1}
-          className="rounded-full bg-black/20 p-1.5 text-white disabled:opacity-20"
-        >
-          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pctOffset = -(safeIndex * 100);
+  const pxOffset = isDragging && locked.current === "h" ? dragOffset : 0;
 
-      <div className="space-y-2.5">
-        {q.grouped.map((g) => (
-          <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={q.correctAnswer ? g.answer === q.correctAnswer : null} sourceType={q.sourceType} participants={participants} />
-        ))}
+  return (
+    <div
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="overflow-hidden">
+        <div
+          className="flex"
+          style={{
+            transform: "translateX(calc(" + pctOffset + "% + " + pxOffset + "px))",
+            transition: isDragging ? "none" : "transform 0.3s ease-out",
+          }}
+        >
+          {questions.map((question) => (
+            <div key={question.id} className="w-full flex-shrink-0">
+              <div className="mb-3 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+                  disabled={safeIndex === 0}
+                  className="rounded-full bg-black/20 p-1.5 text-white disabled:opacity-20"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <div className="text-center">
+                  <h4 className="text-sm font-semibold text-white">{question.label}</h4>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-[11px] font-semibold text-white">+{question.points} pts</span>
+                    {questions.length > 1 && (
+                      <span className="text-[11px] font-semibold text-white/80">{safeIndex + 1}/{questions.length}</span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setCurrent((c) => Math.min(questions.length - 1, c + 1))}
+                  disabled={safeIndex === questions.length - 1}
+                  className="rounded-full bg-black/20 p-1.5 text-white disabled:opacity-20"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+              <div className="space-y-2.5">
+                {question.grouped.map((g) => (
+                  <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={question.correctAnswer ? g.answer === question.correctAnswer : null} sourceType={question.sourceType} participants={participants} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {questions.length > 1 && (
@@ -197,7 +255,7 @@ function QuestionCarousel({ questions, totalUsers, participants }: { questions: 
               onClick={() => setCurrent(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-200",
-                i === current ? "w-4 bg-white" : "w-1.5 bg-white/30",
+                i === safeIndex ? "w-4 bg-white" : "w-1.5 bg-white/30",
               )}
             />
           ))}
@@ -297,7 +355,7 @@ export default function ExtraEPage() {
         </p>
       </div>
 
-      {/* Mobile: stacked */}
+      {/* Mobile: stacked sections */}
       <div className="mx-auto max-w-md space-y-6 md:hidden">
         {sectionData.map((section, i) => (
           <SectionCard key={section.title} section={section} index={i} totalUsers={totalUsers} participants={participants} />
