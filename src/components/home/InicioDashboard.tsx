@@ -86,6 +86,7 @@ export function InicioDashboard() {
               homeScore: apiScore.homeScore,
               awayScore: apiScore.awayScore,
               minute: apiScore.minute,
+              status: apiScore.status,
               events: apiScore.events,
             };
           } else if (prev[m.id] && prev[m.id].homeScore >= 0) {
