@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { UnifiedMatch } from "@/types";
 import { getTeam } from "@/data/teams";
 import { getNextUnifiedMatch } from "@/lib/unifiedMatches";
@@ -130,7 +131,7 @@ export function NextMatchCountdown() {
           </div>
         </div>
 
-        <div className="mb-6 flex items-center justify-center gap-4 sm:gap-6">
+        <div className="mb-4 flex items-center justify-center gap-4 sm:gap-6">
           <CountdownUnit value={timeLeft.days} label="días" />
           <span className="font-display text-2xl text-fifa-dark-gray/30">:</span>
           <CountdownUnit value={timeLeft.hours} label="hs" />
@@ -139,6 +140,16 @@ export function NextMatchCountdown() {
           <span className="font-display text-2xl text-fifa-dark-gray/30">:</span>
           <CountdownUnit value={timeLeft.seconds} label="seg" />
         </div>
+
+        <Link
+          href="/panic"
+          className="mb-4 flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-fifa-purple via-fifa-blue to-fifa-teal px-5 py-2.5 text-white shadow-lg shadow-fifa-purple/20 transition-transform hover:scale-105 active:scale-95"
+        >
+          <span className="text-sm">🎮</span>
+          <span className="text-xs font-semibold uppercase tracking-wide">
+            Jugá al Produsa Panic mientras esperás
+          </span>
+        </Link>
 
         {hasPrediction && (
           <div className="flex flex-col items-center gap-3">
@@ -169,6 +180,7 @@ export function NextMatchCountdown() {
           <p>{new Date(match.kickoff).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Argentina/Buenos_Aires" })} · {new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" })}h</p>
           <p>{match.venue}, {match.city}</p>
         </div>
+
       </div>
 
       {isLocked && (
