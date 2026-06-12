@@ -13,18 +13,24 @@ interface RankingEntry {
   comodinPoints: number;
 }
 
-const BIRTHDAYS: Record<number, string> = {
-  24: "06-11", // Chekoloko
-  2: "06-13",  // El Poeta
-  22: "06-29", // La Tia de todos
+interface BirthdayInfo {
+  date: string;
+  milestone?: string;
+  customBanner?: string;
+}
+
+const BIRTHDAYS: Record<number, BirthdayInfo> = {
+  24: { date: "06-11" }, // Chekoloko
+  2: { date: "06-13", milestone: "40", customBanner: "¡Felices 40, Poeta!" },
+  22: { date: "06-29" }, // La Tia de todos
 };
 
-function isBirthday(userId: number) {
-  const mmdd = BIRTHDAYS[userId];
-  if (!mmdd) return false;
+function getBirthday(userId: number): BirthdayInfo | null {
+  const info = BIRTHDAYS[userId];
+  if (!info) return null;
   const now = new Date();
   const today = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-  return today === mmdd;
+  return today === info.date ? info : null;
 }
 
 export default function RankingPage() {
@@ -67,7 +73,12 @@ export default function RankingPage() {
           {ranking.map((entry, i) => {
             const isCurrentUser = entry.user.id === currentUser.id;
             const isTop3 = i < 3;
-            const bday = isBirthday(entry.user.id);
+            const bdayInfo = getBirthday(entry.user.id);
+            const bday = !!bdayInfo;
+            const milestone = bdayInfo?.milestone;
+            const bannerText = bdayInfo?.customBanner || "¡Feliz cumple!";
+
+            const confettiColors = ["#f43f5e", "#fbbf24", "#4ade80", "#6381f5", "#8b5cf6", "#ec4899", "#06b6d4", "#f97316"];
 
             return (
               <div
@@ -78,9 +89,29 @@ export default function RankingPage() {
                   bday && "birthday-row !ring-0",
                 )}
               >
+                {bday && milestone && (
+                  <div className="birthday-confetti">
+                    {Array.from({ length: 20 }).map((_, j) => (
+                      <span
+                        key={j}
+                        style={{
+                          left: `${5 + (j * 47) % 90}%`,
+                          top: `${-5 + (j * 13) % 10}%`,
+                          backgroundColor: confettiColors[j % confettiColors.length],
+                          animationDuration: `${1.5 + (j % 5) * 0.3}s`,
+                          animationDelay: `${(j % 7) * 0.2}s`,
+                          animationIterationCount: "infinite",
+                          borderRadius: j % 3 === 0 ? "50%" : "1px",
+                          width: j % 4 === 0 ? "4px" : "6px",
+                          height: j % 4 === 0 ? "4px" : "6px",
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
                 {bday && (
-                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-pink-500 via-fuchsia-500 to-violet-500 px-3 py-0.5 text-[10px] font-bold text-white shadow-lg shadow-fuchsia-500/30 whitespace-nowrap">
-                    🎉 ¡Feliz cumple! 🎉
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 rounded-full bg-gradient-to-r from-pink-500 via-fuchsia-500 to-violet-500 px-3 py-0.5 text-[10px] font-bold text-white shadow-lg shadow-fuchsia-500/30 whitespace-nowrap">
+                    🎉 {bannerText} 🎉
                   </span>
                 )}
                 <div className="flex w-8 flex-shrink-0 items-center justify-center">
@@ -95,12 +126,18 @@ export default function RankingPage() {
                   )}
                 </div>
 
-                <AvatarDisplay avatar={entry.user.avatar} size="lg" />
+                <div className="relative">
+                  <AvatarDisplay avatar={entry.user.avatar} size="lg" />
+                  {bday && milestone && (
+                    <span className="absolute -top-2 -right-2 text-sm">👑</span>
+                  )}
+                </div>
 
                 <div className="flex flex-1 min-w-0 flex-col">
                   <span className="text-sm font-semibold text-foreground truncate">
                     {entry.user.name}
-                    {bday && <span className="ml-1 birthday-bounce">🎂</span>}
+                    {bday && !milestone && <span className="ml-1 birthday-bounce">🎂</span>}
+                    {bday && milestone && <span className="ml-1.5 rounded-full bg-gradient-to-r from-fifa-gold to-amber-400 px-1.5 py-px text-[9px] font-bold text-black birthday-bounce">{milestone}</span>}
                     {isCurrentUser && (
                       <span className="ml-1 text-xs font-normal text-fifa-dark-gray">
                         (vos)
