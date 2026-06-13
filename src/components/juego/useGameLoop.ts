@@ -39,6 +39,7 @@ export function useGameLoop(
   const [lives, setLives] = useState(3);
   const [elapsed, setElapsed] = useState(0);
   const [enemyScreenPos, setEnemyScreenPos] = useState({ x: 0, y: 0 });
+  const [isVenturing, setIsVenturing] = useState(false);
   const [status, setStatus] = useState<"loading" | "ready" | "playing" | "revealing" | "won" | "lost">("loading");
   const startTimeRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -100,6 +101,7 @@ export function useGameLoop(
       stateRef.current = s;
       setRevealedPct(s.revealedPct);
       setLives(s.lives);
+      setIsVenturing(s.isVenturing);
       setEnemyScreenPos({
         x: (s.enemy.x / GRID_W) * canvasWidth,
         y: (s.enemy.y / GRID_H) * canvasHeight,
@@ -233,5 +235,5 @@ export function useGameLoop(
     return () => cancelAnimationFrame(rafRef.current);
   }, [status, canvasWidth, canvasHeight]);
 
-  return { canvasRef, revealedPct, lives, elapsed, enemyScreenPos, status, start, restart, setDirection };
+  return { canvasRef, revealedPct, lives, elapsed, enemyScreenPos, isVenturing, status, start, restart, setDirection };
 }

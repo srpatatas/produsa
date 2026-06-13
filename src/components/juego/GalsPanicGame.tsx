@@ -76,7 +76,7 @@ export function GalsPanicGame() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const { canvasRef, revealedPct, lives, elapsed, enemyScreenPos, status, start, restart, setDirection } = useGameLoop(
+  const { canvasRef, revealedPct, lives, elapsed, enemyScreenPos, isVenturing, status, start, restart, setDirection } = useGameLoop(
     canvasWidth,
     canvasHeight,
     bgImage,
@@ -270,7 +270,7 @@ export function GalsPanicGame() {
           <div className="relative overflow-visible">
             <canvas
               ref={canvasRef}
-              className="rounded-2xl ring-1 ring-white/10"
+              className={`rounded-2xl ring-2 transition-colors duration-200 ${isVenturing ? "ring-fifa-red" : "ring-fifa-green/50"}`}
               style={{ width: canvasWidth, height: canvasHeight, touchAction: "none" }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
