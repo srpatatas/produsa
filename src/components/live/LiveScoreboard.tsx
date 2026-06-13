@@ -48,44 +48,44 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
           </span>
         </div>
 
-        <div className="flex items-start justify-between">
-          <div className="flex flex-1 flex-col items-center gap-2">
+        <div className="flex min-w-0 items-start justify-between">
+          <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 sm:gap-2">
             {home ? (
               <>
-                <FlagImage code={home.flagCode} name={home.name} size="xl" />
-                <span className="font-display text-xl tracking-wider">{home.shortName}</span>
+                <FlagImage code={home.flagCode} name={home.name} size="lg" />
+                <span className="font-display text-base tracking-wider sm:text-xl">{home.shortName}</span>
               </>
             ) : (
               <span className="text-sm text-white/50">{match.homeLabel}</span>
             )}
             {events.length > 0 && (
-              <div className="mt-1 w-full px-1">
+              <div className="mt-1 w-full px-0.5 sm:px-1">
                 <LiveEventTimeline events={events} side="home" />
               </div>
             )}
           </div>
 
-          <div className="flex items-center gap-4 px-4 pt-3" aria-live="polite" aria-atomic="true">
-            <span className="font-display text-7xl leading-none">
+          <div className="flex shrink-0 items-center gap-1.5 px-1 pt-3 sm:gap-4 sm:px-4" aria-live="polite" aria-atomic="true">
+            <span className="font-display text-4xl leading-none sm:text-7xl">
               {hasScore ? liveScore.homeScore : "–"}
             </span>
-            <span className="text-3xl text-white/20">:</span>
-            <span className="font-display text-7xl leading-none">
+            <span className="text-xl text-white/20 sm:text-3xl">:</span>
+            <span className="font-display text-4xl leading-none sm:text-7xl">
               {hasScore ? liveScore.awayScore : "–"}
             </span>
           </div>
 
-          <div className="flex flex-1 flex-col items-center gap-2">
+          <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 sm:gap-2">
             {away ? (
               <>
-                <FlagImage code={away.flagCode} name={away.name} size="xl" />
-                <span className="font-display text-xl tracking-wider">{away.shortName}</span>
+                <FlagImage code={away.flagCode} name={away.name} size="lg" />
+                <span className="font-display text-base tracking-wider sm:text-xl">{away.shortName}</span>
               </>
             ) : (
               <span className="text-sm text-white/50">{match.awayLabel}</span>
             )}
             {events.length > 0 && (
-              <div className="mt-1 w-full px-1">
+              <div className="mt-1 w-full px-0.5 sm:px-1">
                 <LiveEventTimeline events={events} side="away" />
               </div>
             )}

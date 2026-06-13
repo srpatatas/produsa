@@ -12,9 +12,15 @@ function formatMinute(e: LiveEvent): string {
   return e.extra ? `${e.minute}+${e.extra}'` : `${e.minute}'`;
 }
 
+function shortenName(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length < 2) return name;
+  return `${parts[0][0]}. ${parts.slice(1).join(" ")}`;
+}
+
 function EventRow({ event, side }: { event: LiveEvent; side: "home" | "away" }) {
   const isGoal = event.type === "goal";
-  const player = event.player && event.player !== "None" ? event.player : "";
+  const player = event.player && event.player !== "None" ? shortenName(event.player) : "";
   const detail = event.detail ? ` (${event.detail})` : "";
 
   const icon = isGoal ? (
@@ -32,12 +38,12 @@ function EventRow({ event, side }: { event: LiveEvent; side: "home" | "away" }) 
   );
 
   return (
-    <div className={`flex items-center gap-1 text-[11px] ${
+    <div className={`flex items-center gap-1 text-[11px] min-w-0 ${
       side === "home" ? "justify-end text-right" : "justify-start text-left"
     }`}>
       {side === "home" ? (
         <>
-          <span className="truncate text-white/80">{player}{detail}</span>
+          <span className="min-w-0 flex-1 truncate text-white/80">{player}{detail}</span>
           {icon}
           <span className="shrink-0 font-mono text-white/40">{formatMinute(event)}</span>
         </>
@@ -45,7 +51,7 @@ function EventRow({ event, side }: { event: LiveEvent; side: "home" | "away" }) 
         <>
           <span className="shrink-0 font-mono text-white/40">{formatMinute(event)}</span>
           {icon}
-          <span className="truncate text-white/80">{player}{detail}</span>
+          <span className="min-w-0 flex-1 truncate text-white/80">{player}{detail}</span>
         </>
       )}
     </div>
