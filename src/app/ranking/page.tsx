@@ -11,6 +11,7 @@ interface RankingEntry {
   correct: number;
   wrong: number;
   comodinPoints: number;
+  panicWinner?: boolean;
 }
 
 interface BirthdayInfo {
@@ -149,6 +150,9 @@ export default function RankingPage() {
                     <span>{entry.wrong} fallos</span>
                     {entry.comodinPoints > 0 && (
                       <span className="text-fifa-gold">+{entry.comodinPoints} comodín</span>
+                    )}
+                    {entry.panicWinner && (
+                      <span className="text-fifa-purple">🎮 +1 Panic</span>
                     )}
                   </div>
                 </div>

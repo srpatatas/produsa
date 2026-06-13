@@ -23,6 +23,17 @@ export const GET = withAuth(async (req, session) => {
 
   const bonus = await fetchBonusMaps(sql, maps.users);
 
+  const panicWinnerResult = bonus.bonusAnswers["panic-winner"];
+  const panicWinnerIds = new Set<number>();
+  if (panicWinnerResult) {
+    for (const user of maps.users) {
+      const pred = bonus.bonusPredByUser[user.id]?.["panic-winner"];
+      if (pred && pred.toLowerCase() === panicWinnerResult.correctAnswer) {
+        panicWinnerIds.add(user.id);
+      }
+    }
+  }
+
   const ranking = maps.users.map((user) => {
     const mp = computeMatchPoints(user.id, matchResults, maps);
     const bonusPoints = computeBonusPoints(user.id, bonus);
@@ -35,6 +46,7 @@ export const GET = withAuth(async (req, session) => {
       comodinPoints: mp.comodinPoints,
       exactScorePoints: mp.exactScorePoints,
       bonusPoints,
+      panicWinner: panicWinnerIds.has(user.id),
     };
   });
 
