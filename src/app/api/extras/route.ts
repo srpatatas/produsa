@@ -44,9 +44,19 @@ export const GET = withAuth(async (req, session) => {
       if (!answerCounts[p.answer]) answerCounts[p.answer] = [];
       answerCounts[p.answer].push({ userId: p.userId, userName: p.userName, avatar: p.avatar });
     }
-    const grouped = Object.entries(answerCounts)
+    let grouped = Object.entries(answerCounts)
       .map(([answer, users]) => ({ answer, users, count: users.length }))
       .sort((a, b) => b.count - a.count);
+
+    const correctAnswer = resultsMap[q.id as string] ?? null;
+    if (preds.length === 0 && correctAnswer) {
+      const winnerEntry = users.find((u) => u.name === correctAnswer);
+      grouped = [{
+        answer: correctAnswer,
+        users: winnerEntry ? [{ userId: winnerEntry.id as number, userName: winnerEntry.name as string, avatar: winnerEntry.avatar as string }] : [],
+        count: 1,
+      }];
+    }
 
     return {
       id: q.id as string,
