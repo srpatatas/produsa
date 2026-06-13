@@ -26,9 +26,12 @@ export function useProdmanLoop(
 ) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<ProdmanState>(createInitialState());
+  const prevStateRef = useRef<ProdmanState>(createInitialState());
+  const lastTickTime = useRef(0);
   const dirRef = useRef<Direction | null>(null);
   const enemyImgsRef = useRef<HTMLImageElement[]>([]);
   const playerImgRef = useRef<HTMLImageElement | null>(null);
+  const ballImgRef = useRef<HTMLImageElement | null>(null);
   const rafRef = useRef(0);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -42,12 +45,15 @@ export function useProdmanLoop(
     Promise.all([
       ...ENEMY_IMAGES.map(loadImage),
       playerAvatarUrl ? loadImage(playerAvatarUrl).catch(() => null) : Promise.resolve(null),
+      loadImage("/images/trionda.png").catch(() => null),
     ]).then((results) => {
       if (cancelled) return;
       const enemies = results.slice(0, ENEMY_IMAGES.length) as HTMLImageElement[];
-      const player = results[results.length - 1] as HTMLImageElement | null;
+      const player = results[ENEMY_IMAGES.length] as HTMLImageElement | null;
+      const ball = results[ENEMY_IMAGES.length + 1] as HTMLImageElement | null;
       enemyImgsRef.current = enemies;
       playerImgRef.current = player;
+      ballImgRef.current = ball;
       if (!initialLoadDone.current) {
         initialLoadDone.current = true;
         setStatus("ready");
@@ -58,6 +64,8 @@ export function useProdmanLoop(
 
   const start = useCallback(() => {
     stateRef.current = createInitialState();
+    prevStateRef.current = stateRef.current;
+    lastTickTime.current = performance.now();
     dirRef.current = null;
     setScore(0);
     setLives(stateRef.current.lives);
@@ -72,6 +80,8 @@ export function useProdmanLoop(
     if (status !== "playing") return;
 
     tickRef.current = setInterval(() => {
+      prevStateRef.current = stateRef.current;
+      lastTickTime.current = performance.now();
       const s = gameTick(stateRef.current, dirRef.current);
       stateRef.current = s;
       setScore(s.score);
@@ -94,11 +104,19 @@ export function useProdmanLoop(
 
     const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
 
+    function lerp(a: number, b: number, t: number) {
+      const diff = b - a;
+      if (Math.abs(diff) > COLS / 2) return b;
+      return a + diff * t;
+    }
+
     const render = () => {
       const canvas = canvasRef.current;
       if (!canvas) return;
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
+
+      const t = Math.min(1, (performance.now() - lastTickTime.current) / TICK_MS);
 
       canvas.width = canvasSize * dpr;
       canvas.height = canvasHeight * dpr;
@@ -129,54 +147,56 @@ export function useProdmanLoop(
             ctx.arc(px + cellSize / 2, py + cellSize / 2, cellSize * 0.12, 0, Math.PI * 2);
             ctx.fill();
           } else if (cell === CellType.POWER) {
-            ctx.fillStyle = "#fbbf24";
-            ctx.beginPath();
-            ctx.arc(px + cellSize / 2, py + cellSize / 2, cellSize * 0.35, 0, Math.PI * 2);
-            ctx.fill();
+            if (ballImgRef.current) {
+              const bSize = cellSize * 0.75;
+              const bOff = (cellSize - bSize) / 2;
+              ctx.drawImage(ballImgRef.current, px + bOff, py + bOff, bSize, bSize);
+            } else {
+              ctx.fillStyle = "#fbbf24";
+              ctx.beginPath();
+              ctx.arc(px + cellSize / 2, py + cellSize / 2, cellSize * 0.35, 0, Math.PI * 2);
+              ctx.fill();
+            }
           }
         }
       }
 
-      for (const ghost of s.ghosts) {
+      const prev = prevStateRef.current;
+
+      for (let gi = 0; gi < s.ghosts.length; gi++) {
+        const ghost = s.ghosts[gi];
         if (ghost.eaten) continue;
-        const gx = ghost.pos.x * cellSize;
-        const gy = ghost.pos.y * cellSize;
+        const prevGhost = prev.ghosts[gi];
+        const gx = lerp(prevGhost?.pos.x ?? ghost.pos.x, ghost.pos.x, t) * cellSize;
+        const gy = lerp(prevGhost?.pos.y ?? ghost.pos.y, ghost.pos.y, t) * cellSize;
         const gSize = cellSize * 0.9;
         const offset = (cellSize - gSize) / 2;
 
-        if (ghost.scared) {
-          ctx.fillStyle = "#3b82f6";
+        const img = enemyImgsRef.current[ghost.imageIdx];
+        if (img) {
+          ctx.save();
           ctx.beginPath();
           ctx.arc(gx + cellSize / 2, gy + cellSize / 2, gSize / 2, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = "#fff";
-          ctx.font = Math.round(gSize * 0.5) + "px sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText("😨", gx + cellSize / 2, gy + cellSize / 2);
-        } else {
-          const img = enemyImgsRef.current[ghost.imageIdx];
-          if (img) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(gx + cellSize / 2, gy + cellSize / 2, gSize / 2, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.clip();
-            ctx.drawImage(img, gx + offset, gy + offset, gSize, gSize);
-            ctx.restore();
-            ctx.beginPath();
-            ctx.arc(gx + cellSize / 2, gy + cellSize / 2, gSize / 2, 0, Math.PI * 2);
-            ctx.strokeStyle = "rgba(244, 63, 94, 0.8)";
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(img, gx + offset, gy + offset, gSize, gSize);
+          if (ghost.scared) {
+            ctx.fillStyle = "rgba(59, 130, 246, 0.6)";
+            ctx.fillRect(gx + offset, gy + offset, gSize, gSize);
           }
+          ctx.restore();
+          ctx.beginPath();
+          ctx.arc(gx + cellSize / 2, gy + cellSize / 2, gSize / 2, 0, Math.PI * 2);
+          ctx.strokeStyle = ghost.scared ? "rgba(59, 130, 246, 0.9)" : "rgba(244, 63, 94, 0.8)";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
         }
       }
 
       const playerSize = cellSize * 0.85;
       const pOffset = (cellSize - playerSize) / 2;
-      const ppx = s.player.x * cellSize;
-      const ppy = s.player.y * cellSize;
+      const ppx = lerp(prev.player.x, s.player.x, t) * cellSize;
+      const ppy = lerp(prev.player.y, s.player.y, t) * cellSize;
 
       ctx.save();
       ctx.shadowColor = "#c5e34a";

@@ -21,14 +21,9 @@ function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Directio
     const el = ref.current;
     if (!el) return;
     const start = (e: TouchEvent) => { e.preventDefault(); onDir(dir); };
-    const end = (e: TouchEvent) => { e.preventDefault(); onDir(null); };
     el.addEventListener("touchstart", start, { passive: false });
-    el.addEventListener("touchend", end, { passive: false });
-    el.addEventListener("touchcancel", end, { passive: false });
     return () => {
       el.removeEventListener("touchstart", start);
-      el.removeEventListener("touchend", end);
-      el.removeEventListener("touchcancel", end);
     };
   }, [dir, onDir]);
 
@@ -37,8 +32,6 @@ function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Directio
       ref={ref}
       type="button"
       onMouseDown={() => onDir(dir)}
-      onMouseUp={() => onDir(null)}
-      onMouseLeave={() => onDir(null)}
       className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-lg text-white/70 active:bg-white/20 active:text-white select-none"
       style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none", touchAction: "none" }}
     >
@@ -102,14 +95,9 @@ export function ProdmanGame() {
         case "ArrowLeft": case "a": case "A": setDirection(Direction.LEFT); break;
       }
     };
-    const onKeyUp = (e: KeyboardEvent) => {
-      if (gameKeys.has(e.key)) setDirection(null);
-    };
     window.addEventListener("keydown", onKey);
-    window.addEventListener("keyup", onKeyUp);
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("keyup", onKeyUp);
     };
   }, [setDirection]);
 
@@ -123,12 +111,12 @@ export function ProdmanGame() {
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-4xl text-foreground">PRODMAN</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Comé todos los puntos y evitá a los comodines. Agarrá las bolitas grandes para poder comerlos a ellos.
+            Comé todos los puntos y evitá a los comodines. Agarrá las triondas para poder comerlos a ellos.
           </p>
           <div className="flex gap-6 text-[11px] text-fifa-dark-gray">
             <span>❤️ {MAX_LIVES} vidas</span>
             <span>🟡 10 pts</span>
-            <span>⭐ 50 pts</span>
+            <span><img src="/images/trionda.png" alt="trionda" className="inline h-4 w-4" /> 50 pts</span>
             <span>👻 200 pts</span>
           </div>
           <button

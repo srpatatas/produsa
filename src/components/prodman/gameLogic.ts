@@ -33,6 +33,7 @@ export function createInitialState(): ProdmanState {
     lives: MAX_LIVES,
     dotsLeft: totalDots,
     powerTimer: 0,
+    moving: false,
     status: "playing",
     tick: 0,
   };
@@ -122,10 +123,8 @@ export function gameTick(state: ProdmanState, inputDir: Direction | null): Prodm
   let s = { ...state, tick: state.tick + 1 };
   const grid = s.grid.map((r) => [...r]);
 
-  if (inputDir !== null && canMove(grid, s.player, inputDir)) {
-    s.playerDir = inputDir;
-    s.nextDir = null;
-  } else if (inputDir !== null) {
+  if (inputDir !== null) {
+    s.moving = true;
     s.nextDir = inputDir;
   }
 
@@ -135,7 +134,7 @@ export function gameTick(state: ProdmanState, inputDir: Direction | null): Prodm
   }
 
   let newPlayer = s.player;
-  if (canMove(grid, s.player, s.playerDir)) {
+  if (s.moving && canMove(grid, s.player, s.playerDir)) {
     newPlayer = applyMove(s.player, s.playerDir);
   }
 
@@ -170,7 +169,11 @@ export function gameTick(state: ProdmanState, inputDir: Direction | null): Prodm
 
   for (let i = 0; i < ghosts.length; i++) {
     const g = ghosts[i];
-    if (g.pos.x === newPlayer.x && g.pos.y === newPlayer.y) {
+    const prevGhost = s.ghosts[i];
+    const touching = (g.pos.x === newPlayer.x && g.pos.y === newPlayer.y)
+      || (prevGhost.pos.x === newPlayer.x && prevGhost.pos.y === newPlayer.y)
+      || (g.pos.x === s.player.x && g.pos.y === s.player.y);
+    if (touching) {
       if (g.scared && !g.eaten) {
         ghosts[i] = { ...g, eaten: true, scared: false };
         eatBonus += 200;
