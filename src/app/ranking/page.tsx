@@ -11,8 +11,9 @@ interface RankingEntry {
   correct: number;
   wrong: number;
   comodinPoints: number;
-  panicWinner?: boolean;
 }
+
+const PANIC_WINNER_ID = 22; // La Tia de todos
 
 interface BirthdayInfo {
   date: string;
@@ -151,8 +152,8 @@ export default function RankingPage() {
                     {entry.comodinPoints > 0 && (
                       <span className="text-fifa-gold">+{entry.comodinPoints} comodín</span>
                     )}
-                    {entry.panicWinner && (
-                      <span className="text-fifa-purple">🎮 +1 Panic</span>
+                    {entry.user.id === PANIC_WINNER_ID && (
+                      <span className="text-fifa-purple">👑 Panic</span>
                     )}
                   </div>
                 </div>

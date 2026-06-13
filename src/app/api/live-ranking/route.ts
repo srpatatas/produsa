@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db";
 import { withAuth } from "@/lib/apiAuth";
 import { getResults } from "@/lib/resultsService";
 import { getOutcome } from "@/lib/outcomeStyles";
-import { fetchRankingMaps, fetchBonusMaps, computeMatchPoints, computeBonusPoints } from "@/lib/rankingService";
+import { fetchRankingMaps, computeMatchPoints } from "@/lib/rankingService";
 
 interface LiveScoreParam {
   matchId: string;
@@ -32,7 +32,6 @@ export const GET = withAuth(async (req, session) => {
   ]);
 
   const liveMatchIds = new Set(liveScores.map((s) => s.matchId));
-  const bonus = await fetchBonusMaps(sql, maps.users);
 
   const ranking = maps.users.map((user) => {
     const uid = user.id;
@@ -41,7 +40,6 @@ export const GET = withAuth(async (req, session) => {
     const userExact = maps.exactByUser[uid] ?? {};
 
     const confirmed = computeMatchPoints(uid, matchResults, maps, liveMatchIds);
-    const bonusPoints = computeBonusPoints(uid, bonus);
 
     let livePoints = 0;
     const livePredictions: Record<string, string> = {};
@@ -80,9 +78,9 @@ export const GET = withAuth(async (req, session) => {
 
     return {
       user: { id: uid, name: user.name, avatar: user.avatar },
-      confirmedPoints: confirmed.points + bonusPoints,
+      confirmedPoints: confirmed.points,
       livePoints,
-      totalPoints: confirmed.points + bonusPoints + livePoints,
+      totalPoints: confirmed.points + livePoints,
       livePredictions,
       liveExactScores,
       liveComodinMatchId,
