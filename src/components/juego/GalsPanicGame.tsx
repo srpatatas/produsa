@@ -253,7 +253,7 @@ export function GalsPanicGame() {
                 </span>
               ))}
             </div>
-            <span className="font-display text-lg text-fifa-gold">{calcScore()}</span>
+            <span className="font-display text-2xl text-fifa-gold">{calcScore()}</span>
             <span className="font-display text-sm text-fifa-dark-gray">{formatTime(elapsed)}</span>
           </div>
 

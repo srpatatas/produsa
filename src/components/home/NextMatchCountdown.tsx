@@ -150,13 +150,23 @@ export function NextMatchCountdown() {
               🎮 Produsa Panic
             </span>
           </Link>
-          {Date.now() >= Date.UTC(2026, 5, 13, 13, 0, 0) && (
+          {Date.now() >= Date.UTC(2026, 5, 13, 14, 0, 0) && (
             <Link
               href="/prod-man"
               className="flex-1 rounded-full bg-gradient-to-r from-fifa-gold via-amber-500 to-yellow-500 py-2.5 text-center text-black shadow-lg shadow-fifa-gold/20 transition-transform hover:scale-105 active:scale-95"
             >
               <span className="text-[11px] font-semibold uppercase tracking-wide">
                 🕹️ Prod-Man
+              </span>
+            </Link>
+          )}
+          {Date.now() >= Date.UTC(2026, 5, 14, 12, 0, 0) && (
+            <Link
+              href="/viborusa"
+              className="flex-1 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 py-2.5 text-center text-white shadow-lg shadow-emerald-500/20 transition-transform hover:scale-105 active:scale-95"
+            >
+              <span className="text-[11px] font-semibold uppercase tracking-wide">
+                🐍 Viborusa
               </span>
             </Link>
           )}

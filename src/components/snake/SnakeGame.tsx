@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
-import { Direction, MAX_LIVES, ENEMY_IMAGES } from "./gameTypes";
-import { useProdmanLoop } from "./useGameLoop";
+import { Direction } from "./gameTypes";
+import { useSnakeLoop } from "./useGameLoop";
 
 interface LeaderboardEntry {
   position: number;
@@ -14,7 +14,7 @@ interface LeaderboardEntry {
   score: number;
 }
 
-function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Direction | null) => void; label: string }) {
+function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Direction) => void; label: string }) {
   const ref = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -22,9 +22,7 @@ function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Directio
     if (!el) return;
     const start = (e: TouchEvent) => { e.preventDefault(); onDir(dir); };
     el.addEventListener("touchstart", start, { passive: false });
-    return () => {
-      el.removeEventListener("touchstart", start);
-    };
+    return () => { el.removeEventListener("touchstart", start); };
   }, [dir, onDir]);
 
   return (
@@ -40,45 +38,41 @@ function DPadButton({ dir, onDir, label }: { dir: Direction; onDir: (d: Directio
   );
 }
 
-export function ProdmanGame() {
+export function SnakeGame() {
   const user = useUser();
-  const [canvasWidth, setCanvasWidth] = useState(336);
+  const [canvasSize, setCanvasSize] = useState(336);
   const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
-
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   useEffect(() => {
     const update = () => {
       const w = Math.min(window.innerWidth - 32, 420);
-      setCanvasWidth(Math.floor(w / 21) * 21);
+      setCanvasSize(Math.floor(w / 21) * 21);
     };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const { canvasRef, canvasHeight, score, lives, status, start, setDirection } = useProdmanLoop(
-    canvasWidth,
-    playerAvatar,
-  );
+  const { canvasRef, score, status, start, setDirection } = useSnakeLoop(canvasSize, playerAvatar);
 
   useEffect(() => {
-    fetch("/api/prodman")
+    fetch("/api/snake")
       .then((r) => r.ok ? r.json() : { leaderboard: [] })
       .then((d) => setLeaderboard(d.leaderboard))
       .catch(() => {});
   }, []);
 
   useEffect(() => {
-    if (status !== "won" && status !== "lost") return;
-    if (status === "won") {
-      fetch("/api/prodman", {
+    if (status !== "lost") return;
+    if (score > 0) {
+      fetch("/api/snake", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ score }),
       }).catch(() => {});
     }
-    fetch("/api/prodman")
+    fetch("/api/snake")
       .then((r) => r.ok ? r.json() : { leaderboard: [] })
       .then((d) => setLeaderboard(d.leaderboard))
       .catch(() => {});
@@ -96,9 +90,7 @@ export function ProdmanGame() {
       }
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [setDirection]);
 
   return (
@@ -109,15 +101,13 @@ export function ProdmanGame() {
 
       {status === "ready" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground">PROD-MAN</h2>
+          <h2 className="font-title text-4xl text-foreground">VIBORUSA</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Comé todos los puntos y evitá a los comodines. Agarrá las triondas para poder comerlos a ellos.
+            Comé banderas del mundial y crecé. Evitá los comodines y no te muerdas la cola.
           </p>
           <div className="flex gap-6 text-[11px] text-fifa-dark-gray">
-            <span>❤️ {MAX_LIVES} vidas</span>
-            <span>🟡 10 pts</span>
-            <span><img src="/images/trionda.png" alt="trionda" className="inline h-4 w-4" /> 50 pts</span>
-            <span>👻 200 pts</span>
+            <span><img src="https://flagcdn.com/w40/ar.png" alt="flag" className="inline h-3 w-5 rounded-sm" /> 50 pts</span>
+            <span><img src="/images/trionda.png" alt="trionda" className="inline h-4 w-4" /> 200 pts</span>
           </div>
           <button
             type="button"
@@ -129,24 +119,17 @@ export function ProdmanGame() {
         </div>
       )}
 
-      {(status === "playing" || status === "won" || status === "lost") && (
+      {(status === "playing" || status === "lost") && (
         <div className="flex flex-col items-center gap-3">
-          <div className="flex w-full items-center justify-between">
-            <div className="flex items-center gap-1">
-              {Array.from({ length: MAX_LIVES }).map((_, i) => (
-                <span key={i} className={i < lives ? "text-sm" : "text-sm opacity-20"}>
-                  {i < lives ? "❤️" : "🖤"}
-                </span>
-              ))}
-            </div>
+          <div className="flex w-full items-center justify-center">
             <span className="font-display text-2xl text-fifa-gold">{score}</span>
           </div>
 
           <div className="relative overflow-visible">
             <canvas
               ref={canvasRef}
-              className="rounded-2xl ring-2 ring-fifa-blue/50"
-              style={{ width: canvasWidth, height: canvasHeight, touchAction: "none" }}
+              className="rounded-2xl ring-2 ring-fifa-green/50"
+              style={{ width: canvasSize, height: canvasSize, touchAction: "none" }}
             />
 
             {status === "lost" && (
@@ -158,21 +141,6 @@ export function ProdmanGame() {
                   type="button"
                   onClick={start}
                   className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
-                >
-                  Jugar de nuevo
-                </button>
-              </div>
-            )}
-
-            {status === "won" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/40 backdrop-blur-[2px]">
-                <span className="text-4xl">🎉</span>
-                <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-green">Ganaste!</h3>
-                <span className="font-display text-4xl text-fifa-gold">{score} pts</span>
-                <button
-                  type="button"
-                  onClick={start}
-                  className="mt-1 rounded-full bg-fifa-green px-6 py-2.5 font-display text-sm uppercase tracking-wider text-black"
                 >
                   Jugar de nuevo
                 </button>
@@ -205,11 +173,11 @@ export function ProdmanGame() {
 
       <div className="mt-4 rounded-2xl bg-card-bg p-4 ring-1 ring-white/5">
         <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-fifa-dark-gray">
-          🏆 Prod-Man
+          🏆 Viborusa
         </h3>
         {leaderboard.length === 0 ? (
           <p className="text-center text-xs text-fifa-dark-gray/50 py-2">
-            Nadie ganó todavía. ¡Sé el primero!
+            Nadie jugó todavía. ¡Sé el primero!
           </p>
         ) : (
           <div className="space-y-2">
