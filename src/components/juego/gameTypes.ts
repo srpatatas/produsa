@@ -44,7 +44,7 @@ export const DELTA: Record<Direction, Pos> = {
 };
 
 export const BACKGROUND_IMAGES = [
-  "/images/produsaPanic2.png",
+  "/images/produsaPanic1.jpeg",
 ];
 
 export interface EnemyConfig {
