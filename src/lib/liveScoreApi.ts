@@ -1,6 +1,9 @@
-import { fixtureToMatch, matchToFixture } from "@/data/fixtureMap";
+import { fixtureToMatch, matchToFixture, API_TEAM_NAME_TO_ID } from "@/data/fixtureMap";
+import { matches } from "@/data/matches";
 import { getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import type { LiveEvent } from "@/types";
+
+const matchById = new Map(matches.map((m) => [m.id, m]));
 
 const API_BASE = "https://v3.football.api-sports.io";
 const CACHE_TTL_MS = 15_000;
@@ -23,6 +26,7 @@ let cacheTimestamp = 0;
 function parseEvents(
   rawEvents: Array<Record<string, unknown>>,
   homeTeamId: number,
+  reversed = false,
 ): LiveEvent[] {
   const events: LiveEvent[] = [];
 
@@ -32,7 +36,8 @@ function parseEvents(
     const time = e.time as { elapsed: number; extra: number | null };
     const team = e.team as { id: number };
     const player = e.player as { name: string } | null;
-    const side = team.id === homeTeamId ? "home" : "away";
+    const apiSide = team.id === homeTeamId ? "home" : "away";
+    const side = reversed ? (apiSide === "home" ? "away" : "home") : apiSide;
 
     if (type === "Goal") {
       events.push({
@@ -92,16 +97,21 @@ export async function fetchLiveScores(
     if (!LIVE_STATUSES.has(f.fixture.status.short)) continue;
 
     const matchId = fixtureToMatch[fixtureId];
+    const match = matchById.get(matchId);
     const homeTeamId = (f.teams?.home?.id as number) ?? 0;
     const rawEvents = (f.events as Array<Record<string, unknown>>) ?? [];
 
+    const apiHomeName = f.teams?.home?.name as string | undefined;
+    const apiHomeId = apiHomeName ? API_TEAM_NAME_TO_ID[apiHomeName] : undefined;
+    const reversed = !!(match && apiHomeId && apiHomeId !== match.homeTeamId);
+
     scores[matchId] = {
-      homeScore: f.goals.home ?? 0,
-      awayScore: f.goals.away ?? 0,
+      homeScore: reversed ? (f.goals.away ?? 0) : (f.goals.home ?? 0),
+      awayScore: reversed ? (f.goals.home ?? 0) : (f.goals.away ?? 0),
       minute: f.fixture.status.elapsed ?? 0,
       extra: f.fixture.status.extra ?? null,
       status: f.fixture.status.short,
-      events: parseEvents(rawEvents, homeTeamId),
+      events: parseEvents(rawEvents, homeTeamId, reversed),
     };
   }
 

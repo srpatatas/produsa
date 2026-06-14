@@ -2,6 +2,7 @@ import { MatchResult } from "@/data/results";
 import { getDb } from "./db";
 import { matches } from "@/data/matches";
 import { isAnyMatchInLiveWindow } from "./unifiedMatches";
+import { API_TEAM_NAME_TO_ID } from "@/data/fixtureMap";
 
 const OPENFOOTBALL_URL =
   "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json";
@@ -9,24 +10,7 @@ const OPENFOOTBALL_URL =
 const SYNC_INTERVAL_DEFAULT = 30 * 60 * 1000; // 30 minutes
 const SYNC_INTERVAL_LIVE = 5 * 60 * 1000; // 5 minutes during matches
 
-const TEAM_NAME_TO_ID: Record<string, string> = {
-  "Mexico": "MEX", "South Africa": "RSA", "Korea Republic": "KOR", "South Korea": "KOR",
-  "Czechia": "CZE", "Czech Republic": "CZE", "Canada": "CAN",
-  "Bosnia and Herzegovina": "BIH", "Bosnia-Herzegovina": "BIH",
-  "Qatar": "QAT", "Switzerland": "SUI", "Brazil": "BRA", "Morocco": "MAR",
-  "Haiti": "HAI", "Scotland": "SCO", "United States": "USA", "USA": "USA",
-  "Paraguay": "PAR", "Australia": "AUS", "Turkey": "TUR", "Türkiye": "TUR",
-  "Germany": "GER", "Curacao": "CUW", "Curaçao": "CUW",
-  "Ivory Coast": "CIV", "Côte d'Ivoire": "CIV", "Cote d'Ivoire": "CIV",
-  "Ecuador": "ECU", "Netherlands": "NED", "Japan": "JPN", "Sweden": "SWE",
-  "Tunisia": "TUN", "Belgium": "BEL", "Egypt": "EGY", "Iran": "IRN",
-  "New Zealand": "NZL", "Spain": "ESP", "Cape Verde": "CPV", "Cabo Verde": "CPV",
-  "Saudi Arabia": "KSA", "Uruguay": "URU", "France": "FRA", "Senegal": "SEN",
-  "Iraq": "IRQ", "Norway": "NOR", "Argentina": "ARG", "Algeria": "ALG",
-  "Austria": "AUT", "Jordan": "JOR", "Portugal": "POR",
-  "DR Congo": "COD", "Congo DR": "COD", "Uzbekistan": "UZB", "Colombia": "COL",
-  "England": "ENG", "Croatia": "CRO", "Ghana": "GHA", "Panama": "PAN",
-};
+const TEAM_NAME_TO_ID = API_TEAM_NAME_TO_ID;
 
 const matchByTeamPair = new Map<string, string>();
 for (const m of matches) {
