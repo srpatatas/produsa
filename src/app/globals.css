@@ -66,6 +66,7 @@
   --font-sans: var(--font-inter);
   --font-display: "FWC2026", var(--font-outfit);
   --font-title: "FIFA26", "FWC2026", var(--font-outfit);
+  --font-playful: var(--font-baloo), "Comic Sans MS", cursive;
 }
 
 html {

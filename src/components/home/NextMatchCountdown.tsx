@@ -141,37 +141,6 @@ export function NextMatchCountdown() {
           <CountdownUnit value={timeLeft.seconds} label="seg" />
         </div>
 
-        <div className="mb-4 flex gap-2">
-          <Link
-            href="/panic"
-            className="flex-1 rounded-full bg-gradient-to-r from-fifa-purple via-fifa-blue to-fifa-teal py-2.5 text-center text-white shadow-lg shadow-fifa-purple/20 transition-transform hover:scale-105 active:scale-95"
-          >
-            <span className="text-[11px] font-semibold uppercase tracking-wide">
-              🎮 Produsa Panic
-            </span>
-          </Link>
-          {Date.now() >= Date.UTC(2026, 5, 13, 14, 0, 0) && (
-            <Link
-              href="/prod-man"
-              className="flex-1 rounded-full bg-gradient-to-r from-fifa-gold via-amber-500 to-yellow-500 py-2.5 text-center text-black shadow-lg shadow-fifa-gold/20 transition-transform hover:scale-105 active:scale-95"
-            >
-              <span className="text-[11px] font-semibold uppercase tracking-wide">
-                🕹️ Prod-Man
-              </span>
-            </Link>
-          )}
-          {Date.now() >= Date.UTC(2026, 5, 14, 12, 0, 0) && (
-            <Link
-              href="/viborusa"
-              className="flex-1 rounded-full bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 py-2.5 text-center text-white shadow-lg shadow-emerald-500/20 transition-transform hover:scale-105 active:scale-95"
-            >
-              <span className="text-[11px] font-semibold uppercase tracking-wide">
-                🐍 Viborusa
-              </span>
-            </Link>
-          )}
-        </div>
-
         {hasPrediction && (
           <div className="flex flex-col items-center gap-3">
             <span className="text-[10px] font-semibold uppercase tracking-widest text-fifa-dark-gray">
@@ -202,6 +171,36 @@ export function NextMatchCountdown() {
           <p>{match.venue}, {match.city}</p>
         </div>
 
+      </div>
+
+      <div className="border-t border-white/5 px-5 py-4">
+        <p className="mb-3 text-center text-[11px] italic text-fifa-dark-gray/70">
+          Falta mucho para el próximo partido? Matá el tiempo jugando
+        </p>
+        <div className="flex justify-center gap-5">
+          <Link href="/panic" className="group flex flex-col items-center gap-1.5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-fifa-purple via-fifa-blue to-fifa-teal shadow-md shadow-fifa-purple/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
+              <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">😱</span>
+            </div>
+            <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Produsa Panic</span>
+          </Link>
+          {Date.now() >= Date.UTC(2026, 5, 13, 14, 0, 0) && (
+            <Link href="/prod-man" className="group flex flex-col items-center gap-1.5">
+              <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-fifa-gold via-amber-500 to-yellow-500 shadow-md shadow-fifa-gold/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
+                <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">👻</span>
+              </div>
+              <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Prod-Man</span>
+            </Link>
+          )}
+          {Date.now() >= Date.UTC(2026, 5, 14, 12, 0, 0) && (
+            <Link href="/viborusa" className="group flex flex-col items-center gap-1.5">
+              <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-emerald-500 via-green-500 to-teal-500 shadow-md shadow-emerald-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
+                <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">🐍</span>
+              </div>
+              <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Viborusa</span>
+            </Link>
+          )}
+        </div>
       </div>
 
       {isLocked && (
