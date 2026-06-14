@@ -2,6 +2,27 @@
 // Last synced: 2026-06-07T09:59:09.359Z
 // Maps API-Football fixture IDs to our match IDs
 
+export const API_TEAM_NAME_TO_ID: Record<string, string> = {
+  "Mexico": "MEX", "South Africa": "RSA", "South Korea": "KOR", "Korea Republic": "KOR",
+  "Czech Republic": "CZE", "Czechia": "CZE", "Canada": "CAN",
+  "Bosnia": "BIH", "Bosnia and Herzegovina": "BIH", "Bosnia And Herzegovina": "BIH",
+  "Bosnia & Herzegovina": "BIH", "Qatar": "QAT", "Switzerland": "SUI",
+  "Brazil": "BRA", "Morocco": "MAR", "Haiti": "HAI", "Scotland": "SCO",
+  "USA": "USA", "United States": "USA", "Paraguay": "PAR",
+  "Australia": "AUS", "Turkey": "TUR", "Türkiye": "TUR",
+  "Germany": "GER", "Curacao": "CUW", "Curaçao": "CUW",
+  "Ivory Coast": "CIV", "Cote D'Ivoire": "CIV", "Côte d'Ivoire": "CIV",
+  "Ecuador": "ECU", "Netherlands": "NED", "Japan": "JPN", "Sweden": "SWE",
+  "Tunisia": "TUN", "Belgium": "BEL", "Egypt": "EGY", "Iran": "IRN",
+  "New Zealand": "NZL", "Spain": "ESP", "Cape Verde": "CPV", "Cabo Verde": "CPV",
+  "Cape Verde Islands": "CPV", "Saudi Arabia": "KSA", "Uruguay": "URU",
+  "France": "FRA", "Senegal": "SEN", "Iraq": "IRQ", "Norway": "NOR",
+  "Argentina": "ARG", "Algeria": "ALG", "Austria": "AUT", "Jordan": "JOR",
+  "Portugal": "POR", "DR Congo": "COD", "Congo DR": "COD",
+  "Uzbekistan": "UZB", "Colombia": "COL", "England": "ENG",
+  "Croatia": "CRO", "Ghana": "GHA", "Panama": "PAN",
+};
+
 export const fixtureToMatch: Record<number, string> = {
   "1489369": "A-1",
   "1489370": "D-1",
