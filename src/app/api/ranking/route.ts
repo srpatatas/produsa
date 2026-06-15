@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { withAuth } from "@/lib/apiAuth";
+
+export const dynamic = "force-dynamic";
 import { MatchResult } from "@/data/results";
 import { fetchRankingMaps, fetchBonusMaps, computeMatchPoints, computeBonusPoints } from "@/lib/rankingService";
 
