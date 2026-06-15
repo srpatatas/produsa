@@ -5,6 +5,8 @@ import { getDb } from "@/lib/db";
 import { invalidateResultsCache } from "@/lib/resultsService";
 import { syncFinishedResults } from "@/lib/resultSync";
 
+export const dynamic = "force-dynamic";
+
 const trackedLive = new Map<string, LiveScoreResult>();
 
 async function saveFinishedMatch(matchId: string, score: LiveScoreResult): Promise<void> {

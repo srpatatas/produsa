@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { withAuth } from "@/lib/apiAuth";
 
+export const dynamic = "force-dynamic";
+
 export const GET = withAuth(async (req, session) => {
   const matchId = req.nextUrl.searchParams.get("matchId");
   if (!matchId) return NextResponse.json({ error: "matchId requerido" }, { status: 400 });
