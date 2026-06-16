@@ -68,6 +68,7 @@ export interface InvadersState {
   hitTime: number;
   bossHitTime: number;
   bossSpawned: boolean;
+  levelStartTime: number;
 }
 
 export const FLAG_CODES = [

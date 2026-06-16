@@ -87,6 +87,7 @@ export function useInvadersLoop(canvasWidth: number, playerAvatarUrl: string | n
 
   const start = useCallback(() => {
     const s = createInitialState();
+    s.levelStartTime = performance.now();
     stateRef.current = s;
     bubblesRef.current = [];
     confettiRef.current = [];
@@ -100,6 +101,7 @@ export function useInvadersLoop(canvasWidth: number, playerAvatarUrl: string | n
 
   const goNextLevel = useCallback(() => {
     const s = nextLevel(stateRef.current);
+    s.levelStartTime = performance.now();
     stateRef.current = s;
     bubblesRef.current = [];
     confettiRef.current = [];
@@ -381,6 +383,63 @@ export function useInvadersLoop(canvasWidth: number, playerAvatarUrl: string | n
         ctx.closePath();
         ctx.fill();
         ctx.restore();
+      }
+
+      // Level title announcement
+      if (s.levelStartTime > 0) {
+        const titleElapsed = now - s.levelStartTime;
+        if (titleElapsed < 2500) {
+          const titleAlpha = titleElapsed < 500
+            ? titleElapsed / 500
+            : titleElapsed > 2000
+              ? 1 - (titleElapsed - 2000) / 500
+              : 1;
+
+          const titleScale = titleElapsed < 300
+            ? 0.5 + (titleElapsed / 300) * 0.5
+            : 1 + Math.sin(titleElapsed / 150) * 0.03;
+
+          const levelLabel = s.level >= 3 ? "FINAL BOSS!" : `NIVEL ${s.level}`;
+          const subLabel = s.level === 1 ? "FIFA" : s.level === 2 ? "WC 26" : "🏆 × 3";
+
+          ctx.save();
+          ctx.globalAlpha = titleAlpha;
+          ctx.translate(canvasWidth / 2, canvasHeight * 0.4);
+          ctx.scale(titleScale, titleScale);
+
+          // Main title
+          const mainSize = Math.round(scale * (s.level >= 3 ? 0.09 : 0.07));
+          ctx.font = `900 ${mainSize}px Outfit, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          ctx.strokeStyle = "rgba(0,0,0,0.7)";
+          ctx.lineWidth = 5;
+          ctx.strokeText(levelLabel, 0, 0);
+
+          if (s.level >= 3) {
+            ctx.shadowColor = "#ef4444";
+            ctx.fillStyle = "#ef4444";
+          } else {
+            ctx.shadowColor = "#6366f1";
+            ctx.fillStyle = "#ffffff";
+          }
+          ctx.shadowBlur = 20;
+          ctx.fillText(levelLabel, 0, 0);
+
+          // Sub label
+          const subSize = Math.round(scale * 0.035);
+          ctx.font = `700 ${subSize}px Outfit, sans-serif`;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = "#f59e0b";
+          ctx.fillStyle = "#f59e0b";
+          ctx.strokeStyle = "rgba(0,0,0,0.5)";
+          ctx.lineWidth = 3;
+          ctx.strokeText(subLabel, 0, mainSize * 0.8);
+          ctx.fillText(subLabel, 0, mainSize * 0.8);
+
+          ctx.restore();
+        }
       }
 
       // Speech bubbles
