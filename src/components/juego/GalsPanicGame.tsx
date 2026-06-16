@@ -401,7 +401,7 @@ export function GalsPanicGame() {
                 }`}
               >
                 <span className="w-5 text-center font-display text-sm text-fifa-dark-gray">
-                  {entry.position}
+                  {entry.position === 1 ? "🥇" : entry.position}
                 </span>
                 <AvatarDisplay avatar={entry.avatar} size="sm" />
                 <span className="flex-1 text-xs font-medium text-foreground truncate">
