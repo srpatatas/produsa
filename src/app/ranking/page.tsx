@@ -11,6 +11,7 @@ interface RankingEntry {
   correct: number;
   wrong: number;
   comodinPoints: number;
+  exactScorePoints: number;
 }
 
 const PANIC_WINNER_ID = 22; // La Tia de todos
@@ -151,6 +152,9 @@ export default function RankingPage() {
                     <span>{entry.wrong} fallos</span>
                     {entry.comodinPoints > 0 && (
                       <span className="text-fifa-gold">+{entry.comodinPoints} comodín</span>
+                    )}
+                    {entry.exactScorePoints > 0 && (
+                      <span className="text-emerald-400">+{entry.exactScorePoints} exacto</span>
                     )}
                     {entry.user.id === PANIC_WINNER_ID && (
                       <span className="text-fifa-purple">👑 Panic</span>
