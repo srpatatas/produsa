@@ -177,7 +177,7 @@ export function NextMatchCountdown() {
         <p className="mb-3 text-center text-[11px] italic text-fifa-dark-gray/70">
           Falta mucho para el próximo partido? Matá el tiempo jugando
         </p>
-        <div className="flex justify-center gap-5">
+        <div className="flex flex-wrap justify-center gap-5">
           <Link href="/panic" className="group flex flex-col items-center gap-1.5">
             <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-fifa-purple via-fifa-blue to-fifa-teal shadow-md shadow-fifa-purple/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
               <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">😱</span>
