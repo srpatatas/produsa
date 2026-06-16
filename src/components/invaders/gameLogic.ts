@@ -67,7 +67,7 @@ const FORMATION_TROPHY: number[][] = [
   [0,0,0,1,1,1,1,1,0,0,0],
 ];
 
-const FORMATIONS = [FORMATION_WC26, FORMATION_FIFA, FORMATION_TROPHY]; // TODO: revert order to FIFA, WC26, TROPHY
+const FORMATIONS = [FORMATION_FIFA, FORMATION_WC26, FORMATION_TROPHY];
 
 function buildInvaders(level: number): Invader[] {
   const flags = shuffled(FLAG_CODES);
@@ -108,7 +108,7 @@ export function createInitialState(level = 1): InvadersState {
   let bosses: Boss[] = [];
   let bossMode: "random" | "mandatory" = "random";
 
-  if (level === 3 || level === 1) { // TODO: revert to level === 3 only
+  if (level === 3) {
     bossMode = "mandatory";
     bosses = [0, 1, 2].map((i) => ({
       x: 0.1 + i * 0.35,
@@ -147,7 +147,7 @@ export function nextLevel(state: InvadersState): InvadersState {
   let bosses: Boss[] = [];
   let bossMode: "random" | "mandatory" = "random";
 
-  if (level === 3 || level === 1) { // TODO: revert to level === 3 only
+  if (level === 3) {
     bossMode = "mandatory";
     bosses = [0, 1, 2].map((i) => ({
       x: 0.1 + i * 0.35,
