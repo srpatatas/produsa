@@ -25,6 +25,7 @@ const GAME_COLORS: Record<string, string> = {
   "Viborusa": "text-emerald-400",
   "Produtris": "text-fuchsia-400",
   "Arkanusa": "text-cyan-400",
+  "FIFA Invaders": "text-orange-400",
 };
 
 const GAMES = [
@@ -33,6 +34,7 @@ const GAMES = [
   { api: "/api/snake", emoji: "🐍", name: "Viborusa" },
   { api: "/api/tetris", emoji: "🧱", name: "Produtris" },
   { api: "/api/arkanoid", emoji: "🏓", name: "Arkanusa" },
+  { api: "/api/invaders", emoji: "👾", name: "FIFA Invaders" },
 ];
 
 interface BirthdayInfo {
