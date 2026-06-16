@@ -370,8 +370,8 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
       bosses.push({
         x: -BOSS_W,
         y: 0.02,
-        hp: BOSS_HP,
-        maxHp: BOSS_HP,
+        hp: 1,
+        maxHp: 1,
         comodinIndex: Math.floor(Math.random() * 3),
         dir: BOSS_SPEED,
       });
