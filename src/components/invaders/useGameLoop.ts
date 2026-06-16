@@ -400,7 +400,7 @@ export function useInvadersLoop(canvasWidth: number, playerAvatarUrl: string | n
             : 1 + Math.sin(titleElapsed / 150) * 0.03;
 
           const levelLabel = s.level >= 3 ? "FINAL BOSS!" : `NIVEL ${s.level}`;
-          const subLabel = s.level === 1 ? "FIFA INVADERS" : s.level === 2 ? "WC 26" : "🏆 × 3";
+          const subLabel = s.level === 1 ? "" : s.level === 2 ? "WC 26" : "🏆 × 3";
 
           ctx.save();
           ctx.globalAlpha = titleAlpha;

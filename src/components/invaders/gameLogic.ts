@@ -67,7 +67,7 @@ const FORMATION_TROPHY: number[][] = [
   [0,0,0,1,1,1,1,1,0,0,0],
 ];
 
-const FORMATIONS = [FORMATION_TROPHY, FORMATION_FIFA, FORMATION_WC26]; // TODO: revert order to FIFA, WC26, TROPHY
+const FORMATIONS = [FORMATION_WC26, FORMATION_FIFA, FORMATION_TROPHY]; // TODO: revert order to FIFA, WC26, TROPHY
 
 function buildInvaders(level: number): Invader[] {
   const flags = shuffled(FLAG_CODES);
