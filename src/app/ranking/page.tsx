@@ -14,7 +14,26 @@ interface RankingEntry {
   exactScorePoints: number;
 }
 
-const PANIC_WINNER_ID = 22; // La Tia de todos
+interface GameBadge {
+  emoji: string;
+  name: string;
+}
+
+const GAME_COLORS: Record<string, string> = {
+  "Panic": "text-fifa-purple",
+  "Prod-Man": "text-fifa-gold",
+  "Viborusa": "text-emerald-400",
+  "Produtris": "text-fuchsia-400",
+  "Arkanusa": "text-cyan-400",
+};
+
+const GAMES = [
+  { api: "/api/panic", emoji: "😱", name: "Panic" },
+  { api: "/api/prodman", emoji: "👻", name: "Prod-Man" },
+  { api: "/api/snake", emoji: "🐍", name: "Viborusa" },
+  { api: "/api/tetris", emoji: "🧱", name: "Produtris" },
+  { api: "/api/arkanoid", emoji: "🏓", name: "Arkanusa" },
+];
 
 interface BirthdayInfo {
   date: string;
@@ -40,6 +59,7 @@ export default function RankingPage() {
   const currentUser = useUser();
   const [ranking, setRanking] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [gameLeaders, setGameLeaders] = useState<Map<number, GameBadge[]>>(new Map());
 
   useEffect(() => {
     fetch("/api/ranking")
@@ -47,6 +67,27 @@ export default function RankingPage() {
       .then((data) => setRanking(data.ranking))
       .catch(() => {})
       .finally(() => setLoading(false));
+
+    Promise.all(
+      GAMES.map((g) =>
+        fetch(g.api)
+          .then((r) => r.ok ? r.json() : { leaderboard: [] })
+          .then((d) => {
+            const top = d.leaderboard?.[0];
+            return top ? { userId: top.userId as number, emoji: g.emoji, name: g.name } : null;
+          })
+          .catch(() => null)
+      )
+    ).then((results) => {
+      const map = new Map<number, GameBadge[]>();
+      for (const r of results) {
+        if (!r) continue;
+        const existing = map.get(r.userId) || [];
+        existing.push({ emoji: r.emoji, name: r.name });
+        map.set(r.userId, existing);
+      }
+      setGameLeaders(map);
+    });
   }, []);
 
   return (
@@ -156,9 +197,9 @@ export default function RankingPage() {
                     {entry.exactScorePoints > 0 && (
                       <span className="text-emerald-400">+{entry.exactScorePoints} exacto</span>
                     )}
-                    {entry.user.id === PANIC_WINNER_ID && (
-                      <span className="text-fifa-purple">👑 Panic</span>
-                    )}
+                    {(gameLeaders.get(entry.user.id) || []).map((badge) => (
+                      <span key={badge.name} className={GAME_COLORS[badge.name] || "text-fifa-purple"}>{badge.emoji} {badge.name}</span>
+                    ))}
                   </div>
                 </div>
 
