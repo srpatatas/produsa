@@ -134,6 +134,7 @@ export function createInitialState(level = 1): InvadersState {
     lastShot: 0,
     hitTime: 0,
     bossHitTime: 0,
+    bossSpawned: false,
   };
 }
 
@@ -171,6 +172,7 @@ export function nextLevel(state: InvadersState): InvadersState {
     lastShot: 0,
     hitTime: 0,
     bossHitTime: 0,
+    bossSpawned: false,
   };
 }
 
@@ -192,7 +194,7 @@ export function shoot(state: InvadersState, now: number): InvadersState {
 
 export function gameTick(state: InvadersState, now: number): InvadersState {
   if (state.status !== "playing") return state;
-  let { invaders, bullets, bosses, direction, speed, score, lives, hitTime, bossHitTime } = state;
+  let { invaders, bullets, bosses, direction, speed, score, lives, hitTime, bossHitTime, bossSpawned } = state;
 
   // Move bullets
   bullets = bullets
@@ -304,7 +306,7 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
       hitBullets.add(bi);
       lives--;
       if (lives <= 0) {
-        return { ...state, invaders, bullets, bosses, direction, speed, score, lives: 0, status: "lost", hitTime, bossHitTime };
+        return { ...state, invaders, bullets, bosses, direction, speed, score, lives: 0, status: "lost", hitTime, bossHitTime, bossSpawned };
       }
     }
   }
@@ -332,20 +334,27 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
     }
   }
 
-  // Boss movement — each boss bounces independently
+  // Boss movement
   for (let i = 0; i < bosses.length; i++) {
     const boss = bosses[i];
     const newX = boss.x + boss.dir;
-    if (newX >= 0 && newX + BOSS_W <= CANVAS_W) {
+
+    if (state.bossMode === "mandatory") {
+      // Level 3: bounce
+      if (newX >= 0 && newX + BOSS_W <= CANVAS_W) {
+        bosses[i] = { ...boss, x: newX };
+      } else if (newX + BOSS_W > CANVAS_W) {
+        bosses[i] = { ...boss, x: CANVAS_W - BOSS_W, dir: -Math.abs(boss.dir) };
+      } else if (newX < 0) {
+        bosses[i] = { ...boss, x: 0, dir: Math.abs(boss.dir) };
+      }
+    } else {
+      // Levels 1 & 2: fly straight across
       bosses[i] = { ...boss, x: newX };
-    } else if (newX + BOSS_W > CANVAS_W) {
-      bosses[i] = { ...boss, x: CANVAS_W - BOSS_W, dir: -Math.abs(boss.dir) };
-    } else if (newX < 0) {
-      bosses[i] = { ...boss, x: 0, dir: Math.abs(boss.dir) };
     }
 
     // Boss shoots back
-    if (Math.random() < 0.006) {
+    if (bosses[i] && Math.random() < 0.006) {
       bullets.push({
         x: bosses[i].x + BOSS_W / 2,
         y: bosses[i].y + BOSS_H,
@@ -354,21 +363,20 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
     }
   }
 
-  // Random boss spawn for levels 1 & 2
-  if (state.bossMode === "random" && bosses.length === 0 && Math.random() < BOSS_SPAWN_CHANCE) {
-    bosses.push({
-      x: -BOSS_W,
-      y: 0.02,
-      hp: BOSS_HP,
-      maxHp: BOSS_HP,
-      comodinIndex: Math.floor(Math.random() * 3),
-      dir: BOSS_SPEED,
-    });
-  }
-
-  // Remove random bosses that fly off screen
+  // Random boss: fly off screen = gone, only spawn once per level
   if (state.bossMode === "random") {
-    bosses = bosses.filter((b) => b.x > -BOSS_W - 0.05 && b.x < CANVAS_W + 0.05);
+    bosses = bosses.filter((b) => b.x > -BOSS_W - 0.1 && b.x < CANVAS_W + 0.1);
+    if (bosses.length === 0 && !state.bossSpawned && Math.random() < BOSS_SPAWN_CHANCE) {
+      bosses.push({
+        x: -BOSS_W,
+        y: 0.02,
+        hp: BOSS_HP,
+        maxHp: BOSS_HP,
+        comodinIndex: Math.floor(Math.random() * 3),
+        dir: BOSS_SPEED,
+      });
+      bossSpawned = true;
+    }
   }
 
   // Check cleared
@@ -377,8 +385,8 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
 
   if (allClear) {
     const finalStatus = state.level >= 3 ? "won" : "cleared";
-    return { ...state, invaders, bullets, bosses, direction, speed, score, lives, status: finalStatus, hitTime, bossHitTime };
+    return { ...state, invaders, bullets, bosses, direction, speed, score, lives, status: finalStatus, hitTime, bossHitTime, bossSpawned };
   }
 
-  return { ...state, invaders, bullets, bosses, direction, speed, score, lives, hitTime, bossHitTime };
+  return { ...state, invaders, bullets, bosses, direction, speed, score, lives, hitTime, bossHitTime, bossSpawned };
 }

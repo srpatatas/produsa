@@ -23,7 +23,7 @@ export const INVADER_SHOOT_CHANCE = 0.003;
 
 export const BOSS_W = 0.14;
 export const BOSS_H = 0.065;
-export const BOSS_SPEED = 0.003;
+export const BOSS_SPEED = 0.0015;
 export const BOSS_HP = 5;
 export const BOSS_SPAWN_CHANCE = 0.002;
 
@@ -67,6 +67,7 @@ export interface InvadersState {
   lastShot: number;
   hitTime: number;
   bossHitTime: number;
+  bossSpawned: boolean;
 }
 
 export const FLAG_CODES = [
