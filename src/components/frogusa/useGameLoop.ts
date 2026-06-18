@@ -446,15 +446,19 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             ctx.roundRect(dx, carY, dw, dh, 4);
             ctx.fill();
 
-            // Flag on the roof (fills most of the bus)
+            // Flag on rear half of roof (rotated 90°)
             const flagImg = flagCache.current.get(d.flag);
-            const flagPad = 3;
+            const rearX = lane.direction === 1 ? dx + 3 : dx + dw / 2;
+            const flagW = dw / 2 - 5;
+            const flagH = dh - 6;
             if (flagImg) {
               ctx.save();
               ctx.beginPath();
-              ctx.roundRect(dx + flagPad, carY + flagPad, dw - flagPad * 2, dh - flagPad * 2, 2);
+              ctx.roundRect(rearX, carY + 3, flagW, flagH, 2);
               ctx.clip();
-              ctx.drawImage(flagImg, dx + flagPad, carY + flagPad, dw - flagPad * 2, dh - flagPad * 2);
+              ctx.translate(rearX + flagW / 2, carY + 3 + flagH / 2);
+              ctx.rotate(Math.PI / 2);
+              ctx.drawImage(flagImg, -flagH / 2, -flagW / 2, flagH, flagW);
               ctx.restore();
             }
 
