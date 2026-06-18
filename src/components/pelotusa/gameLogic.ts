@@ -26,8 +26,12 @@ import {
 const MAX_GAP_DELTA = 0.25;
 
 function spawnPipe(x: number, gap: number, prevGapY: number | null): Pipe {
-  const minGapY = gap / 2 + 0.10;
-  const maxGapY = CANVAS_H - gap / 2 - 0.10;
+  // Vary gap size per pipe: ±15% of current gap level
+  const variation = gap * 0.15;
+  const pipeGap = Math.max(PIPE_GAP_MIN, gap + (Math.random() - 0.5) * variation * 2);
+
+  const minGapY = pipeGap / 2 + 0.10;
+  const maxGapY = CANVAS_H - pipeGap / 2 - 0.10;
 
   let lo = minGapY;
   let hi = maxGapY;
@@ -41,14 +45,13 @@ function spawnPipe(x: number, gap: number, prevGapY: number | null): Pipe {
   // Only spawn comodin if gap is wide enough to dodge
   let comodin: number | null = null;
   let comodinOffY = 0;
-  if (gap >= COMODIN_MIN_GAP && Math.random() < COMODIN_CHANCE) {
+  if (pipeGap >= COMODIN_MIN_GAP && Math.random() < COMODIN_CHANCE) {
     comodin = Math.floor(Math.random() * 3);
-    // Offset to top or bottom of gap so there's a clear lane on the other side
-    const offset = gap * 0.28;
+    const offset = pipeGap * 0.28;
     comodinOffY = Math.random() < 0.5 ? -offset : offset;
   }
 
-  return { x, gapY, gapSize: gap, passed: false, comodin, comodinOffY, comodinHit: false };
+  return { x, gapY, gapSize: pipeGap, passed: false, comodin, comodinOffY, comodinHit: false };
 }
 
 function spawnFlag(pipeX: number, pipeGapY: number, nextGapY: number | null): FloatingFlag | null {
