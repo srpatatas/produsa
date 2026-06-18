@@ -192,12 +192,18 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             setStatus("lost");
           } else {
             setStatus("hit");
-            setTimeout(() => setStatus("playing"), 800);
+            setTimeout(() => {
+              stateRef.current = { ...stateRef.current, status: "playing" };
+              setStatus("playing");
+            }, 800);
           }
         }
         if (result.scored) {
           setStatus("scored");
-          setTimeout(() => setStatus("playing"), 1000);
+          setTimeout(() => {
+            stateRef.current = { ...stateRef.current, status: "playing" };
+            setStatus("playing");
+          }, 1000);
         }
       }
 
