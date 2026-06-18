@@ -283,8 +283,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       ctx.strokeStyle = "rgba(255,255,255,0.3)";
       ctx.lineWidth = 1.5;
 
-      // Midfield line
-      const midY = 6 * CELL_H * scale;
+      // Midfield line (between rows 6-7)
+      const midY = 6.5 * CELL_H * scale;
       ctx.beginPath();
       ctx.moveTo(0, midY + CELL_H * scale / 2);
       ctx.lineTo(canvasWidth, midY + CELL_H * scale / 2);
