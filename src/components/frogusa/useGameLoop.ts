@@ -53,6 +53,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const rafRef = useRef(0);
   const triondaImg = useRef<HTMLImageElement | null>(null);
   const playerImg = useRef<HTMLImageElement | null>(null);
+  const crowdImg = useRef<HTMLImageElement | null>(null);
   const comodinImgs = useRef<HTMLImageElement[]>([]);
   const avatarCache = useRef<Map<string, HTMLImageElement>>(new Map());
   const flagCache = useRef<Map<string, HTMLImageElement>>(new Map());
@@ -78,11 +79,13 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     Promise.all([
       loadImage("/images/trionda.png").catch(() => null),
       playerAvatarUrl ? loadImage(playerAvatarUrl).catch(() => null) : Promise.resolve(null),
+      loadImage("/images/crowd-entrance.jpg").catch(() => null),
       ...COMODIN_IMAGES.map((s) => loadImage(s).catch(() => null)),
     ]).then((results) => {
       triondaImg.current = results[0] as HTMLImageElement | null;
       playerImg.current = results[1] as HTMLImageElement | null;
-      comodinImgs.current = results.slice(2).filter(Boolean) as HTMLImageElement[];
+      crowdImg.current = results[2] as HTMLImageElement | null;
+      comodinImgs.current = results.slice(3).filter(Boolean) as HTMLImageElement[];
       setStatus("idle");
     });
   }, [playerAvatarUrl]);
@@ -243,7 +246,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
         if (result.hit || result.drowned) {
           if (result.drowned) {
-            hitMessageRef.current = "¡AL AGUA!";
+            hitMessageRef.current = "¡TE TRAGÓ LA HINCHADA!";
           } else if (result.hitComodinIdx >= 0) {
             const phrases = COMODIN_HIT_PHRASES[result.hitComodinIdx];
             hitMessageRef.current = phrases[Math.floor(Math.random() * phrases.length)];
@@ -278,21 +281,28 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const ry = r * CELL_H * scale;
         const rh = CELL_H * scale;
         if (WATER_ROWS.includes(r)) {
-          // River
-          const waterGrad = ctx.createLinearGradient(0, ry, 0, ry + rh);
-          waterGrad.addColorStop(0, "#1e40af");
-          waterGrad.addColorStop(0.5, "#2563eb");
-          waterGrad.addColorStop(1, "#1e40af");
-          ctx.fillStyle = waterGrad;
-          ctx.fillRect(0, ry, canvasWidth, rh);
-          ctx.strokeStyle = "rgba(147,197,253,0.25)";
-          ctx.lineWidth = 1;
-          const waveOff = (now * 0.03 + r * 40) % canvasWidth;
-          for (let wx = -20; wx < canvasWidth + 20; wx += 25) {
-            ctx.beginPath();
-            ctx.moveTo(wx + waveOff % 25, ry + rh * 0.3);
-            ctx.quadraticCurveTo(wx + 12 + waveOff % 25, ry + rh * 0.15, wx + 25 + waveOff % 25, ry + rh * 0.3);
-            ctx.stroke();
+          // Crowd zone
+          if (crowdImg.current) {
+            const crowdH = WATER_ROWS.length * rh;
+            const crowdY = WATER_ROWS[0] * CELL_H * scale;
+            if (r === WATER_ROWS[0]) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(0, crowdY, canvasWidth, crowdH);
+              ctx.clip();
+              const imgAspect = crowdImg.current.width / crowdImg.current.height;
+              const drawH = crowdH;
+              const drawW = drawH * imgAspect;
+              const drawX = (canvasWidth - drawW) / 2;
+              ctx.drawImage(crowdImg.current, drawX, crowdY, drawW, drawH);
+              // Darken overlay so platforms are visible
+              ctx.fillStyle = "rgba(0,0,0,0.3)";
+              ctx.fillRect(0, crowdY, canvasWidth, crowdH);
+              ctx.restore();
+            }
+          } else {
+            ctx.fillStyle = "#1a1a2e";
+            ctx.fillRect(0, ry, canvasWidth, rh);
           }
         } else if (r >= 7 && r <= 11) {
           // Road
@@ -447,7 +457,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         ctx.restore();
       }
 
-      // --- PLATFORMS (logs) ---
+      // --- PLATFORMS (crowd barriers) ---
       for (const lane of s.waterLanes) {
         for (const plat of lane.platforms) {
           const platX = plat.x * scale;
@@ -456,41 +466,40 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           const platH = CELL_H * scale * 0.7;
           const platYc = platY + (CELL_H * scale - platH) / 2;
 
-          // Log body
-          const logGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
-          logGrad.addColorStop(0, "#92400e");
-          logGrad.addColorStop(0.3, "#b45309");
-          logGrad.addColorStop(0.7, "#a16207");
-          logGrad.addColorStop(1, "#78350f");
-          ctx.fillStyle = logGrad;
+          // Metal barrier body
+          const barGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
+          barGrad.addColorStop(0, "#94a3b8");
+          barGrad.addColorStop(0.4, "#cbd5e1");
+          barGrad.addColorStop(0.6, "#cbd5e1");
+          barGrad.addColorStop(1, "#64748b");
+          ctx.fillStyle = barGrad;
           ctx.beginPath();
-          ctx.roundRect(platX, platYc, platW, platH, platH / 2);
+          ctx.roundRect(platX, platYc, platW, platH, 3);
           ctx.fill();
 
-          // Wood grain lines
-          ctx.strokeStyle = "rgba(0,0,0,0.15)";
-          ctx.lineWidth = 0.8;
-          for (let lx = platX + 12; lx < platX + platW - 5; lx += 14) {
-            ctx.beginPath();
-            ctx.moveTo(lx, platYc + 3);
-            ctx.lineTo(lx, platYc + platH - 3);
-            ctx.stroke();
+          // Horizontal rails
+          ctx.strokeStyle = "rgba(255,255,255,0.3)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(platX + 3, platYc + platH * 0.33);
+          ctx.lineTo(platX + platW - 3, platYc + platH * 0.33);
+          ctx.moveTo(platX + 3, platYc + platH * 0.66);
+          ctx.lineTo(platX + platW - 3, platYc + platH * 0.66);
+          ctx.stroke();
+
+          // Vertical posts
+          ctx.fillStyle = "#475569";
+          const postSpacing = platW / 4;
+          for (let px = platX + postSpacing; px < platX + platW - 5; px += postSpacing) {
+            ctx.fillRect(px - 1.5, platYc, 3, platH);
           }
 
-          // Highlight
-          ctx.fillStyle = "rgba(255,255,255,0.1)";
+          // Border
+          ctx.strokeStyle = "rgba(255,255,255,0.2)";
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.roundRect(platX + 4, platYc + 2, platW - 8, platH * 0.3, 3);
-          ctx.fill();
-
-          // Log end circles
-          ctx.fillStyle = "#78350f";
-          ctx.beginPath();
-          ctx.ellipse(platX + 3, platYc + platH / 2, 3, platH / 2 - 1, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.ellipse(platX + platW - 3, platYc + platH / 2, 3, platH / 2 - 1, 0, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.roundRect(platX, platYc, platW, platH, 3);
+          ctx.stroke();
         }
       }
 
