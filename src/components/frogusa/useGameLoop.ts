@@ -363,14 +363,14 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       // --- PLAYER ---
       const px = (s.playerCol + 0.5) * CELL_W * scale;
       const py = (s.playerRow + 0.5) * CELL_H * scale;
-      const pr = CELL_W * scale * 0.4;
+      const pr = CELL_H * scale * 0.85 * 0.38;
 
       ctx.save();
       ctx.shadowColor = "#c5e34a";
       ctx.shadowBlur = 12;
 
       if (triondaImg.current) {
-        ctx.drawImage(triondaImg.current, px - pr * 1.2, py - pr * 1.2, pr * 2.4, pr * 2.4);
+        ctx.drawImage(triondaImg.current, px - pr * 1.1, py - pr * 1.1, pr * 2.2, pr * 2.2);
         ctx.restore();
       } else {
         ctx.fillStyle = "#c5e34a";
