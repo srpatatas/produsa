@@ -109,7 +109,7 @@ export function ProdmanGame() {
 
       {status === "ready" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground">PROD-MAN</h2>
+          <h2 className="font-title text-4xl text-foreground text-center">PROD-MAN</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             Comé todos los puntos y evitá a los comodines. Agarrá las triondas para poder comerlos a ellos.
           </p>

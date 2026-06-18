@@ -225,7 +225,7 @@ export function GalsPanicGame() {
 
       {status === "ready" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground">PRODUSA PANIC</h2>
+          <h2 className="font-title text-4xl text-foreground text-center">PRODUSA PANIC</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             Recorré el borde y aventurate al centro para reclamar territorio. Descubrí la foto oculta. ¡Cuidado con el enemigo!
           </p>

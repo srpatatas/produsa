@@ -102,7 +102,7 @@ export function InvadersGame() {
 
       {status === "ready" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground">FIFA INVADERS</h2>
+          <h2 className="font-title text-4xl text-foreground text-center">FIFA INVADERS</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             Las banderas invaden la cancha. Dispará con la trionda y derribá a todos. Cuidado con los comodines.
           </p>
