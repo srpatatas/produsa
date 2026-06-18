@@ -328,14 +328,19 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       ctx.fillStyle = "#0f172a";
       ctx.fillRect(0, 0, canvasWidth, stadH);
 
-      // Stadium image
+      // Stadium image (zoomed in, clipped to row)
       if (stadiumImgRef.current) {
         const img = stadiumImgRef.current;
         const imgAspect = img.width / img.height;
-        const drawH = stadH * 0.85;
+        const drawH = stadH * 1.6;
         const drawW = drawH * imgAspect;
         const drawX = (canvasWidth - drawW) / 2;
-        ctx.drawImage(img, drawX, (stadH - drawH) / 2, drawW, drawH);
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 0, canvasWidth, stadH);
+        ctx.clip();
+        ctx.drawImage(img, drawX, stadH - drawH * 0.85, drawW, drawH);
+        ctx.restore();
       }
 
       // Flags of next match (if available)
