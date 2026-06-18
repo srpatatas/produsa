@@ -170,7 +170,7 @@ export function usePelotusaLoop(canvasWidth: number) {
             popupsRef.current.push({
               x: 0.5, y: 0.4,
               text: chants[((goalsRef.current / 10) - 1) % chants.length],
-              time: now, color: "#f59e0b",
+              time: now, color: "#f59e0b", big: true,
             });
           } else {
             popupsRef.current.push({
@@ -473,19 +473,28 @@ export function usePelotusaLoop(canvasWidth: number) {
       ctx.restore();
 
       // --- SCORE POPUPS ---
-      popupsRef.current = popupsRef.current.filter((p) => now - p.time < 800);
+      popupsRef.current = popupsRef.current.filter((p) => now - p.time < (p.big ? 1800 : 800));
       for (const popup of popupsRef.current) {
+        const duration = popup.big ? 1800 : 800;
         const elapsed = now - popup.time;
-        const alpha = 1 - elapsed / 800;
+        const alpha = 1 - elapsed / duration;
         const drift = elapsed * 0.00005 * scale;
         ctx.save();
         ctx.globalAlpha = alpha;
-        const fontSize = Math.round(scale * 0.04);
+        const fontSize = Math.round(scale * (popup.big ? 0.08 : 0.04));
         ctx.font = `900 ${fontSize}px Outfit, sans-serif`;
         ctx.textAlign = "center";
+        if (popup.big) {
+          ctx.strokeStyle = "rgba(0,0,0,0.6)";
+          ctx.lineWidth = 4;
+          ctx.strokeText(popup.text, popup.x * scale, popup.y * scale - drift);
+          ctx.shadowColor = popup.color;
+          ctx.shadowBlur = 25;
+        } else {
+          ctx.shadowColor = popup.color;
+          ctx.shadowBlur = 8;
+        }
         ctx.fillStyle = popup.color;
-        ctx.shadowColor = popup.color;
-        ctx.shadowBlur = 8;
         ctx.fillText(popup.text, popup.x * scale, popup.y * scale - drift);
         ctx.restore();
       }

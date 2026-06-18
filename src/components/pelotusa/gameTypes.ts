@@ -46,6 +46,7 @@ export interface ScorePopup {
   text: string;
   time: number;
   color: string;
+  big?: boolean;
 }
 
 export interface PelotusaState {
