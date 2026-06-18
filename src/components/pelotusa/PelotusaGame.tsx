@@ -16,7 +16,7 @@ interface LeaderboardEntry {
 
 const MEDALS = [
   { min: 70, emoji: "🐐", label: "D10S", color: "text-emerald-400" },
-  { min: 50, emoji: "🏅", label: "Balón de Oro", color: "text-yellow-300" },
+  { min: 50, emoji: "🏆", label: "Balón de Oro", color: "text-yellow-300" },
   { min: 35, emoji: "🥇", label: "Estrella", color: "text-fifa-gold" },
   { min: 20, emoji: "🥈", label: "Titular", color: "text-slate-300" },
   { min: 8,  emoji: "🥉", label: "Suplente", color: "text-amber-600" },
