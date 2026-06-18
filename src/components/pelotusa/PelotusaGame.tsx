@@ -124,7 +124,7 @@ export function PelotusaGame() {
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-4xl text-foreground text-center">FLAPPY TRIONDA</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            La trionda vuela por la cancha. Tocá para mantenerla en el aire y meté goles pasando entre los arcos. Juntá banderas y esquivá a los comodines.
+            Hacé jueguitos con la trionda como el D10S. Tocá para mantenerla en el aire, meté goles pasando entre los arcos, juntá banderas y esquivá a los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
             <span>Gol <span className="text-fifa-gold">(1 pt)</span></span>

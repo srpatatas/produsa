@@ -158,10 +158,17 @@ export function usePelotusaLoop(canvasWidth: number) {
         trailRef.current = trailRef.current.map((d) => ({ ...d, x: d.x - driftSpeed, age: d.age + 1 }));
 
         if (result.scored) {
-          popupsRef.current.push({
-            x: result.scoredPipeX, y: result.scoredPipeGapY,
-            text: "¡GOL!", time: now, color: "#22c55e",
-          });
+          if (goalsRef.current === 10) {
+            popupsRef.current.push({
+              x: 0.5, y: 0.4,
+              text: "D10S", time: now, color: "#f59e0b",
+            });
+          } else {
+            popupsRef.current.push({
+              x: result.scoredPipeX, y: result.scoredPipeGapY,
+              text: "¡GOL!", time: now, color: "#22c55e",
+            });
+          }
         }
         if (result.comodinHit) {
           popupsRef.current.push({
