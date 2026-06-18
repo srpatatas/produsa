@@ -36,8 +36,9 @@ export function FrogusaGame() {
   const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
 
   const firstStadium = useMemo<StadiumInfo | null>(() => {
-    // Pick a random match from today, or next match as fallback
-    let matches = getTodayUnifiedMatches();
+    // Pick a random upcoming match from today, or next match as fallback
+    const now = Date.now();
+    let matches = getTodayUnifiedMatches().filter((m) => new Date(m.kickoff).getTime() > now - 2 * 60 * 60 * 1000);
     if (matches.length === 0) {
       const next = getNextUnifiedMatch();
       if (next) matches = [next];
