@@ -83,8 +83,8 @@ export function FrogusaGame() {
       .then((r) => (r.ok ? r.json() : { ranking: [] }))
       .then((d) => {
         const others = (d.ranking || [])
-          .filter((u: { userId: number; avatar: string }) => u.userId !== user.id && u.avatar?.startsWith("http"))
-          .map((u: { name: string; avatar: string }) => ({ name: u.name, avatar: u.avatar }));
+          .filter((r: { user: { id: number; avatar: string } }) => r.user.id !== user.id && r.user.avatar?.startsWith("http"))
+          .map((r: { user: { name: string; avatar: string } }) => ({ name: r.user.name, avatar: r.user.avatar }));
         setParticipants(others);
       })
       .catch(() => {});
