@@ -42,7 +42,7 @@ export interface StadiumInfo {
   awayFlag?: string;
 }
 
-export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | null, firstStadium: StadiumInfo | null) {
+export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | null, stadiumPool: StadiumInfo[]) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<FrogusaState>(createInitialState());
   const rafRef = useRef(0);
@@ -57,6 +57,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
   const hitMessageRef = useRef("¡CRASH!");
+  const arrivedMessages = ["¡LLEGASTE!", "¡ADENTRO!", "¡A TIEMPO!", "¡VIP!", "¡DALE QUE ARRANCA!"];
+  const arrivedMsgRef = useRef("");
 
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -97,11 +99,15 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   }, [ensureFlag]);
 
   const rotateStadium = useCallback(() => {
-    const idx = Math.floor(Math.random() * ALL_STADIUM_IMAGES.length);
-    const img = ALL_STADIUM_IMAGES[idx];
-    const label = img.split("/").pop()?.replace(".png", "").replace(/-/g, " ") ?? "";
-    loadStadium({ image: img, label });
-  }, [loadStadium]);
+    if (stadiumPool.length > 0) {
+      const idx = Math.floor(Math.random() * stadiumPool.length);
+      loadStadium(stadiumPool[idx]);
+    } else {
+      const idx = Math.floor(Math.random() * ALL_STADIUM_IMAGES.length);
+      const img = ALL_STADIUM_IMAGES[idx];
+      loadStadium({ image: img, label: "" });
+    }
+  }, [loadStadium, stadiumPool]);
 
   const start = useCallback(() => {
     stateRef.current = startGame();
@@ -109,16 +115,12 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     bubblesRef.current = [];
     scoreRef.current = 0;
     goalsRef.current = 0;
-    if (firstStadium) {
-      loadStadium(firstStadium);
-    } else {
-      rotateStadium();
-    }
+    rotateStadium();
     setScore(0);
     setLives(3);
     setGoals(0);
     setStatus("playing");
-  }, [firstStadium, loadStadium, rotateStadium]);
+  }, [rotateStadium]);
 
   const move = useCallback((dir: Direction) => {
     const s = stateRef.current;
@@ -253,6 +255,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           }
         }
         if (result.scored) {
+          arrivedMsgRef.current = arrivedMessages[Math.floor(Math.random() * arrivedMessages.length)];
           setStatus("scored");
           setTimeout(() => {
             stateRef.current = { ...stateRef.current, status: "playing" };
@@ -697,11 +700,11 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           ctx.textBaseline = "middle";
           ctx.strokeStyle = "rgba(0,0,0,0.5)";
           ctx.lineWidth = 4;
-          ctx.strokeText("¡GOL!", canvasWidth / 2, canvasHeight / 2);
+          ctx.strokeText(arrivedMsgRef.current, canvasWidth / 2, canvasHeight / 2);
           ctx.shadowColor = "#22c55e";
           ctx.shadowBlur = 20;
           ctx.fillStyle = "#22c55e";
-          ctx.fillText("¡GOL!", canvasWidth / 2, canvasHeight / 2);
+          ctx.fillText(arrivedMsgRef.current, canvasWidth / 2, canvasHeight / 2);
           ctx.restore();
         }
       }

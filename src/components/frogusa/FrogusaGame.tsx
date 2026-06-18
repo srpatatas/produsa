@@ -35,27 +35,25 @@ export function FrogusaGame() {
 
   const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
 
-  const firstStadium = useMemo<StadiumInfo | null>(() => {
-    // Pick a random upcoming match from today, or next match as fallback
+  const stadiumPool = useMemo<StadiumInfo[]>(() => {
     const now = Date.now();
     let matches = getTodayUnifiedMatches().filter((m) => new Date(m.kickoff).getTime() > now - 2 * 60 * 60 * 1000);
     if (matches.length === 0) {
       const next = getNextUnifiedMatch();
       if (next) matches = [next];
     }
-    if (matches.length === 0) return null;
-    const match = matches[Math.floor(Math.random() * matches.length)];
-    if (!match.venue) return null;
-    const img = VENUE_TO_STADIUM[match.venue];
-    if (!img) return null;
-    const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
-    const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
-    return {
-      image: img,
-      label: match.venue,
-      homeFlag: home?.flagCode,
-      awayFlag: away?.flagCode,
-    };
+    return matches
+      .filter((m) => m.venue && VENUE_TO_STADIUM[m.venue])
+      .map((m) => {
+        const home = m.homeTeamId ? getTeam(m.homeTeamId) : null;
+        const away = m.awayTeamId ? getTeam(m.awayTeamId) : null;
+        return {
+          image: VENUE_TO_STADIUM[m.venue]!,
+          label: m.venue,
+          homeFlag: home?.flagCode,
+          awayFlag: away?.flagCode,
+        };
+      });
   }, []);
 
   const {
@@ -68,7 +66,7 @@ export function FrogusaGame() {
     start,
     handleTouchStart,
     handleTouchEnd,
-  } = useFrogusaLoop(canvasWidth, playerAvatar, firstStadium);
+  } = useFrogusaLoop(canvasWidth, playerAvatar, stadiumPool);
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
 
