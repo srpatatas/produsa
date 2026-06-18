@@ -15,11 +15,11 @@ interface LeaderboardEntry {
 }
 
 const MEDALS = [
-  { min: 70, emoji: "🐐", label: "D10S", color: "text-emerald-400" },
-  { min: 50, emoji: "🏆", label: "México 86", color: "text-yellow-300" },
-  { min: 35, emoji: "🔵", label: "Napoli", color: "text-blue-400" },
-  { min: 20, emoji: "✨", label: "Pibe de Oro", color: "text-fifa-gold" },
-  { min: 8,  emoji: "🧅", label: "Cebollita", color: "text-amber-600" },
+  { min: 70, emoji: "🐐", label: "D10S", sub: "Inmortal", color: "text-emerald-400" },
+  { min: 50, emoji: "🏆", label: "México 86", sub: "La copa eterna", color: "text-yellow-300" },
+  { min: 35, emoji: "🔵", label: "Napoli", sub: "La leyenda napolitana", color: "text-blue-400" },
+  { min: 20, emoji: "✨", label: "Pibe de Oro", sub: "El apodo legendario", color: "text-fifa-gold" },
+  { min: 8,  emoji: "🧅", label: "Cebollita", sub: "Argentinos Juniors", color: "text-amber-600" },
 ];
 
 function getMedal(score: number) {
@@ -172,6 +172,7 @@ export function PelotusaGame() {
                   <>
                     <span className="text-5xl">{medal.emoji}</span>
                     <span className={`font-display text-sm uppercase tracking-widest ${medal.color}`}>{medal.label}</span>
+                    <span className="text-[10px] italic text-fifa-dark-gray">{medal.sub}</span>
                   </>
                 ) : (
                   <span className="text-4xl">⚽</span>
