@@ -155,8 +155,11 @@ export function gameTick(state: PelotusaState): TickResult {
   if (rightmostX < 1.0) {
     const newPipe = spawnPipe(rightmostX + PIPE_SPACING, gap, rightmostGapY);
     pipes.push(newPipe);
-    const newFlag = spawnFlag(rightmostX, rightmostGapY ?? newPipe.gapY, newPipe.gapY);
-    if (newFlag) flags.push(newFlag);
+    const hasActiveFlag = flags.some((f) => !f.collected);
+    if (!hasActiveFlag) {
+      const newFlag = spawnFlag(rightmostX, rightmostGapY ?? newPipe.gapY, newPipe.gapY);
+      if (newFlag) flags.push(newFlag);
+    }
   }
 
   let scored = false;

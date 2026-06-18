@@ -20,7 +20,7 @@ export const COMODIN_PENALTY = 3;
 export const COMODIN_MIN_GAP = 0.24;
 
 export const FLAG_CHANCE = 0.35;
-export const FLAG_SIZE = 0.045;
+export const FLAG_SIZE = 0.028;
 export const FLAG_BONUS = 2;
 
 export interface Pipe {
