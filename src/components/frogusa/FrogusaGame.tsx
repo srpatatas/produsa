@@ -89,7 +89,7 @@ export function FrogusaGame() {
             Cruzá la cancha esquivando defensores y llegá al arco para meter gol. Juntá banderas y cuidado con los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
-            <span>Gol <span className="text-fifa-gold">(1 pt)</span></span>
+            <span>Gol <span className="text-fifa-gold">(5 pts)</span></span>
             <span>Bandera <span className="text-fifa-gold">(2 pts)</span></span>
             <span>Comodín <span className="text-red-400">(¡cuidado!)</span></span>
           </div>

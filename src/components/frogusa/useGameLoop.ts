@@ -193,11 +193,11 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
         if (result.scored) {
           goalsRef.current++;
-          scoreRef.current++;
+          scoreRef.current += 5;
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: GOAL_ROW * CELL_H + CELL_H / 2,
-            text: "+1", time: now, color: "#22c55e",
+            text: "+5", time: now, color: "#22c55e",
           });
         }
         if (result.flagCollected) {
