@@ -10,6 +10,7 @@ import {
   SAFE_ROWS,
   COMODIN_IMAGES,
   COMODIN_HIT_PHRASES,
+  COMODIN_DODGE_PHRASES,
   FLAG_CODES,
   type FrogusaState,
 } from "./gameTypes";
@@ -43,6 +44,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const bubblesRef = useRef<SpeechBubble[]>([]);
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
+  const prevRowRef = useRef(-1);
 
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -163,6 +165,27 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       if (status === "playing") {
         const result = gameTick(stateRef.current);
         stateRef.current = result.state;
+
+        // Detect comodin dodge: left a lane that had a comodin
+        const curRow = result.state.playerRow;
+        if (prevRowRef.current !== curRow && prevRowRef.current >= 0) {
+          const prevLane = result.state.lanes.find((l) => l.row === prevRowRef.current);
+          if (prevLane) {
+            const dodgedComodin = prevLane.defenders.find((d) => d.isComodin);
+            if (dodgedComodin) {
+              const phrases = COMODIN_DODGE_PHRASES[dodgedComodin.comodinIdx];
+              if (phrases) {
+                bubblesRef.current.push({
+                  x: dodgedComodin.x + dodgedComodin.width / 2,
+                  y: prevRowRef.current * CELL_H,
+                  text: phrases[Math.floor(Math.random() * phrases.length)],
+                  time: now,
+                });
+              }
+            }
+          }
+        }
+        prevRowRef.current = curRow;
 
         if (result.scored) {
           goalsRef.current++;

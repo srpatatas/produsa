@@ -72,7 +72,13 @@ export const COMODIN_IMAGES = [
 ];
 
 export const COMODIN_HIT_PHRASES = [
-  ["¡Te marqué, pibe!", "¡De acá no pasás!", "¡Falta táctica!", "¡Jugá para mi equipo!"],
-  ["¡LO BAJARON señores!", "¡QUÉ ENTRADA!", "¡PLANCHAZO CRIMINAL!", "¡NO LO DEJARON PASAR!"],
-  ["Tackled! Tremendous!", "Nobody crosses my lane!", "You're out, amigo!", "I built a wall!"],
+  ["¡Quedate en tu área!", "¡Acá no se pasa!", "¡Tarjeta para vos!", "¡Volvé al banco!"],
+  ["¡LO BAJARON señores!", "¡QUÉ ENTRADA!", "¡PLANCHAZO CRIMINAL!", "¡EXPULSIÓN directa!"],
+  ["No crossing my lane!", "Tackled! Beautiful!", "Go back to your half!", "Red card for you!"],
+];
+
+export const COMODIN_DODGE_PHRASES = [
+  ["¡¿Cómo pasó?!", "¡Se me escapó!", "¡Pedí refuerzos!", "¡Necesito VAR!"],
+  ["¡SE LES FUE señores!", "¡NO LO PUDIERON PARAR!", "¡QUÉ VELOCIDAD!", "¡PASÓ COMO SI NADA!"],
+  ["He's through! No way!", "Too fast for me!", "I need backup!", "Call the referee!"],
 ];
