@@ -431,14 +431,26 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         ctx.restore();
       }
 
-      // --- HIT flash ---
+      // --- HIT flash + text ---
       if (status === "hit") {
         const elapsed = now - s.hitTime;
-        if (elapsed < 400) {
+        if (elapsed < 700) {
           ctx.save();
-          ctx.globalAlpha = 0.3 * (1 - elapsed / 400);
+          ctx.globalAlpha = 0.35 * (1 - elapsed / 700);
           ctx.fillStyle = "#ef4444";
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+          const fontSize = Math.round(scale * 0.09);
+          ctx.font = `900 ${fontSize}px Outfit, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.strokeStyle = "rgba(0,0,0,0.6)";
+          ctx.lineWidth = 4;
+          ctx.strokeText("¡FOUL!", canvasWidth / 2, canvasHeight / 2);
+          ctx.shadowColor = "#ef4444";
+          ctx.shadowBlur = 20;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText("¡FOUL!", canvasWidth / 2, canvasHeight / 2);
           ctx.restore();
         }
       }
