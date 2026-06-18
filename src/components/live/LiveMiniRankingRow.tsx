@@ -4,6 +4,7 @@ import { memo } from "react";
 import Image from "next/image";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { getOutcomeBg, getOutcomeLabel, getLiveOutcome } from "@/lib/outcomeStyles";
+import { getComodinConfig } from "@/data/comodinConfig";
 import { cn } from "@/lib/utils";
 
 const BIRTHDAYS: Record<number, string> = {
@@ -31,6 +32,7 @@ interface LiveMiniRankingRowProps {
   totalPoints: number;
   isCurrentUser: boolean;
   hasComodin: boolean;
+  scope: string;
 }
 
 export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
@@ -42,6 +44,7 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
   totalPoints,
   isCurrentUser,
   hasComodin,
+  scope,
 }: LiveMiniRankingRowProps) {
   const diff = previousPosition - position;
   const bday = isBirthday(user.id);
@@ -77,7 +80,7 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
       <div className="flex items-center gap-1.5">
         {hasComodin && (
           <div className="relative h-4 w-4 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-fifa-gold shadow-sm shadow-fifa-gold/30">
-            <Image src="/images/comodin-fecha-1.jpg" alt="Comodín" fill className="object-cover" />
+            <Image src={getComodinConfig(scope).image} alt="Comodín" fill className="object-cover" />
           </div>
         )}
         {exactScore ? (

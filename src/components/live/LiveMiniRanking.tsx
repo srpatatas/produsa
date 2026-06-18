@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { LiveScore } from "@/types";
 import { useUser } from "@/context/UserContext";
+import { getAllUnifiedMatches } from "@/lib/unifiedMatches";
 import { LiveMiniRankingRow } from "./LiveMiniRankingRow";
 
 interface RankingEntry {
@@ -25,6 +26,10 @@ interface LiveMiniRankingProps {
 
 export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMiniRankingProps) {
   const currentUser = useUser();
+  const scope = useMemo(() => {
+    const match = getAllUnifiedMatches().find((m) => m.id === activeMatchId);
+    return match?.scope ?? "fecha-1";
+  }, [activeMatchId]);
   const [ranking, setRanking] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -75,6 +80,7 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
             totalPoints={entry.totalPoints}
             isCurrentUser={entry.user.id === currentUser.id}
             hasComodin={entry.liveComodinMatchId === activeMatchId}
+            scope={scope}
           />
         ))}
       </div>
