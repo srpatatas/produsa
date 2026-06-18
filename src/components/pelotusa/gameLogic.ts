@@ -197,8 +197,8 @@ export function gameTick(state: PelotusaState): TickResult {
       }
 
       if (score % 5 === 0) {
-        speed += 0.0006;
-        gap = Math.max(gap - 0.012, PIPE_GAP_MIN);
+        speed *= 1.12;
+        gap = Math.max(gap - 0.015, PIPE_GAP_MIN);
       }
     }
 

@@ -10,7 +10,7 @@ export const MAX_VEL = 0.014;
 
 export const PIPE_W = 0.11;
 export const PIPE_GAP_INIT = 0.30;
-export const PIPE_GAP_MIN = 0.20;
+export const PIPE_GAP_MIN = 0.18;
 export const PIPE_SPEED_INIT = 0.0045;
 export const PIPE_SPACING = 0.50;
 
