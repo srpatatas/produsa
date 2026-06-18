@@ -5,7 +5,7 @@ import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { useFrogusaLoop, type StadiumInfo } from "./useGameLoop";
 import { CANVAS_H, CANVAS_W, VENUE_TO_STADIUM } from "./gameTypes";
-import { getNextUnifiedMatch } from "@/lib/unifiedMatches";
+import { getTodayUnifiedMatches, getNextUnifiedMatch } from "@/lib/unifiedMatches";
 import { getTeam } from "@/data/teams";
 
 interface LeaderboardEntry {
@@ -36,15 +36,22 @@ export function FrogusaGame() {
   const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
 
   const firstStadium = useMemo<StadiumInfo | null>(() => {
-    const next = getNextUnifiedMatch();
-    if (!next?.venue) return null;
-    const img = VENUE_TO_STADIUM[next.venue];
+    // Pick a random match from today, or next match as fallback
+    let matches = getTodayUnifiedMatches();
+    if (matches.length === 0) {
+      const next = getNextUnifiedMatch();
+      if (next) matches = [next];
+    }
+    if (matches.length === 0) return null;
+    const match = matches[Math.floor(Math.random() * matches.length)];
+    if (!match.venue) return null;
+    const img = VENUE_TO_STADIUM[match.venue];
     if (!img) return null;
-    const home = next.homeTeamId ? getTeam(next.homeTeamId) : null;
-    const away = next.awayTeamId ? getTeam(next.awayTeamId) : null;
+    const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
+    const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
     return {
       image: img,
-      label: next.venue,
+      label: match.venue,
       homeFlag: home?.flagCode,
       awayFlag: away?.flagCode,
     };
