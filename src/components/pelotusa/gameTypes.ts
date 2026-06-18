@@ -15,12 +15,12 @@ export const PIPE_SPEED_INIT = 0.0045;
 export const PIPE_SPACING = 0.50;
 
 export const COMODIN_CHANCE = 0.18;
-export const COMODIN_RADIUS = 0.022;
+export const COMODIN_RADIUS = 0.032;
 export const COMODIN_PENALTY = 3;
 export const COMODIN_MIN_GAP = 0.24;
 
 export const FLAG_CHANCE = 0.35;
-export const FLAG_SIZE = 0.028;
+export const FLAG_SIZE = 0.045;
 export const FLAG_BONUS = 2;
 
 export interface Pipe {
