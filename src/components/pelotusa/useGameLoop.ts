@@ -67,6 +67,7 @@ export function usePelotusaLoop(canvasWidth: number) {
   const bubblesRef = useRef<SpeechBubble[]>([]);
   const deathTimeRef = useRef(0);
   const groundOffsetRef = useRef(0);
+  const scoreRef = useRef(0);
   const trailRef = useRef<TrailDot[]>([]);
   const frameRef = useRef(0);
 
@@ -94,6 +95,7 @@ export function usePelotusaLoop(canvasWidth: number) {
     bubblesRef.current = [];
     trailRef.current = [];
     deathTimeRef.current = 0;
+    scoreRef.current = 0;
     groundOffsetRef.current = 0;
     frameRef.current = 0;
     setScore(0);
@@ -132,7 +134,14 @@ export function usePelotusaLoop(canvasWidth: number) {
       if (status === "playing") {
         const result = gameTick(stateRef.current);
         stateRef.current = result.state;
-        setScore(result.state.score);
+
+        // Score tracked here from events — single source of truth
+        if (result.scored) scoreRef.current += 1;
+        if (result.flagCollected) scoreRef.current += 2;
+        if (result.comodinHit) scoreRef.current = Math.max(0, scoreRef.current - 3);
+        // Sync back to game state for difficulty ramp
+        stateRef.current.score = scoreRef.current;
+        setScore(scoreRef.current);
 
         // Scroll ground
         groundOffsetRef.current = (groundOffsetRef.current + result.state.speed * scale) % 20;
