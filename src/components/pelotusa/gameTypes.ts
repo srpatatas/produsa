@@ -54,6 +54,7 @@ export interface PelotusaState {
   pipes: Pipe[];
   flags: FloatingFlag[];
   score: number;
+  goals: number;
   speed: number;
   gap: number;
   status: "idle" | "playing" | "lost";

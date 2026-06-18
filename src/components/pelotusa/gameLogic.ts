@@ -72,6 +72,7 @@ export function createInitialState(): PelotusaState {
     pipes: [],
     flags: [],
     score: 0,
+    goals: 0,
     speed: PIPE_SPEED_INIT,
     gap: PIPE_GAP_INIT,
     status: "idle",
@@ -123,7 +124,7 @@ export function gameTick(state: PelotusaState): TickResult {
   };
   if (state.status !== "playing") return noOp;
 
-  let { ballY, ballVel, score, speed, gap } = state;
+  let { ballY, ballVel, score, goals, speed, gap } = state;
   let pipes = state.pipes.map((p) => ({ ...p }));
   let flags = state.flags.map((f) => ({ ...f }));
 
@@ -134,7 +135,7 @@ export function gameTick(state: PelotusaState): TickResult {
   // Floor / ceiling death
   if (ballY - BALL_RADIUS <= 0 || ballY + BALL_RADIUS >= CANVAS_H) {
     ballY = Math.max(BALL_RADIUS, Math.min(CANVAS_H - BALL_RADIUS, ballY));
-    return { ...noOp, state: { ...state, ballY, ballVel, pipes, flags, score, speed, gap, status: "lost" } };
+    return { ...noOp, state: { ...state, ballY, ballVel, pipes, flags, score, goals, speed, gap, status: "lost" } };
   }
 
   // Move pipes & flags
@@ -187,6 +188,7 @@ export function gameTick(state: PelotusaState): TickResult {
     if (!p.passed && pipeRight < BALL_X) {
       pipes[i].passed = true;
       score++;
+      goals++;
       scored = true;
       scoredPipeX = p.x + PIPE_W / 2;
       scoredPipeGapY = p.gapY;
@@ -199,7 +201,7 @@ export function gameTick(state: PelotusaState): TickResult {
         dodgeIdx = p.comodin;
       }
 
-      if (score % 5 === 0) {
+      if (goals % 5 === 0) {
         speed *= 1.12;
         gap = Math.max(gap - 0.015, PIPE_GAP_MIN);
       }
@@ -229,7 +231,7 @@ export function gameTick(state: PelotusaState): TickResult {
       if (ballTop < topPipeBottom || ballBottom > bottomPipeTop) {
         return {
           ...noOp,
-          state: { ...state, ballY, ballVel, pipes, flags, score, speed, gap, status: "lost" },
+          state: { ...state, ballY, ballVel, pipes, flags, score, goals, speed, gap, status: "lost" },
         };
       }
     }
@@ -251,7 +253,7 @@ export function gameTick(state: PelotusaState): TickResult {
   }
 
   return {
-    state: { ballY, ballVel, pipes, flags, score, speed, gap, status: "playing" },
+    state: { ballY, ballVel, pipes, flags, score, goals, speed, gap, status: "playing" },
     scored, scoredPipeX, scoredPipeGapY,
     comodinHit: comodinHitResult, comodinX, comodinY, comodinIdx,
     comodinDodged, dodgeX, dodgeY, dodgeIdx,

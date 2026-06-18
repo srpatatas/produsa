@@ -202,7 +202,7 @@ export function usePelotusaLoop(canvasWidth: number) {
 
       // --- RENDER ---
       const s = stateRef.current;
-      const tier = getTier(s.score);
+      const tier = getTier(s.goals);
 
       // Sky gradient
       const skyGrad = ctx.createLinearGradient(0, 0, 0, canvasHeight);
