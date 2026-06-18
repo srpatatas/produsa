@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
-import { useFrogusaLoop, type StadiumInfo } from "./useGameLoop";
+import { useFrogusaLoop, type StadiumInfo, type ParticipantInfo } from "./useGameLoop";
 import { CANVAS_H, CANVAS_W, VENUE_TO_STADIUM } from "./gameTypes";
 import { getTodayUnifiedMatches, getNextUnifiedMatch } from "@/lib/unifiedMatches";
 import { getTeam } from "@/data/teams";
@@ -20,6 +20,7 @@ export function FrogusaGame() {
   const user = useUser();
   const [canvasWidth, setCanvasWidth] = useState(300);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [participants, setParticipants] = useState<ParticipantInfo[]>([]);
 
   useEffect(() => {
     const update = () => {
@@ -66,7 +67,7 @@ export function FrogusaGame() {
     start,
     handleTouchStart,
     handleTouchEnd,
-  } = useFrogusaLoop(canvasWidth, playerAvatar, stadiumPool);
+  } = useFrogusaLoop(canvasWidth, playerAvatar, stadiumPool, participants);
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
 
@@ -76,6 +77,18 @@ export function FrogusaGame() {
       window.scrollTo({ top, behavior: "smooth" });
     }
   }, [status]);
+
+  useEffect(() => {
+    fetch("/api/ranking")
+      .then((r) => (r.ok ? r.json() : { ranking: [] }))
+      .then((d) => {
+        const others = (d.ranking || [])
+          .filter((u: { userId: number; avatar: string }) => u.userId !== user.id && u.avatar?.startsWith("http"))
+          .map((u: { name: string; avatar: string }) => ({ name: u.name, avatar: u.avatar }));
+        setParticipants(others);
+      })
+      .catch(() => {});
+  }, [user.id]);
 
   useEffect(() => {
     fetch("/api/frogusa")
@@ -109,11 +122,11 @@ export function FrogusaGame() {
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-4xl text-foreground text-center">FROGUSA</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Llegá al estadio a tiempo. Cruzá la calle esquivando autos y el río saltando troncos. Juntá banderas y cuidado con los comodines.
+            Llegá al estadio a tiempo. Cruzá la calle esquivando micros y el río saltando troncos. Juntá amigos por el camino y cuidado con los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
             <span>Estadio <span className="text-fifa-gold">(5 pts)</span></span>
-            <span>Bandera <span className="text-fifa-gold">(1 pt)</span></span>
+            <span>Amigo <span className="text-fifa-gold">(1 pt)</span></span>
             <span>Comodín <span className="text-red-400">(¡cuidado!)</span></span>
           </div>
           <button

@@ -42,13 +42,19 @@ export interface StadiumInfo {
   awayFlag?: string;
 }
 
-export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | null, stadiumPool: StadiumInfo[]) {
+export interface ParticipantInfo {
+  name: string;
+  avatar: string;
+}
+
+export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | null, stadiumPool: StadiumInfo[], participants: ParticipantInfo[]) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<FrogusaState>(createInitialState());
   const rafRef = useRef(0);
   const triondaImg = useRef<HTMLImageElement | null>(null);
   const playerImg = useRef<HTMLImageElement | null>(null);
   const comodinImgs = useRef<HTMLImageElement[]>([]);
+  const avatarCache = useRef<Map<string, HTMLImageElement>>(new Map());
   const flagCache = useRef<Map<string, HTMLImageElement>>(new Map());
   const stadiumImgRef = useRef<HTMLImageElement | null>(null);
   const stadiumInfoRef = useRef<StadiumInfo | null>(null);
@@ -110,7 +116,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   }, [loadStadium, stadiumPool]);
 
   const start = useCallback(() => {
-    stateRef.current = startGame();
+    stateRef.current = startGame(participants.length);
     popupsRef.current = [];
     bubblesRef.current = [];
     scoreRef.current = 0;
@@ -399,32 +405,46 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       ctx.fillStyle = "rgba(255,255,255,0.15)";
       ctx.fillRect(0, stadH - 1, canvasWidth, 1);
 
-      // --- BONUS FLAGS ---
+      // --- BONUS: AMIGOS (participant avatars) ---
       for (const f of s.flags) {
         if (f.collected) continue;
         const fx = (f.col + 0.5) * CELL_W * scale;
         const fy = (f.row + 0.5) * CELL_H * scale;
-        const fs = CELL_W * scale * 0.35;
+        const r = CELL_H * scale * 0.35;
 
-        ensureFlag(f.code);
-        const flagImg = flagCache.current.get(f.code);
-        if (flagImg) {
-          ctx.save();
-          ctx.shadowColor = "#22c55e";
-          ctx.shadowBlur = 8;
-          const fw = fs * 1.8;
-          const fh = fs * 1.2;
-          ctx.beginPath();
-          ctx.roundRect(fx - fw / 2, fy - fh / 2, fw, fh, 2);
-          ctx.clip();
-          ctx.drawImage(flagImg, fx - fw / 2, fy - fh / 2, fw, fh);
-          ctx.restore();
-          ctx.strokeStyle = "#22c55e";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.roundRect(fx - fw / 2, fy - fh / 2, fw, fh, 2);
-          ctx.stroke();
+        const p = f.avatarIdx >= 0 && f.avatarIdx < participants.length ? participants[f.avatarIdx] : null;
+        if (p?.avatar) {
+          if (!avatarCache.current.has(p.avatar)) {
+            avatarCache.current.set(p.avatar, null as unknown as HTMLImageElement);
+            loadImage(p.avatar).then((img) => avatarCache.current.set(p.avatar, img)).catch(() => {});
+          }
+          const avImg = avatarCache.current.get(p.avatar);
+          if (avImg) {
+            ctx.save();
+            ctx.shadowColor = "#22c55e";
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.arc(fx, fy, r, 0, Math.PI * 2);
+            ctx.clip();
+            ctx.drawImage(avImg, fx - r, fy - r, r * 2, r * 2);
+            ctx.restore();
+            ctx.beginPath();
+            ctx.arc(fx, fy, r, 0, Math.PI * 2);
+            ctx.strokeStyle = "#22c55e";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            continue;
+          }
         }
+        // Fallback: green circle
+        ctx.save();
+        ctx.shadowColor = "#22c55e";
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = "#22c55e";
+        ctx.beginPath();
+        ctx.arc(fx, fy, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
       }
 
       // --- PLATFORMS (logs) ---

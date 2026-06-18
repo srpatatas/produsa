@@ -91,7 +91,7 @@ function buildWaterLane(cfg: typeof WATER_CONFIGS[0], level: number): WaterLane 
   return { row: cfg.row, direction: cfg.dir, speed, platforms };
 }
 
-function buildFlags(level: number): BonusFlag[] {
+function buildFlags(level: number, avatarCount: number): BonusFlag[] {
   const flags: BonusFlag[] = [];
   const laneRows = LANE_CONFIGS.map((c) => c.row);
   for (const row of laneRows) {
@@ -101,6 +101,7 @@ function buildFlags(level: number): BonusFlag[] {
         row,
         code: randomFlag(),
         collected: false,
+        avatarIdx: avatarCount > 0 ? Math.floor(Math.random() * avatarCount) : -1,
       });
     }
   }
@@ -126,7 +127,7 @@ export function createInitialState(): FrogusaState {
   };
 }
 
-export function startGame(): FrogusaState {
+export function startGame(avatarCount = 0): FrogusaState {
   const lanes = LANE_CONFIGS.map((cfg) => buildLane(cfg, 1));
   const waterLanes = WATER_CONFIGS.map((cfg) => buildWaterLane(cfg, 1));
   return {
@@ -134,7 +135,7 @@ export function startGame(): FrogusaState {
     status: "playing",
     lanes,
     waterLanes,
-    flags: buildFlags(1),
+    flags: buildFlags(1, avatarCount),
   };
 }
 
@@ -149,7 +150,7 @@ function resetToStart(state: FrogusaState): FrogusaState {
     playerX: PLAYER_START_COL * CELL_W,
     lanes,
     waterLanes,
-    flags: buildFlags(newLevel),
+    flags: buildFlags(newLevel, 0),
     level: newLevel,
     status: "playing",
   };

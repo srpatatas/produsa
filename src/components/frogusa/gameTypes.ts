@@ -45,6 +45,7 @@ export interface BonusFlag {
   row: number;
   code: string;
   collected: boolean;
+  avatarIdx: number;
 }
 
 export interface ScorePopup {
