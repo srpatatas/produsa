@@ -53,18 +53,22 @@ function buildLane(cfg: typeof LANE_CONFIGS[0], level: number): Lane {
   const count = cfg.count + extraCount;
 
   const defenders: Defender[] = [];
-  const spacing = CANVAS_W / count;
+  let cursor = 0;
+  const totalSpace = CANVAS_W + 0.3;
+  const baseSpacing = totalSpace / count;
 
   for (let i = 0; i < count; i++) {
     const isComodin = Math.random() < COMODIN_CHANCE;
+    const w = isComodin ? CELL_W * 1.4 : CELL_W * 0.9;
     defenders.push({
-      x: i * spacing + Math.random() * spacing * 0.4,
+      x: cursor,
       row: cfg.row,
-      width: isComodin ? CELL_W * 1.4 : CELL_W * 0.9,
+      width: w,
       flag: randomFlag(),
       isComodin,
       comodinIdx: isComodin ? Math.floor(Math.random() * 3) : -1,
     });
+    cursor += w + (baseSpacing - w) * (0.6 + Math.random() * 0.4);
   }
 
   return { row: cfg.row, direction: cfg.dir, speed, defenders };
