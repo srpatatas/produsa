@@ -11,7 +11,7 @@ export const PLAYER_START_COL = Math.floor(COLS / 2);
 export const GOAL_ROW = 0;
 
 export const SAFE_ROWS = [0, 6, 7, ROWS - 1];
-export const INVASION_ROWS = [8, 9, 10, 11];
+export const WATER_ROWS = [8, 9, 10, 11];
 
 export const LIVES_INIT = 3;
 
@@ -58,7 +58,7 @@ export interface Platform {
   row: number;
 }
 
-export interface InvasionLane {
+export interface WaterLane {
   row: number;
   direction: 1 | -1;
   speed: number;
@@ -69,7 +69,7 @@ export interface FrogusaState {
   playerCol: number;
   playerRow: number;
   lanes: Lane[];
-  invasionLanes: InvasionLane[];
+  waterLanes: WaterLane[];
   playerX: number;
   flags: BonusFlag[];
   score: number;

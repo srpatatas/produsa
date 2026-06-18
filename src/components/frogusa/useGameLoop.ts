@@ -9,7 +9,7 @@ import {
   GOAL_ROW,
   SAFE_ROWS,
   COMODIN_IMAGES,
-  INVASION_ROWS,
+  WATER_ROWS,
   COMODIN_HIT_PHRASES,
   COMODIN_DODGE_PHRASES,
   FLAG_CODES,
@@ -251,7 +251,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       for (let r = 0; r < ROWS; r++) {
         const ry = r * CELL_H * scale;
         const rh = CELL_H * scale;
-        if (INVASION_ROWS.includes(r)) {
+        if (WATER_ROWS.includes(r)) {
           // Water
           const waterGrad = ctx.createLinearGradient(0, ry, 0, ry + rh);
           waterGrad.addColorStop(0, "#1e40af");
@@ -360,7 +360,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       }
 
       // --- PLATFORMS (logs) ---
-      for (const lane of s.invasionLanes) {
+      for (const lane of s.waterLanes) {
         for (const plat of lane.platforms) {
           const platX = plat.x * scale;
           const platY = plat.row * CELL_H * scale;
@@ -469,7 +469,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       }
 
       // --- PLAYER ---
-      const px = (INVASION_ROWS.includes(s.playerRow) ? s.playerX + CELL_W / 2 : (s.playerCol + 0.5) * CELL_W) * scale;
+      const px = (WATER_ROWS.includes(s.playerRow) ? s.playerX + CELL_W / 2 : (s.playerCol + 0.5) * CELL_W) * scale;
       const py = (s.playerRow + 0.5) * CELL_H * scale;
       const pr = CELL_H * scale * 0.85 * 0.38;
 

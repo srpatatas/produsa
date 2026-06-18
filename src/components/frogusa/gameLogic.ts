@@ -8,7 +8,7 @@ import {
   PLAYER_START_COL,
   GOAL_ROW,
   SAFE_ROWS,
-  INVASION_ROWS,
+  WATER_ROWS,
   LIVES_INIT,
   COMODIN_CHANCE,
   COMODIN_SPEED_MULT,
@@ -16,7 +16,7 @@ import {
   FLAG_CODES,
   type Lane,
   type Defender,
-  type InvasionLane,
+  type WaterLane,
   type Platform,
   type BonusFlag,
   type FrogusaState,
@@ -34,7 +34,7 @@ const LANE_CONFIGS: { row: number; dir: 1 | -1; speedMult: number; count: number
 ];
 
 // Water/log lanes (bottom half — near the start, rows 8-11)
-const INVASION_CONFIGS: { row: number; dir: 1 | -1; speedMult: number; platCount: number; platWidth: number }[] = [
+const WATER_CONFIGS: { row: number; dir: 1 | -1; speedMult: number; platCount: number; platWidth: number }[] = [
   { row: 8,  dir: 1,  speedMult: 0.7, platCount: 2, platWidth: 3 },
   { row: 9,  dir: -1, speedMult: 1.0, platCount: 3, platWidth: 2 },
   { row: 10, dir: 1,  speedMult: 1.2, platCount: 2, platWidth: 3 },
@@ -68,7 +68,7 @@ function buildLane(cfg: typeof LANE_CONFIGS[0], level: number): Lane {
   return { row: cfg.row, direction: cfg.dir, speed, defenders };
 }
 
-function buildInvasionLane(cfg: typeof INVASION_CONFIGS[0], level: number): InvasionLane {
+function buildWaterLane(cfg: typeof WATER_CONFIGS[0], level: number): WaterLane {
   const speed = BASE_SPEED * cfg.speedMult * (1 + (level - 1) * 0.1);
   const platforms: Platform[] = [];
   const platW = cfg.platWidth * CELL_W;
@@ -107,7 +107,7 @@ export function createInitialState(): FrogusaState {
     playerRow: PLAYER_START_ROW,
     playerX: PLAYER_START_COL * CELL_W,
     lanes: [],
-    invasionLanes: [],
+    waterLanes: [],
     flags: [],
     score: 0,
     goals: 0,
@@ -121,12 +121,12 @@ export function createInitialState(): FrogusaState {
 
 export function startGame(): FrogusaState {
   const lanes = LANE_CONFIGS.map((cfg) => buildLane(cfg, 1));
-  const invasionLanes = INVASION_CONFIGS.map((cfg) => buildInvasionLane(cfg, 1));
+  const waterLanes = WATER_CONFIGS.map((cfg) => buildWaterLane(cfg, 1));
   return {
     ...createInitialState(),
     status: "playing",
     lanes,
-    invasionLanes,
+    waterLanes,
     flags: buildFlags(1),
   };
 }
@@ -134,14 +134,14 @@ export function startGame(): FrogusaState {
 function resetToStart(state: FrogusaState): FrogusaState {
   const newLevel = state.goals + 1;
   const lanes = LANE_CONFIGS.map((cfg) => buildLane(cfg, newLevel));
-  const invasionLanes = INVASION_CONFIGS.map((cfg) => buildInvasionLane(cfg, newLevel));
+  const waterLanes = WATER_CONFIGS.map((cfg) => buildWaterLane(cfg, newLevel));
   return {
     ...state,
     playerCol: PLAYER_START_COL,
     playerRow: PLAYER_START_ROW,
     playerX: PLAYER_START_COL * CELL_W,
     lanes,
-    invasionLanes,
+    waterLanes,
     flags: buildFlags(newLevel),
     level: newLevel,
     status: "playing",
@@ -190,7 +190,7 @@ export function gameTick(state: FrogusaState): TickResult {
   }));
 
   // Move invasion platforms
-  const invasionLanes = state.invasionLanes.map((lane) => ({
+  const waterLanes = state.waterLanes.map((lane) => ({
     ...lane,
     platforms: lane.platforms.map((p) => {
       let nx = p.x + lane.speed * lane.direction;
@@ -206,14 +206,14 @@ export function gameTick(state: FrogusaState): TickResult {
   if (state.playerRow === GOAL_ROW) {
     goals++;
     score += 5;
-    const next = resetToStart({ ...state, lanes, invasionLanes, flags, score, goals, lives });
+    const next = resetToStart({ ...state, lanes, waterLanes, flags, score, goals, lives });
     return { state: { ...next, scoreTime: performance.now() }, scored: true, hit: false, hitComodinIdx: -1, drowned: false, flagCollected: false };
   }
 
-  // Invasion zone: ride platforms or drown
+  // Water zone: ride logs or drown
   let drowned = false;
-  if (INVASION_ROWS.includes(state.playerRow)) {
-    const lane = invasionLanes.find((l) => l.row === state.playerRow);
+  if (WATER_ROWS.includes(state.playerRow)) {
+    const lane = waterLanes.find((l) => l.row === state.playerRow);
     if (lane) {
       const pLeft = playerX;
       const pRight = playerX + CELL_W;
@@ -236,13 +236,13 @@ export function gameTick(state: FrogusaState): TickResult {
         drowned = true;
         if (lives <= 0) {
           return {
-            state: { ...state, lanes, invasionLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
+            state: { ...state, lanes, waterLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
             scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false,
           };
         }
         return {
           state: {
-            ...state, lanes, invasionLanes, flags, score, goals, lives,
+            ...state, lanes, waterLanes, flags, score, goals, lives,
             playerCol: PLAYER_START_COL, playerRow: PLAYER_START_ROW,
             playerX: PLAYER_START_COL * CELL_W,
             status: "hit", hitTime: performance.now(),
@@ -257,13 +257,13 @@ export function gameTick(state: FrogusaState): TickResult {
         drowned = true;
         if (lives <= 0) {
           return {
-            state: { ...state, lanes, invasionLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
+            state: { ...state, lanes, waterLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
             scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false,
           };
         }
         return {
           state: {
-            ...state, lanes, invasionLanes, flags, score, goals, lives,
+            ...state, lanes, waterLanes, flags, score, goals, lives,
             playerCol: PLAYER_START_COL, playerRow: PLAYER_START_ROW,
             playerX: PLAYER_START_COL * CELL_W,
             status: "hit", hitTime: performance.now(),
@@ -286,7 +286,7 @@ export function gameTick(state: FrogusaState): TickResult {
   }
 
   // Defender collision (only in non-safe, non-invasion rows)
-  if (!SAFE_ROWS.includes(state.playerRow) && !INVASION_ROWS.includes(state.playerRow)) {
+  if (!SAFE_ROWS.includes(state.playerRow) && !WATER_ROWS.includes(state.playerRow)) {
     const pLeft = playerX;
     const pRight = playerX + CELL_W;
 
@@ -299,13 +299,13 @@ export function gameTick(state: FrogusaState): TickResult {
           lives--;
           if (lives <= 0) {
             return {
-              state: { ...state, lanes, invasionLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
+              state: { ...state, lanes, waterLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
               scored: false, hit: true, hitComodinIdx: d.isComodin ? d.comodinIdx : -1, drowned: false, flagCollected,
             };
           }
           return {
             state: {
-              ...state, lanes, invasionLanes, flags, score, goals, lives,
+              ...state, lanes, waterLanes, flags, score, goals, lives,
               playerCol: PLAYER_START_COL, playerRow: PLAYER_START_ROW,
               playerX: PLAYER_START_COL * CELL_W,
               status: "hit", hitTime: performance.now(),
@@ -318,7 +318,7 @@ export function gameTick(state: FrogusaState): TickResult {
   }
 
   return {
-    state: { ...state, lanes, invasionLanes, flags, score, goals, lives, playerX, playerCol, status: "playing" },
+    state: { ...state, lanes, waterLanes, flags, score, goals, lives, playerX, playerCol, status: "playing" },
     scored: false, hit: false, hitComodinIdx: -1, drowned: false, flagCollected,
   };
 }
