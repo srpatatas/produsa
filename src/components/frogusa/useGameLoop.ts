@@ -437,28 +437,64 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             ctx.fillRect(hlX, carY + 3, 3, 4);
             ctx.fillRect(hlX, carY + dh - 7, 3, 4);
           } else {
-            // Regular car
-            const colorIdx = Math.abs(Math.round(d.x * 100)) % CAR_COLORS.length;
-            const carGrad = ctx.createLinearGradient(0, carY, 0, carY + dh);
-            carGrad.addColorStop(0, CAR_COLORS[colorIdx]);
-            carGrad.addColorStop(1, CAR_COLORS[(colorIdx + 3) % CAR_COLORS.length] + "80");
-            ctx.fillStyle = carGrad;
+            // Team bus
+            ensureFlag(d.flag);
+
+            // Bus body (white)
+            const busGrad = ctx.createLinearGradient(0, carY, 0, carY + dh);
+            busGrad.addColorStop(0, "#f8fafc");
+            busGrad.addColorStop(1, "#cbd5e1");
+            ctx.fillStyle = busGrad;
             ctx.beginPath();
             ctx.roundRect(dx, carY, dw, dh, 4);
             ctx.fill();
 
-            // Windshield
-            ctx.fillStyle = "rgba(147,197,253,0.4)";
-            const wsX = lane.direction === 1 ? dx + dw * 0.6 : dx + dw * 0.1;
+            // Color stripe along bottom (team color based on flag)
+            const stripeColors = ["#1d4ed8", "#dc2626", "#059669", "#7c3aed", "#d97706", "#0891b2"];
+            const stripeIdx = Math.abs(Math.round(d.x * 100)) % stripeColors.length;
+            ctx.fillStyle = stripeColors[stripeIdx];
+            ctx.fillRect(dx + 2, carY + dh - 5, dw - 4, 4);
+
+            // Windows
+            ctx.fillStyle = "rgba(59,130,246,0.3)";
+            const winStart = lane.direction === 1 ? dx + dw * 0.15 : dx + dw * 0.1;
+            const winEnd = lane.direction === 1 ? dx + dw * 0.85 : dx + dw * 0.8;
+            for (let wx = winStart; wx < winEnd; wx += 6) {
+              ctx.fillRect(wx, carY + 2, 4, dh * 0.45);
+            }
+
+            // Front windshield
+            ctx.fillStyle = "rgba(147,197,253,0.5)";
+            const frontX = lane.direction === 1 ? dx + dw - 8 : dx + 1;
             ctx.beginPath();
-            ctx.roundRect(wsX, carY + 2, dw * 0.25, dh - 4, 2);
+            ctx.roundRect(frontX, carY + 1, 7, dh - 6, 2);
             ctx.fill();
+
+            // Flag on top
+            const flagImg = flagCache.current.get(d.flag);
+            if (flagImg) {
+              const fW = Math.min(dw * 0.4, 18);
+              const fH = fW * 0.65;
+              const fX = dx + (dw - fW) / 2;
+              const fY = carY - fH - 1;
+              ctx.save();
+              ctx.beginPath();
+              ctx.roundRect(fX, fY, fW, fH, 1.5);
+              ctx.clip();
+              ctx.drawImage(flagImg, fX, fY, fW, fH);
+              ctx.restore();
+              ctx.strokeStyle = "rgba(255,255,255,0.5)";
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.roundRect(fX, fY, fW, fH, 1.5);
+              ctx.stroke();
+            }
 
             // Headlights
             ctx.fillStyle = "#fef9c3";
             const hlX = lane.direction === 1 ? dx + dw - 3 : dx;
             ctx.fillRect(hlX, carY + 3, 3, 3);
-            ctx.fillRect(hlX, carY + dh - 6, 3, 3);
+            ctx.fillRect(hlX, carY + dh - 8, 3, 3);
           }
         }
       }
