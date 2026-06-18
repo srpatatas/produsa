@@ -346,24 +346,38 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       // Flags of next match (if available)
       const sInfo = stadiumInfoRef.current;
       if (sInfo?.homeFlag && sInfo?.awayFlag) {
-        const fSize = stadH * 0.3;
+        const fW = stadH * 0.7;
+        const fH = fW * 0.65;
+        const fY = (stadH - fH) / 2;
         const homeImg = flagCache.current.get(sInfo.homeFlag);
         const awayImg = flagCache.current.get(sInfo.awayFlag);
         if (homeImg) {
           ctx.save();
+          ctx.globalAlpha = 0.85;
           ctx.beginPath();
-          ctx.roundRect(4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7, 2);
+          ctx.roundRect(6, fY, fW, fH, 3);
           ctx.clip();
-          ctx.drawImage(homeImg, 4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7);
+          ctx.drawImage(homeImg, 6, fY, fW, fH);
           ctx.restore();
+          ctx.strokeStyle = "rgba(255,255,255,0.4)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(6, fY, fW, fH, 3);
+          ctx.stroke();
         }
         if (awayImg) {
           ctx.save();
+          ctx.globalAlpha = 0.85;
           ctx.beginPath();
-          ctx.roundRect(canvasWidth - fSize - 4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7, 2);
+          ctx.roundRect(canvasWidth - fW - 6, fY, fW, fH, 3);
           ctx.clip();
-          ctx.drawImage(awayImg, canvasWidth - fSize - 4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7);
+          ctx.drawImage(awayImg, canvasWidth - fW - 6, fY, fW, fH);
           ctx.restore();
+          ctx.strokeStyle = "rgba(255,255,255,0.4)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(canvasWidth - fW - 6, fY, fW, fH, 3);
+          ctx.stroke();
         }
       }
 
