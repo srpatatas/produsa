@@ -38,6 +38,18 @@ export const POST = withAuth(async (req, session) => {
   }
 
   const sql = getDb();
+
+  // Block doble on a match that has comodín
+  if (outcome.length === 2) {
+    const comodin = await sql`
+      SELECT 1 FROM planilla_comodines
+      WHERE user_id = ${session.id} AND match_id = ${matchId}
+    `;
+    if (comodin.length > 0) {
+      return NextResponse.json({ error: "No se puede poner DOBLE en un partido con COMODÍN" }, { status: 400 });
+    }
+  }
+
   await sql`
     INSERT INTO planilla_predictions (user_id, match_id, outcome)
     VALUES (${session.id}, ${matchId}, ${outcome})
