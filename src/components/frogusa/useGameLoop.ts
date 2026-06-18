@@ -416,7 +416,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const fy = (f.row + 0.5) * CELL_H * scale;
         const r = CELL_H * scale * 0.35;
 
-        const p = f.avatarIdx >= 0 && f.avatarIdx < participants.length ? participants[f.avatarIdx] : null;
+        const pIdx = participants.length > 0 ? Math.abs(f.col * 7 + f.row * 13) % participants.length : -1;
+        const p = pIdx >= 0 ? participants[pIdx] : null;
         if (p?.avatar) {
           if (!avatarCache.current.has(p.avatar)) {
             avatarCache.current.set(p.avatar, null as unknown as HTMLImageElement);
