@@ -586,7 +586,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       }
 
       // --- HIT flash + text ---
-      if (status === "hit") {
+      if (status === "hit" || s.status === "hit") {
         const elapsed = now - s.hitTime;
         if (elapsed < 700) {
           ctx.save();

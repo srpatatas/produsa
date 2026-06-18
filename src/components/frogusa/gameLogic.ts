@@ -322,7 +322,7 @@ export function gameTick(state: FrogusaState): TickResult {
       for (const d of lane.defenders) {
         const dLeft = d.x;
         const dRight = d.x + d.width;
-        if (pRight > dLeft + CELL_W * 0.3 && pLeft < dRight - CELL_W * 0.3) {
+        if (pRight > dLeft + CELL_W * 0.15 && pLeft < dRight - CELL_W * 0.15) {
           lives--;
           if (lives <= 0) {
             return {
