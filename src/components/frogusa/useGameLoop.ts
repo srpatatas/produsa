@@ -369,19 +369,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       ctx.shadowColor = "#c5e34a";
       ctx.shadowBlur = 12;
 
-      if (playerImg.current) {
-        ctx.beginPath();
-        ctx.arc(px, py, pr, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.drawImage(playerImg.current, px - pr, py - pr, pr * 2, pr * 2);
-        ctx.restore();
-        ctx.beginPath();
-        ctx.arc(px, py, pr, 0, Math.PI * 2);
-        ctx.strokeStyle = "#c5e34a";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      } else if (triondaImg.current) {
-        ctx.drawImage(triondaImg.current, px - pr, py - pr, pr * 2, pr * 2);
+      if (triondaImg.current) {
+        ctx.drawImage(triondaImg.current, px - pr * 1.2, py - pr * 1.2, pr * 2.4, pr * 2.4);
         ctx.restore();
       } else {
         ctx.fillStyle = "#c5e34a";
