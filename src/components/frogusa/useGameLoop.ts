@@ -21,7 +21,6 @@ import { createInitialState, startGame, movePlayer, gameTick, type Direction } f
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    if (src.startsWith("http")) img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = reject;
     img.src = src;
