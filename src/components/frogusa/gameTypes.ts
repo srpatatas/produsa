@@ -43,6 +43,14 @@ export interface BonusFlag {
   collected: boolean;
 }
 
+export interface ScorePopup {
+  x: number;
+  y: number;
+  text: string;
+  time: number;
+  color: string;
+}
+
 export interface FrogusaState {
   playerCol: number;
   playerRow: number;

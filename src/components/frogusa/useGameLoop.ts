@@ -13,6 +13,7 @@ import {
   COMODIN_DODGE_PHRASES,
   FLAG_CODES,
   type FrogusaState,
+  type ScorePopup,
 } from "./gameTypes";
 import { createInitialState, startGame, movePlayer, gameTick, type Direction } from "./gameLogic";
 
@@ -41,6 +42,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const playerImg = useRef<HTMLImageElement | null>(null);
   const comodinImgs = useRef<HTMLImageElement[]>([]);
   const flagCache = useRef<Map<string, HTMLImageElement>>(new Map());
+  const popupsRef = useRef<ScorePopup[]>([]);
   const bubblesRef = useRef<SpeechBubble[]>([]);
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
@@ -78,6 +80,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
   const start = useCallback(() => {
     stateRef.current = startGame();
+    popupsRef.current = [];
     bubblesRef.current = [];
     scoreRef.current = 0;
     goalsRef.current = 0;
@@ -191,8 +194,20 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         if (result.scored) {
           goalsRef.current++;
           scoreRef.current++;
+          popupsRef.current.push({
+            x: (result.state.playerCol + 0.5) * CELL_W,
+            y: GOAL_ROW * CELL_H + CELL_H / 2,
+            text: "+1", time: now, color: "#22c55e",
+          });
         }
-        if (result.flagCollected) scoreRef.current += 2;
+        if (result.flagCollected) {
+          scoreRef.current += 2;
+          popupsRef.current.push({
+            x: (result.state.playerCol + 0.5) * CELL_W,
+            y: (result.state.playerRow + 0.5) * CELL_H,
+            text: "+2", time: now, color: "#22c55e",
+          });
+        }
         if (result.hit) scoreRef.current = Math.max(0, scoreRef.current);
         stateRef.current.score = scoreRef.current;
         stateRef.current.goals = goalsRef.current;
@@ -424,6 +439,24 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         ctx.fillStyle = "#ffffff";
         ctx.textBaseline = "middle";
         ctx.fillText(bubble.text, bx, by);
+        ctx.restore();
+      }
+
+      // --- SCORE POPUPS ---
+      popupsRef.current = popupsRef.current.filter((p) => now - p.time < 800);
+      for (const popup of popupsRef.current) {
+        const elapsed = now - popup.time;
+        const alpha = 1 - elapsed / 800;
+        const drift = elapsed * 0.00005 * scale;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        const fontSize = Math.round(scale * 0.04);
+        ctx.font = `900 ${fontSize}px Outfit, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.fillStyle = popup.color;
+        ctx.shadowColor = popup.color;
+        ctx.shadowBlur = 8;
+        ctx.fillText(popup.text, popup.x * scale, popup.y * scale - drift);
         ctx.restore();
       }
 
