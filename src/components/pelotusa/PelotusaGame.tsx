@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
-import { useInvadersLoop } from "./useGameLoop";
+import { usePelotusaLoop } from "./useGameLoop";
 import { CANVAS_H, CANVAS_W } from "./gameTypes";
 
 interface LeaderboardEntry {
@@ -14,10 +14,29 @@ interface LeaderboardEntry {
   score: number;
 }
 
-export function InvadersGame() {
+const MEDALS = [
+  { min: 70, emoji: "🐐", label: "D10S", sub: "Inmortal", color: "text-emerald-400" },
+  { min: 50, emoji: "🏆", label: "México 86", sub: "La copa eterna", color: "text-yellow-300" },
+  { min: 35, emoji: "🔵", label: "Napoli", sub: "La leyenda napolitana", color: "text-blue-400" },
+  { min: 20, emoji: "✨", label: "Pibe de Oro", sub: "El apodo legendario", color: "text-fifa-gold" },
+  { min: 8,  emoji: "🧅", label: "Cebollita", sub: "Argentinos Juniors", color: "text-amber-600" },
+];
+
+function getMedal(score: number) {
+  return MEDALS.find((m) => score >= m.min) || null;
+}
+
+const BEST_KEY = "flappy-d10s-best";
+
+export function PelotusaGame() {
   const user = useUser();
   const [canvasWidth, setCanvasWidth] = useState(300);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [best, setBest] = useState(0);
+
+  useEffect(() => {
+    try { setBest(Number(localStorage.getItem(BEST_KEY)) || 0); } catch {}
+  }, []);
 
   useEffect(() => {
     const update = () => {
@@ -31,20 +50,14 @@ export function InvadersGame() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
-
   const {
     canvasRef,
     canvasHeight,
     score,
-    lives,
-    level,
     status,
     start,
-    goNextLevel,
-    touchXRef,
-    touchShootRef,
-  } = useInvadersLoop(canvasWidth, playerAvatar);
+    doFlap,
+  } = usePelotusaLoop(canvasWidth);
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
 
@@ -56,43 +69,50 @@ export function InvadersGame() {
   }, [status]);
 
   useEffect(() => {
-    fetch("/api/invaders")
+    fetch("/api/flappy")
       .then((r) => (r.ok ? r.json() : { leaderboard: [] }))
       .then((d) => setLeaderboard(d.leaderboard))
       .catch(() => {});
   }, []);
 
+  // Score submit + best score + leaderboard refresh
   useEffect(() => {
-    if (status !== "lost" && status !== "won") return;
+    if (status !== "lost") return;
+    if (score > best) {
+      setBest(score);
+      try { localStorage.setItem(BEST_KEY, String(score)); } catch {}
+    }
     if (score > 0) {
-      fetch("/api/invaders", {
+      fetch("/api/flappy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ score }),
       }).catch(() => {});
     }
-    fetch("/api/invaders")
+    fetch("/api/flappy")
       .then((r) => (r.ok ? r.json() : { leaderboard: [] }))
       .then((d) => setLeaderboard(d.leaderboard))
       .catch(() => {});
-  }, [status, score]);
+  }, [status, score, best]);
 
-  const isGameOver = status === "lost" || status === "won";
+  useEffect(() => {
+    const onDown = (e: KeyboardEvent) => {
+      if (e.key === " " || e.key === "ArrowUp") {
+        e.preventDefault();
+        doFlap();
+      }
+    };
+    window.addEventListener("keydown", onDown);
+    return () => window.removeEventListener("keydown", onDown);
+  }, [doFlap]);
 
-  // Touch handlers
-  const handleTouch = useCallback((e: React.TouchEvent) => {
+  const handleTap = useCallback((e: React.TouchEvent | React.MouseEvent) => {
     e.preventDefault();
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    touchXRef.current = e.touches[0].clientX - rect.left;
-  }, [touchXRef]);
+    doFlap();
+  }, [doFlap]);
 
-  const handleTouchEnd = useCallback(() => {
-    touchXRef.current = null;
-  }, [touchXRef]);
-
-  const handleTap = useCallback(() => {
-    touchShootRef.current = true;
-  }, [touchShootRef]);
+  const medal = status === "lost" ? getMedal(score) : null;
+  const isNewBest = status === "lost" && score > 0 && score >= best;
 
   return (
     <div className="mx-auto max-w-lg">
@@ -100,15 +120,16 @@ export function InvadersGame() {
         <div className="flex justify-center py-20 text-fifa-dark-gray">Cargando...</div>
       )}
 
-      {status === "ready" && (
+      {status === "idle" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground text-center">FIFA INVADERS</h2>
+          <h2 className="font-title text-4xl text-foreground text-center">FLAPPY D10S</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Las banderas invaden la cancha. Dispará con la trionda y derribá a todos. Cuidado con los comodines.
+            Hacé jueguitos con la trionda como el D10S. Tocá para mantenerla en el aire, meté goles pasando entre los arcos, juntá banderas y esquivá a los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
-            <span>Bandera <span className="text-fifa-gold">(100 pts)</span></span>
-            <span>Comodín boss <span className="text-fifa-gold">(1000 pts)</span></span>
+            <span>Gol <span className="text-fifa-gold">(1 pt)</span></span>
+            <span>Bandera <span className="text-fifa-gold">(2 pts)</span></span>
+            <span>Comodín <span className="text-red-400">(-3 pts)</span></span>
           </div>
           <button
             type="button"
@@ -120,7 +141,7 @@ export function InvadersGame() {
         </div>
       )}
 
-      {(status === "playing" || status === "lost" || status === "cleared" || status === "won") && (
+      {(status === "playing" || status === "lost") && (
         <div ref={gameAreaRef} className="flex flex-col items-center gap-3">
           <div className="flex w-full items-center justify-center gap-6">
             <div className="text-center">
@@ -128,21 +149,16 @@ export function InvadersGame() {
               <p className="font-display text-2xl text-fifa-gold">{score}</p>
             </div>
             <div className="text-center">
-              <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Vidas</span>
-              <p className="font-display text-2xl text-foreground">{"❤️".repeat(lives)}</p>
-            </div>
-            <div className="text-center">
-              <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Nivel</span>
-              <p className="font-display text-2xl text-foreground">{level}</p>
+              <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Mejor</span>
+              <p className="font-display text-2xl text-foreground">{Math.max(best, score)}</p>
             </div>
           </div>
 
           <div
-            className="relative overflow-visible"
-            style={{ touchAction: "none" }}
-            onTouchMove={handleTouch}
-            onTouchStart={(e) => { handleTouch(e); handleTap(); }}
-            onTouchEnd={handleTouchEnd}
+            className="relative overflow-hidden select-none"
+            style={{ touchAction: "none", WebkitTapHighlightColor: "transparent", WebkitUserSelect: "none" }}
+            onTouchStart={handleTap}
+            onMouseDown={handleTap}
           >
             <canvas
               ref={canvasRef}
@@ -151,42 +167,21 @@ export function InvadersGame() {
             />
 
             {status === "lost" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/70 backdrop-blur-sm">
-                <span className="text-4xl">👾</span>
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl bg-black/70 backdrop-blur-sm">
+                {medal ? (
+                  <>
+                    <span className="text-5xl">{medal.emoji}</span>
+                    <span className={`font-display text-sm uppercase tracking-widest ${medal.color}`}>{medal.label}</span>
+                    <span className="text-[10px] italic text-fifa-dark-gray">{medal.sub}</span>
+                  </>
+                ) : (
+                  <span className="text-4xl">⚽</span>
+                )}
                 <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-red">Game Over</h3>
                 <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
-                <p className="text-xs text-fifa-dark-gray">Nivel {level}</p>
-                <button
-                  type="button"
-                  onClick={start}
-                  className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
-                >
-                  Jugar de nuevo
-                </button>
-              </div>
-            )}
-
-            {status === "cleared" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/50 backdrop-blur-sm">
-                <span className="text-4xl">🏆</span>
-                <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-gold">Nivel {level} completado</h3>
-                <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
-                <button
-                  type="button"
-                  onClick={goNextLevel}
-                  className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
-                >
-                  Siguiente nivel
-                </button>
-              </div>
-            )}
-
-            {status === "won" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/50 backdrop-blur-sm">
-                <span className="text-4xl">🏆</span>
-                <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-gold">¡CAMPEÓN!</h3>
-                <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
-                <p className="text-xs text-fifa-dark-gray">Completaste los 3 niveles</p>
+                {isNewBest && (
+                  <span className="text-xs font-semibold uppercase tracking-widest text-emerald-400">¡Nuevo récord!</span>
+                )}
                 <button
                   type="button"
                   onClick={start}
@@ -201,10 +196,10 @@ export function InvadersGame() {
           {status === "playing" && (
             <>
               <p className="text-[10px] text-fifa-dark-gray/50 hidden md:block">
-                ← → mover · espacio disparar
+                Espacio para volar
               </p>
               <p className="text-[10px] text-fifa-dark-gray/50 md:hidden">
-                Deslizá para mover · tocá para disparar
+                Tocá para volar
               </p>
             </>
           )}
@@ -213,7 +208,7 @@ export function InvadersGame() {
 
       <div className="mt-4 rounded-2xl bg-card-bg p-4 ring-1 ring-white/5">
         <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-fifa-dark-gray">
-          🏆 FIFA Invaders
+          🏆 Flappy Trionda
         </h3>
         {leaderboard.length === 0 ? (
           <p className="text-center text-xs text-fifa-dark-gray/50 py-2">

@@ -152,7 +152,7 @@ export function ArkanoidGame() {
 
       {status === "ready" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground">ARKANUSA</h2>
+          <h2 className="font-title text-4xl text-foreground text-center">ARKANUSA</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             Rompé los bloques con la trionda. Cuidado con los comodines, aguantan 3 golpes.
           </p>
