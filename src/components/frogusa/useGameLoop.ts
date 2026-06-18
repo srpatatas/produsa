@@ -294,7 +294,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             ctx.quadraticCurveTo(wx + 12 + waveOff % 25, ry + rh * 0.15, wx + 25 + waveOff % 25, ry + rh * 0.3);
             ctx.stroke();
           }
-        } else if (r >= 8 && r <= 11) {
+        } else if (r >= 7 && r <= 11) {
           // Road
           ctx.fillStyle = "#374151";
           ctx.fillRect(0, ry, canvasWidth, rh);
@@ -326,7 +326,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
       // Road edges
       ctx.fillStyle = "#f59e0b";
-      const roadTop = 8 * CELL_H * scale;
+      const roadTop = 7 * CELL_H * scale;
       const roadBot = 12 * CELL_H * scale;
       ctx.fillRect(0, roadTop, canvasWidth, 2);
       ctx.fillRect(0, roadBot - 2, canvasWidth, 2);
