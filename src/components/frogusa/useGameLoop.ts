@@ -346,7 +346,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       // Flags of next match (side by side: flag v flag)
       const sInfo = stadiumInfoRef.current;
       if (sInfo?.homeFlag && sInfo?.awayFlag) {
-        const fW = stadH * 0.45;
+        const fW = stadH * 0.7;
         const fH = fW * 0.65;
         const gap = 6;
         const vsFontSize = Math.round(fH * 0.5);
