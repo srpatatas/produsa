@@ -45,6 +45,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
   const prevRowRef = useRef(-1);
+  const hitMessageRef = useRef("¡FOUL!");
 
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -200,6 +201,12 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         setLives(result.state.lives);
 
         if (result.hit) {
+          if (result.hitComodinIdx >= 0) {
+            const phrases = COMODIN_HIT_PHRASES[result.hitComodinIdx];
+            hitMessageRef.current = phrases[Math.floor(Math.random() * phrases.length)];
+          } else {
+            hitMessageRef.current = "¡FOUL!";
+          }
           if (result.state.status === "lost") {
             setStatus("lost");
           } else {
@@ -435,11 +442,12 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           ctx.textBaseline = "middle";
           ctx.strokeStyle = "rgba(0,0,0,0.6)";
           ctx.lineWidth = 4;
-          ctx.strokeText("¡FOUL!", canvasWidth / 2, canvasHeight / 2);
+          const hitMsg = hitMessageRef.current;
+          ctx.strokeText(hitMsg, canvasWidth / 2, canvasHeight / 2);
           ctx.shadowColor = "#ef4444";
           ctx.shadowBlur = 20;
           ctx.fillStyle = "#ffffff";
-          ctx.fillText("¡FOUL!", canvasWidth / 2, canvasHeight / 2);
+          ctx.fillText(hitMsg, canvasWidth / 2, canvasHeight / 2);
           ctx.restore();
         }
       }
