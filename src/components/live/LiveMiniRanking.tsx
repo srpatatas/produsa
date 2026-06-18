@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { LiveScore } from "@/types";
 import { useUser } from "@/context/UserContext";
 import { getAllUnifiedMatches } from "@/lib/unifiedMatches";
@@ -24,6 +24,13 @@ interface LiveMiniRankingProps {
   liveMatchIds: string[];
 }
 
+function scoreFingerprint(scores: Record<string, LiveScore>, ids: string[]): string {
+  return ids.map((id) => {
+    const s = scores[id];
+    return s ? `${id}:${s.homeScore}-${s.awayScore}-${s.status}` : `${id}:-`;
+  }).join("|");
+}
+
 export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMiniRankingProps) {
   const currentUser = useUser();
   const scope = useMemo(() => {
@@ -32,6 +39,9 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
   }, [activeMatchId]);
   const [ranking, setRanking] = useState<RankingEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const prevFingerprintRef = useRef("");
+
+  const fingerprint = scoreFingerprint(scores, liveMatchIds);
 
   const fetchRanking = useCallback(async () => {
     const scoreParams = liveMatchIds.map((id) => {
@@ -56,8 +66,11 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
   }, [scores, liveMatchIds]);
 
   useEffect(() => {
-    fetchRanking();
-  }, [fetchRanking]);
+    if (fingerprint !== prevFingerprintRef.current) {
+      prevFingerprintRef.current = fingerprint;
+      fetchRanking();
+    }
+  }, [fingerprint, fetchRanking]);
 
   if (loading || ranking.length === 0) return null;
 

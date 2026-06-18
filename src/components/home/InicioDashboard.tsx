@@ -10,7 +10,7 @@ import { RecentResults } from "./RecentResults";
 import { LiveCarousel } from "@/components/live/LiveCarousel";
 import { LiveMiniRanking } from "@/components/live/LiveMiniRanking";
 
-const POLL_INTERVAL_MS = 5_000;
+const POLL_INTERVAL_MS = 15_000;
 
 interface RecentResult extends UnifiedMatch {
   homeScore: number;
