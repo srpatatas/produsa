@@ -255,19 +255,18 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       // --- RENDER ---
       const s = stateRef.current;
 
-      // Pitch background
+      // Background by zone
       for (let r = 0; r < ROWS; r++) {
         const ry = r * CELL_H * scale;
         const rh = CELL_H * scale;
         if (WATER_ROWS.includes(r)) {
-          // Water
+          // River
           const waterGrad = ctx.createLinearGradient(0, ry, 0, ry + rh);
           waterGrad.addColorStop(0, "#1e40af");
           waterGrad.addColorStop(0.5, "#2563eb");
           waterGrad.addColorStop(1, "#1e40af");
           ctx.fillStyle = waterGrad;
           ctx.fillRect(0, ry, canvasWidth, rh);
-          // Waves
           ctx.strokeStyle = "rgba(147,197,253,0.25)";
           ctx.lineWidth = 1;
           const waveOff = (now * 0.03 + r * 40) % canvasWidth;
@@ -276,68 +275,73 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             ctx.moveTo(wx + waveOff % 25, ry + rh * 0.3);
             ctx.quadraticCurveTo(wx + 12 + waveOff % 25, ry + rh * 0.15, wx + 25 + waveOff % 25, ry + rh * 0.3);
             ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(wx + (waveOff + 10) % 25, ry + rh * 0.7);
-            ctx.quadraticCurveTo(wx + 12 + (waveOff + 10) % 25, ry + rh * 0.55, wx + 25 + (waveOff + 10) % 25, ry + rh * 0.7);
-            ctx.stroke();
+          }
+        } else if (r >= 8 && r <= 11) {
+          // Road
+          ctx.fillStyle = "#374151";
+          ctx.fillRect(0, ry, canvasWidth, rh);
+          // Lane dashes
+          ctx.strokeStyle = "rgba(255,255,255,0.2)";
+          ctx.lineWidth = 1;
+          ctx.setLineDash([8, 10]);
+          ctx.beginPath();
+          ctx.moveTo(0, ry + rh / 2);
+          ctx.lineTo(canvasWidth, ry + rh / 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        } else if (SAFE_ROWS.includes(r)) {
+          // Sidewalk
+          ctx.fillStyle = r === 0 ? "#1e293b" : "#4b5563";
+          ctx.fillRect(0, ry, canvasWidth, rh);
+          if (r !== 0) {
+            ctx.fillStyle = "rgba(255,255,255,0.05)";
+            for (let sx = 0; sx < canvasWidth; sx += 20) {
+              ctx.fillRect(sx, ry, 18, rh);
+            }
           }
         } else {
+          // Grass (rows 5)
           ctx.fillStyle = r % 2 === 0 ? "#2d8a4e" : "#34a058";
           ctx.fillRect(0, ry, canvasWidth, rh);
         }
       }
 
-      // Pitch lines
-      ctx.strokeStyle = "rgba(255,255,255,0.3)";
-      ctx.lineWidth = 1.5;
+      // Road edges
+      ctx.fillStyle = "#f59e0b";
+      const roadTop = 8 * CELL_H * scale;
+      const roadBot = 12 * CELL_H * scale;
+      ctx.fillRect(0, roadTop, canvasWidth, 2);
+      ctx.fillRect(0, roadBot - 2, canvasWidth, 2);
 
-      // Midfield line (between rows 6-7)
-      const midY = 6.5 * CELL_H * scale;
+      // --- STADIUM at top (row 0) ---
+      const stadH = CELL_H * scale;
+      ctx.save();
+      // Stadium body
+      const stadGrad = ctx.createLinearGradient(0, 0, 0, stadH);
+      stadGrad.addColorStop(0, "#1e293b");
+      stadGrad.addColorStop(1, "#334155");
+      ctx.fillStyle = stadGrad;
+      ctx.fillRect(0, 0, canvasWidth, stadH);
+      // Stadium arch
+      ctx.fillStyle = "#475569";
       ctx.beginPath();
-      ctx.moveTo(0, midY + CELL_H * scale / 2);
-      ctx.lineTo(canvasWidth, midY + CELL_H * scale / 2);
-      ctx.stroke();
-
-      // Center circle
-      ctx.beginPath();
-      ctx.arc(canvasWidth / 2, midY + CELL_H * scale / 2, CELL_W * scale * 1.5, 0, Math.PI * 2);
-      ctx.stroke();
-
-      // Goal area (top)
-      const goalAreaW = CELL_W * 5 * scale;
-      const goalAreaH = CELL_H * 1.5 * scale;
-      const goalAreaX = (canvasWidth - goalAreaW) / 2;
-      ctx.strokeRect(goalAreaX, 0, goalAreaW, goalAreaH);
-
-      // Goal area (bottom)
-      ctx.strokeRect(goalAreaX, canvasHeight - goalAreaH, goalAreaW, goalAreaH);
-
-      // --- GOAL NET at top ---
-      const goalW = CELL_W * 3 * scale;
-      const goalH = CELL_H * scale;
-      const goalX = (canvasWidth - goalW) / 2;
-      const postW = 3;
-
-      // Net background
-      ctx.fillStyle = "rgba(255,255,255,0.08)";
-      ctx.fillRect(goalX + postW, 0, goalW - postW * 2, goalH);
-
-      // Net grid
-      ctx.strokeStyle = "rgba(255,255,255,0.15)";
-      ctx.lineWidth = 0.5;
-      const netSp = 8;
-      for (let ny = 0; ny < goalH; ny += netSp) {
-        ctx.beginPath(); ctx.moveTo(goalX + postW, ny); ctx.lineTo(goalX + goalW - postW, ny); ctx.stroke();
+      ctx.ellipse(canvasWidth / 2, stadH, canvasWidth * 0.4, stadH * 0.6, 0, Math.PI, 0);
+      ctx.fill();
+      // Stadium lights
+      ctx.fillStyle = "#fbbf24";
+      for (let lx = canvasWidth * 0.15; lx < canvasWidth * 0.85; lx += canvasWidth * 0.1) {
+        ctx.beginPath();
+        ctx.arc(lx, stadH * 0.3, 3, 0, Math.PI * 2);
+        ctx.fill();
       }
-      for (let nx = goalX + postW; nx < goalX + goalW - postW; nx += netSp) {
-        ctx.beginPath(); ctx.moveTo(nx, 0); ctx.lineTo(nx, goalH); ctx.stroke();
-      }
-
-      // Goal frame
+      // Stadium text
       ctx.fillStyle = "#e2e8f0";
-      ctx.fillRect(goalX, 0, postW, goalH);
-      ctx.fillRect(goalX + goalW - postW, 0, postW, goalH);
-      ctx.fillRect(goalX, goalH - 3, goalW, 3);
+      const stadFont = Math.round(scale * 0.025);
+      ctx.font = `bold ${stadFont}px Outfit, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("🏟️ ESTADIO", canvasWidth / 2, stadH * 0.55);
+      ctx.restore();
 
       // --- BONUS FLAGS ---
       for (const f of s.flags) {
@@ -414,64 +418,68 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         }
       }
 
-      // --- DEFENDERS ---
+      // --- CARS ---
+      const CAR_COLORS = ["#ef4444", "#3b82f6", "#f59e0b", "#22c55e", "#8b5cf6", "#ec4899", "#06b6d4"];
       for (const lane of s.lanes) {
         for (const d of lane.defenders) {
           const dx = d.x * scale;
           const dy = d.row * CELL_H * scale;
           const dw = d.width * scale;
-          const dh = CELL_H * scale * 0.85;
-          const dcx = dx + dw / 2;
-          const dcy = dy + CELL_H * scale / 2;
-
-          ensureFlag(d.flag);
+          const dh = CELL_H * scale * 0.65;
+          const carY = dy + (CELL_H * scale - dh) / 2;
 
           if (d.isComodin) {
-            const cr = dh * 0.45;
-            ctx.save();
-            ctx.shadowColor = "#ef4444";
-            ctx.shadowBlur = 10;
+            // Comodin truck (bigger, red)
+            const truckGrad = ctx.createLinearGradient(0, carY, 0, carY + dh);
+            truckGrad.addColorStop(0, "#dc2626");
+            truckGrad.addColorStop(1, "#991b1b");
+            ctx.fillStyle = truckGrad;
+            ctx.beginPath();
+            ctx.roundRect(dx, carY, dw, dh, 4);
+            ctx.fill();
 
+            // Comodin face
             const cImg = comodinImgs.current[d.comodinIdx];
             if (cImg) {
-              ctx.beginPath();
-              ctx.arc(dcx, dcy, cr, 0, Math.PI * 2);
-              ctx.clip();
-              ctx.drawImage(cImg, dcx - cr, dcy - cr, cr * 2, cr * 2);
-              ctx.restore();
-              ctx.beginPath();
-              ctx.arc(dcx, dcy, cr, 0, Math.PI * 2);
-              ctx.strokeStyle = "#ef4444";
-              ctx.lineWidth = 2;
-              ctx.stroke();
-            } else {
-              ctx.fillStyle = "#ef4444";
-              ctx.beginPath();
-              ctx.arc(dcx, dcy, cr, 0, Math.PI * 2);
-              ctx.fill();
-              ctx.restore();
-            }
-          } else {
-            const flagImg = flagCache.current.get(d.flag);
-            const r = dh * 0.38;
-            if (flagImg) {
+              const faceR = dh * 0.35;
+              const faceCx = dx + dw * 0.3;
+              const faceCy = carY + dh / 2;
               ctx.save();
               ctx.beginPath();
-              ctx.arc(dcx, dcy, r, 0, Math.PI * 2);
+              ctx.arc(faceCx, faceCy, faceR, 0, Math.PI * 2);
               ctx.clip();
-              ctx.drawImage(flagImg, dcx - r, dcy - r, r * 2, r * 2);
+              ctx.drawImage(cImg, faceCx - faceR, faceCy - faceR, faceR * 2, faceR * 2);
               ctx.restore();
-              ctx.beginPath();
-              ctx.arc(dcx, dcy, r, 0, Math.PI * 2);
-              ctx.strokeStyle = "rgba(255,255,255,0.4)";
-              ctx.lineWidth = 1.5;
-              ctx.stroke();
-            } else {
-              ctx.fillStyle = "#6366f1";
-              ctx.beginPath();
-              ctx.arc(dcx, dcy, r, 0, Math.PI * 2);
-              ctx.fill();
             }
+
+            // Headlights
+            ctx.fillStyle = "#fbbf24";
+            const hlX = lane.direction === 1 ? dx + dw - 4 : dx + 1;
+            ctx.fillRect(hlX, carY + 3, 3, 4);
+            ctx.fillRect(hlX, carY + dh - 7, 3, 4);
+          } else {
+            // Regular car
+            const colorIdx = Math.abs(Math.round(d.x * 100)) % CAR_COLORS.length;
+            const carGrad = ctx.createLinearGradient(0, carY, 0, carY + dh);
+            carGrad.addColorStop(0, CAR_COLORS[colorIdx]);
+            carGrad.addColorStop(1, CAR_COLORS[(colorIdx + 3) % CAR_COLORS.length] + "80");
+            ctx.fillStyle = carGrad;
+            ctx.beginPath();
+            ctx.roundRect(dx, carY, dw, dh, 4);
+            ctx.fill();
+
+            // Windshield
+            ctx.fillStyle = "rgba(147,197,253,0.4)";
+            const wsX = lane.direction === 1 ? dx + dw * 0.6 : dx + dw * 0.1;
+            ctx.beginPath();
+            ctx.roundRect(wsX, carY + 2, dw * 0.25, dh - 4, 2);
+            ctx.fill();
+
+            // Headlights
+            ctx.fillStyle = "#fef9c3";
+            const hlX = lane.direction === 1 ? dx + dw - 3 : dx;
+            ctx.fillRect(hlX, carY + 3, 3, 3);
+            ctx.fillRect(hlX, carY + dh - 6, 3, 3);
           }
         }
       }
@@ -494,20 +502,31 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         }
       }
 
-      // --- PLAYER ---
+      // --- PLAYER (avatar) ---
       const px = (WATER_ROWS.includes(s.playerRow) ? s.playerX + CELL_W / 2 : (s.playerCol + 0.5) * CELL_W) * scale;
       const py = (s.playerRow + 0.5) * CELL_H * scale;
       const pr = CELL_H * scale * 0.85 * 0.38;
 
       ctx.save();
-      ctx.shadowColor = "#c5e34a";
-      ctx.shadowBlur = 12;
+      ctx.shadowColor = "#22c55e";
+      ctx.shadowBlur = 10;
 
-      if (triondaImg.current) {
+      if (playerImg.current) {
+        ctx.beginPath();
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(playerImg.current, px - pr, py - pr, pr * 2, pr * 2);
+        ctx.restore();
+        ctx.beginPath();
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+        ctx.strokeStyle = "#22c55e";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      } else if (triondaImg.current) {
         ctx.drawImage(triondaImg.current, px - pr * 1.1, py - pr * 1.1, pr * 2.2, pr * 2.2);
         ctx.restore();
       } else {
-        ctx.fillStyle = "#c5e34a";
+        ctx.fillStyle = "#22c55e";
         ctx.beginPath();
         ctx.arc(px, py, pr, 0, Math.PI * 2);
         ctx.fill();

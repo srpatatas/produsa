@@ -11,7 +11,7 @@ export const PLAYER_START_COL = Math.floor(COLS / 2);
 export const GOAL_ROW = 0;
 
 export const SAFE_ROWS = [0, 6, 7, ROWS - 1];
-export const WATER_ROWS = [8, 9, 10, 11];
+export const WATER_ROWS = [1, 2, 3, 4];
 
 export const LIVES_INIT = 3;
 

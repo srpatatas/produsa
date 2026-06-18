@@ -27,21 +27,20 @@ import {
 
 const BASE_SPEED = 0.003;
 
-// Defender lanes (top half — near the goal, rows 1-5)
+// Road lanes (bottom half — cars to dodge, rows 8-11)
 const LANE_CONFIGS: { row: number; dir: 1 | -1; speedMult: number; count: number }[] = [
-  { row: 1, dir: 1,  speedMult: 1.3, count: 3 },
-  { row: 2, dir: -1, speedMult: 0.8, count: 2 },
-  { row: 3, dir: 1,  speedMult: 1.1, count: 3 },
-  { row: 4, dir: -1, speedMult: 1.4, count: 2 },
-  { row: 5, dir: 1,  speedMult: 1.0, count: 3 },
+  { row: 8,  dir: 1,  speedMult: 1.0, count: 3 },
+  { row: 9,  dir: -1, speedMult: 1.3, count: 2 },
+  { row: 10, dir: 1,  speedMult: 0.8, count: 3 },
+  { row: 11, dir: -1, speedMult: 1.2, count: 2 },
 ];
 
-// Water/log lanes (bottom half — near the start, rows 8-11)
+// River/log lanes (top half — ride to cross, rows 1-4)
 const WATER_CONFIGS: { row: number; dir: 1 | -1; speedMult: number; platCount: number; platWidth: number }[] = [
-  { row: 8,  dir: 1,  speedMult: 0.7, platCount: 2, platWidth: 3 },
-  { row: 9,  dir: -1, speedMult: 1.0, platCount: 3, platWidth: 2 },
-  { row: 10, dir: 1,  speedMult: 1.2, platCount: 2, platWidth: 3 },
-  { row: 11, dir: -1, speedMult: 0.8, platCount: 3, platWidth: 2 },
+  { row: 1, dir: 1,  speedMult: 0.7, platCount: 2, platWidth: 3 },
+  { row: 2, dir: -1, speedMult: 1.0, platCount: 3, platWidth: 2 },
+  { row: 3, dir: 1,  speedMult: 1.2, platCount: 2, platWidth: 3 },
+  { row: 4, dir: -1, speedMult: 0.8, platCount: 3, platWidth: 2 },
 ];
 
 function randomFlag(): string {

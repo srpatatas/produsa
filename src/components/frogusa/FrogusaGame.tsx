@@ -86,10 +86,10 @@ export function FrogusaGame() {
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-4xl text-foreground text-center">FROGUSA</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Cruzá la cancha esquivando defensores y llegá al arco para meter gol. Juntá banderas y cuidado con los comodines.
+            Llegá al estadio a tiempo. Cruzá la calle esquivando autos y el río saltando troncos. Juntá banderas y cuidado con los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
-            <span>Gol <span className="text-fifa-gold">(5 pts)</span></span>
+            <span>Estadio <span className="text-fifa-gold">(5 pts)</span></span>
             <span>Bandera <span className="text-fifa-gold">(1 pt)</span></span>
             <span>Comodín <span className="text-red-400">(¡cuidado!)</span></span>
           </div>
