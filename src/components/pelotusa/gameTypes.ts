@@ -76,13 +76,13 @@ export const COMODIN_IMAGES = [
 ];
 
 export const COMODIN_HIT_PHRASES = [
-  ["¡Al Diego no, Chiqui!", "¡Le cobraste offside al D10S!", "¡Sanción al barrilete!", "¡Tarjeta roja al Diego!"],
-  ["¡LO CHOCARON AL DIEGO!", "¡NO PUEDE SER señores!", "¡DEJALO JUGAR AL PIBE!", "¡MAMITA lo que le hicieron!"],
+  ["¡Le cobraste offside al D10S!", "¡Sanción al barrilete!", "¡Tarjeta roja al Diego!", "¡Eso es falta, Chiqui!"],
+  ["¡LO CHOCARON AL DIEGO!", "¡NO PUEDE SER señores!", "¡MAMITA lo que le hicieron!", "¡FOUL CRIMINAL!"],
   ["I blocked Diego! Tremendous!", "Nobody stops the D10S... wait, I did!", "Diego, you're fired!", "Sad Diego! Very sad!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
-  ["¡El Diego no perdona!", "¡No lo parás al D10S!", "¡Gambeta maradoniana!", "¡Eso es offside, Diego!"],
-  ["¡SE LES ESCAPÓ EL DIEGO!", "¡QUÉ GAMBETA DEL D10S!", "¡BARRILETE CÓSMICO!", "¡Imposible marcarlo!"],
+  ["¡Al Diego no, Chiqui!", "¡No lo parás al D10S!", "¡Gambeta maradoniana!", "¡El Diego no perdona!"],
+  ["¡SE LES ESCAPÓ EL DIEGO!", "¡QUÉ GAMBETA DEL D10S!", "¡DEJALO JUGAR AL PIBE!", "¡Imposible marcarlo!"],
   ["Diego escaped! Unfair!", "Nobody dribbles like that!", "I'll build a bigger wall next time!", "The D10S is too good!"],
 ];
