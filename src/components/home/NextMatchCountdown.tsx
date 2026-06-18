@@ -227,7 +227,11 @@ export function NextMatchCountdown() {
           {Date.now() >= Date.UTC(2026, 5, 18, 7, 0, 0) && (
             <Link href="/flappy" className="group flex flex-col items-center gap-1.5">
               <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-pink-500 via-rose-400 to-fuchsia-400 shadow-md shadow-pink-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
-                <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">⚽</span>
+                <span className="relative text-2xl transition-transform duration-200 group-hover:-rotate-6">
+                  <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 h-1.5 w-1.5 rounded-full bg-[#c5e34a] opacity-40 blur-[1px]" />
+                  <span className="absolute -left-5 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-[#c5e34a] opacity-20 blur-[1px]" />
+                  ⚽
+                </span>
               </div>
               <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Flappy Trionda</span>
             </Link>
