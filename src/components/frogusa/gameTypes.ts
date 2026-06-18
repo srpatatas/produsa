@@ -1,7 +1,7 @@
 export const CANVAS_W = 1;
 export const CANVAS_H = 1.4;
 
-export const COLS = 9;
+export const COLS = 13;
 export const ROWS = 13;
 export const CELL_W = CANVAS_W / COLS;
 export const CELL_H = CANVAS_H / ROWS;
