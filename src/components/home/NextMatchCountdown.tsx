@@ -228,9 +228,9 @@ export function NextMatchCountdown() {
             <Link href="/flappy" className="group flex flex-col items-center gap-1.5">
               <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-pink-500 via-rose-400 to-fuchsia-400 shadow-md shadow-pink-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
                 <span className="relative text-2xl transition-transform duration-200 group-hover:-rotate-6">
-                  <span className="absolute -left-2 -top-0.5 h-3.5 w-[2px] -rotate-[35deg] rounded-full bg-white/50" />
-                  <span className="absolute -left-3.5 top-0 h-3 w-[2px] -rotate-[35deg] rounded-full bg-white/35" />
-                  <span className="absolute -left-5 top-0.5 h-2.5 w-[2px] -rotate-[35deg] rounded-full bg-white/20" />
+                  <span className="absolute -left-1.5 top-1 h-3.5 w-[2px] rotate-[40deg] rounded-full bg-white/50" />
+                  <span className="absolute -left-3 top-2 h-3 w-[2px] rotate-[40deg] rounded-full bg-white/35" />
+                  <span className="absolute -left-4.5 top-3 h-2.5 w-[2px] rotate-[40deg] rounded-full bg-white/20" />
                   ⚽
                 </span>
               </div>
