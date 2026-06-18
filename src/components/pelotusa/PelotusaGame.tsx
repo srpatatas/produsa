@@ -26,7 +26,7 @@ function getMedal(score: number) {
   return MEDALS.find((m) => score >= m.min) || null;
 }
 
-const BEST_KEY = "flappy-trionda-best";
+const BEST_KEY = "flappy-d10s-best";
 
 export function PelotusaGame() {
   const user = useUser();
@@ -122,7 +122,7 @@ export function PelotusaGame() {
 
       {status === "idle" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-4xl text-foreground text-center">FLAPPY TRIONDA</h2>
+          <h2 className="font-title text-4xl text-foreground text-center">FLAPPY D10S</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             Hacé jueguitos con la trionda como el D10S. Tocá para mantenerla en el aire, meté goles pasando entre los arcos, juntá banderas y esquivá a los comodines.
           </p>

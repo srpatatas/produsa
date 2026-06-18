@@ -229,7 +229,7 @@ export function NextMatchCountdown() {
               <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-pink-500 via-rose-400 to-fuchsia-400 shadow-md shadow-pink-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
                 <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">⚽</span>
               </div>
-              <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Flappy Trionda</span>
+              <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Flappy D10S</span>
             </Link>
           )}
         </div>
