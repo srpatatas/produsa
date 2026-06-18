@@ -21,6 +21,9 @@ export const COMODIN_SPEED_MULT = 1.5;
 export const FLAG_CHANCE = 0.3;
 export const FLAG_BONUS = 2;
 
+export const TROPHY_BONUS = 3;
+export const TROPHY_DURATION = 180;
+
 export interface Defender {
   x: number;
   row: number;
@@ -65,6 +68,13 @@ export interface WaterLane {
   platforms: Platform[];
 }
 
+export interface Trophy {
+  col: number;
+  row: number;
+  ticksLeft: number;
+  collected: boolean;
+}
+
 export interface FrogusaState {
   playerCol: number;
   playerRow: number;
@@ -72,6 +82,7 @@ export interface FrogusaState {
   waterLanes: WaterLane[];
   playerX: number;
   flags: BonusFlag[];
+  trophy: Trophy | null;
   score: number;
   goals: number;
   lives: number;

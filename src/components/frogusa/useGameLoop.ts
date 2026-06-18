@@ -201,6 +201,14 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             text: "+5", time: now, color: "#22c55e",
           });
         }
+        if (result.trophyCollected) {
+          scoreRef.current += 3;
+          popupsRef.current.push({
+            x: (result.state.playerCol + 0.5) * CELL_W,
+            y: (result.state.playerRow + 0.5) * CELL_H,
+            text: "+3 🏆", time: now, color: "#f59e0b",
+          });
+        }
         if (result.flagCollected) {
           scoreRef.current += 1;
           popupsRef.current.push({
@@ -465,6 +473,24 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
               ctx.fill();
             }
           }
+        }
+      }
+
+      // --- TROPHY ---
+      if (s.trophy && !s.trophy.collected) {
+        const tx = (s.trophy.col + 0.5) * CELL_W * scale;
+        const ty = (s.trophy.row + 0.5) * CELL_H * scale;
+        const tr = CELL_W * scale * 0.4;
+        const blink = s.trophy.ticksLeft < 60 ? Math.sin(now * 0.02) > 0 : true;
+        if (blink) {
+          ctx.save();
+          ctx.shadowColor = "#f59e0b";
+          ctx.shadowBlur = 15;
+          ctx.font = `${Math.round(tr * 1.6)}px sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("🏆", tx, ty);
+          ctx.restore();
         }
       }
 

@@ -14,11 +14,14 @@ import {
   COMODIN_SPEED_MULT,
   FLAG_CHANCE,
   FLAG_CODES,
+  TROPHY_BONUS,
+  TROPHY_DURATION,
   type Lane,
   type Defender,
   type WaterLane,
   type Platform,
   type BonusFlag,
+  type Trophy,
   type FrogusaState,
 } from "./gameTypes";
 
@@ -109,6 +112,7 @@ export function createInitialState(): FrogusaState {
     lanes: [],
     waterLanes: [],
     flags: [],
+    trophy: null,
     score: 0,
     goals: 0,
     lives: LIVES_INIT,
@@ -170,10 +174,11 @@ export interface TickResult {
   hitComodinIdx: number;
   drowned: boolean;
   flagCollected: boolean;
+  trophyCollected: boolean;
 }
 
 export function gameTick(state: FrogusaState): TickResult {
-  const noOp: TickResult = { state, scored: false, hit: false, hitComodinIdx: -1, drowned: false, flagCollected: false };
+  const noOp: TickResult = { state, scored: false, hit: false, hitComodinIdx: -1, drowned: false, flagCollected: false, trophyCollected: false };
   if (state.status !== "playing") return noOp;
 
   let { score, goals, lives, playerX, playerCol } = state;
@@ -207,7 +212,7 @@ export function gameTick(state: FrogusaState): TickResult {
     goals++;
     score += 5;
     const next = resetToStart({ ...state, lanes, waterLanes, flags, score, goals, lives });
-    return { state: { ...next, scoreTime: performance.now() }, scored: true, hit: false, hitComodinIdx: -1, drowned: false, flagCollected: false };
+    return { state: { ...next, scoreTime: performance.now() }, scored: true, hit: false, hitComodinIdx: -1, drowned: false, flagCollected: false, trophyCollected: false };
   }
 
   // Water zone: ride logs or drown
@@ -237,7 +242,7 @@ export function gameTick(state: FrogusaState): TickResult {
         if (lives <= 0) {
           return {
             state: { ...state, lanes, waterLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
-            scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false,
+            scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false, trophyCollected: false,
           };
         }
         return {
@@ -247,7 +252,7 @@ export function gameTick(state: FrogusaState): TickResult {
             playerX: PLAYER_START_COL * CELL_W,
             status: "hit", hitTime: performance.now(),
           },
-          scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false,
+          scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false, trophyCollected: false,
         };
       }
 
@@ -258,7 +263,7 @@ export function gameTick(state: FrogusaState): TickResult {
         if (lives <= 0) {
           return {
             state: { ...state, lanes, waterLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
-            scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false,
+            scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false, trophyCollected: false,
           };
         }
         return {
@@ -268,7 +273,7 @@ export function gameTick(state: FrogusaState): TickResult {
             playerX: PLAYER_START_COL * CELL_W,
             status: "hit", hitTime: performance.now(),
           },
-          scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false,
+          scored: false, hit: false, hitComodinIdx: -1, drowned: true, flagCollected: false, trophyCollected: false,
         };
       }
     }
@@ -285,7 +290,26 @@ export function gameTick(state: FrogusaState): TickResult {
     }
   }
 
-  // Defender collision (only in non-safe, non-invasion rows)
+  // Trophy: tick, collect, or spawn
+  let trophy = state.trophy ? { ...state.trophy } : null;
+  let trophyCollected = false;
+  if (trophy && !trophy.collected) {
+    trophy.ticksLeft--;
+    if (trophy.ticksLeft <= 0) {
+      trophy = null;
+    } else if (trophy.row === state.playerRow && trophy.col === playerCol) {
+      trophy.collected = true;
+      trophyCollected = true;
+      score += TROPHY_BONUS;
+    }
+  }
+  // Spawn trophy randomly (only in defender rows 1-5, ~0.5% per tick)
+  if (!trophy && Math.random() < 0.005) {
+    const row = 1 + Math.floor(Math.random() * 5);
+    trophy = { col: Math.floor(Math.random() * COLS), row, ticksLeft: TROPHY_DURATION, collected: false };
+  }
+
+  // Defender collision (only in non-safe, non-water rows)
   if (!SAFE_ROWS.includes(state.playerRow) && !WATER_ROWS.includes(state.playerRow)) {
     const pLeft = playerX;
     const pRight = playerX + CELL_W;
@@ -300,7 +324,7 @@ export function gameTick(state: FrogusaState): TickResult {
           if (lives <= 0) {
             return {
               state: { ...state, lanes, waterLanes, flags, score, goals, lives: 0, playerX, playerCol, status: "lost", hitTime: performance.now() },
-              scored: false, hit: true, hitComodinIdx: d.isComodin ? d.comodinIdx : -1, drowned: false, flagCollected,
+              scored: false, hit: true, hitComodinIdx: d.isComodin ? d.comodinIdx : -1, drowned: false, flagCollected, trophyCollected: false,
             };
           }
           return {
@@ -310,7 +334,7 @@ export function gameTick(state: FrogusaState): TickResult {
               playerX: PLAYER_START_COL * CELL_W,
               status: "hit", hitTime: performance.now(),
             },
-            scored: false, hit: true, hitComodinIdx: d.isComodin ? d.comodinIdx : -1, drowned: false, flagCollected,
+            scored: false, hit: true, hitComodinIdx: d.isComodin ? d.comodinIdx : -1, drowned: false, flagCollected, trophyCollected: false,
           };
         }
       }
@@ -318,7 +342,7 @@ export function gameTick(state: FrogusaState): TickResult {
   }
 
   return {
-    state: { ...state, lanes, waterLanes, flags, score, goals, lives, playerX, playerCol, status: "playing" },
-    scored: false, hit: false, hitComodinIdx: -1, drowned: false, flagCollected,
+    state: { ...state, lanes, waterLanes, flags, trophy, score, goals, lives, playerX, playerCol, status: "playing" },
+    scored: false, hit: false, hitComodinIdx: -1, drowned: false, flagCollected, trophyCollected,
   };
 }
