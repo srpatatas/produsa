@@ -201,11 +201,11 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           });
         }
         if (result.flagCollected) {
-          scoreRef.current += 2;
+          scoreRef.current += 1;
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: (result.state.playerRow + 0.5) * CELL_H,
-            text: "+2", time: now, color: "#22c55e",
+            text: "+1", time: now, color: "#22c55e",
           });
         }
         if (result.hit) scoreRef.current = Math.max(0, scoreRef.current);
