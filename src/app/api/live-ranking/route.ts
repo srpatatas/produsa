@@ -13,6 +13,9 @@ interface LiveScoreParam {
   awayScore: number;
 }
 
+let cachedResult: { key: string; data: unknown; time: number } | null = null;
+const CACHE_TTL_MS = 10_000;
+
 export const GET = withAuth(async (req, session) => {
   const scoresParam = req.nextUrl.searchParams.get("scores");
   if (!scoresParam) {
@@ -24,6 +27,11 @@ export const GET = withAuth(async (req, session) => {
     liveScores = JSON.parse(scoresParam);
   } catch {
     return NextResponse.json({ error: "scores inválido" }, { status: 400 });
+  }
+
+  const cacheKey = liveScores.map((s) => `${s.matchId}:${s.homeScore}-${s.awayScore}`).join("|");
+  if (cachedResult && cachedResult.key === cacheKey && Date.now() - cachedResult.time < CACHE_TTL_MS) {
+    return NextResponse.json(cachedResult.data);
   }
 
   const sql = getDb();
@@ -110,5 +118,7 @@ export const GET = withAuth(async (req, session) => {
     previousPosition: baselinePosition[entry.user.id] ?? idx + 1,
   }));
 
-  return NextResponse.json({ ranking: result });
+  const response = { ranking: result };
+  cachedResult = { key: cacheKey, data: response, time: Date.now() };
+  return NextResponse.json(response);
 });
