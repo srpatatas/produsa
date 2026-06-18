@@ -343,40 +343,51 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         ctx.restore();
       }
 
-      // Flags of next match (if available)
+      // Flags of next match (side by side: flag v flag)
       const sInfo = stadiumInfoRef.current;
       if (sInfo?.homeFlag && sInfo?.awayFlag) {
-        const fW = stadH * 0.7;
+        const fW = stadH * 0.45;
         const fH = fW * 0.65;
+        const gap = 6;
+        const vsFontSize = Math.round(fH * 0.5);
+        const totalW = fW * 2 + gap + vsFontSize * 1.5;
+        const startX = canvasWidth - totalW - 6;
         const fY = (stadH - fH) / 2;
+
         const homeImg = flagCache.current.get(sInfo.homeFlag);
         const awayImg = flagCache.current.get(sInfo.awayFlag);
         if (homeImg) {
           ctx.save();
-          ctx.globalAlpha = 0.85;
           ctx.beginPath();
-          ctx.roundRect(6, fY, fW, fH, 3);
+          ctx.roundRect(startX, fY, fW, fH, 2);
           ctx.clip();
-          ctx.drawImage(homeImg, 6, fY, fW, fH);
+          ctx.drawImage(homeImg, startX, fY, fW, fH);
           ctx.restore();
-          ctx.strokeStyle = "rgba(255,255,255,0.4)";
+          ctx.strokeStyle = "rgba(255,255,255,0.5)";
           ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.roundRect(6, fY, fW, fH, 3);
+          ctx.roundRect(startX, fY, fW, fH, 2);
           ctx.stroke();
         }
+
+        ctx.fillStyle = "rgba(255,255,255,0.7)";
+        ctx.font = `bold ${vsFontSize}px Outfit, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("v", startX + fW + gap / 2 + vsFontSize * 0.4, stadH / 2);
+
         if (awayImg) {
+          const ax = startX + fW + gap + vsFontSize * 0.8;
           ctx.save();
-          ctx.globalAlpha = 0.85;
           ctx.beginPath();
-          ctx.roundRect(canvasWidth - fW - 6, fY, fW, fH, 3);
+          ctx.roundRect(ax, fY, fW, fH, 2);
           ctx.clip();
-          ctx.drawImage(awayImg, canvasWidth - fW - 6, fY, fW, fH);
+          ctx.drawImage(awayImg, ax, fY, fW, fH);
           ctx.restore();
-          ctx.strokeStyle = "rgba(255,255,255,0.4)";
+          ctx.strokeStyle = "rgba(255,255,255,0.5)";
           ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.roundRect(canvasWidth - fW - 6, fY, fW, fH, 3);
+          ctx.roundRect(ax, fY, fW, fH, 2);
           ctx.stroke();
         }
       }
