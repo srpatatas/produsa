@@ -200,17 +200,6 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         setLives(result.state.lives);
 
         if (result.hit) {
-          if (result.hitComodinIdx >= 0) {
-            const phrases = COMODIN_HIT_PHRASES[result.hitComodinIdx];
-            if (phrases) {
-              bubblesRef.current.push({
-                x: stateRef.current.playerCol * CELL_W + CELL_W / 2,
-                y: stateRef.current.playerRow * CELL_H,
-                text: phrases[Math.floor(Math.random() * phrases.length)],
-                time: now,
-              });
-            }
-          }
           if (result.state.status === "lost") {
             setStatus("lost");
           } else {
