@@ -76,13 +76,13 @@ export const COMODIN_IMAGES = [
 ];
 
 export const COMODIN_HIT_PHRASES = [
-  ["¡Te cobré offside!", "¡Acá manda la AFA!", "¡Sanción para vos!", "¡Tarjeta roja!"],
-  ["¡INCREÍBLE señores, LO CHOCÓ!", "¡QUÉ GOLPE!", "¡MAMITA QUERIDA!", "¡SE FUE AL PASTO!"],
-  ["You're fired from flying!", "Nobody blocks like me!", "I build the best walls!", "Sad! Very sad flying!"],
+  ["¡Al Diego no, Chiqui!", "¡Le cobraste offside al D10S!", "¡Sanción al barrilete!", "¡Tarjeta roja al Diego!"],
+  ["¡LO CHOCARON AL DIEGO!", "¡NO PUEDE SER señores!", "¡DEJALO JUGAR AL PIBE!", "¡MAMITA lo que le hicieron!"],
+  ["I blocked Diego! Tremendous!", "Nobody stops the D10S... wait, I did!", "Diego, you're fired!", "Sad Diego! Very sad!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
-  ["¡La próxima no te salvás!", "¡Suerte nomás!", "¡Ya te voy a agarrar!", "¡Eso fue offside eh!"],
-  ["¡SE ESCAPÓ señores!", "¡INCREÍBLE la gambeta!", "¡NO LO PUDO AGARRAR!", "¡QUÉ CINTURA!"],
-  ["You got lucky, very lucky!", "I'll get you next time!", "Nobody escapes me... well, you did", "Unfair! Rigged game!"],
+  ["¡El Diego no perdona!", "¡No lo parás al D10S!", "¡Gambeta maradoniana!", "¡Eso es offside, Diego!"],
+  ["¡SE LES ESCAPÓ EL DIEGO!", "¡QUÉ GAMBETA DEL D10S!", "¡BARRILETE CÓSMICO!", "¡Imposible marcarlo!"],
+  ["Diego escaped! Unfair!", "Nobody dribbles like that!", "I'll build a bigger wall next time!", "The D10S is too good!"],
 ];
