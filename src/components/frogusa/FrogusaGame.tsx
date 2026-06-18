@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
-import { useFrogusaLoop } from "./useGameLoop";
-import { CANVAS_H, CANVAS_W } from "./gameTypes";
+import { useFrogusaLoop, type StadiumInfo } from "./useGameLoop";
+import { CANVAS_H, CANVAS_W, VENUE_TO_STADIUM } from "./gameTypes";
+import { getNextUnifiedMatch } from "@/lib/unifiedMatches";
+import { getTeam } from "@/data/teams";
 
 interface LeaderboardEntry {
   position: number;
@@ -33,6 +35,21 @@ export function FrogusaGame() {
 
   const playerAvatar = user.avatar?.startsWith("http") ? user.avatar : null;
 
+  const firstStadium = useMemo<StadiumInfo | null>(() => {
+    const next = getNextUnifiedMatch();
+    if (!next?.venue) return null;
+    const img = VENUE_TO_STADIUM[next.venue];
+    if (!img) return null;
+    const home = next.homeTeamId ? getTeam(next.homeTeamId) : null;
+    const away = next.awayTeamId ? getTeam(next.awayTeamId) : null;
+    return {
+      image: img,
+      label: next.venue,
+      homeFlag: home?.flagCode,
+      awayFlag: away?.flagCode,
+    };
+  }, []);
+
   const {
     canvasRef,
     canvasHeight,
@@ -43,7 +60,7 @@ export function FrogusaGame() {
     start,
     handleTouchStart,
     handleTouchEnd,
-  } = useFrogusaLoop(canvasWidth, playerAvatar);
+  } = useFrogusaLoop(canvasWidth, playerAvatar, firstStadium);
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
 

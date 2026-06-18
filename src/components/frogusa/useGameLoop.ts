@@ -10,8 +10,8 @@ import {
   SAFE_ROWS,
   COMODIN_IMAGES,
   WATER_ROWS,
+  ALL_STADIUM_IMAGES,
   COMODIN_HIT_PHRASES,
-  COMODIN_DODGE_PHRASES,
   FLAG_CODES,
   type FrogusaState,
   type ScorePopup,
@@ -35,7 +35,14 @@ interface SpeechBubble {
   time: number;
 }
 
-export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | null) {
+export interface StadiumInfo {
+  image: string;
+  label: string;
+  homeFlag?: string;
+  awayFlag?: string;
+}
+
+export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | null, firstStadium: StadiumInfo | null) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<FrogusaState>(createInitialState());
   const rafRef = useRef(0);
@@ -43,12 +50,13 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const playerImg = useRef<HTMLImageElement | null>(null);
   const comodinImgs = useRef<HTMLImageElement[]>([]);
   const flagCache = useRef<Map<string, HTMLImageElement>>(new Map());
+  const stadiumImgRef = useRef<HTMLImageElement | null>(null);
+  const stadiumInfoRef = useRef<StadiumInfo | null>(null);
   const popupsRef = useRef<ScorePopup[]>([]);
   const bubblesRef = useRef<SpeechBubble[]>([]);
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
-  const prevRowRef = useRef(-1);
-  const hitMessageRef = useRef("¡FOUL!");
+  const hitMessageRef = useRef("¡CRASH!");
 
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -79,17 +87,38 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       .catch(() => {});
   }, []);
 
+  const loadStadium = useCallback((info: StadiumInfo) => {
+    stadiumInfoRef.current = info;
+    loadImage(info.image)
+      .then((img) => { stadiumImgRef.current = img; })
+      .catch(() => { stadiumImgRef.current = null; });
+    if (info.homeFlag) ensureFlag(info.homeFlag);
+    if (info.awayFlag) ensureFlag(info.awayFlag);
+  }, [ensureFlag]);
+
+  const rotateStadium = useCallback(() => {
+    const idx = Math.floor(Math.random() * ALL_STADIUM_IMAGES.length);
+    const img = ALL_STADIUM_IMAGES[idx];
+    const label = img.split("/").pop()?.replace(".png", "").replace(/-/g, " ") ?? "";
+    loadStadium({ image: img, label });
+  }, [loadStadium]);
+
   const start = useCallback(() => {
     stateRef.current = startGame();
     popupsRef.current = [];
     bubblesRef.current = [];
     scoreRef.current = 0;
     goalsRef.current = 0;
+    if (firstStadium) {
+      loadStadium(firstStadium);
+    } else {
+      rotateStadium();
+    }
     setScore(0);
     setLives(3);
     setGoals(0);
     setStatus("playing");
-  }, []);
+  }, [firstStadium, loadStadium, rotateStadium]);
 
   const move = useCallback((dir: Direction) => {
     const s = stateRef.current;
@@ -174,6 +203,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         if (result.scored) {
           goalsRef.current++;
           scoreRef.current += 5;
+          rotateStadium();
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: GOAL_ROW * CELL_H + CELL_H / 2,
@@ -294,33 +324,47 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
       // --- STADIUM at top (row 0) ---
       const stadH = CELL_H * scale;
-      ctx.save();
-      // Stadium body
-      const stadGrad = ctx.createLinearGradient(0, 0, 0, stadH);
-      stadGrad.addColorStop(0, "#1e293b");
-      stadGrad.addColorStop(1, "#334155");
-      ctx.fillStyle = stadGrad;
+      // Dark background
+      ctx.fillStyle = "#0f172a";
       ctx.fillRect(0, 0, canvasWidth, stadH);
-      // Stadium arch
-      ctx.fillStyle = "#475569";
-      ctx.beginPath();
-      ctx.ellipse(canvasWidth / 2, stadH, canvasWidth * 0.4, stadH * 0.6, 0, Math.PI, 0);
-      ctx.fill();
-      // Stadium lights
-      ctx.fillStyle = "#fbbf24";
-      for (let lx = canvasWidth * 0.15; lx < canvasWidth * 0.85; lx += canvasWidth * 0.1) {
-        ctx.beginPath();
-        ctx.arc(lx, stadH * 0.3, 3, 0, Math.PI * 2);
-        ctx.fill();
+
+      // Stadium image
+      if (stadiumImgRef.current) {
+        const img = stadiumImgRef.current;
+        const imgAspect = img.width / img.height;
+        const drawH = stadH * 0.85;
+        const drawW = drawH * imgAspect;
+        const drawX = (canvasWidth - drawW) / 2;
+        ctx.drawImage(img, drawX, (stadH - drawH) / 2, drawW, drawH);
       }
-      // Stadium text
-      ctx.fillStyle = "#e2e8f0";
-      const stadFont = Math.round(scale * 0.025);
-      ctx.font = `bold ${stadFont}px Outfit, sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("🏟️ ESTADIO", canvasWidth / 2, stadH * 0.55);
-      ctx.restore();
+
+      // Flags of next match (if available)
+      const sInfo = stadiumInfoRef.current;
+      if (sInfo?.homeFlag && sInfo?.awayFlag) {
+        const fSize = stadH * 0.3;
+        const homeImg = flagCache.current.get(sInfo.homeFlag);
+        const awayImg = flagCache.current.get(sInfo.awayFlag);
+        if (homeImg) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7, 2);
+          ctx.clip();
+          ctx.drawImage(homeImg, 4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7);
+          ctx.restore();
+        }
+        if (awayImg) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.roundRect(canvasWidth - fSize - 4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7, 2);
+          ctx.clip();
+          ctx.drawImage(awayImg, canvasWidth - fSize - 4, (stadH - fSize * 0.7) / 2, fSize, fSize * 0.7);
+          ctx.restore();
+        }
+      }
+
+      // Stadium bottom border
+      ctx.fillStyle = "rgba(255,255,255,0.15)";
+      ctx.fillRect(0, stadH - 1, canvasWidth, 1);
 
       // --- BONUS FLAGS ---
       for (const f of s.flags) {

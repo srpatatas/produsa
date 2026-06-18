@@ -100,6 +100,27 @@ export const FLAG_CODES = [
   "jo", "nz", "eg", "uz", "gh", "cv",
 ];
 
+export const VENUE_TO_STADIUM: Record<string, string> = {
+  "Arrowhead Stadium": "/images/stadiums/arrowhead-stadium.png",
+  "AT&T Stadium": "/images/stadiums/att-stadium.png",
+  "BC Place": "/images/stadiums/bc-place.png",
+  "BMO Field": "/images/stadiums/bmo-field.png",
+  "Estadio Akron": "/images/stadiums/estadio-akron.png",
+  "Estadio Azteca": "/images/stadiums/estadio-azteca.png",
+  "Estadio BBVA": "/images/stadiums/estadio-bbva.png",
+  "Gillette Stadium": "/images/stadiums/gillette-stadium.png",
+  "Hard Rock Stadium": "/images/stadiums/hard-rock-stadium.png",
+  "Levi's Stadium": "/images/stadiums/levis-stadium.png",
+  "Lincoln Financial Field": "/images/stadiums/lincoln-financial.png",
+  "Lumen Field": "/images/stadiums/lumen-field.png",
+  "Mercedes-Benz Stadium": "/images/stadiums/mercedes-benz-stadium.png",
+  "MetLife Stadium": "/images/stadiums/metlife-stadium.png",
+  "NRG Stadium": "/images/stadiums/nrg-stadium.png",
+  "SoFi Stadium": "/images/stadiums/sofi-stadium.png",
+};
+
+export const ALL_STADIUM_IMAGES = Object.values(VENUE_TO_STADIUM);
+
 export const COMODIN_IMAGES = [
   "/images/comodin-fecha-1.jpg",
   "/images/comodin-fecha-2.jpg",
