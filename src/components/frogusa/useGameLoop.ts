@@ -171,27 +171,6 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const result = gameTick(stateRef.current);
         stateRef.current = result.state;
 
-        // Detect comodin dodge: left a lane that had a comodin
-        const curRow = result.state.playerRow;
-        if (prevRowRef.current !== curRow && prevRowRef.current >= 0) {
-          const prevLane = result.state.lanes.find((l) => l.row === prevRowRef.current);
-          if (prevLane) {
-            const dodgedComodin = prevLane.defenders.find((d) => d.isComodin);
-            if (dodgedComodin) {
-              const phrases = COMODIN_DODGE_PHRASES[dodgedComodin.comodinIdx];
-              if (phrases) {
-                bubblesRef.current.push({
-                  x: dodgedComodin.x + dodgedComodin.width / 2,
-                  y: prevRowRef.current * CELL_H,
-                  text: phrases[Math.floor(Math.random() * phrases.length)],
-                  time: now,
-                });
-              }
-            }
-          }
-        }
-        prevRowRef.current = curRow;
-
         if (result.scored) {
           goalsRef.current++;
           scoreRef.current += 5;
