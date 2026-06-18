@@ -158,10 +158,19 @@ export function usePelotusaLoop(canvasWidth: number) {
         trailRef.current = trailRef.current.map((d) => ({ ...d, x: d.x - driftSpeed, age: d.age + 1 }));
 
         if (result.scored) {
-          if (goalsRef.current === 10) {
+          if (goalsRef.current > 0 && goalsRef.current % 10 === 0) {
+            const chants = [
+              "¡DIEGOOO, DIEGOOO!",
+              "¡BARRILETE CÓSMICO!",
+              "¡MARADÓ, MARADÓ!",
+              "¡DE QUÉ PLANETA VINISTE!",
+              "¡LA MANO DE D10S!",
+              "¡GRACIAS DIEGO!",
+            ];
             popupsRef.current.push({
               x: 0.5, y: 0.4,
-              text: "D10S", time: now, color: "#f59e0b",
+              text: chants[((goalsRef.current / 10) - 1) % chants.length],
+              time: now, color: "#f59e0b",
             });
           } else {
             popupsRef.current.push({
