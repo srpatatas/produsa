@@ -10,7 +10,8 @@ export const PLAYER_START_ROW = ROWS - 1;
 export const PLAYER_START_COL = Math.floor(COLS / 2);
 export const GOAL_ROW = 0;
 
-export const SAFE_ROWS = [0, 6, ROWS - 1];
+export const SAFE_ROWS = [0, 5, 6, ROWS - 1];
+export const INVASION_ROWS = [1, 2, 3, 4];
 
 export const LIVES_INIT = 3;
 
@@ -51,10 +52,25 @@ export interface ScorePopup {
   color: string;
 }
 
+export interface Platform {
+  x: number;
+  width: number;
+  row: number;
+}
+
+export interface InvasionLane {
+  row: number;
+  direction: 1 | -1;
+  speed: number;
+  platforms: Platform[];
+}
+
 export interface FrogusaState {
   playerCol: number;
   playerRow: number;
   lanes: Lane[];
+  invasionLanes: InvasionLane[];
+  playerX: number;
   flags: BonusFlag[];
   score: number;
   goals: number;

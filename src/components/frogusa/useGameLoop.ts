@@ -9,6 +9,7 @@ import {
   GOAL_ROW,
   SAFE_ROWS,
   COMODIN_IMAGES,
+  INVASION_ROWS,
   COMODIN_HIT_PHRASES,
   COMODIN_DODGE_PHRASES,
   FLAG_CODES,
@@ -215,8 +216,10 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         setGoals(goalsRef.current);
         setLives(result.state.lives);
 
-        if (result.hit) {
-          if (result.hitComodinIdx >= 0) {
+        if (result.hit || result.drowned) {
+          if (result.drowned) {
+            hitMessageRef.current = "¡INVASIÓN!";
+          } else if (result.hitComodinIdx >= 0) {
             const phrases = COMODIN_HIT_PHRASES[result.hitComodinIdx];
             hitMessageRef.current = phrases[Math.floor(Math.random() * phrases.length)];
           } else {
@@ -248,8 +251,20 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       for (let r = 0; r < ROWS; r++) {
         const ry = r * CELL_H * scale;
         const rh = CELL_H * scale;
-        ctx.fillStyle = r % 2 === 0 ? "#2d8a4e" : "#34a058";
-        ctx.fillRect(0, ry, canvasWidth, rh);
+        if (INVASION_ROWS.includes(r)) {
+          ctx.fillStyle = "#1a1a2e";
+          ctx.fillRect(0, ry, canvasWidth, rh);
+          // Crowd dots
+          for (let cx = 0; cx < canvasWidth; cx += 6) {
+            const cy2 = ry + ((cx * 7 + r * 13) % Math.floor(rh));
+            const hue = (cx * 3 + r * 50) % 360;
+            ctx.fillStyle = `hsla(${hue}, 70%, 50%, 0.25)`;
+            ctx.fillRect(cx, cy2, 3, 3);
+          }
+        } else {
+          ctx.fillStyle = r % 2 === 0 ? "#2d8a4e" : "#34a058";
+          ctx.fillRect(0, ry, canvasWidth, rh);
+        }
       }
 
       // Pitch lines
@@ -332,6 +347,42 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         }
       }
 
+      // --- INVASION PLATFORMS (police barriers) ---
+      for (const lane of s.invasionLanes) {
+        for (const plat of lane.platforms) {
+          const platX = plat.x * scale;
+          const platY = plat.row * CELL_H * scale;
+          const platW = plat.width * scale;
+          const platH = CELL_H * scale * 0.8;
+          const platYc = platY + (CELL_H * scale - platH) / 2;
+
+          // Barrier body
+          const barGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
+          barGrad.addColorStop(0, "#3b82f6");
+          barGrad.addColorStop(0.5, "#60a5fa");
+          barGrad.addColorStop(1, "#2563eb");
+          ctx.fillStyle = barGrad;
+          ctx.beginPath();
+          ctx.roundRect(platX, platYc, platW, platH, 4);
+          ctx.fill();
+
+          // White stripes
+          ctx.fillStyle = "rgba(255,255,255,0.3)";
+          const stripeW = 8;
+          for (let sx = platX; sx < platX + platW; sx += stripeW * 2) {
+            const sw = Math.min(stripeW, platX + platW - sx);
+            ctx.fillRect(sx, platYc, sw, platH);
+          }
+
+          // Border
+          ctx.strokeStyle = "rgba(255,255,255,0.4)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(platX, platYc, platW, platH, 4);
+          ctx.stroke();
+        }
+      }
+
       // --- DEFENDERS ---
       for (const lane of s.lanes) {
         for (const d of lane.defenders) {
@@ -395,7 +446,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       }
 
       // --- PLAYER ---
-      const px = (s.playerCol + 0.5) * CELL_W * scale;
+      const px = (INVASION_ROWS.includes(s.playerRow) ? s.playerX + CELL_W / 2 : (s.playerCol + 0.5) * CELL_W) * scale;
       const py = (s.playerRow + 0.5) * CELL_H * scale;
       const pr = CELL_H * scale * 0.85 * 0.38;
 
