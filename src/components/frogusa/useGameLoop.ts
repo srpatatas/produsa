@@ -218,7 +218,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
         if (result.hit || result.drowned) {
           if (result.drowned) {
-            hitMessageRef.current = "¡INVASIÓN!";
+            hitMessageRef.current = "¡AL AGUA!";
           } else if (result.hitComodinIdx >= 0) {
             const phrases = COMODIN_HIT_PHRASES[result.hitComodinIdx];
             hitMessageRef.current = phrases[Math.floor(Math.random() * phrases.length)];
@@ -252,14 +252,26 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const ry = r * CELL_H * scale;
         const rh = CELL_H * scale;
         if (INVASION_ROWS.includes(r)) {
-          ctx.fillStyle = "#1a1a2e";
+          // Water
+          const waterGrad = ctx.createLinearGradient(0, ry, 0, ry + rh);
+          waterGrad.addColorStop(0, "#1e40af");
+          waterGrad.addColorStop(0.5, "#2563eb");
+          waterGrad.addColorStop(1, "#1e40af");
+          ctx.fillStyle = waterGrad;
           ctx.fillRect(0, ry, canvasWidth, rh);
-          // Crowd dots
-          for (let cx = 0; cx < canvasWidth; cx += 6) {
-            const cy2 = ry + ((cx * 7 + r * 13) % Math.floor(rh));
-            const hue = (cx * 3 + r * 50) % 360;
-            ctx.fillStyle = `hsla(${hue}, 70%, 50%, 0.25)`;
-            ctx.fillRect(cx, cy2, 3, 3);
+          // Waves
+          ctx.strokeStyle = "rgba(147,197,253,0.25)";
+          ctx.lineWidth = 1;
+          const waveOff = (now * 0.03 + r * 40) % canvasWidth;
+          for (let wx = -20; wx < canvasWidth + 20; wx += 25) {
+            ctx.beginPath();
+            ctx.moveTo(wx + waveOff % 25, ry + rh * 0.3);
+            ctx.quadraticCurveTo(wx + 12 + waveOff % 25, ry + rh * 0.15, wx + 25 + waveOff % 25, ry + rh * 0.3);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(wx + (waveOff + 10) % 25, ry + rh * 0.7);
+            ctx.quadraticCurveTo(wx + 12 + (waveOff + 10) % 25, ry + rh * 0.55, wx + 25 + (waveOff + 10) % 25, ry + rh * 0.7);
+            ctx.stroke();
           }
         } else {
           ctx.fillStyle = r % 2 === 0 ? "#2d8a4e" : "#34a058";
@@ -347,39 +359,50 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         }
       }
 
-      // --- INVASION PLATFORMS (police barriers) ---
+      // --- PLATFORMS (logs) ---
       for (const lane of s.invasionLanes) {
         for (const plat of lane.platforms) {
           const platX = plat.x * scale;
           const platY = plat.row * CELL_H * scale;
           const platW = plat.width * scale;
-          const platH = CELL_H * scale * 0.8;
+          const platH = CELL_H * scale * 0.7;
           const platYc = platY + (CELL_H * scale - platH) / 2;
 
-          // Barrier body
-          const barGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
-          barGrad.addColorStop(0, "#3b82f6");
-          barGrad.addColorStop(0.5, "#60a5fa");
-          barGrad.addColorStop(1, "#2563eb");
-          ctx.fillStyle = barGrad;
+          // Log body
+          const logGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
+          logGrad.addColorStop(0, "#92400e");
+          logGrad.addColorStop(0.3, "#b45309");
+          logGrad.addColorStop(0.7, "#a16207");
+          logGrad.addColorStop(1, "#78350f");
+          ctx.fillStyle = logGrad;
           ctx.beginPath();
-          ctx.roundRect(platX, platYc, platW, platH, 4);
+          ctx.roundRect(platX, platYc, platW, platH, platH / 2);
           ctx.fill();
 
-          // White stripes
-          ctx.fillStyle = "rgba(255,255,255,0.3)";
-          const stripeW = 8;
-          for (let sx = platX; sx < platX + platW; sx += stripeW * 2) {
-            const sw = Math.min(stripeW, platX + platW - sx);
-            ctx.fillRect(sx, platYc, sw, platH);
+          // Wood grain lines
+          ctx.strokeStyle = "rgba(0,0,0,0.15)";
+          ctx.lineWidth = 0.8;
+          for (let lx = platX + 12; lx < platX + platW - 5; lx += 14) {
+            ctx.beginPath();
+            ctx.moveTo(lx, platYc + 3);
+            ctx.lineTo(lx, platYc + platH - 3);
+            ctx.stroke();
           }
 
-          // Border
-          ctx.strokeStyle = "rgba(255,255,255,0.4)";
-          ctx.lineWidth = 1;
+          // Highlight
+          ctx.fillStyle = "rgba(255,255,255,0.1)";
           ctx.beginPath();
-          ctx.roundRect(platX, platYc, platW, platH, 4);
-          ctx.stroke();
+          ctx.roundRect(platX + 4, platYc + 2, platW - 8, platH * 0.3, 3);
+          ctx.fill();
+
+          // Log end circles
+          ctx.fillStyle = "#78350f";
+          ctx.beginPath();
+          ctx.ellipse(platX + 3, platYc + platH / 2, 3, platH / 2 - 1, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.ellipse(platX + platW - 3, platYc + platH / 2, 3, platH / 2 - 1, 0, 0, Math.PI * 2);
+          ctx.fill();
         }
       }
 
