@@ -210,7 +210,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             const phrases = COMODIN_HIT_PHRASES[result.hitComodinIdx];
             hitMessageRef.current = phrases[Math.floor(Math.random() * phrases.length)];
           } else {
-            hitMessageRef.current = "¡FOUL!";
+            hitMessageRef.current = "¡CRASH!";
           }
           if (result.state.status === "lost") {
             setStatus("lost");
