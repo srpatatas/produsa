@@ -68,6 +68,7 @@ export function usePelotusaLoop(canvasWidth: number) {
   const deathTimeRef = useRef(0);
   const groundOffsetRef = useRef(0);
   const scoreRef = useRef(0);
+  const goalsRef = useRef(0);
   const trailRef = useRef<TrailDot[]>([]);
   const frameRef = useRef(0);
 
@@ -96,6 +97,7 @@ export function usePelotusaLoop(canvasWidth: number) {
     trailRef.current = [];
     deathTimeRef.current = 0;
     scoreRef.current = 0;
+    goalsRef.current = 0;
     groundOffsetRef.current = 0;
     frameRef.current = 0;
     setScore(0);
@@ -136,7 +138,7 @@ export function usePelotusaLoop(canvasWidth: number) {
         stateRef.current = result.state;
 
         // Score tracked here from events — single source of truth
-        if (result.scored) scoreRef.current += 1;
+        if (result.scored) { scoreRef.current += 1; goalsRef.current += 1; }
         if (result.flagCollected) scoreRef.current += 2;
         if (result.comodinHit) scoreRef.current = Math.max(0, scoreRef.current - 3);
         // Sync back to game state for difficulty ramp
@@ -500,7 +502,7 @@ export function usePelotusaLoop(canvasWidth: number) {
         ctx.restore();
       }
 
-      // --- BIG SCORE overlay ---
+      // --- BIG GOAL COUNT overlay ---
       if (s.status === "playing") {
         ctx.save();
         ctx.globalAlpha = 0.15;
@@ -508,7 +510,7 @@ export function usePelotusaLoop(canvasWidth: number) {
         ctx.font = `900 ${bigSize}px Outfit, sans-serif`;
         ctx.textAlign = "center";
         ctx.fillStyle = "#ffffff";
-        ctx.fillText(String(s.score), canvasWidth / 2, canvasHeight * 0.15);
+        ctx.fillText(String(goalsRef.current), canvasWidth / 2, canvasHeight * 0.15);
         ctx.restore();
       }
 
