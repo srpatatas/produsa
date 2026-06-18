@@ -59,7 +59,7 @@ function buildLane(cfg: typeof LANE_CONFIGS[0], level: number): Lane {
 
   for (let i = 0; i < count; i++) {
     const isComodin = Math.random() < COMODIN_CHANCE;
-    const w = isComodin ? CELL_W * 1.4 : CELL_W * 0.9;
+    const w = isComodin ? CELL_W * 1.6 : CELL_W * 1.4;
     defenders.push({
       x: cursor,
       row: cfg.row,
