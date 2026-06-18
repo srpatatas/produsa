@@ -281,28 +281,22 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const ry = r * CELL_H * scale;
         const rh = CELL_H * scale;
         if (WATER_ROWS.includes(r)) {
-          // Crowd zone
-          if (crowdImg.current) {
+          // Crowd zone — draw image once on first row, spanning all water rows
+          if (r === WATER_ROWS[0]) {
             const crowdH = WATER_ROWS.length * rh;
             const crowdY = WATER_ROWS[0] * CELL_H * scale;
-            if (r === WATER_ROWS[0]) {
-              ctx.save();
-              ctx.beginPath();
-              ctx.rect(0, crowdY, canvasWidth, crowdH);
-              ctx.clip();
+            if (crowdImg.current) {
               const imgAspect = crowdImg.current.width / crowdImg.current.height;
-              const drawH = crowdH;
-              const drawW = drawH * imgAspect;
+              const drawW = Math.max(canvasWidth, crowdH * imgAspect);
+              const drawH = drawW / imgAspect;
               const drawX = (canvasWidth - drawW) / 2;
               ctx.drawImage(crowdImg.current, drawX, crowdY, drawW, drawH);
-              // Darken overlay so platforms are visible
-              ctx.fillStyle = "rgba(0,0,0,0.3)";
+              ctx.fillStyle = "rgba(0,0,0,0.25)";
               ctx.fillRect(0, crowdY, canvasWidth, crowdH);
-              ctx.restore();
+            } else {
+              ctx.fillStyle = "#1a1a2e";
+              ctx.fillRect(0, crowdY, canvasWidth, crowdH);
             }
-          } else {
-            ctx.fillStyle = "#1a1a2e";
-            ctx.fillRect(0, ry, canvasWidth, rh);
           }
         } else if (r >= 7 && r <= 11) {
           // Road
@@ -457,7 +451,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         ctx.restore();
       }
 
-      // --- PLATFORMS (crowd barriers) ---
+      // --- PLATFORMS (VIP golf carts) ---
       for (const lane of s.waterLanes) {
         for (const plat of lane.platforms) {
           const platX = plat.x * scale;
@@ -466,40 +460,50 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           const platH = CELL_H * scale * 0.7;
           const platYc = platY + (CELL_H * scale - platH) / 2;
 
-          // Metal barrier body
-          const barGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
-          barGrad.addColorStop(0, "#94a3b8");
-          barGrad.addColorStop(0.4, "#cbd5e1");
-          barGrad.addColorStop(0.6, "#cbd5e1");
-          barGrad.addColorStop(1, "#64748b");
-          ctx.fillStyle = barGrad;
+          // Cart body (gold/black)
+          const cartGrad = ctx.createLinearGradient(0, platYc, 0, platYc + platH);
+          cartGrad.addColorStop(0, "#fbbf24");
+          cartGrad.addColorStop(0.4, "#f59e0b");
+          cartGrad.addColorStop(1, "#b45309");
+          ctx.fillStyle = cartGrad;
           ctx.beginPath();
-          ctx.roundRect(platX, platYc, platW, platH, 3);
+          ctx.roundRect(platX, platYc, platW, platH, 5);
           ctx.fill();
 
-          // Horizontal rails
-          ctx.strokeStyle = "rgba(255,255,255,0.3)";
-          ctx.lineWidth = 1;
+          // Roof
+          ctx.fillStyle = "#1e1b4b";
           ctx.beginPath();
-          ctx.moveTo(platX + 3, platYc + platH * 0.33);
-          ctx.lineTo(platX + platW - 3, platYc + platH * 0.33);
-          ctx.moveTo(platX + 3, platYc + platH * 0.66);
-          ctx.lineTo(platX + platW - 3, platYc + platH * 0.66);
-          ctx.stroke();
+          ctx.roundRect(platX + 4, platYc - 2, platW - 8, platH * 0.35, 3);
+          ctx.fill();
 
-          // Vertical posts
-          ctx.fillStyle = "#475569";
-          const postSpacing = platW / 4;
-          for (let px = platX + postSpacing; px < platX + platW - 5; px += postSpacing) {
-            ctx.fillRect(px - 1.5, platYc, 3, platH);
-          }
+          // VIP text
+          const vipFont = Math.max(7, Math.round(platH * 0.35));
+          ctx.font = `900 ${vipFont}px Outfit, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = "#fbbf24";
+          ctx.fillText("VIP", platX + platW / 2, platYc + platH * 0.55);
 
-          // Border
-          ctx.strokeStyle = "rgba(255,255,255,0.2)";
-          ctx.lineWidth = 1;
+          // Wheels
+          ctx.fillStyle = "#1e293b";
+          const wR = platH * 0.15;
           ctx.beginPath();
-          ctx.roundRect(platX, platYc, platW, platH, 3);
+          ctx.arc(platX + platW * 0.2, platYc + platH + 1, wR, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(platX + platW * 0.8, platYc + platH + 1, wR, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Gold glow
+          ctx.save();
+          ctx.shadowColor = "#f59e0b";
+          ctx.shadowBlur = 8;
+          ctx.strokeStyle = "rgba(251,191,36,0.4)";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(platX, platYc, platW, platH, 5);
           ctx.stroke();
+          ctx.restore();
         }
       }
 
