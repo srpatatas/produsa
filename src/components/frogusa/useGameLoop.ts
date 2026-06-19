@@ -64,7 +64,6 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const goalsRef = useRef(0);
   const lastFrameRef = useRef(0);
   const hitMessageRef = useRef("¡CRASH!");
-  const arrivedMessages = ["¡LLEGASTE!", "¡ADENTRO!", "¡A TIEMPO!", "¡VIP!", "¡DALE QUE ARRANCA!"];
   const arrivedMsgRef = useRef("");
 
   const [score, setScore] = useState(0);
@@ -268,7 +267,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           }
         }
         if (result.scored) {
-          arrivedMsgRef.current = arrivedMessages[Math.floor(Math.random() * arrivedMessages.length)];
+          const stadName = stadiumInfoRef.current?.label || "ESTADIO";
+          arrivedMsgRef.current = `¡${stadName.toUpperCase()}!`;
           setStatus("scored");
           setTimeout(() => {
             stateRef.current = { ...stateRef.current, status: "playing" };

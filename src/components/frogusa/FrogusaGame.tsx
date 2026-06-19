@@ -125,7 +125,7 @@ export function FrogusaGame() {
             Llegá al estadio a tiempo. Esquivá los micros en la calle y subite a los carritos VIP para no ser tragado por la hinchada. Juntá amigos y cuidado con los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
-            <span>Estadio <span className="text-fifa-gold">(5 pts)</span></span>
+            <span>Llegar <span className="text-fifa-gold">(5 pts)</span></span>
             <span>Amigo <span className="text-fifa-gold">(1 pt)</span></span>
             <span>Comodín <span className="text-red-400">(¡cuidado!)</span></span>
           </div>
@@ -145,10 +145,6 @@ export function FrogusaGame() {
             <div className="text-center">
               <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Puntos</span>
               <p className="font-display text-2xl text-fifa-gold">{score}</p>
-            </div>
-            <div className="text-center">
-              <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Goles</span>
-              <p className="font-display text-2xl text-foreground">{goals}</p>
             </div>
             <div className="text-center">
               <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Vidas</span>
@@ -173,7 +169,7 @@ export function FrogusaGame() {
                 <span className="text-4xl">🐸</span>
                 <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-red">Game Over</h3>
                 <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
-                <p className="text-xs text-fifa-dark-gray">{goals} goles</p>
+                <p className="text-xs text-fifa-dark-gray">{goals} {goals === 1 ? "estadio" : "estadios"}</p>
                 <button
                   type="button"
                   onClick={start}
