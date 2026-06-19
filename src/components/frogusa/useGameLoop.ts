@@ -245,10 +245,16 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         }
         if (result.flagCollected) {
           scoreRef.current += 1;
-          const fIdx = participants.length > 0
-            ? Math.abs(result.state.playerCol * 7 + result.state.playerRow * 13) % participants.length
-            : -1;
-          if (fIdx >= 0) collectedFriendsRef.current.add(fIdx);
+          if (participants.length > 0) {
+            const base = Math.abs(result.state.playerCol * 7 + result.state.playerRow * 13) % participants.length;
+            for (let off = 0; off < participants.length; off++) {
+              const candidate = (base + off) % participants.length;
+              if (!collectedFriendsRef.current.has(candidate)) {
+                collectedFriendsRef.current.add(candidate);
+                break;
+              }
+            }
+          }
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: (result.state.playerRow + 0.5) * CELL_H,
@@ -435,7 +441,15 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const fy = (f.row + 0.5) * CELL_H * scale;
         const r = CELL_H * scale * 0.35;
 
-        const pIdx = participants.length > 0 ? Math.abs(f.col * 7 + f.row * 13) % participants.length : -1;
+        let pIdx = -1;
+        if (participants.length > 0) {
+          const base = Math.abs(f.col * 7 + f.row * 13) % participants.length;
+          for (let off = 0; off < participants.length; off++) {
+            const candidate = (base + off) % participants.length;
+            if (!collectedFriendsRef.current.has(candidate)) { pIdx = candidate; break; }
+          }
+          if (pIdx < 0) pIdx = base;
+        }
         const p = pIdx >= 0 ? participants[pIdx] : null;
         if (p?.avatar) {
           if (!avatarCache.current.has(p.avatar)) {
