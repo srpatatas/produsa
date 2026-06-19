@@ -29,9 +29,16 @@ async function getFinishedMatchIds(): Promise<Set<string>> {
   return new Set(rows.map((r) => r.match_id as string));
 }
 
+let responseCache: { data: unknown; time: number } | null = null;
+const RESPONSE_CACHE_TTL = 12_000;
+
 export async function GET() {
   if (!isAnyMatchInLiveWindow()) {
     return NextResponse.json({ scores: {}, finished: [] });
+  }
+
+  if (responseCache && Date.now() - responseCache.time < RESPONSE_CACHE_TTL) {
+    return NextResponse.json(responseCache.data);
   }
 
   const key = process.env.API_FOOTBALL_KEY;
@@ -79,5 +86,7 @@ export async function GET() {
     }
   }
 
-  return NextResponse.json({ scores, finished });
+  const response = { scores, finished };
+  responseCache = { data: response, time: Date.now() };
+  return NextResponse.json(response);
 }
