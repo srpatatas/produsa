@@ -50,7 +50,7 @@ function randomFlag(): string {
 }
 
 function buildLane(cfg: typeof LANE_CONFIGS[0], level: number): Lane {
-  const speed = BASE_SPEED * cfg.speedMult * (1 + (level - 1) * 0.15);
+  const speed = BASE_SPEED * cfg.speedMult * (1 + (level - 1) * 0.2);
   const extraCount = Math.floor((level - 1) / 3);
   const count = cfg.count + extraCount;
 
