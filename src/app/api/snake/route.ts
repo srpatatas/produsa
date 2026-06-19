@@ -5,15 +5,6 @@ import { withAuth } from "@/lib/apiAuth";
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
 
-  await sql`
-    CREATE TABLE IF NOT EXISTS snake_scores (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      score INTEGER NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `;
-
   const rows = await sql`
     SELECT DISTINCT ON (ss.user_id)
       ss.user_id, ss.score, u.name, u.avatar
@@ -44,15 +35,6 @@ export const POST = withAuth(async (req, session) => {
   }
 
   const sql = getDb();
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS snake_scores (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      score INTEGER NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `;
 
   await sql`
     INSERT INTO snake_scores (user_id, score)
