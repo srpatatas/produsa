@@ -45,6 +45,8 @@ export function InicioDashboard() {
 
   const dashboardRefreshedRef = useRef(false);
 
+  const emptyResponsesRef = useRef(0);
+
   const pollTick = useCallback(async () => {
     const live = getLiveUnifiedMatches();
     if (live.length === 0) {
@@ -54,10 +56,19 @@ export function InicioDashboard() {
       return;
     }
 
+    // Stop polling after 3 consecutive empty responses
+    if (emptyResponsesRef.current >= 3) return;
+
     try {
       const res = await fetch("/api/live-score");
       if (!res.ok) return;
       const { scores, finished } = await res.json();
+
+      if (!scores || Object.keys(scores).length === 0) {
+        emptyResponsesRef.current++;
+        return;
+      }
+      emptyResponsesRef.current = 0;
 
       const finishedSet = new Set<string>(finished ?? []);
       const activeMatches = live.filter((m) => !finishedSet.has(m.id));
