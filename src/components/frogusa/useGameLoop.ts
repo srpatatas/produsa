@@ -737,20 +737,25 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       // --- SCORED flash ---
       if (status === "scored") {
         const elapsed = now - s.scoreTime;
-        if (elapsed < 600) {
+        if (elapsed < 900) {
+          const alpha = elapsed < 200 ? elapsed / 200 : 1 - (elapsed - 200) / 700;
           ctx.save();
-          ctx.globalAlpha = 0.4 * (1 - elapsed / 600);
+          ctx.globalAlpha = alpha;
 
-          const fontSize = Math.round(scale * 0.1);
+          // Dark backdrop
+          ctx.fillStyle = "rgba(0,0,0,0.4)";
+          ctx.fillRect(0, canvasHeight * 0.35, canvasWidth, canvasHeight * 0.3);
+
+          const fontSize = Math.round(scale * 0.065);
           ctx.font = `900 ${fontSize}px Outfit, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.strokeStyle = "rgba(0,0,0,0.5)";
-          ctx.lineWidth = 4;
+          ctx.strokeStyle = "rgba(0,0,0,0.7)";
+          ctx.lineWidth = 5;
           ctx.strokeText(arrivedMsgRef.current, canvasWidth / 2, canvasHeight / 2);
-          ctx.shadowColor = "#22c55e";
-          ctx.shadowBlur = 20;
-          ctx.fillStyle = "#22c55e";
+          ctx.shadowColor = "#f59e0b";
+          ctx.shadowBlur = 25;
+          ctx.fillStyle = "#fbbf24";
           ctx.fillText(arrivedMsgRef.current, canvasWidth / 2, canvasHeight / 2);
           ctx.restore();
         }
