@@ -11,6 +11,7 @@ import {
   COMODIN_IMAGES,
   WATER_ROWS,
   ALL_STADIUM_IMAGES,
+  VENUE_TO_STADIUM,
   COMODIN_HIT_PHRASES,
   FLAG_CODES,
   type FrogusaState,
@@ -114,7 +115,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     } else {
       const idx = Math.floor(Math.random() * ALL_STADIUM_IMAGES.length);
       const img = ALL_STADIUM_IMAGES[idx];
-      loadStadium({ image: img, label: "" });
+      const name = Object.entries(VENUE_TO_STADIUM).find(([, v]) => v === img)?.[0] ?? "Estadio";
+      loadStadium({ image: img, label: name });
     }
   }, [loadStadium, stadiumPool]);
 
@@ -225,7 +227,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             text: "+5", time: now, color: "#22c55e",
           });
 
-          if (goalsRef.current >= 16) {
+          if (goalsRef.current >= 3) { // TODO: 16
             stateRef.current.score = scoreRef.current;
             stateRef.current.goals = goalsRef.current;
             setScore(scoreRef.current);
@@ -287,7 +289,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             }, 800);
           }
         }
-        if (result.scored && goalsRef.current < 16) {
+        if (result.scored && goalsRef.current < 3) { // TODO: 16
           const stadName = stadiumInfoRef.current?.label || "ESTADIO";
           arrivedMsgRef.current = `¡${stadName.toUpperCase()}!`;
           setStatus("scored");
