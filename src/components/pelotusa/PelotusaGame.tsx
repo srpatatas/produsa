@@ -106,7 +106,7 @@ export function PelotusaGame() {
     return () => window.removeEventListener("keydown", onDown);
   }, [doFlap]);
 
-  const handleTap = useCallback((e: React.TouchEvent | React.MouseEvent) => {
+  const handleTap = useCallback((e: React.PointerEvent) => {
     e.preventDefault();
     doFlap();
   }, [doFlap]);
@@ -157,8 +157,7 @@ export function PelotusaGame() {
           <div
             className="relative overflow-hidden select-none"
             style={{ touchAction: "none", WebkitTapHighlightColor: "transparent", WebkitUserSelect: "none" }}
-            onTouchStart={handleTap}
-            onMouseDown={handleTap}
+            onPointerDown={handleTap}
           >
             <canvas
               ref={canvasRef}

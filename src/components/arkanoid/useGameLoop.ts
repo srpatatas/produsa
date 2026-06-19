@@ -104,9 +104,15 @@ export function useArkanoidLoop(canvasWidth: number) {
   useEffect(() => {
     if (status !== "playing") return;
 
+    let lastFrame = 0;
     const loop = () => {
+      const now = performance.now();
+      const elapsed = lastFrame ? now - lastFrame : 16.67;
+      lastFrame = now;
+      const dt = elapsed / 16.67;
+
       stateRef.current.paddle = paddleRef.current;
-      const s = gameTick(stateRef.current);
+      const s = gameTick(stateRef.current, dt);
       stateRef.current = s;
       setScore(s.score);
       setLives(s.lives);

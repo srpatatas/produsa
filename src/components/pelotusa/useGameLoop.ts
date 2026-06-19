@@ -67,6 +67,7 @@ export function usePelotusaLoop(canvasWidth: number) {
   const bubblesRef = useRef<SpeechBubble[]>([]);
   const deathTimeRef = useRef(0);
   const groundOffsetRef = useRef(0);
+  const lastFrameRef = useRef(0);
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
   const trailRef = useRef<TrailDot[]>([]);
@@ -133,8 +134,12 @@ export function usePelotusaLoop(canvasWidth: number) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       // --- UPDATE ---
+      const elapsed = lastFrameRef.current ? now - lastFrameRef.current : 16.67;
+      lastFrameRef.current = now;
+      const dt = elapsed / 16.67;
+
       if (status === "playing") {
-        const result = gameTick(stateRef.current);
+        const result = gameTick(stateRef.current, dt);
         stateRef.current = result.state;
 
         // Score tracked here from events — single source of truth

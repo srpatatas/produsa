@@ -114,7 +114,7 @@ export interface TickResult {
   flagY: number;
 }
 
-export function gameTick(state: PelotusaState): TickResult {
+export function gameTick(state: PelotusaState, dt: number = 1): TickResult {
   const noOp: TickResult = {
     state,
     scored: false, scoredPipeX: 0, scoredPipeGapY: 0,
@@ -129,8 +129,8 @@ export function gameTick(state: PelotusaState): TickResult {
   let flags = state.flags.map((f) => ({ ...f }));
 
   // Gravity
-  ballVel = Math.min(ballVel + GRAVITY, MAX_VEL);
-  ballY += ballVel;
+  ballVel = Math.min(ballVel + GRAVITY * dt, MAX_VEL);
+  ballY += ballVel * dt;
 
   // Floor / ceiling death
   if (ballY - BALL_RADIUS <= 0 || ballY + BALL_RADIUS >= CANVAS_H) {
@@ -139,8 +139,8 @@ export function gameTick(state: PelotusaState): TickResult {
   }
 
   // Move pipes & flags
-  for (const p of pipes) p.x -= speed;
-  for (const f of flags) f.x -= speed;
+  for (const p of pipes) p.x -= speed * dt;
+  for (const f of flags) f.x -= speed * dt;
 
   // Remove off-screen
   pipes = pipes.filter((p) => p.x + PIPE_W > -0.15);

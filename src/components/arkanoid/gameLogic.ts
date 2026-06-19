@@ -132,7 +132,7 @@ function getSpeed(state: ArkanoidState): number {
   return state.slowUntil > now ? base * 0.5 : base;
 }
 
-export function gameTick(state: ArkanoidState): ArkanoidState {
+export function gameTick(state: ArkanoidState, dt: number = 1): ArkanoidState {
   if (state.status !== "playing") return state;
 
   const now = typeof performance !== "undefined" ? performance.now() : 0;
@@ -148,8 +148,8 @@ export function gameTick(state: ArkanoidState): ArkanoidState {
     vy = (vy / mag) * actualSpeed;
   }
 
-  x += vx;
-  y += vy;
+  x += vx * dt;
+  y += vy * dt;
 
   // Wall bounces
   if (x - BALL_R <= 0) { x = BALL_R; vx = Math.abs(vx); }
@@ -259,7 +259,7 @@ export function gameTick(state: ArkanoidState): ArkanoidState {
   const activePowerUps: PowerUp[] = [];
 
   for (const pu of newPowerUps) {
-    pu.y += pu.vy;
+    pu.y += pu.vy * dt;
     // Catch with paddle
     if (
       pu.y >= pTop &&
