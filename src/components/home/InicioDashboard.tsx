@@ -10,8 +10,7 @@ import { RecentResults } from "./RecentResults";
 import { LiveCarousel } from "@/components/live/LiveCarousel";
 import { LiveMiniRanking } from "@/components/live/LiveMiniRanking";
 
-const POLL_FAST_MS = 15_000;
-const POLL_SLOW_MS = 60_000;
+const POLL_INTERVAL_MS = 15_000;
 
 interface RecentResult extends UnifiedMatch {
   homeScore: number;
@@ -46,8 +45,6 @@ export function InicioDashboard() {
 
   const dashboardRefreshedRef = useRef(false);
 
-  const emptyResponsesRef = useRef(0);
-
   const pollTick = useCallback(async () => {
     const live = getLiveUnifiedMatches();
     if (live.length === 0) {
@@ -61,23 +58,6 @@ export function InicioDashboard() {
       const res = await fetch("/api/live-score");
       if (!res.ok) return;
       const { scores, finished } = await res.json();
-
-      const hasScores = scores && Object.keys(scores).length > 0;
-      if (!hasScores) {
-        emptyResponsesRef.current++;
-        // Switch to slow poll after 2 empty responses
-        if (emptyResponsesRef.current >= 2 && pollRef.current) {
-          clearInterval(pollRef.current);
-          pollRef.current = setInterval(pollTick, POLL_SLOW_MS);
-        }
-        return;
-      }
-      // Got scores — switch back to fast poll if we were slow
-      if (emptyResponsesRef.current >= 2 && pollRef.current) {
-        clearInterval(pollRef.current);
-        pollRef.current = setInterval(pollTick, POLL_FAST_MS);
-      }
-      emptyResponsesRef.current = 0;
 
       const finishedSet = new Set<string>(finished ?? []);
       const activeMatches = live.filter((m) => !finishedSet.has(m.id));
@@ -123,7 +103,7 @@ export function InicioDashboard() {
 
   useEffect(() => {
     pollTick();
-    pollRef.current = setInterval(pollTick, POLL_FAST_MS);
+    pollRef.current = setInterval(pollTick, POLL_INTERVAL_MS);
     return () => { if (pollRef.current) clearInterval(pollRef.current); };
   }, [pollTick]);
 
