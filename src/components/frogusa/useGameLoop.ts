@@ -62,6 +62,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const bubblesRef = useRef<SpeechBubble[]>([]);
   const scoreRef = useRef(0);
   const goalsRef = useRef(0);
+  const lastFrameRef = useRef(0);
   const hitMessageRef = useRef("¡CRASH!");
   const arrivedMessages = ["¡LLEGASTE!", "¡ADENTRO!", "¡A TIEMPO!", "¡VIP!", "¡DALE QUE ARRANCA!"];
   const arrivedMsgRef = useRef("");
@@ -206,8 +207,12 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       // --- UPDATE ---
+      const elapsed = lastFrameRef.current ? now - lastFrameRef.current : 16.67;
+      lastFrameRef.current = now;
+      const dt = elapsed / 16.67;
+
       if (status === "playing") {
-        const result = gameTick(stateRef.current);
+        const result = gameTick(stateRef.current, dt);
         stateRef.current = result.state;
 
         if (result.scored) {

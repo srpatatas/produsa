@@ -183,7 +183,7 @@ export interface TickResult {
   trophyCollected: boolean;
 }
 
-export function gameTick(state: FrogusaState): TickResult {
+export function gameTick(state: FrogusaState, dt: number = 1): TickResult {
   const noOp: TickResult = { state, scored: false, hit: false, hitComodinIdx: -1, drowned: false, flagCollected: false, trophyCollected: false };
   if (state.status !== "playing") return noOp;
 
@@ -193,7 +193,7 @@ export function gameTick(state: FrogusaState): TickResult {
   const lanes = state.lanes.map((lane) => ({
     ...lane,
     defenders: lane.defenders.map((d) => {
-      let nx = d.x + lane.speed * lane.direction * (d.isComodin ? COMODIN_SPEED_MULT : 1);
+      let nx = d.x + lane.speed * lane.direction * (d.isComodin ? COMODIN_SPEED_MULT : 1) * dt;
       if (lane.direction === 1 && nx > CANVAS_W + CELL_W) nx = -d.width;
       if (lane.direction === -1 && nx + d.width < -CELL_W) nx = CANVAS_W;
       return { ...d, x: nx };
@@ -204,7 +204,7 @@ export function gameTick(state: FrogusaState): TickResult {
   const waterLanes = state.waterLanes.map((lane) => ({
     ...lane,
     platforms: lane.platforms.map((p) => {
-      let nx = p.x + lane.speed * lane.direction;
+      let nx = p.x + lane.speed * lane.direction * dt;
       if (lane.direction === 1 && nx > CANVAS_W + CELL_W) nx = -p.width;
       if (lane.direction === -1 && nx + p.width < -CELL_W) nx = CANVAS_W;
       return { ...p, x: nx };
@@ -234,7 +234,7 @@ export function gameTick(state: FrogusaState): TickResult {
         if (pRight > plat.x + CELL_W * 0.1 && pLeft < plat.x + plat.width - CELL_W * 0.1) {
           onPlatform = true;
           // Ride: carry player with platform
-          playerX += lane.speed * lane.direction;
+          playerX += lane.speed * lane.direction * dt;
           playerCol = Math.round(playerX / CELL_W);
           playerCol = Math.max(0, Math.min(COLS - 1, playerCol));
           break;
