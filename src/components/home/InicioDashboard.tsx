@@ -104,7 +104,24 @@ export function InicioDashboard() {
   useEffect(() => {
     pollTick();
     pollRef.current = setInterval(pollTick, POLL_INTERVAL_MS);
-    return () => { if (pollRef.current) clearInterval(pollRef.current); };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (pollRef.current) {
+          clearInterval(pollRef.current);
+          pollRef.current = null;
+        }
+      } else {
+        pollTick();
+        pollRef.current = setInterval(pollTick, POLL_INTERVAL_MS);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
   }, [pollTick]);
 
   const isLive = liveMatches.length > 0;
