@@ -228,7 +228,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             text: "+5", time: now, color: "#22c55e",
           });
 
-          if (goalsRef.current >= 3) { // TODO: 16
+          if (goalsRef.current >= 16) {
             stateRef.current.score = scoreRef.current;
             stateRef.current.goals = goalsRef.current;
             setScore(scoreRef.current);
@@ -290,7 +290,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
             }, 800);
           }
         }
-        if (result.scored && goalsRef.current < 3) { // TODO: 16
+        if (result.scored && goalsRef.current < 16) {
           arrivedMsgRef.current = `¡${arrivedStadium.toUpperCase()}!`;
           setStatus("scored");
           setTimeout(() => {
