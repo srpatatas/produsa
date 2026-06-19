@@ -734,22 +734,29 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
       // --- HIT flash + text ---
       if (status === "hit" || s.status === "hit") {
         const elapsed = now - s.hitTime;
-        if (elapsed < 700) {
+        if (elapsed < 800) {
+          const alpha = elapsed < 150 ? elapsed / 150 : 1 - (elapsed - 150) / 650;
           ctx.save();
-          ctx.globalAlpha = 0.35 * (1 - elapsed / 700);
-          ctx.fillStyle = "#ef4444";
+          ctx.globalAlpha = alpha;
+
+          // Red tint
+          ctx.fillStyle = "rgba(239,68,68,0.25)";
           ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-          const fontSize = Math.round(scale * 0.09);
+          // Dark backdrop
+          ctx.fillStyle = "rgba(0,0,0,0.5)";
+          ctx.fillRect(0, canvasHeight * 0.4, canvasWidth, canvasHeight * 0.2);
+
+          const hitMsg = hitMessageRef.current;
+          const fontSize = Math.round(scale * 0.05);
           ctx.font = `900 ${fontSize}px Outfit, sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.strokeStyle = "rgba(0,0,0,0.6)";
+          ctx.strokeStyle = "rgba(0,0,0,0.7)";
           ctx.lineWidth = 4;
-          const hitMsg = hitMessageRef.current;
           ctx.strokeText(hitMsg, canvasWidth / 2, canvasHeight / 2);
           ctx.shadowColor = "#ef4444";
-          ctx.shadowBlur = 20;
+          ctx.shadowBlur = 15;
           ctx.fillStyle = "#ffffff";
           ctx.fillText(hitMsg, canvasWidth / 2, canvasHeight / 2);
           ctx.restore();
