@@ -122,7 +122,7 @@ export function FrogusaGame() {
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-4xl text-foreground text-center">FROGUSA</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Llegá al estadio a tiempo. Cruzá la calle esquivando micros y el río saltando troncos. Juntá amigos por el camino y cuidado con los comodines.
+            Llegá al estadio a tiempo. Cruzá la calle esquivando micros y la hinchada subiéndote a los carritos VIP. Juntá amigos por el camino y cuidado con los comodines.
           </p>
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-[11px] text-fifa-dark-gray">
             <span>Estadio <span className="text-fifa-gold">(5 pts)</span></span>
