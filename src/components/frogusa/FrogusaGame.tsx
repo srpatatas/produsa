@@ -98,7 +98,7 @@ export function FrogusaGame() {
   }, []);
 
   useEffect(() => {
-    if (status !== "lost") return;
+    if (status !== "lost" && status !== "won") return;
     if (score > 0) {
       fetch("/api/frogusa", {
         method: "POST",
@@ -139,7 +139,7 @@ export function FrogusaGame() {
         </div>
       )}
 
-      {(status === "playing" || status === "hit" || status === "scored" || status === "lost") && (
+      {(status === "playing" || status === "hit" || status === "scored" || status === "lost" || status === "won") && (
         <div ref={gameAreaRef} className="flex flex-col items-center gap-3">
           <div className="flex w-full items-center justify-center gap-6">
             <div className="text-center">
@@ -170,6 +170,22 @@ export function FrogusaGame() {
                 <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-red">Game Over</h3>
                 <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
                 <p className="text-xs text-fifa-dark-gray">{goals} {goals === 1 ? "estadio" : "estadios"}</p>
+                <button
+                  type="button"
+                  onClick={start}
+                  className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
+                >
+                  Jugar de nuevo
+                </button>
+              </div>
+            )}
+
+            {status === "won" && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/70 backdrop-blur-sm">
+                <span className="text-5xl">🏟️</span>
+                <h3 className="font-display text-xl uppercase tracking-wider text-fifa-gold">¡Recorriste los 16 estadios!</h3>
+                <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
+                <p className="text-xs text-emerald-400">¡Completaste el mundial!</p>
                 <button
                   type="button"
                   onClick={start}

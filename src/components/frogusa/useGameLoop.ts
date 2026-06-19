@@ -69,7 +69,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [goals, setGoals] = useState(0);
-  const [status, setStatus] = useState<"loading" | "idle" | "playing" | "hit" | "scored" | "lost">("loading");
+  const [status, setStatus] = useState<"loading" | "idle" | "playing" | "hit" | "scored" | "lost" | "won">("loading");
 
   const scale = canvasWidth / CANVAS_W;
   const canvasHeight = CANVAS_H * scale;
@@ -184,7 +184,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
 
   // Game loop
   useEffect(() => {
-    if (status !== "playing" && status !== "hit" && status !== "scored" && status !== "lost") return;
+    if (status !== "playing" && status !== "hit" && status !== "scored" && status !== "lost" && status !== "won") return;
 
     const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
 
@@ -217,12 +217,21 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         if (result.scored) {
           goalsRef.current++;
           scoreRef.current += 5;
-          rotateStadium();
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: GOAL_ROW * CELL_H + CELL_H / 2,
             text: "+5", time: now, color: "#22c55e",
           });
+
+          if (goalsRef.current >= 16) {
+            stateRef.current.score = scoreRef.current;
+            stateRef.current.goals = goalsRef.current;
+            setScore(scoreRef.current);
+            setGoals(goalsRef.current);
+            setStatus("won");
+          } else {
+            rotateStadium();
+          }
         }
         if (result.trophyCollected) {
           scoreRef.current += 3;

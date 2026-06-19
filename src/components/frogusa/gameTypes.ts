@@ -88,7 +88,7 @@ export interface FrogusaState {
   goals: number;
   lives: number;
   level: number;
-  status: "idle" | "playing" | "scored" | "hit" | "lost";
+  status: "idle" | "playing" | "scored" | "hit" | "lost" | "won";
   hitTime: number;
   scoreTime: number;
 }
