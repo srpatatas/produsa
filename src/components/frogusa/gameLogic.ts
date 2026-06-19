@@ -25,7 +25,7 @@ import {
   type FrogusaState,
 } from "./gameTypes";
 
-const BASE_SPEED = 0.003;
+const BASE_SPEED = 0.002;
 
 // Road lanes (bottom half — buses to dodge, rows 7-11)
 const LANE_CONFIGS: { row: number; dir: 1 | -1; speedMult: number; count: number }[] = [
