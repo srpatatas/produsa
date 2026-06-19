@@ -309,9 +309,10 @@ export function gameTick(state: FrogusaState, dt: number = 1): TickResult {
       score += TROPHY_BONUS;
     }
   }
-  // Spawn trophy randomly (only in defender rows 1-5, ~0.5% per tick)
+  // Spawn pochoclos randomly on any non-safe row
   if (!trophy && Math.random() < 0.005) {
-    const row = 1 + Math.floor(Math.random() * 5);
+    const rows = [1, 2, 3, 4, 5, 7, 8, 9, 10, 11];
+    const row = rows[Math.floor(Math.random() * rows.length)];
     trophy = { col: Math.floor(Math.random() * COLS), row, ticksLeft: TROPHY_DURATION, collected: false };
   }
 

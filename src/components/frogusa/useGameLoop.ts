@@ -243,7 +243,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: (result.state.playerRow + 0.5) * CELL_H,
-            text: "+3 🏆", time: now, color: "#f59e0b",
+            text: "+3 🍿", time: now, color: "#f59e0b",
           });
         }
         if (result.flagCollected) {
@@ -601,7 +601,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           ctx.font = `${Math.round(tr * 1.6)}px sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillText("🏆", tx, ty);
+          ctx.fillText("🍿", tx, ty);
           ctx.restore();
         }
       }
