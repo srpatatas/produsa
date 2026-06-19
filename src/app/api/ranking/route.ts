@@ -6,7 +6,14 @@ export const dynamic = "force-dynamic";
 import { MatchResult } from "@/data/results";
 import { fetchRankingMaps, fetchBonusMaps, computeMatchPoints, computeBonusPoints } from "@/lib/rankingService";
 
+let rankingCache: { data: unknown; time: number } | null = null;
+const RANKING_CACHE_TTL = 30_000;
+
 export const GET = withAuth(async (req, session) => {
+  if (rankingCache && Date.now() - rankingCache.time < RANKING_CACHE_TTL) {
+    return NextResponse.json(rankingCache.data);
+  }
+
   const sql = getDb();
 
   const [maps, resultsRows] = await Promise.all([
@@ -46,5 +53,7 @@ export const GET = withAuth(async (req, session) => {
     return a.wrong - b.wrong;
   });
 
-  return NextResponse.json({ ranking });
+  const response = { ranking };
+  rankingCache = { data: response, time: Date.now() };
+  return NextResponse.json(response);
 });

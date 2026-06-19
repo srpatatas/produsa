@@ -33,12 +33,14 @@ let responseCache: { data: unknown; time: number } | null = null;
 const RESPONSE_CACHE_TTL = 12_000;
 
 export async function GET() {
+  const cdnHeaders = { "Cache-Control": "public, s-maxage=12, stale-while-revalidate=30" };
+
   if (!isAnyMatchInLiveWindow()) {
-    return NextResponse.json({ scores: {}, finished: [] });
+    return NextResponse.json({ scores: {}, finished: [] }, { headers: cdnHeaders });
   }
 
   if (responseCache && Date.now() - responseCache.time < RESPONSE_CACHE_TTL) {
-    return NextResponse.json(responseCache.data);
+    return NextResponse.json(responseCache.data, { headers: cdnHeaders });
   }
 
   const key = process.env.API_FOOTBALL_KEY;
@@ -88,5 +90,9 @@ export async function GET() {
 
   const response = { scores, finished };
   responseCache = { data: response, time: Date.now() };
-  return NextResponse.json(response);
+  return NextResponse.json(response, {
+    headers: {
+      "Cache-Control": "public, s-maxage=12, stale-while-revalidate=30",
+    },
+  });
 }

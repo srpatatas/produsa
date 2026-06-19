@@ -4,9 +4,17 @@ import { withAuth } from "@/lib/apiAuth";
 
 export const dynamic = "force-dynamic";
 
+const predCache = new Map<string, { data: unknown; time: number }>();
+const PRED_CACHE_TTL = 15_000;
+
 export const GET = withAuth(async (req, session) => {
   const matchId = req.nextUrl.searchParams.get("matchId");
   if (!matchId) return NextResponse.json({ error: "matchId requerido" }, { status: 400 });
+
+  const cached = predCache.get(matchId);
+  if (cached && Date.now() - cached.time < PRED_CACHE_TTL) {
+    return NextResponse.json(cached.data);
+  }
 
   const sql = getDb();
 
@@ -45,8 +53,7 @@ export const GET = withAuth(async (req, session) => {
     isDoble: (r.outcome as string).length === 2,
   }));
 
-  return NextResponse.json({
-    predictions,
-    exactScoreEnabled: settingsRows.length > 0,
-  });
+  const response = { predictions, exactScoreEnabled: settingsRows.length > 0 };
+  predCache.set(matchId, { data: response, time: Date.now() });
+  return NextResponse.json(response);
 });

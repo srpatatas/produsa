@@ -23,7 +23,14 @@ export interface BonusMaps {
   exactValueWinners: Record<string, Set<number>>;
 }
 
+let mapsCache: { data: RankingMaps; time: number } | null = null;
+const MAPS_CACHE_TTL = 60_000;
+
 export async function fetchRankingMaps(sql: NeonQueryFunction<false, false>): Promise<RankingMaps> {
+  if (mapsCache && Date.now() - mapsCache.time < MAPS_CACHE_TTL) {
+    return mapsCache.data;
+  }
+
   const [users, predictions, comodines, exactScoreRows, matchSettingsRows] =
     await Promise.all([
       sql`SELECT id, name, avatar FROM users WHERE pin != 'PENDING' ORDER BY name`,
@@ -59,13 +66,15 @@ export async function fetchRankingMaps(sql: NeonQueryFunction<false, false>): Pr
 
   const exactScoreMatches = new Set(matchSettingsRows.map((r) => r.match_id as string));
 
-  return {
+  const result: RankingMaps = {
     users: users.map((u) => ({ id: u.id as number, name: u.name as string, avatar: u.avatar as string })),
     predByUser,
     comodinByUser,
     exactByUser,
     exactScoreMatches,
   };
+  mapsCache = { data: result, time: Date.now() };
+  return result;
 }
 
 export async function fetchBonusMaps(
