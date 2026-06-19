@@ -148,6 +148,10 @@ export function FrogusaGame() {
               <p className="font-display text-2xl text-fifa-gold">{score}</p>
             </div>
             <div className="text-center">
+              <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Estadios</span>
+              <p className="font-display text-2xl text-foreground">{goals}/16</p>
+            </div>
+            <div className="text-center">
               <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Vidas</span>
               <p className="font-display text-2xl text-foreground">{"❤️".repeat(lives)}</p>
             </div>
