@@ -4,7 +4,13 @@ import { withAuth } from "@/lib/apiAuth";
 
 export const dynamic = "force-dynamic";
 
+let lbCache: { data: unknown; time: number } | null = null;
+
 export const GET = withAuth(async (req, session) => {
+  if (lbCache && Date.now() - lbCache.time < 10_000) {
+    return NextResponse.json(lbCache.data);
+  }
+
   const sql = getDb();
 
   const rows = await sql`
@@ -26,7 +32,9 @@ export const GET = withAuth(async (req, session) => {
       score: r.score as number,
     }));
 
-  return NextResponse.json({ leaderboard });
+  const response = { leaderboard };
+  lbCache = { data: response, time: Date.now() };
+  return NextResponse.json(response);
 });
 
 export const POST = withAuth(async (req, session) => {
@@ -43,5 +51,6 @@ export const POST = withAuth(async (req, session) => {
     VALUES (${session.id}, ${score})
   `;
 
+  lbCache = null;
   return NextResponse.json({ ok: true });
 });
