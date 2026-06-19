@@ -65,6 +65,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
   const lastFrameRef = useRef(0);
   const hitMessageRef = useRef("¡CRASH!");
   const arrivedMsgRef = useRef("");
+  const collectedFriendsRef = useRef<Set<number>>(new Set());
 
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -123,6 +124,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     bubblesRef.current = [];
     scoreRef.current = 0;
     goalsRef.current = 0;
+    collectedFriendsRef.current = new Set();
     rotateStadium(true);
     setScore(0);
     setLives(3);
@@ -243,6 +245,10 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         }
         if (result.flagCollected) {
           scoreRef.current += 1;
+          const fIdx = participants.length > 0
+            ? Math.abs(result.state.playerCol * 7 + result.state.playerRow * 13) % participants.length
+            : -1;
+          if (fIdx >= 0) collectedFriendsRef.current.add(fIdx);
           popupsRef.current.push({
             x: (result.state.playerCol + 0.5) * CELL_W,
             y: (result.state.playerRow + 0.5) * CELL_H,
@@ -790,5 +796,6 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     start,
     handleTouchStart,
     handleTouchEnd,
+    collectedFriends: collectedFriendsRef,
   };
 }

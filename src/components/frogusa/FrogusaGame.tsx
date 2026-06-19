@@ -67,6 +67,7 @@ export function FrogusaGame() {
     start,
     handleTouchStart,
     handleTouchEnd,
+    collectedFriends,
   } = useFrogusaLoop(canvasWidth, playerAvatar, stadiumPool, participants);
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
@@ -164,37 +165,66 @@ export function FrogusaGame() {
               style={{ width: canvasWidth, height: canvasHeight, touchAction: "none" }}
             />
 
-            {status === "lost" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/70 backdrop-blur-sm">
-                <span className="text-4xl">🐸</span>
-                <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-red">Game Over</h3>
-                <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
-                <p className="text-xs text-fifa-dark-gray">{goals} {goals === 1 ? "estadio" : "estadios"}</p>
-                <button
-                  type="button"
-                  onClick={start}
-                  className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
-                >
-                  Jugar de nuevo
-                </button>
-              </div>
-            )}
-
-            {status === "won" && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/70 backdrop-blur-sm">
-                <span className="text-5xl">🏟️</span>
-                <h3 className="font-display text-xl uppercase tracking-wider text-fifa-gold">¡Recorriste los 16 estadios!</h3>
-                <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
-                <p className="text-xs text-emerald-400">¡Completaste el mundial!</p>
-                <button
-                  type="button"
-                  onClick={start}
-                  className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
-                >
-                  Jugar de nuevo
-                </button>
-              </div>
-            )}
+            {(status === "lost" || status === "won") && (() => {
+              const friends = Array.from(collectedFriends.current)
+                .map((idx) => participants[idx])
+                .filter(Boolean);
+              return status === "lost" ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl bg-black/70 backdrop-blur-sm">
+                  <span className="text-4xl">🐸</span>
+                  <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-red">Game Over</h3>
+                  <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
+                  <p className="text-xs text-fifa-dark-gray">{goals} {goals === 1 ? "estadio" : "estadios"}</p>
+                  {friends.length > 0 && (
+                    <div className="flex flex-col items-center gap-1">
+                      <p className="text-[10px] text-fifa-dark-gray">Llevaste a:</p>
+                      <div className="flex flex-wrap justify-center gap-1.5">
+                        {friends.map((f) => (
+                          <div key={f.name} className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5">
+                            <AvatarDisplay avatar={f.avatar} size="xs" />
+                            <span className="text-[9px] text-foreground">{f.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={start}
+                    className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
+                  >
+                    Jugar de nuevo
+                  </button>
+                </div>
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl bg-black/70 backdrop-blur-sm">
+                  <span className="text-5xl">🏟️</span>
+                  <h3 className="font-display text-xl uppercase tracking-wider text-fifa-gold">¡Recorriste los 16 estadios!</h3>
+                  <span className="font-display text-3xl text-fifa-gold">{score} pts</span>
+                  {friends.length > 0 && (
+                    <div className="flex flex-col items-center gap-1">
+                      <p className="text-[10px] text-emerald-400">Fuiste al mundial con:</p>
+                      <div className="flex flex-wrap justify-center gap-1.5">
+                        {friends.map((f) => (
+                          <div key={f.name} className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5">
+                            <AvatarDisplay avatar={f.avatar} size="xs" />
+                            <span className="text-[9px] text-foreground">{f.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <p className="text-xs text-emerald-400">¡Completaste el mundial!</p>
+                  <button
+                    type="button"
+                    onClick={start}
+                    className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white"
+                  >
+                    Jugar de nuevo
+                  </button>
+                </div>
+              );
+            })()}
           </div>
 
           {(status === "playing" || status === "hit" || status === "scored") && (
