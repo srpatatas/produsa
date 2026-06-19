@@ -107,8 +107,8 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     if (info.awayFlag) ensureFlag(info.awayFlag);
   }, [ensureFlag]);
 
-  const rotateStadium = useCallback(() => {
-    if (stadiumPool.length > 0) {
+  const rotateStadium = useCallback((firstGoal = false) => {
+    if (firstGoal && stadiumPool.length > 0) {
       const idx = Math.floor(Math.random() * stadiumPool.length);
       loadStadium(stadiumPool[idx]);
     } else {
@@ -124,7 +124,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
     bubblesRef.current = [];
     scoreRef.current = 0;
     goalsRef.current = 0;
-    rotateStadium();
+    rotateStadium(true);
     setScore(0);
     setLives(3);
     setGoals(0);
