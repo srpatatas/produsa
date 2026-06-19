@@ -218,6 +218,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
         const result = gameTick(stateRef.current, dt);
         stateRef.current = result.state;
 
+        const arrivedStadium = result.scored ? (stadiumInfoRef.current?.label || "Estadio") : "";
         if (result.scored) {
           goalsRef.current++;
           scoreRef.current += 5;
@@ -290,8 +291,7 @@ export function useFrogusaLoop(canvasWidth: number, playerAvatarUrl: string | nu
           }
         }
         if (result.scored && goalsRef.current < 3) { // TODO: 16
-          const stadName = stadiumInfoRef.current?.label || "ESTADIO";
-          arrivedMsgRef.current = `¡${stadName.toUpperCase()}!`;
+          arrivedMsgRef.current = `¡${arrivedStadium.toUpperCase()}!`;
           setStatus("scored");
           setTimeout(() => {
             stateRef.current = { ...stateRef.current, status: "playing" };
