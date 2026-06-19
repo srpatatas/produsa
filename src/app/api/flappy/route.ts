@@ -7,15 +7,6 @@ export const dynamic = "force-dynamic";
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
 
-  await sql`
-    CREATE TABLE IF NOT EXISTS pelotusa_scores (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      score INTEGER NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `;
-
   const rows = await sql`
     SELECT DISTINCT ON (s.user_id)
       s.user_id, s.score, u.name, u.avatar
@@ -46,15 +37,6 @@ export const POST = withAuth(async (req, session) => {
   }
 
   const sql = getDb();
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS pelotusa_scores (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      score INTEGER NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `;
 
   await sql`
     INSERT INTO pelotusa_scores (user_id, score)

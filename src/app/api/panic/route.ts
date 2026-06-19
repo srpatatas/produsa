@@ -5,18 +5,6 @@ import { withAuth } from "@/lib/apiAuth";
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
 
-  await sql`
-    CREATE TABLE IF NOT EXISTS panic_scores (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      score INTEGER NOT NULL,
-      time_seconds INTEGER NOT NULL,
-      lives_left INTEGER NOT NULL,
-      revealed_pct INTEGER NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `;
-
   const rows = await sql`
     SELECT DISTINCT ON (ps.user_id)
       ps.user_id, ps.score, ps.time_seconds, ps.lives_left, ps.revealed_pct,
@@ -51,18 +39,6 @@ export const POST = withAuth(async (req, session) => {
   }
 
   const sql = getDb();
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS panic_scores (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      score INTEGER NOT NULL,
-      time_seconds INTEGER NOT NULL,
-      lives_left INTEGER NOT NULL,
-      revealed_pct INTEGER NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
-    )
-  `;
 
   await sql`
     INSERT INTO panic_scores (user_id, score, time_seconds, lives_left, revealed_pct)
