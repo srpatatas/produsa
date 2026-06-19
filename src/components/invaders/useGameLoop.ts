@@ -138,18 +138,22 @@ export function useInvadersLoop(canvasWidth: number, playerAvatarUrl: string | n
   useEffect(() => {
     if (status !== "playing") return;
 
+    let lastFrame = 0;
     const loop = () => {
       const s = stateRef.current;
       const now = performance.now();
+      const elapsed = lastFrame ? now - lastFrame : 16.67;
+      lastFrame = now;
+      const dt = elapsed / 16.67;
 
       // Player movement
       let px = s.player;
-      if (keysDown.current.has("ArrowLeft")) px -= PLAYER_SPEED;
-      if (keysDown.current.has("ArrowRight")) px += PLAYER_SPEED;
+      if (keysDown.current.has("ArrowLeft")) px -= PLAYER_SPEED * dt;
+      if (keysDown.current.has("ArrowRight")) px += PLAYER_SPEED * dt;
       if (touchXRef.current !== null) {
         const target = touchXRef.current / scale;
         const diff = target - px;
-        px += diff * 0.15;
+        px += diff * 0.15 * dt;
       }
       px = Math.max(PLAYER_W / 2, Math.min(CANVAS_W - PLAYER_W / 2, px));
       stateRef.current.player = px;
@@ -163,7 +167,7 @@ export function useInvadersLoop(canvasWidth: number, playerAvatarUrl: string | n
       // Boss speech bubbles on hit
       const prevBosses = stateRef.current.bosses;
       const prevBossHit = lastBossHitRef.current;
-      const next = gameTick(stateRef.current, now);
+      const next = gameTick(stateRef.current, now, dt);
 
       if (next.bossHitTime > prevBossHit) {
         lastBossHitRef.current = next.bossHitTime;

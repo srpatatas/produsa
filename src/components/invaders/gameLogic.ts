@@ -195,7 +195,7 @@ export function shoot(state: InvadersState, now: number): InvadersState {
   };
 }
 
-export function gameTick(state: InvadersState, now: number): InvadersState {
+export function gameTick(state: InvadersState, now: number, dt: number = 1): InvadersState {
   if (state.status !== "playing") return state;
   let { invaders, bullets, bosses, direction, speed, score, lives, hitTime, bossHitTime, bossSpawned } = state;
 
@@ -203,7 +203,7 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
   bullets = bullets
     .map((b) => ({
       ...b,
-      y: b.y + (b.fromPlayer ? -BULLET_SPEED : BULLET_SPEED * 0.6),
+      y: b.y + (b.fromPlayer ? -BULLET_SPEED : BULLET_SPEED * 0.6) * dt,
     }))
     .filter((b) => b.y > -0.05 && b.y < CANVAS_H + 0.05);
 
@@ -230,7 +230,7 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
       if (!inv.alive) return inv;
       return {
         ...inv,
-        x: drop ? inv.x : inv.x + speed * direction,
+        x: drop ? inv.x : inv.x + speed * direction * dt,
         y: drop ? inv.y + INVADER_DROP : inv.y,
       };
     });
@@ -340,7 +340,7 @@ export function gameTick(state: InvadersState, now: number): InvadersState {
   // Boss movement
   for (let i = 0; i < bosses.length; i++) {
     const boss = bosses[i];
-    const newX = boss.x + boss.dir;
+    const newX = boss.x + boss.dir * dt;
 
     if (state.bossMode === "mandatory") {
       // Level 3: bounce
