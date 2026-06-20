@@ -240,6 +240,14 @@ export function NextMatchCountdown() {
               <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Frogusa</span>
             </Link>
           )}
+          {Date.now() >= Date.UTC(2026, 5, 20, 7, 0, 0) && (
+            <Link href="/trivia" className="group flex flex-col items-center gap-1.5">
+              <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-indigo-600 via-blue-900 to-indigo-950 shadow-md shadow-indigo-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
+                <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">💰</span>
+              </div>
+              <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Trivia</span>
+            </Link>
+          )}
         </div>
       </div>
 
