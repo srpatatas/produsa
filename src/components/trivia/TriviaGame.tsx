@@ -90,25 +90,22 @@ export function TriviaGame() {
   const handleContinue = () => {
     if (status !== "tree" || !treeReady) return;
     const hitSafety = SAFETY_NETS.includes(current);
-    if (hitSafety) {
-      setStatus("safety");
-      setTimeout(() => {
-        setCurrent((c) => c + 1);
-        setSelected(null);
-        setConfirmed(false);
-        setEliminated(new Set());
-        setHinchadaPcts(null);
-        setShowHint(false);
-        setStatus("playing");
-      }, 2500);
-    } else {
+    const resetForNext = () => {
       setCurrent((c) => c + 1);
       setSelected(null);
       setConfirmed(false);
       setEliminated(new Set());
       setHinchadaPcts(null);
       setShowHint(false);
-      setStatus("playing");
+      setShowCorrect(false);
+      setRevealMsg("");
+      setStatus("ready");
+    };
+    if (hitSafety) {
+      setStatus("safety");
+      setTimeout(resetForNext, 2500);
+    } else {
+      resetForNext();
     }
   };
 
@@ -299,8 +296,8 @@ export function TriviaGame() {
         >
           <div className="absolute inset-0 bg-black/75" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full gap-5">
-            <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-bebas)" }}>PREGUNTA 1</p>
-            <p className="text-lg text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>{PRIZE_LADDER[0].stage} — {PRIZE_LADDER[0].money}</p>
+            <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-bebas)" }}>PREGUNTA {current + 1}</p>
+            <p className="text-lg text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>{PRIZE_LADDER[current].stage} — {PRIZE_LADDER[current].money}</p>
             <p className="text-sm text-white/60 animate-pulse">Tocá cuando estés listo</p>
           </div>
         </div>
