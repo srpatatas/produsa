@@ -141,14 +141,14 @@ export function TriviaGame() {
   const optionLetter = ["A", "B", "C", "D"];
 
   const getOptionStyle = (idx: number) => {
-    const base = "relative overflow-hidden border border-indigo-500/40 bg-gradient-to-r from-indigo-950/80 via-indigo-900/60 to-indigo-950/80";
+    const base = "border border-cyan-500/30 bg-gradient-to-b from-[#1a1a4e] via-[#0d0d35] to-[#1a1a4e]";
     if (eliminated.has(idx)) return base + " opacity-20 pointer-events-none";
     if (confirmed) {
-      if (idx === q?.answer) return "relative overflow-hidden border-2 border-emerald-400 bg-gradient-to-r from-emerald-950/80 via-emerald-900/60 to-emerald-950/80 shadow-lg shadow-emerald-500/20";
-      if (idx === selected && idx !== q?.answer) return "relative overflow-hidden border-2 border-red-400 bg-gradient-to-r from-red-950/80 via-red-900/60 to-red-950/80 shadow-lg shadow-red-500/20";
+      if (idx === q?.answer) return "border-2 border-emerald-400 bg-gradient-to-b from-emerald-900/60 via-emerald-950/80 to-emerald-900/60 shadow-lg shadow-emerald-500/30";
+      if (idx === selected && idx !== q?.answer) return "border-2 border-red-400 bg-gradient-to-b from-red-900/60 via-red-950/80 to-red-900/60 shadow-lg shadow-red-500/30";
     }
-    if (idx === selected) return "relative overflow-hidden border-2 border-amber-400 bg-gradient-to-r from-amber-950/80 via-amber-900/60 to-amber-950/80 shadow-lg shadow-amber-500/20";
-    return base + " hover:border-indigo-400/60 hover:shadow-md hover:shadow-indigo-500/10";
+    if (idx === selected) return "border-2 border-amber-400 bg-gradient-to-b from-amber-900/40 via-[#1a1a4e] to-amber-900/40 shadow-lg shadow-amber-500/20";
+    return base + " hover:border-cyan-400/50 hover:shadow-md hover:shadow-cyan-500/10";
   };
 
   return (
@@ -223,10 +223,10 @@ export function TriviaGame() {
             })}
           </div>
 
-          {/* Question diamond */}
-          <div className="relative mx-auto w-full">
-            <div className="rounded-2xl border border-indigo-500/40 bg-gradient-to-b from-indigo-950/90 to-[#0a0a2e] px-5 py-5 shadow-lg shadow-indigo-500/10">
-              <p className="text-[10px] text-center text-indigo-400/60 uppercase tracking-widest mb-2">Pregunta {current + 1}</p>
+          {/* Question bar — hexagonal style */}
+          <div className="relative flex items-center mx-1">
+            <div className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
+            <div className="relative z-10 mx-auto w-full rounded-full border border-cyan-500/30 bg-gradient-to-b from-[#1a1a4e] via-[#0d0d35] to-[#1a1a4e] px-6 py-4 shadow-lg shadow-cyan-500/10">
               <p className="text-center text-sm font-medium text-white leading-relaxed">{q.q}</p>
             </div>
           </div>
@@ -256,25 +256,29 @@ export function TriviaGame() {
             </div>
           )}
 
-          {/* Options — diamond style */}
-          <div className="grid grid-cols-1 gap-2 px-1">
-            {q.options.map((opt, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => handleSelect(idx)}
-                disabled={eliminated.has(idx) || confirmed}
-                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
-              >
-                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-indigo-500/20 font-display text-xs font-bold text-amber-400">
-                  {optionLetter[idx]}
-                </span>
-                <span className="text-sm text-white/90">{opt}</span>
-                {hinchadaPcts && !eliminated.has(idx) && (
-                  <span className="ml-auto text-[10px] font-bold text-indigo-300">{hinchadaPcts[idx]}%</span>
-                )}
-              </button>
-            ))}
+          {/* Options — 2x2 hexagonal bars */}
+          <div className="relative mx-1">
+            <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent -translate-y-3" />
+            <div className="absolute left-0 right-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent translate-y-[-50%]" />
+            <div className="grid grid-cols-2 gap-x-2 gap-y-2">
+              {q.options.map((opt, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleSelect(idx)}
+                  disabled={eliminated.has(idx) || confirmed}
+                  className={`flex items-center gap-2 rounded-full px-3 py-2.5 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
+                >
+                  <span className="flex-shrink-0 font-display text-xs font-bold text-amber-400">
+                    {optionLetter[idx]}:
+                  </span>
+                  <span className="text-xs text-white/90 leading-tight">{opt}</span>
+                  {hinchadaPcts && !eliminated.has(idx) && (
+                    <span className="ml-auto text-[9px] font-bold text-indigo-300 flex-shrink-0">{hinchadaPcts[idx]}%</span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Confirm button */}
