@@ -182,20 +182,20 @@ export function TriviaGame() {
 
       {(status === "tree" || status === "playing" || status === "correct") && (
         <div
-          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden mb-16"
+          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden mb-16 h-[480px]"
           style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
         >
           <div className="absolute inset-0 bg-black/75" />
 
           {/* MONEY TREE */}
           {status === "tree" && (
-            <div className="relative z-10 flex flex-col items-center px-4 py-5 pb-20" >
+            <div className="relative z-10 flex flex-col items-center justify-center px-4 py-2 h-full">
               {/* Lifeline circles */}
-              <div className="flex justify-center gap-4 mb-3">
+              <div className="flex justify-center gap-3 mb-2">
                 {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
                   <div
                     key={key}
-                    className={`flex h-9 w-9 items-center justify-center rounded-full border-2 text-[10px] font-bold ${
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-[9px] font-bold ${
                       usedLifelines.has(key)
                         ? "border-gray-600 text-gray-600"
                         : "border-cyan-400 text-cyan-300"
@@ -207,7 +207,7 @@ export function TriviaGame() {
               </div>
 
               {/* Ladder */}
-              <div className="w-full max-w-xs flex flex-col gap-[3px]">
+              <div className="w-full max-w-xs flex flex-col gap-0">
                 {[...PRIZE_LADDER].reverse().map((prize, revIdx) => {
                   const idx = 14 - revIdx;
                   const isCurrent = idx === treeLevel;
@@ -218,7 +218,7 @@ export function TriviaGame() {
                   return (
                     <div
                       key={idx}
-                      className={`flex items-center gap-3 rounded-full px-4 py-1.5 transition-all duration-700 ${
+                      className={`flex items-center gap-3 rounded-full px-4 py-1 transition-all duration-700 ${
                         isNext
                           ? "bg-amber-500/30 ring-1 ring-amber-400/50 scale-[1.03]"
                           : isCurrent
