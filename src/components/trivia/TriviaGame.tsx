@@ -156,22 +156,34 @@ export function TriviaGame() {
     if (usedLifelines.has("hinchada") || !q || confirmed) return;
     setUsedLifelines((s) => new Set([...s, "hinchada"]));
     const pcts = [0, 0, 0, 0];
-    const correctPct = 40 + Math.floor(Math.random() * 25);
-    pcts[q.answer] = correctPct;
-
     const wrongIdxs = [0, 1, 2, 3].filter((i) => i !== q.answer && !eliminated.has(i));
-    let remaining = 100 - correctPct;
 
-    // Distribute remaining evenly with noise, never exceeding the correct answer
-    const maxPerWrong = Math.floor(correctPct * 0.7);
-    for (let i = 0; i < wrongIdxs.length; i++) {
-      if (i === wrongIdxs.length - 1) {
-        pcts[wrongIdxs[i]] = remaining;
+    // Harder questions = less reliable audience
+    // Easy (0-5): 85% chance audience picks right, Medium (6-10): 65%, Hard (11-14): 45%
+    const reliability = current < 6 ? 0.85 : current < 11 ? 0.65 : 0.45;
+    const audienceRight = Math.random() < reliability;
+
+    if (audienceRight) {
+      // Correct answer gets plurality but not dominant — close second
+      pcts[q.answer] = 30 + Math.floor(Math.random() * 15);
+      const topWrong = wrongIdxs[Math.floor(Math.random() * wrongIdxs.length)];
+      pcts[topWrong] = pcts[q.answer] - (3 + Math.floor(Math.random() * 10));
+    } else {
+      // Audience gets it wrong — a wrong answer leads
+      const topWrong = wrongIdxs[Math.floor(Math.random() * wrongIdxs.length)];
+      pcts[topWrong] = 30 + Math.floor(Math.random() * 15);
+      pcts[q.answer] = pcts[topWrong] - (3 + Math.floor(Math.random() * 10));
+    }
+
+    // Distribute remaining among the rest
+    let remaining = 100 - pcts.reduce((s, v) => s + v, 0);
+    const restIdxs = [0, 1, 2, 3].filter((i) => pcts[i] === 0 && !eliminated.has(i));
+    for (let i = 0; i < restIdxs.length; i++) {
+      if (i === restIdxs.length - 1) {
+        pcts[restIdxs[i]] = Math.max(2, remaining);
       } else {
-        const evenShare = Math.floor(remaining / (wrongIdxs.length - i));
-        const noise = Math.floor((Math.random() - 0.5) * evenShare * 0.6);
-        const share = Math.max(2, Math.min(maxPerWrong, evenShare + noise));
-        pcts[wrongIdxs[i]] = share;
+        const share = Math.max(2, Math.floor(remaining / (restIdxs.length - i)) + Math.floor((Math.random() - 0.5) * 8));
+        pcts[restIdxs[i]] = share;
         remaining -= share;
       }
     }
