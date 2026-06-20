@@ -33,6 +33,8 @@ export function TriviaGame() {
   const [score, setScore] = useState(0);
   const [treeLevel, setTreeLevel] = useState(-1);
   const [treeReady, setTreeReady] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     fetch("/api/trivia")
@@ -109,6 +111,47 @@ export function TriviaGame() {
       setStatus("playing");
     }
   };
+
+  const getTimeLimit = () => current < 6 ? 5 : current < 11 ? 10 : 15;
+
+  // Timer: start on playing, stop on confirm/status change
+  useEffect(() => {
+    if (status === "playing" && !confirmed) {
+      const limit = current < 6 ? 5 : current < 11 ? 10 : 15;
+      setTimer(limit);
+      timerRef.current = setInterval(() => {
+        setTimer((t) => {
+          if (t <= 1) {
+            if (timerRef.current) clearInterval(timerRef.current);
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+      return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    }
+    if (timerRef.current) clearInterval(timerRef.current);
+  }, [status, confirmed, current]);
+
+  // Time's up = auto-lose
+  useEffect(() => {
+    if (timer === 0 && status === "playing" && !confirmed && questions.length > 0) {
+      setConfirmed(true);
+      const safetyLevel = [...SAFETY_NETS].reverse().find((s) => s < current) ?? -1;
+      const finalScore = safetyLevel + 1;
+      setScore(finalScore);
+      setRevealMsg("¡Se acabó el tiempo!");
+      setTimeout(() => {
+        setShowCorrect(true);
+        setRevealMsg(`${optionLetter[q.answer]}: ${q.options[q.answer]}`);
+      }, 1500);
+      setTimeout(() => {
+        setRevealMsg("");
+        setStatus("wrong");
+        submitScore(finalScore);
+      }, 3500);
+    }
+  }, [timer, status, confirmed]);
 
   const handleSelect = (idx: number) => {
     if (status !== "playing" || confirmed || eliminated.has(idx)) return;
@@ -246,7 +289,11 @@ export function TriviaGame() {
 
       {(status === "tree" || status === "safety" || status === "playing" || status === "correct") && (
         <div
-          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden mb-16 h-[480px]"
+          className={`relative rounded-2xl overflow-hidden mb-16 h-[480px] transition-all duration-300 ${
+            timer <= 3 && timer > 0 && status === "playing" && !confirmed
+              ? "ring-2 ring-red-500/60 shadow-lg shadow-red-500/20"
+              : "ring-1 ring-indigo-500/20"
+          }`}
           style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
         >
           <div className="absolute inset-0 bg-black/75" />
@@ -385,11 +432,18 @@ export function TriviaGame() {
             </div>
           </div>
 
-          {/* Current prize level */}
-          <div className="relative z-10 flex items-center justify-center py-1">
+          {/* Current prize level + timer */}
+          <div className="relative z-10 flex items-center justify-between px-2 py-1">
             <span className="rounded-full bg-amber-500/20 px-4 py-1 text-sm font-bold text-amber-300 ring-1 ring-amber-400/30 tracking-wider" style={{ fontFamily: "var(--font-bebas)" }}>
               {current + 1} — {PRIZE_LADDER[current].stage}
             </span>
+            {!confirmed && (
+              <span className={`rounded-full px-3 py-1 text-sm font-bold tracking-wider ${
+                timer <= 3 ? "bg-red-500/30 text-red-400 ring-1 ring-red-400/50 animate-pulse" : "bg-white/10 text-white/70 ring-1 ring-white/20"
+              }`} style={{ fontFamily: "var(--font-bebas)" }}>
+                {timer}s
+              </span>
+            )}
           </div>
 
           {/* Question bar — hexagonal with extending lines */}
