@@ -127,19 +127,20 @@ function calculateOffer(
   playerCase: number,
   round: number,
 ): number {
-  const remaining = cases.filter((_, i) => !opened.has(i) && i !== playerCase);
-  if (remaining.length === 0) return 0;
+  // Include player's case in the EV — banker doesn't know which case the player has
+  const allRemaining = cases.filter((_, i) => !opened.has(i));
+  if (allRemaining.length === 0) return 0;
 
-  const ev = remaining.reduce((s, v) => s + v, 0) / remaining.length;
-  const maxVal = Math.max(...remaining);
-  const casesLeft = remaining.length;
+  const ev = allRemaining.reduce((s, v) => s + v, 0) / allRemaining.length;
+  const maxVal = Math.max(...allRemaining);
+  const casesLeft = allRemaining.length;
 
   // Base percentage from round
   const basePct = OFFER_PCT[Math.min(round, OFFER_PCT.length - 1)];
 
   // Penalize if big values are still in play (banker is scared)
   // Bonus if big values are gone (banker is confident)
-  const bigValuesLeft = remaining.filter((v) => v >= 100_000).length;
+  const bigValuesLeft = allRemaining.filter((v) => v >= 100_000).length;
   const bigValueRatio = bigValuesLeft / Math.max(1, casesLeft);
   const volatilityAdj = bigValueRatio > 0.3 ? -0.05 : bigValueRatio === 0 ? 0.08 : 0;
 
@@ -149,5 +150,6 @@ function calculateOffer(
   const finalPct = Math.max(0.1, Math.min(1.05, basePct + volatilityAdj + noise));
   const offer = Math.round(ev * finalPct);
 
-  return Math.max(1, offer);
+  // Never exceed the max remaining value — otherwise it's a no-brainer
+  return Math.max(1, Math.min(offer, maxVal - 1));
 }
