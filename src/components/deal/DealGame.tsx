@@ -238,7 +238,7 @@ export function DealGame() {
       {/* Banker offer */}
       {state.phase === "offer" && (
         <div className="flex flex-col items-center gap-4 py-6 px-4">
-          <div className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
+          <div className="relative w-32 h-32 rounded-2xl overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
             <Image src={COMODIN_IMAGES[bankerImg]} alt="Banquero" fill className="object-cover" />
           </div>
           {bankerPhrase && (
