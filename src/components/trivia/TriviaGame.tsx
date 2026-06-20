@@ -158,7 +158,7 @@ export function TriviaGame() {
   };
 
   return (
-    <div className="mx-auto max-w-lg">
+    <div className="mx-auto max-w-lg pb-20">
       {status === "idle" && (
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-3xl text-foreground text-center">¿QUIÉN QUIERE GANAR EL MUNDIAL?</h2>
@@ -183,13 +183,13 @@ export function TriviaGame() {
       {(status === "tree" || status === "playing" || status === "correct") && (
         <div
           className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden"
-          style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center", minHeight: 520 }}
+          style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
         >
           <div className="absolute inset-0 bg-black/75" />
 
           {/* MONEY TREE */}
           {status === "tree" && (
-            <div className="relative z-10 flex flex-col items-center px-4 py-5 pb-20" style={{ minHeight: 520 }}>
+            <div className="relative z-10 flex flex-col items-center px-4 py-5 pb-20" >
               {/* Lifeline circles */}
               <div className="flex justify-center gap-4 mb-3">
                 {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
@@ -255,7 +255,7 @@ export function TriviaGame() {
 
           {/* QUESTION VIEW */}
           {(status === "playing" || status === "correct") && q && (
-            <div className="relative z-10 flex flex-col gap-3 px-3 py-4 pb-5" style={{ minHeight: 520 }}>
+            <div className="relative z-10 flex flex-col gap-3 px-3 py-4 pb-5" >
           {/* Lifelines bar */}
           <div className="relative z-10 flex items-center justify-between px-1 pt-2">
             <div className="flex gap-2">
