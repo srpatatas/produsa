@@ -14,7 +14,7 @@ interface LeaderboardEntry {
 }
 
 type Lifeline = "var" | "hinchada" | "dt";
-type GameStatus = "idle" | "playing" | "correct" | "wrong" | "won";
+type GameStatus = "idle" | "playing" | "correct" | "tree" | "wrong" | "won";
 
 export function TriviaGame() {
   const user = useUser();
@@ -85,14 +85,17 @@ export function TriviaGame() {
       } else {
         setStatus("correct");
         setTimeout(() => {
-          setCurrent((c) => c + 1);
-          setSelected(null);
-          setConfirmed(false);
-          setEliminated(new Set());
-          setHinchadaPcts(null);
-          setShowHint(false);
-          setStatus("playing");
-        }, 1500);
+          setStatus("tree");
+          setTimeout(() => {
+            setCurrent((c) => c + 1);
+            setSelected(null);
+            setConfirmed(false);
+            setEliminated(new Set());
+            setHinchadaPcts(null);
+            setShowHint(false);
+            setStatus("playing");
+          }, 2000);
+        }, 1000);
       }
     } else {
       const safetyLevel = [...SAFETY_NETS].reverse().find((s) => s < current) ?? -1;
@@ -171,6 +174,78 @@ export function TriviaGame() {
           >
             Empezar
           </button>
+        </div>
+      )}
+
+      {status === "tree" && (
+        <div
+          className="flex flex-col items-center gap-3 rounded-2xl py-6 px-4 overflow-hidden relative"
+          style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+        >
+          <div className="absolute inset-0 bg-black/75" />
+
+          <div className="relative z-10 w-full max-w-xs">
+            {/* Lifelines at top */}
+            <div className="flex justify-center gap-4 mb-4">
+              {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
+                <div
+                  key={key}
+                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-xs font-bold ${
+                    usedLifelines.has(key)
+                      ? "border-gray-600 text-gray-600"
+                      : "border-cyan-400 text-cyan-300"
+                  }`}
+                >
+                  {icon}
+                </div>
+              ))}
+            </div>
+
+            {/* Money tree */}
+            <div className="flex flex-col gap-0.5">
+              {[...PRIZE_LADDER].reverse().map((prize, revIdx) => {
+                const idx = 14 - revIdx;
+                const isCurrent = idx === current;
+                const isPassed = idx < current;
+                const isNext = idx === current + 1;
+                const isSafety = SAFETY_NETS.includes(idx);
+
+                return (
+                  <div
+                    key={idx}
+                    className={`flex items-center gap-3 rounded-sm px-3 py-1 transition-all duration-500 ${
+                      isNext
+                        ? "bg-amber-500/30 scale-105"
+                        : isCurrent
+                          ? "bg-emerald-500/20"
+                          : ""
+                    }`}
+                  >
+                    <span className={`w-6 text-right font-display text-sm ${
+                      isNext ? "text-white font-bold" : isPassed ? "text-emerald-400" : isSafety ? "text-white" : "text-amber-500/70"
+                    }`}>
+                      {idx + 1}
+                    </span>
+                    <span className={`font-display text-sm tracking-wide ${
+                      isNext
+                        ? "text-white font-bold text-base"
+                        : isCurrent
+                          ? "text-emerald-400"
+                          : isPassed
+                            ? "text-emerald-400/60"
+                            : isSafety
+                              ? "text-white"
+                              : "text-amber-500/70"
+                    }`}>
+                      {prize}
+                    </span>
+                    {isNext && <span className="ml-auto text-white animate-pulse">◀</span>}
+                    {isCurrent && <span className="ml-auto text-emerald-400">✓</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 
