@@ -223,7 +223,7 @@ export function DealGame() {
                   <img
                     src={`https://flagcdn.com/w40/${state.caseFlags[idx]}.png`}
                     alt=""
-                    className="absolute top-[58%] left-1/2 -translate-x-1/2 h-[10px] w-[16px] object-cover rounded-[1px]"
+                    className="absolute top-[65%] left-1/2 -translate-x-1/2 h-[10px] w-[16px] object-cover rounded-[1px]"
                   />
                 </div>
               </button>
