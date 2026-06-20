@@ -116,6 +116,11 @@ export function revealFinal(state: DealState): DealState {
   };
 }
 
+// Based on empirical analysis of the US show:
+// Offer starts at ~15% of EV and climbs to ~100%+ in final rounds
+// Source: commcognition.blogspot.com/2007/06/deal-or-no-deal-bankers-formula.html
+const OFFER_PCT = [0.15, 0.24, 0.34, 0.45, 0.58, 0.72, 0.85, 0.95, 1.0];
+
 function calculateOffer(
   cases: number[],
   opened: Set<number>,
@@ -125,11 +130,24 @@ function calculateOffer(
   const remaining = cases.filter((_, i) => !opened.has(i) && i !== playerCase);
   if (remaining.length === 0) return 0;
 
-  const avg = remaining.reduce((s, v) => s + v, 0) / remaining.length;
+  const ev = remaining.reduce((s, v) => s + v, 0) / remaining.length;
+  const maxVal = Math.max(...remaining);
+  const casesLeft = remaining.length;
 
-  // Banker offers below expected value early, closer to EV later
-  const roundFactor = Math.min(0.95, 0.3 + round * 0.1);
-  const offer = Math.round(avg * roundFactor);
+  // Base percentage from round
+  const basePct = OFFER_PCT[Math.min(round, OFFER_PCT.length - 1)];
+
+  // Penalize if big values are still in play (banker is scared)
+  // Bonus if big values are gone (banker is confident)
+  const bigValuesLeft = remaining.filter((v) => v >= 100_000).length;
+  const bigValueRatio = bigValuesLeft / Math.max(1, casesLeft);
+  const volatilityAdj = bigValueRatio > 0.3 ? -0.05 : bigValueRatio === 0 ? 0.08 : 0;
+
+  // Slight random variation (±5%) for drama
+  const noise = (Math.random() - 0.5) * 0.1;
+
+  const finalPct = Math.max(0.1, Math.min(1.05, basePct + volatilityAdj + noise));
+  const offer = Math.round(ev * finalPct);
 
   return Math.max(1, offer);
 }
