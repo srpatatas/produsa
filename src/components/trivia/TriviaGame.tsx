@@ -175,9 +175,10 @@ export function TriviaGame() {
       )}
 
       {(status === "playing" || status === "correct") && q && (
-        <div className="flex flex-col gap-3 py-4 rounded-2xl bg-gradient-to-b from-[#0a0a2e] via-[#0f1045] to-[#0a0a2e] px-3 pb-5 ring-1 ring-indigo-500/20">
+        <div className="relative flex flex-col gap-3 py-4 rounded-2xl px-3 pb-5 ring-1 ring-indigo-500/20 overflow-hidden" style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
           {/* Lifelines bar */}
-          <div className="flex items-center justify-between px-1 pt-2">
+          <div className="relative z-10 flex items-center justify-between px-1 pt-2">
             <div className="flex gap-2">
               {([["var", "🖥️", "VAR"], ["hinchada", "👥", "Hinchada"], ["dt", "📞", "DT"]] as const).map(([key, emoji, label]) => (
                 <button
@@ -199,7 +200,7 @@ export function TriviaGame() {
           </div>
 
           {/* Prize ladder strip */}
-          <div className="flex items-center gap-2 overflow-x-auto px-1 py-1 scrollbar-hide">
+          <div className="relative z-10 flex items-center gap-2 overflow-x-auto px-1 py-1 scrollbar-hide">
             {PRIZE_LADDER.map((prize, i) => {
               const isSafety = SAFETY_NETS.includes(i);
               const isCurrent = i === current;
@@ -224,7 +225,7 @@ export function TriviaGame() {
           </div>
 
           {/* Question bar — hexagonal style */}
-          <div className="relative flex items-center mx-1">
+          <div className="relative z-10 flex items-center mx-1">
             <div className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
             <div className="relative z-10 mx-auto w-full rounded-full border border-cyan-500/30 bg-gradient-to-b from-[#1a1a4e] via-[#0d0d35] to-[#1a1a4e] px-6 py-4 shadow-lg shadow-cyan-500/10">
               <p className="text-center text-sm font-medium text-white leading-relaxed">{q.q}</p>
@@ -233,14 +234,14 @@ export function TriviaGame() {
 
           {/* Hint */}
           {showHint && (
-            <div className="mx-2 rounded-xl bg-amber-500/10 px-4 py-2 text-center text-xs text-amber-300 ring-1 ring-amber-500/20">
+            <div className="relative z-10 mx-2 rounded-xl bg-amber-500/10 px-4 py-2 text-center text-xs text-amber-300 ring-1 ring-amber-500/20">
               📞 DT dice: &ldquo;{q.hint}&rdquo;
             </div>
           )}
 
           {/* Hinchada percentages */}
           {hinchadaPcts && (
-            <div className="flex gap-2 px-2">
+            <div className="relative z-10 flex gap-2 px-2">
               {hinchadaPcts.map((pct, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-1">
                   <div className="w-full h-14 bg-indigo-950/50 rounded-lg relative overflow-hidden ring-1 ring-indigo-500/20">
@@ -257,7 +258,7 @@ export function TriviaGame() {
           )}
 
           {/* Options — 2x2 hexagonal bars */}
-          <div className="relative mx-1">
+          <div className="relative z-10 mx-1">
             <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent -translate-y-3" />
             <div className="absolute left-0 right-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent translate-y-[-50%]" />
             <div className="grid grid-cols-2 gap-x-2 gap-y-2">
@@ -286,7 +287,7 @@ export function TriviaGame() {
             <button
               type="button"
               onClick={handleConfirm}
-              className="mx-auto rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+              className="relative z-10 mx-auto rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
             >
               Confirmar
             </button>
