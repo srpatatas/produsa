@@ -181,7 +181,7 @@ export function DealGame() {
   return (
     <div className="mx-auto max-w-lg pb-20">
       {/* IDLE / INTRO */}
-      {state.phase === "pick" && state.playerCase === -1 && !state.started && (
+      {state.phase === "pick" && state.playerCase === -1 && !state.started && !showSplash && (
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-3xl text-foreground text-center">DEAL OR NO DEAL</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
