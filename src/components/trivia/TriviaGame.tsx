@@ -338,7 +338,7 @@ export function TriviaGame() {
                       className={`flex-1 flex items-center gap-2 px-4 py-2.5 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
                       style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%)" }}
                     >
-                      <span className="flex-shrink-0 text-xs font-bold text-amber-400" className="font-display">{optionLetter[idx]}:
+                      <span className="flex-shrink-0 text-xs font-bold font-display text-amber-400">{optionLetter[idx]}:
                       </span>
                       <span className="text-xs text-white/90 leading-tight">{q.options[idx]}</span>
                       {hinchadaPcts && !eliminated.has(idx) && (
