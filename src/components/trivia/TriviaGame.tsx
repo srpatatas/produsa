@@ -88,7 +88,7 @@ export function TriviaGame() {
         setTimeout(() => {
           setTreeLevel(current);
           setStatus("tree");
-          setTimeout(() => setTreeLevel(current + 1), 600);
+          setTimeout(() => setTreeLevel(current + 1), 1200);
           setTimeout(() => {
             setCurrent((c) => c + 1);
             setSelected(null);
@@ -97,7 +97,7 @@ export function TriviaGame() {
             setHinchadaPcts(null);
             setShowHint(false);
             setStatus("playing");
-          }, 2000);
+          }, 3500);
         }, 1000);
       }
     } else {
