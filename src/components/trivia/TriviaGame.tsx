@@ -141,13 +141,14 @@ export function TriviaGame() {
   const optionLetter = ["A", "B", "C", "D"];
 
   const getOptionStyle = (idx: number) => {
-    if (eliminated.has(idx)) return "opacity-30 pointer-events-none";
+    const base = "relative overflow-hidden border border-indigo-500/40 bg-gradient-to-r from-indigo-950/80 via-indigo-900/60 to-indigo-950/80";
+    if (eliminated.has(idx)) return base + " opacity-20 pointer-events-none";
     if (confirmed) {
-      if (idx === q?.answer) return "ring-2 ring-emerald-400 bg-emerald-500/20";
-      if (idx === selected && idx !== q?.answer) return "ring-2 ring-red-400 bg-red-500/20";
+      if (idx === q?.answer) return "relative overflow-hidden border-2 border-emerald-400 bg-gradient-to-r from-emerald-950/80 via-emerald-900/60 to-emerald-950/80 shadow-lg shadow-emerald-500/20";
+      if (idx === selected && idx !== q?.answer) return "relative overflow-hidden border-2 border-red-400 bg-gradient-to-r from-red-950/80 via-red-900/60 to-red-950/80 shadow-lg shadow-red-500/20";
     }
-    if (idx === selected) return "ring-2 ring-fifa-blue bg-fifa-blue/20";
-    return "bg-white/[0.03] hover:bg-white/[0.06]";
+    if (idx === selected) return "relative overflow-hidden border-2 border-amber-400 bg-gradient-to-r from-amber-950/80 via-amber-900/60 to-amber-950/80 shadow-lg shadow-amber-500/20";
+    return base + " hover:border-indigo-400/60 hover:shadow-md hover:shadow-indigo-500/10";
   };
 
   return (
@@ -174,66 +175,103 @@ export function TriviaGame() {
       )}
 
       {(status === "playing" || status === "correct") && q && (
-        <div className="flex flex-col gap-4 py-4">
-          {/* Prize ladder mini */}
-          <div className="flex items-center justify-between px-2">
-            <span className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">Pregunta {current + 1}/15</span>
-            <span className="font-display text-sm text-fifa-gold">{PRIZE_LADDER[current]}</span>
+        <div className="flex flex-col gap-3 py-4 rounded-2xl bg-gradient-to-b from-[#0a0a2e] via-[#0f1045] to-[#0a0a2e] px-3 pb-5 ring-1 ring-indigo-500/20">
+          {/* Lifelines bar */}
+          <div className="flex items-center justify-between px-1 pt-2">
+            <div className="flex gap-2">
+              {([["var", "🖥️", "VAR"], ["hinchada", "👥", "Hinchada"], ["dt", "📞", "DT"]] as const).map(([key, emoji, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={key === "var" ? useVar : key === "hinchada" ? useHinchada : useDt}
+                  disabled={usedLifelines.has(key) || confirmed}
+                  className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] transition-all ${
+                    usedLifelines.has(key)
+                      ? "opacity-25 bg-white/5"
+                      : "bg-indigo-500/20 hover:bg-indigo-500/30 ring-1 ring-indigo-400/30"
+                  }`}
+                >
+                  <span>{emoji}</span>
+                  <span className="text-indigo-200">{label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Progress bar */}
-          <div className="h-1.5 rounded-full bg-white/5">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-fifa-purple to-fifa-teal transition-all duration-500"
-              style={{ width: `${((current + 1) / 15) * 100}%` }}
-            />
+          {/* Prize ladder strip */}
+          <div className="flex items-center gap-2 overflow-x-auto px-1 py-1 scrollbar-hide">
+            {PRIZE_LADDER.map((prize, i) => {
+              const isSafety = SAFETY_NETS.includes(i);
+              const isCurrent = i === current;
+              const isPassed = i < current;
+              return (
+                <span
+                  key={i}
+                  className={`flex-shrink-0 rounded-full px-2 py-0.5 text-[8px] font-semibold transition-all ${
+                    isCurrent
+                      ? "bg-amber-500/30 text-amber-300 ring-1 ring-amber-400/50 scale-110"
+                      : isPassed
+                        ? "bg-emerald-500/20 text-emerald-400"
+                        : isSafety
+                          ? "bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-400/30"
+                          : "bg-white/5 text-indigo-400/50"
+                  }`}
+                >
+                  {isSafety && !isPassed ? "🛡️ " : ""}{prize}
+                </span>
+              );
+            })}
           </div>
 
-          {/* Question */}
-          <div className="rounded-2xl bg-card-bg p-5 ring-1 ring-white/5">
-            <p className="text-center text-sm font-medium text-foreground leading-relaxed">{q.q}</p>
+          {/* Question diamond */}
+          <div className="relative mx-auto w-full">
+            <div className="rounded-2xl border border-indigo-500/40 bg-gradient-to-b from-indigo-950/90 to-[#0a0a2e] px-5 py-5 shadow-lg shadow-indigo-500/10">
+              <p className="text-[10px] text-center text-indigo-400/60 uppercase tracking-widest mb-2">Pregunta {current + 1}</p>
+              <p className="text-center text-sm font-medium text-white leading-relaxed">{q.q}</p>
+            </div>
           </div>
 
           {/* Hint */}
           {showHint && (
-            <div className="rounded-xl bg-fifa-gold/10 px-4 py-2 text-center text-xs text-fifa-gold ring-1 ring-fifa-gold/20">
-              📞 DT dice: &quot;{q.hint}&quot;
+            <div className="mx-2 rounded-xl bg-amber-500/10 px-4 py-2 text-center text-xs text-amber-300 ring-1 ring-amber-500/20">
+              📞 DT dice: &ldquo;{q.hint}&rdquo;
             </div>
           )}
 
           {/* Hinchada percentages */}
           {hinchadaPcts && (
-            <div className="flex gap-1.5 px-2">
+            <div className="flex gap-2 px-2">
               {hinchadaPcts.map((pct, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full h-16 bg-white/5 rounded relative overflow-hidden">
+                  <div className="w-full h-14 bg-indigo-950/50 rounded-lg relative overflow-hidden ring-1 ring-indigo-500/20">
                     <div
-                      className="absolute bottom-0 w-full bg-fifa-blue/40 transition-all duration-700"
+                      className="absolute bottom-0 w-full bg-gradient-to-t from-indigo-500/50 to-indigo-400/20 transition-all duration-700"
                       style={{ height: `${pct}%` }}
                     />
+                    <span className="absolute inset-0 flex items-end justify-center pb-0.5 text-[9px] font-bold text-indigo-200">{pct}%</span>
                   </div>
-                  <span className="text-[9px] text-fifa-dark-gray">{pct}%</span>
+                  <span className="text-[9px] text-indigo-400/60">{optionLetter[i]}</span>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Options */}
-          <div className="grid grid-cols-1 gap-2">
+          {/* Options — diamond style */}
+          <div className="grid grid-cols-1 gap-2 px-1">
             {q.options.map((opt, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => handleSelect(idx)}
                 disabled={eliminated.has(idx) || confirmed}
-                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all ${getOptionStyle(idx)}`}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
               >
-                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-white/10 font-display text-xs text-fifa-dark-gray">
+                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-md bg-indigo-500/20 font-display text-xs font-bold text-amber-400">
                   {optionLetter[idx]}
                 </span>
-                <span className="text-sm text-foreground">{opt}</span>
+                <span className="text-sm text-white/90">{opt}</span>
                 {hinchadaPcts && !eliminated.has(idx) && (
-                  <span className="ml-auto text-[10px] text-fifa-dark-gray">{hinchadaPcts[idx]}%</span>
+                  <span className="ml-auto text-[10px] font-bold text-indigo-300">{hinchadaPcts[idx]}%</span>
                 )}
               </button>
             ))}
@@ -244,51 +282,11 @@ export function TriviaGame() {
             <button
               type="button"
               onClick={handleConfirm}
-              className="mx-auto rounded-full bg-fifa-blue px-8 py-2.5 font-display text-sm uppercase tracking-wider text-white transition-transform hover:scale-105"
+              className="mx-auto rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
             >
               Confirmar
             </button>
           )}
-
-          {/* Lifelines */}
-          <div className="flex justify-center gap-4">
-            <button
-              type="button"
-              onClick={useVar}
-              disabled={usedLifelines.has("var") || confirmed}
-              className={`flex flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all ${usedLifelines.has("var") ? "opacity-30" : "bg-white/[0.03] hover:bg-white/[0.06]"}`}
-            >
-              <span className="text-lg">🖥️</span>
-              <span className="text-[9px] text-fifa-dark-gray">VAR</span>
-            </button>
-            <button
-              type="button"
-              onClick={useHinchada}
-              disabled={usedLifelines.has("hinchada") || confirmed}
-              className={`flex flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all ${usedLifelines.has("hinchada") ? "opacity-30" : "bg-white/[0.03] hover:bg-white/[0.06]"}`}
-            >
-              <span className="text-lg">👥</span>
-              <span className="text-[9px] text-fifa-dark-gray">Hinchada</span>
-            </button>
-            <button
-              type="button"
-              onClick={useDt}
-              disabled={usedLifelines.has("dt") || confirmed}
-              className={`flex flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all ${usedLifelines.has("dt") ? "opacity-30" : "bg-white/[0.03] hover:bg-white/[0.06]"}`}
-            >
-              <span className="text-lg">📞</span>
-              <span className="text-[9px] text-fifa-dark-gray">DT</span>
-            </button>
-          </div>
-
-          {/* Safety net indicators */}
-          <div className="flex justify-center gap-2 text-[9px] text-fifa-dark-gray">
-            {SAFETY_NETS.map((s) => (
-              <span key={s} className={current > s ? "text-emerald-400" : ""}>
-                🛡️ {PRIZE_LADDER[s]}
-              </span>
-            ))}
-          </div>
         </div>
       )}
 
