@@ -156,18 +156,24 @@ export function TriviaGame() {
     if (usedLifelines.has("hinchada") || !q || confirmed) return;
     setUsedLifelines((s) => new Set([...s, "hinchada"]));
     const pcts = [0, 0, 0, 0];
-    pcts[q.answer] = 40 + Math.floor(Math.random() * 30);
-    let remaining = 100 - pcts[q.answer];
-    for (let i = 0; i < 4; i++) {
-      if (i === q.answer) continue;
-      if (eliminated.has(i)) continue;
-      const share = i === 3 ? remaining : Math.floor(Math.random() * remaining * 0.6);
-      pcts[i] = share;
-      remaining -= share;
-    }
-    const nonEliminated = [0, 1, 2, 3].filter((i) => !eliminated.has(i) && i !== q.answer);
-    if (remaining > 0 && nonEliminated.length > 0) {
-      pcts[nonEliminated[nonEliminated.length - 1]] += remaining;
+    const correctPct = 40 + Math.floor(Math.random() * 25);
+    pcts[q.answer] = correctPct;
+
+    const wrongIdxs = [0, 1, 2, 3].filter((i) => i !== q.answer && !eliminated.has(i));
+    let remaining = 100 - correctPct;
+
+    // Distribute remaining evenly with noise, never exceeding the correct answer
+    const maxPerWrong = Math.floor(correctPct * 0.7);
+    for (let i = 0; i < wrongIdxs.length; i++) {
+      if (i === wrongIdxs.length - 1) {
+        pcts[wrongIdxs[i]] = remaining;
+      } else {
+        const evenShare = Math.floor(remaining / (wrongIdxs.length - i));
+        const noise = Math.floor((Math.random() - 0.5) * evenShare * 0.6);
+        const share = Math.max(2, Math.min(maxPerWrong, evenShare + noise));
+        pcts[wrongIdxs[i]] = share;
+        remaining -= share;
+      }
     }
     setHinchadaPcts(pcts);
   };
