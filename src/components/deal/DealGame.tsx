@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import {
   AMOUNTS, LOW_AMOUNTS, HIGH_AMOUNTS,
-  BANKERS,
+  BANKERS, getBankerMood, createPhraseTracker,
   formatMoney,
   type DealState,
 } from "./gameTypes";
@@ -26,6 +26,7 @@ export function DealGame() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [bankerIdx, setBankerIdx] = useState(() => Math.floor(Math.random() * BANKERS.length));
   const banker = BANKERS[bankerIdx];
+  const pickPhrase = useRef(createPhraseTracker());
   const [bankerPhrase, setBankerPhrase] = useState("");
   const [revealedAmount, setRevealedAmount] = useState<number | null>(null);
   const [showReveal, setShowReveal] = useState(false);
@@ -35,6 +36,9 @@ export function DealGame() {
   const [offerHistory, setOfferHistory] = useState<number[]>([]);
   const [showConfetti, setShowConfetti] = useState(false);
   const [eliminatedAmount, setEliminatedAmount] = useState<number | null>(null);
+  const [revealingPhase, setRevealingPhase] = useState(false);
+  const [revealedCases, setRevealedCases] = useState<Set<number>>(new Set());
+  const [revealMessage, setRevealMessage] = useState(false);
 
   useEffect(() => {
     fetch("/api/deal")
@@ -71,7 +75,11 @@ export function DealGame() {
     setOfferHistory([]);
     setShowConfetti(false);
     setEliminatedAmount(null);
+    setRevealingPhase(false);
+    setRevealedCases(new Set());
+    setRevealMessage(false);
     setBankerIdx(Math.floor(Math.random() * BANKERS.length));
+    pickPhrase.current = createPhraseTracker();
   }, []);
 
   const handleCaseClick = (idx: number) => {
@@ -105,9 +113,10 @@ export function DealGame() {
             setBankerThinking(true);
             setTimeout(() => {
               setBankerThinking(false);
-              setOfferHistory((h) => [...h, next.offer]);
-              const phrases = banker.phrasesOffer;
-              setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+              const newHistory = [...offerHistory, next.offer];
+              setOfferHistory(newHistory);
+              const mood = getBankerMood(next, newHistory);
+              setBankerPhrase(pickPhrase.current(banker.offer[mood]));
             }, 1500);
           }, 2000);
         }
@@ -116,17 +125,37 @@ export function DealGame() {
   };
 
   const handleDeal = () => {
-    const phrases = banker.phrasesDeal;
-    setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+    const mood = getBankerMood(state, offerHistory);
+    setBankerPhrase(pickPhrase.current(banker.deal[mood]));
     const next = acceptDeal(state);
     setState(next);
     submitScore(next.finalAmount);
     if (next.finalAmount >= 50_000) setShowConfetti(true);
+
+    const unopened = next.cases
+      .map((_, i) => i)
+      .filter((i) => !next.opened.has(i) && i !== next.playerCase);
+    const revealOrder = [...unopened, next.playerCase];
+    if (revealOrder.length > 0) {
+      setRevealMessage(true);
+      setTimeout(() => {
+        setRevealMessage(false);
+        setRevealingPhase(true);
+        revealOrder.forEach((idx, i) => {
+          setTimeout(() => {
+            setRevealedCases((prev) => new Set(prev).add(idx));
+          }, (i + 1) * 800);
+        });
+        setTimeout(() => {
+          setRevealingPhase(false);
+        }, (revealOrder.length + 1) * 800 + 1500);
+      }, 2000);
+    }
   };
 
   const handleNoDeal = () => {
-    const phrases = banker.phrasesNoDeal;
-    setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+    const mood = getBankerMood(state, offerHistory);
+    setBankerPhrase(pickPhrase.current(banker.noDeal[mood]));
     setState(rejectDeal(state));
   };
 
@@ -389,12 +418,81 @@ export function DealGame() {
       })()}
 
       {/* Game over */}
-      {state.phase === "done" && (() => {
-        const unopenedCases = state.cases
-          .map((v, i) => ({ value: v, idx: i }))
-          .filter(({ idx }) => !state.opened.has(idx) && idx !== state.playerCase)
-          .sort((a, b) => b.value - a.value);
+      {/* "Veamos lo que quedaba..." message */}
+      {revealMessage && state.phase === "done" && (
+        <div className="flex flex-col items-center gap-4 py-12">
+          <span className="text-4xl">🔍</span>
+          <p className="font-display text-lg uppercase tracking-wider text-amber-300 text-center animate-pulse">
+            Veamos lo que quedaba sin abrir...
+          </p>
+        </div>
+      )}
 
+      {/* Briefcase reveal animation */}
+      {revealingPhase && state.phase === "done" && (
+        <div className="py-4">
+          <div className="grid grid-cols-6 gap-1.5 px-3 py-2">
+            {state.cases.map((val, idx) => {
+              const isPlayer = idx === state.playerCase;
+              const wasOpened = state.opened.has(idx);
+              const isRevealed = revealedCases.has(idx);
+              if (wasOpened) {
+                return (
+                  <div key={idx} className="flex flex-col items-center justify-center rounded-lg py-1 opacity-20 grayscale">
+                    <div className="relative w-[52px] h-[38px] overflow-hidden rounded">
+                      <Image src="/images/maletin.png" alt="Maletín" fill className="object-cover scale-[1.6]" />
+                    </div>
+                  </div>
+                );
+              }
+              if (isPlayer) {
+                return (
+                  <div key={idx} className={`flex flex-col items-center justify-center rounded-lg py-1 transition-all duration-500 ${
+                    isRevealed ? "scale-110" : "ring-2 ring-amber-300 shadow-lg shadow-amber-500/30"
+                  }`}>
+                    {isRevealed ? (
+                      <div className={`flex items-center justify-center w-[52px] h-[38px] rounded font-bold text-[10px] ring-2 ${
+                        val > state.offer ? "bg-red-900/50 text-red-200 ring-red-400/60" : "bg-emerald-900/50 text-emerald-200 ring-emerald-400/60"
+                      }`}>
+                        {formatMoney(val)}
+                      </div>
+                    ) : (
+                      <div className="relative w-[52px] h-[38px] overflow-hidden rounded">
+                        <Image src="/images/maletin.png" alt="Maletín" fill className="object-cover scale-[1.6]" />
+                      </div>
+                    )}
+                    <span className="text-[8px] text-amber-300 font-bold mt-0.5">TUYO</span>
+                  </div>
+                );
+              }
+              return (
+                <div key={idx} className={`flex flex-col items-center justify-center rounded-lg py-1 transition-all duration-500 ${
+                  isRevealed ? "scale-110" : ""
+                }`}>
+                  {isRevealed ? (
+                    <div className={`flex items-center justify-center w-[52px] h-[38px] rounded font-bold text-[10px] ${
+                      val >= 50_000 ? "bg-amber-500/30 text-amber-200 ring-1 ring-amber-400/50" : "bg-white/10 text-fifa-dark-gray ring-1 ring-white/10"
+                    }`}>
+                      {formatMoney(val)}
+                    </div>
+                  ) : (
+                    <div className="relative w-[52px] h-[38px] overflow-hidden rounded">
+                      <Image src="/images/maletin.png" alt="Maletín" fill className="object-cover scale-[1.6]" />
+                      <img
+                        src={`https://flagcdn.com/w40/${state.caseFlags[idx]}.png`}
+                        alt=""
+                        className="absolute top-[70%] left-1/2 -translate-x-1/2 h-[10px] w-[16px] object-cover rounded-[1px]"
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {state.phase === "done" && !revealingPhase && !revealMessage && (() => {
         return (
           <div className="flex flex-col items-center gap-3 py-6 relative">
             {/* Confetti */}
@@ -433,22 +531,12 @@ export function DealGame() {
               {formatMoney(state.finalAmount)}
             </p>
 
-            {/* What could have been */}
+            {/* Your briefcase value (after deal) */}
             {state.dealTaken && (
-              <div className="w-full max-w-xs space-y-2">
-                <p className="text-[10px] uppercase tracking-widest text-center text-fifa-dark-gray">Lo que quedaba sin abrir</p>
-                <div className="flex flex-wrap justify-center gap-1.5">
-                  <div className={`rounded px-2 py-0.5 text-[10px] font-bold ring-1 ${
-                    state.cases[state.playerCase] > state.offer ? "bg-red-900/40 text-red-300 ring-red-500/30" : "bg-emerald-900/40 text-emerald-300 ring-emerald-500/30"
-                  }`}>
-                    Tu maletín: {formatMoney(state.cases[state.playerCase])}
-                  </div>
-                  {unopenedCases.map(({ value, idx }) => (
-                    <div key={idx} className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-fifa-dark-gray ring-1 ring-white/10">
-                      {formatMoney(value)}
-                    </div>
-                  ))}
-                </div>
+              <div className={`rounded-lg px-4 py-1.5 text-xs font-bold ring-1 ${
+                state.cases[state.playerCase] > state.offer ? "bg-red-900/40 text-red-300 ring-red-500/30" : "bg-emerald-900/40 text-emerald-300 ring-emerald-500/30"
+              }`}>
+                Tu maletín tenía: {formatMoney(state.cases[state.playerCase])}
               </div>
             )}
 
