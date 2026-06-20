@@ -107,6 +107,16 @@ const EASY: Question[] = [
   { q: "¿Qué jugador anotó el gol más tarde en la historia de los Mundiales (en minuto de juego)?", options: ["Götze", "Iniesta", "Zidane", "Griezmann"], answer: 0, hint: "Minuto 113 de la final 2014" },
   { q: "¿Qué selección fue la primera en quedar eliminada en primera ronda siendo local?", options: ["Sudáfrica 2010", "Corea del Sur 2002", "USA 1994", "Japón 2002"], answer: 0, hint: "Perdió ante Uruguay y no pasó de grupos" },
   { q: "¿Cuántos goles se marcaron en la final Argentina-Alemania del Mundial 1986?", options: ["3", "4", "5", "6"], answer: 2, hint: "Terminó 3-2" },
+  { q: "¿Cuántos equipos participan en el Mundial 2026?", options: ["32", "40", "48", "64"], answer: 2, hint: "Primera expansión desde Francia 1998" },
+  { q: "¿En qué estadio se juega la final del Mundial 2026?", options: ["SoFi Stadium", "MetLife Stadium", "Estadio Azteca", "AT&T Stadium"], answer: 1, hint: "En Nueva Jersey, cerca de Nueva York" },
+  { q: "¿Cuál fue el partido inaugural del Mundial 2026?", options: ["USA vs Canadá", "México vs Sudáfrica", "Brasil vs Marruecos", "Argentina vs Algeria"], answer: 1, hint: "En el Estadio Azteca" },
+  { q: "¿Cuántos grupos tiene el Mundial 2026?", options: ["8", "10", "12", "16"], answer: 2, hint: "De la A a la L" },
+  { q: "¿Cuántos equipos clasifican de cada grupo en el Mundial 2026?", options: ["2", "3", "4", "1"], answer: 0, hint: "Igual que siempre, los dos primeros" },
+  { q: "¿Qué ronda nueva tiene el Mundial 2026 que no existía antes?", options: ["Repechaje", "Dieciseisavos", "Pre-cuartos", "Play-in"], answer: 1, hint: "32 equipos pasan de grupos, necesitan una ronda extra" },
+  { q: "¿Qué selección goleó 7-1 a Curaçao en el Mundial 2026?", options: ["Brasil", "Francia", "Alemania", "Argentina"], answer: 2, hint: "En la fecha 1 del grupo E" },
+  { q: "¿Qué resultado tuvo el primer partido de Argentina en el Mundial 2026?", options: ["2-0", "3-0", "1-1", "3-1"], answer: 1, hint: "Contra Algeria" },
+  { q: "¿En qué ciudad se jugó el partido inaugural del Mundial 2026?", options: ["Los Ángeles", "Nueva York", "Ciudad de México", "Toronto"], answer: 2, hint: "En el Estadio Azteca" },
+  { q: "¿Cuántos partidos se juegan en total en el Mundial 2026?", options: ["64", "80", "104", "96"], answer: 2, hint: "Más que nunca por la expansión a 48 equipos" },
 ];
 
 // MEDIUM (30): dedicated WC fans — pick 5 per game
@@ -161,6 +171,11 @@ const MEDIUM: Question[] = [
   { q: "¿Quién metió el gol del empate de Francia en la final 2006?", options: ["Zidane", "Henry", "Ribéry", "Vieira"], answer: 0, hint: "De penal, el mismo que después fue expulsado" },
   { q: "¿Cuántos goles marcó Batistuta en Mundiales?", options: ["8", "10", "12", "6"], answer: 1, hint: "En 3 Mundiales (1994, 1998, 2002)" },
   { q: "¿Qué selección tiene más títulos mundiales europeos?", options: ["Alemania", "Italia", "Francia", "España"], answer: 1, hint: "4 títulos" },
+  { q: "¿Cuántas sedes tiene el Mundial 2026 en Estados Unidos?", options: ["8", "10", "11", "13"], answer: 2, hint: "De las 16 sedes totales" },
+  { q: "¿Qué selección debutó en el Mundial 2026 siendo co-anfitriona?", options: ["USA", "México", "Canadá", "Ninguna debutó"], answer: 3, hint: "Las tres ya habían participado antes" },
+  { q: "¿En qué estadio jugó Argentina su primer partido del Mundial 2026?", options: ["MetLife Stadium", "AT&T Stadium", "Hard Rock Stadium", "SoFi Stadium"], answer: 1, hint: "En Dallas, Texas" },
+  { q: "¿Qué resultado dio Brasil contra Marruecos en la fecha 1 del Mundial 2026?", options: ["2-0", "1-1", "0-1", "3-1"], answer: 1, hint: "Empate en Nueva Jersey" },
+  { q: "¿Qué selección le ganó 4-1 a USA en la fecha 1 del Mundial 2026?", options: ["México", "Brasil", "Ninguna — USA no perdió 4-1", "Paraguay"], answer: 3, hint: "Sorpresa sudamericana en la primera fecha" },
 ];
 
 // HARD (30): only true WC historians — pick 4 per game
