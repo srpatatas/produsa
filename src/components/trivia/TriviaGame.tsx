@@ -161,7 +161,7 @@ export function TriviaGame() {
     <div className="mx-auto max-w-lg">
       {status === "idle" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="text-3xl text-foreground text-center tracking-wider" style={{ fontFamily: "var(--font-bebas)" }}>¿QUIÉN QUIERE GANAR EL MUNDIAL?</h2>
+          <h2 className="font-title text-3xl text-foreground text-center">¿QUIÉN QUIERE GANAR EL MUNDIAL?</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             15 preguntas de historia mundialista. Llegá lo más lejos que puedas. Tenés 3 comodines y 2 redes de seguridad.
           </p>
