@@ -448,7 +448,7 @@ export function TriviaGame() {
 
           {/* QUESTION VIEW */}
           {(status === "playing" || status === "correct") && q && (
-            <div className="relative z-10 flex flex-col gap-2 px-3 py-3 pb-4 overflow-y-auto" style={{ maxHeight: 480 }}>
+            <div className="relative z-10 flex flex-col gap-1.5 px-3 py-2 pb-3 h-[480px]">
           {/* Lifelines bar */}
           <div className="relative z-10 flex items-center justify-center px-1 pt-2">
             <div className="flex gap-3">
@@ -458,13 +458,13 @@ export function TriviaGame() {
                   type="button"
                   onClick={key === "var" ? useVar : key === "hinchada" ? useHinchada : useDt}
                   disabled={usedLifelines.has(key) || confirmed}
-                  className={`flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 transition-all ${
+                  className={`flex flex-col items-center gap-0 rounded-xl px-3 py-1 transition-all ${
                     usedLifelines.has(key)
                       ? "opacity-20 bg-white/5"
                       : `bg-gradient-to-b ${grad} ring-1 ring-${color}-400/40 shadow-md shadow-${color}-500/20 hover:scale-105`
                   }`}
                 >
-                  <span className="text-xl">{emoji}</span>
+                  <span className="text-lg">{emoji}</span>
                   <span className="text-[9px] font-bold text-white/90 uppercase tracking-wider">{label}</span>
                 </button>
               ))}
@@ -490,7 +490,7 @@ export function TriviaGame() {
             <div className="absolute left-0 w-[8%] top-1/2 h-[1px] bg-gradient-to-r from-cyan-500/20 to-cyan-500/50" />
             <div className="absolute right-0 w-[8%] top-1/2 h-[1px] bg-gradient-to-l from-cyan-500/20 to-cyan-500/50" />
             <div
-              className="relative z-10 mx-auto w-[86%] bg-gradient-to-b from-[#1e2a5e] via-[#0c1030] to-[#1e2a5e] px-6 py-4 shadow-lg shadow-cyan-900/30 border-t border-b border-cyan-500/20"
+              className="relative z-10 mx-auto w-[86%] bg-gradient-to-b from-[#1e2a5e] via-[#0c1030] to-[#1e2a5e] px-5 py-3 shadow-lg shadow-cyan-900/30 border-t border-b border-cyan-500/20"
               style={{ clipPath: "polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%)" }}
             >
               <p className="text-center text-sm font-medium text-white leading-relaxed">{q.q}</p>
@@ -509,7 +509,7 @@ export function TriviaGame() {
             <div className="relative z-10 flex gap-2 px-2">
               {hinchadaPcts.map((pct, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full h-14 bg-indigo-950/50 rounded-lg relative overflow-hidden ring-1 ring-indigo-500/20">
+                  <div className="w-full h-10 bg-indigo-950/50 rounded-lg relative overflow-hidden ring-1 ring-indigo-500/20">
                     <div
                       className="absolute bottom-0 w-full bg-gradient-to-t from-indigo-500/50 to-indigo-400/20 transition-all duration-700"
                       style={{ height: `${pct}%` }}
@@ -535,7 +535,7 @@ export function TriviaGame() {
                       type="button"
                       onClick={() => handleSelect(idx)}
                       disabled={eliminated.has(idx) || confirmed}
-                      className={`flex-1 flex items-center gap-2 px-4 py-2.5 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
+                      className={`flex-1 flex items-center gap-2 px-3 py-2 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
                       style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%)" }}
                     >
                       <span className="flex-shrink-0 text-xs font-bold font-display text-amber-400">{optionLetter[idx]}:
