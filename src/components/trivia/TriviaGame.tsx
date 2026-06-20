@@ -39,18 +39,23 @@ export function TriviaGame() {
       .catch(() => {});
   }, []);
 
-  const submitScore = useCallback((level: number) => {
+  const submitScore = useCallback(async (level: number) => {
     if (level > 0) {
-      fetch("/api/trivia", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ score: level }),
-      }).catch(() => {});
+      try {
+        await fetch("/api/trivia", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ score: level }),
+        });
+      } catch {}
     }
-    fetch("/api/trivia")
-      .then((r) => (r.ok ? r.json() : { leaderboard: [] }))
-      .then((d) => setLeaderboard(d.leaderboard))
-      .catch(() => {});
+    try {
+      const r = await fetch("/api/trivia");
+      if (r.ok) {
+        const d = await r.json();
+        setLeaderboard(d.leaderboard);
+      }
+    } catch {}
   }, []);
 
   const start = useCallback(() => {
@@ -531,7 +536,10 @@ export function TriviaGame() {
                 <span className="flex-1 text-xs font-medium text-foreground truncate">
                   {entry.name}
                 </span>
-                <span className="font-display text-sm text-fifa-gold">{PRIZE_LADDER[entry.score - 1]?.stage || "—"}</span>
+                <div className="text-right flex-shrink-0">
+                  <span className="font-display text-sm text-fifa-gold">{PRIZE_LADDER[entry.score - 1]?.money || "—"}</span>
+                  <p className="text-[8px] text-fifa-dark-gray">{PRIZE_LADDER[entry.score - 1]?.stage}</p>
+                </div>
               </div>
             ))}
           </div>

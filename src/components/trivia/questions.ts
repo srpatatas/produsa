@@ -141,9 +141,29 @@ const MEDIUM: Question[] = [
   { q: "¿Cuántos Mundiales jugó Lionel Messi?", options: ["4", "5", "6", "3"], answer: 1, hint: "2006, 2010, 2014, 2018, 2022" },
   { q: "¿Qué selección fue eliminada con el 'Gol de Oro' de Francia en el Mundial 2000?", options: ["No hubo Mundial en 2000", "Italia", "España", "Brasil"], answer: 0, hint: "El Mundial es cada 4 años" },
   { q: "¿Quién anotó el famoso gol de chilena contra Alemania en el Mundial 2018?", options: ["Cristiano Ronaldo", "Giroud", "Nacho", "No pasó en 2018"], answer: 3, hint: "La chilena famosa fue de Giroud vs Australia en 2022... o no?" },
+  { q: "¿Qué selección fue la única en participar en los 3 Mundiales entre 1934 y 1950?", options: ["Italia", "Brasil", "Suecia", "Francia"], answer: 1, hint: "Nunca faltó a ninguno" },
+  { q: "¿Cuál fue el marcador más abultado en la historia de los Mundiales de fase final?", options: ["Alemania 7-1 Brasil", "Hungría 10-1 El Salvador", "Yugoslavia 9-0 Zaire", "Hungría 9-0 Corea del Sur"], answer: 1, hint: "España 1982" },
+  { q: "¿Quién fue el goleador del Mundial 1978?", options: ["Kempes", "Rep", "Luque", "Rensenbrink"], answer: 0, hint: "Argentino, 6 goles" },
+  { q: "¿Qué selección europea llegó a semifinales del Mundial 2022 por primera vez?", options: ["Croacia", "Marruecos", "Ninguna — Marruecos es africana", "Países Bajos"], answer: 2, hint: "Marruecos no es europea" },
+  { q: "¿Cuántos penales atajó el Dibu Martínez en la tanda de la final 2022?", options: ["1", "2", "3", "0"], answer: 0, hint: "Le atajó a Coman" },
+  { q: "¿Qué jugador fue suspendido del Mundial 1994 por doping?", options: ["Maradona", "Caniggia", "Redondo", "Batistuta"], answer: 0, hint: "Efedrina" },
+  { q: "¿Cuántas finales de Mundial perdió Países Bajos?", options: ["1", "2", "3", "4"], answer: 2, hint: "1974, 1978 y 2010" },
+  { q: "¿Qué DT llevó a Alemania a ganar el Mundial 1990?", options: ["Beckenbauer", "Klinsmann", "Völler", "Löw"], answer: 0, hint: "También ganó como jugador en 1974" },
+  { q: "¿Qué partido del Mundial 2014 terminó 7-1?", options: ["Final", "Semifinal", "Cuartos", "Octavos"], answer: 1, hint: "Brasil vs Alemania" },
+  { q: "¿Qué selección venció a Argentina 4-0 en el grupo del Mundial 2010?", options: ["México", "Nigeria", "Alemania", "Corea del Sur"], answer: 2, hint: "En octavos de final, no en el grupo — trampa" },
+  { q: "¿Cuántos mundiales ganó Uruguay en total?", options: ["1", "2", "3", "4"], answer: 1, hint: "1930 y 1950" },
+  { q: "¿Qué portero fue elegido mejor jugador del Mundial 2002?", options: ["Kahn", "Buffon", "Marcos", "Casillas"], answer: 0, hint: "Alemán, perdió la final" },
+  { q: "¿Qué jugador hizo un gol desde la mitad de cancha contra Inglaterra en el Mundial 1998?", options: ["Owen", "Beckham", "Batistuta", "Ninguno en el 98"], answer: 3, hint: "El famoso fue de Beckham con roja, no gol de media cancha" },
+  { q: "¿Quién convirtió el penal que clasificó a Argentina a la final del Mundial 2022?", options: ["Messi", "Lautaro Martínez", "Fernández", "Paredes"], answer: 1, hint: "Contra Croacia no hubo penales — fue 3-0" },
+  { q: "¿Qué selección eliminó a Brasil del Mundial 2018?", options: ["Francia", "Bélgica", "Alemania", "México"], answer: 1, hint: "En cuartos de final, 2-1" },
+  { q: "¿Cuántas veces fue eliminada Argentina en octavos de final en Mundiales?", options: ["1", "2", "3", "4"], answer: 2, hint: "Inglaterra 1998, Alemania 2006... y otra más" },
+  { q: "¿Qué Mundial fue el primero en usar sustituciones?", options: ["1958", "1962", "1966", "1970"], answer: 3, hint: "Antes de eso, si te lesionabas jugabas igual" },
+  { q: "¿Quién metió el gol del empate de Francia en la final 2006?", options: ["Zidane", "Henry", "Ribéry", "Vieira"], answer: 0, hint: "De penal, el mismo que después fue expulsado" },
+  { q: "¿Cuántos goles marcó Batistuta en Mundiales?", options: ["8", "10", "12", "6"], answer: 1, hint: "En 3 Mundiales (1994, 1998, 2002)" },
+  { q: "¿Qué selección tiene más títulos mundiales europeos?", options: ["Alemania", "Italia", "Francia", "España"], answer: 1, hint: "4 títulos" },
 ];
 
-// HARD (15): only true WC historians — pick 4 per game
+// HARD (30): only true WC historians — pick 4 per game
 const HARD: Question[] = [
   { q: "¿Quién fue el primer jugador en ser expulsado en una final de Mundial?", options: ["Zidane", "Beckham", "Pedro Monzón", "Marcel Desailly"], answer: 2, hint: "Argentino, en Italia 1990 vs Alemania" },
   { q: "¿Cuántos goles marcó Just Fontaine en el Mundial 1958?", options: ["10", "11", "13", "15"], answer: 2, hint: "Récord imbatible en un solo Mundial" },
@@ -160,6 +180,21 @@ const HARD: Question[] = [
   { q: "¿Quién marcó el gol más rápido en la historia de los Mundiales?", options: ["Hakan Şükür", "Davide Gualtieri", "Clint Dempsey", "Neymar"], answer: 0, hint: "A los 11 segundos, tercer puesto de 2002" },
   { q: "¿En qué Mundial se usaron por primera vez las tarjetas amarillas y rojas?", options: ["1966", "1970", "1974", "1962"], answer: 1, hint: "Idea del árbitro inglés Ken Aston, inspirado en un semáforo" },
   { q: "¿Cuántas selecciones participaron en el primer Mundial de 1930?", options: ["16", "13", "10", "8"], answer: 1, hint: "Muchos europeos no viajaron por la distancia a Uruguay" },
+  { q: "¿Qué jugador fue expulsado dos veces en Mundiales diferentes?", options: ["Zidane", "Rigobert Song", "Beckham", "Maradona"], answer: 1, hint: "Camerunés, roja en 1994 y 1998" },
+  { q: "¿Cuál fue el primer Mundial en el que se jugó con un balón a color?", options: ["1970", "1978", "1982", "1966"], answer: 0, hint: "El Telstar, blanco y negro para TV, pero fue el primero diseñado específicamente" },
+  { q: "¿Qué selección tiene el récord de partidos consecutivos sin perder en Mundiales?", options: ["Brasil", "Italia", "Alemania", "Francia"], answer: 1, hint: "13 partidos invicta entre 1934 y 1954" },
+  { q: "¿Cuántos goles en contra recibió Italia en el Mundial 2006 que ganó?", options: ["1", "2", "3", "0"], answer: 1, hint: "Un autogol de Zaccardo y un penal de Zidane en la final" },
+  { q: "¿Qué selección fue la primera en usar camiseta numerada en un Mundial?", options: ["Brasil", "México", "USA", "Rumania"], answer: 2, hint: "En 1950, los anfitriones" },
+  { q: "¿En qué Mundial debutó la regla del gol de oro?", options: ["1994", "1998", "2002", "Se eliminó antes de 2002"], answer: 1, hint: "Francia lo usó en la final contra Brasil... no, fue en la semi" },
+  { q: "¿Cuántos mundiales se definieron por penales en la final?", options: ["2", "3", "4", "5"], answer: 2, hint: "1994, 2006, 2022 y uno más" },
+  { q: "¿Qué jugador marcó en 4 Mundiales consecutivos además de Klose?", options: ["Ronaldo", "Pelé", "Cristiano Ronaldo", "Uwe Seeler"], answer: 3, hint: "Alemán, de 1958 a 1970" },
+  { q: "¿Cuántos partidos necesitó Argentina para ganar el Mundial 2022?", options: ["5", "6", "7", "8"], answer: 2, hint: "Grupo + octavos + cuartos + semi + final" },
+  { q: "¿Qué DT dirigió en más Mundiales en la historia?", options: ["Carlos Alberto Parreira", "Bora Milutinović", "Helmut Schön", "Los tres dirigieron la misma cantidad"], answer: 1, hint: "Dirigió a 5 selecciones diferentes en 5 Mundiales" },
+  { q: "¿Qué país se retiró del Mundial 1938 antes de jugar por motivos políticos?", options: ["Austria", "Checoslovaquia", "España", "Japón"], answer: 0, hint: "Fue anexada por Alemania" },
+  { q: "¿Cuál es la diferencia de gol más grande en un partido de Mundial?", options: ["7 goles", "8 goles", "9 goles", "10 goles"], answer: 2, hint: "Hungría 10-1 El Salvador en 1982" },
+  { q: "¿Qué jugador fue máximo goleador de un Mundial sin que su equipo ganara el torneo?", options: ["Eusébio 1966", "Gary Lineker 1986", "Ronaldo 1998", "Todos los anteriores"], answer: 3, hint: "Ninguno de sus equipos ganó el torneo" },
+  { q: "¿En qué Mundial se introdujo la regla del fuera de juego semiautomático?", options: ["2018", "2022", "2026", "2014"], answer: 1, hint: "En Qatar, con cámaras de tracking" },
+  { q: "¿Qué país tiene más cuartos mundiales consecutivos alcanzados?", options: ["Brasil", "Alemania", "Argentina", "Francia"], answer: 1, hint: "8 consecutivos de 1954 a 1982" },
 ];
 
 export function getQuestions(): Question[] {
