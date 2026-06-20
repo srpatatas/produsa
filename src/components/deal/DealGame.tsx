@@ -6,7 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import {
   AMOUNTS, LOW_AMOUNTS, HIGH_AMOUNTS,
-  COMODIN_IMAGES, BANKER_PHRASES_OFFER, BANKER_PHRASES_NO_DEAL, BANKER_PHRASES_DEAL,
+  BANKERS,
   formatMoney,
   type DealState,
 } from "./gameTypes";
@@ -24,7 +24,8 @@ export function DealGame() {
   const user = useUser();
   const [state, setState] = useState<DealState>(createInitialState);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [bankerImg, setBankerImg] = useState(() => Math.floor(Math.random() * 3));
+  const [bankerIdx, setBankerIdx] = useState(() => Math.floor(Math.random() * BANKERS.length));
+  const banker = BANKERS[bankerIdx];
   const [bankerPhrase, setBankerPhrase] = useState("");
   const [revealedAmount, setRevealedAmount] = useState<number | null>(null);
   const [showReveal, setShowReveal] = useState(false);
@@ -70,7 +71,7 @@ export function DealGame() {
     setOfferHistory([]);
     setShowConfetti(false);
     setEliminatedAmount(null);
-    setBankerImg(Math.floor(Math.random() * 3));
+    setBankerIdx(Math.floor(Math.random() * BANKERS.length));
   }, []);
 
   const handleCaseClick = (idx: number) => {
@@ -105,7 +106,7 @@ export function DealGame() {
             setTimeout(() => {
               setBankerThinking(false);
               setOfferHistory((h) => [...h, next.offer]);
-              const phrases = BANKER_PHRASES_OFFER[bankerImg];
+              const phrases = banker.phrasesOffer;
               setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
             }, 1500);
           }, 2000);
@@ -115,7 +116,7 @@ export function DealGame() {
   };
 
   const handleDeal = () => {
-    const phrases = BANKER_PHRASES_DEAL[bankerImg];
+    const phrases = banker.phrasesDeal;
     setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
     const next = acceptDeal(state);
     setState(next);
@@ -124,7 +125,7 @@ export function DealGame() {
   };
 
   const handleNoDeal = () => {
-    const phrases = BANKER_PHRASES_NO_DEAL[bankerImg];
+    const phrases = banker.phrasesNoDeal;
     setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
     setState(rejectDeal(state));
   };
@@ -304,7 +305,7 @@ export function DealGame() {
       {bankerThinking && (
         <div className="flex flex-col items-center gap-4 py-8">
           <div className="relative w-28 h-28 rounded-2xl overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
-            <Image src={COMODIN_IMAGES[bankerImg]} alt="Banquero" fill className="object-cover" />
+            <Image src={banker.image} alt="Banquero" fill className="object-cover" />
           </div>
           <p className="text-sm text-amber-300 animate-pulse">El banquero está pensando...</p>
         </div>
@@ -314,7 +315,7 @@ export function DealGame() {
       {state.phase === "offer" && !phoneRinging && !bankerThinking && (
         <div className="flex flex-col items-center gap-3 py-4 px-4">
           <div className="relative w-28 h-28 rounded-2xl overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
-            <Image src={COMODIN_IMAGES[bankerImg]} alt="Banquero" fill className="object-cover" />
+            <Image src={banker.image} alt="Banquero" fill className="object-cover" />
           </div>
           {bankerPhrase && (
             <p className="text-center text-xs italic text-amber-300 max-w-xs">&ldquo;{bankerPhrase}&rdquo;</p>
