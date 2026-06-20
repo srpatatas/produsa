@@ -14,7 +14,7 @@ interface LeaderboardEntry {
 }
 
 type Lifeline = "var" | "hinchada" | "dt";
-type GameStatus = "idle" | "playing" | "correct" | "tree" | "safety" | "wrong" | "won";
+type GameStatus = "idle" | "playing" | "correct" | "tree" | "safety" | "wrong" | "won" | "retired";
 
 export function TriviaGame() {
   const user = useUser();
@@ -67,6 +67,13 @@ export function TriviaGame() {
 
   const q = questions[current];
 
+  const handleRetire = () => {
+    if (status !== "playing" || confirmed) return;
+    setScore(current);
+    submitScore(current);
+    setStatus("retired");
+  };
+
   const handleSelect = (idx: number) => {
     if (status !== "playing" || confirmed || eliminated.has(idx)) return;
     setSelected(idx);
@@ -94,7 +101,6 @@ export function TriviaGame() {
           const resumeDelay = hitSafety ? 5500 : 3500;
 
           if (hitSafety) {
-            submitScore(current + 1);
             setTimeout(() => setStatus("safety"), 3000);
           }
 
@@ -365,17 +371,40 @@ export function TriviaGame() {
           </div>
 
           {/* Confirm button */}
-          {selected !== null && !confirmed && (
-            <button
-              type="button"
-              onClick={handleConfirm}
-              className="relative z-10 mx-auto rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
-            >
-              Confirmar
-            </button>
-          )}
+          <div className="relative z-10 flex items-center justify-center gap-3">
+            {selected !== null && !confirmed && (
+              <button
+                type="button"
+                onClick={handleConfirm}
+                className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+              >
+                Confirmar
+              </button>
+            )}
+            {current > 0 && !confirmed && (
+              <button
+                type="button"
+                onClick={handleRetire}
+                className="rounded-full bg-white/10 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-white/60 ring-1 ring-white/20 transition-all hover:bg-white/20 hover:text-white"
+              >
+                Retirarse
+              </button>
+            )}
+          </div>
             </div>
           )}
+        </div>
+      )}
+
+      {status === "retired" && (
+        <div className="flex flex-col items-center gap-4 py-12">
+          <span className="text-5xl">🤝</span>
+          <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-gold">¡Te retiraste!</h3>
+          <p className="text-sm text-fifa-dark-gray">Decisión inteligente. Te llevás:</p>
+          <p className="font-display text-3xl text-fifa-gold">{score > 0 ? PRIZE_LADDER[score - 1] : "Nada"}</p>
+          <button type="button" onClick={start} className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white">
+            Jugar de nuevo
+          </button>
         </div>
       )}
 
