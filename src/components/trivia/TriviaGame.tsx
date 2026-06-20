@@ -201,6 +201,24 @@ export function TriviaGame() {
     }
   };
 
+  const pauseAndResumeTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setTimeout(() => {
+      if (stateCheck.current !== "playing") return;
+      timerRef.current = setInterval(() => {
+        setTimer((t) => {
+          if (t <= 1) {
+            if (timerRef.current) clearInterval(timerRef.current);
+            return 0;
+          }
+          return t - 1;
+        });
+      }, 1000);
+    }, 2000);
+  };
+  const stateCheck = useRef(status);
+  stateCheck.current = status;
+
   const useVar = () => {
     if (usedLifelines.has("var") || !q || confirmed) return;
     setUsedLifelines((s) => new Set([...s, "var"]));
@@ -208,6 +226,7 @@ export function TriviaGame() {
     const toRemove = wrong.sort(() => Math.random() - 0.5).slice(0, 2);
     setEliminated(new Set(toRemove));
     if (selected !== null && toRemove.includes(selected)) setSelected(null);
+    pauseAndResumeTimer();
   };
 
   const useHinchada = () => {
@@ -246,12 +265,14 @@ export function TriviaGame() {
       }
     }
     setHinchadaPcts(pcts);
+    pauseAndResumeTimer();
   };
 
   const useDt = () => {
     if (usedLifelines.has("dt") || !q || confirmed) return;
     setUsedLifelines((s) => new Set([...s, "dt"]));
     setShowHint(true);
+    pauseAndResumeTimer();
   };
 
   const optionLetter = ["A", "B", "C", "D"];
