@@ -33,7 +33,7 @@ export function TriviaGame() {
   const [score, setScore] = useState(0);
   const [treeLevel, setTreeLevel] = useState(-1);
   const [treeReady, setTreeReady] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(-1);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -441,7 +441,7 @@ export function TriviaGame() {
             <span className="rounded-full bg-amber-500/20 px-4 py-1 text-sm font-bold text-amber-300 ring-1 ring-amber-400/30 tracking-wider" style={{ fontFamily: "var(--font-bebas)" }}>
               {current + 1} — {PRIZE_LADDER[current].stage}
             </span>
-            {!confirmed && (
+            {!confirmed && timer > 0 && (
               <span className={`rounded-full px-3 py-1 text-sm font-bold tracking-wider ${
                 timer <= 3 ? "bg-red-500/30 text-red-400 ring-1 ring-red-400/50 animate-pulse" : "bg-white/10 text-white/70 ring-1 ring-white/20"
               }`} style={{ fontFamily: "var(--font-bebas)" }}>
