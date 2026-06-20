@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit, Baloo_2 } from "next/font/google";
+import { Inter, Outfit, Baloo_2, Bebas_Neue, Oswald } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { Shell } from "@/components/layout/Shell";
 import { getSession } from "@/lib/auth";
@@ -20,6 +20,18 @@ const baloo = Baloo_2({
   variable: "--font-baloo",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
+});
+
+const bebas = Bebas_Neue({
+  variable: "--font-bebas",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -48,7 +60,7 @@ export default async function RootLayout({
   return (
     <html
       lang="es-AR"
-      className={`${inter.variable} ${outfit.variable} ${baloo.variable} h-full antialiased`}
+      className={`${inter.variable} ${outfit.variable} ${baloo.variable} ${bebas.variable} ${oswald.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers user={user}>
