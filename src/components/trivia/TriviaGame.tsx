@@ -130,7 +130,7 @@ export function TriviaGame() {
           setStatus("tree");
           setTimeout(() => {
             setTreeLevel(current);
-            setTimeout(() => setTreeReady(true), 800);
+            setTimeout(() => setTreeReady(true), 1500);
           }, 1000);
         }, 1000);
       }
@@ -305,7 +305,11 @@ export function TriviaGame() {
               {/* Continue / Retire overlay */}
               {treeReady && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-black/60 backdrop-blur-sm rounded-2xl">
-                  <p className="text-sm text-white/80 font-medium">¿Seguís o te retirás?</p>
+                  <p className="text-xs text-white/50 uppercase tracking-widest">¿Seguís o te retirás?</p>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>{PRIZE_LADDER[current].money}</p>
+                    <p className="text-sm text-white/70">{PRIZE_LADDER[current].stage}</p>
+                  </div>
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
@@ -322,9 +326,6 @@ export function TriviaGame() {
                       Retirarse
                     </button>
                   </div>
-                  <p className="text-[10px] text-white/40">
-                    Te llevás: <span className="text-amber-400">{PRIZE_LADDER[current].stage}</span>
-                  </p>
                 </div>
               )}
             </div>
