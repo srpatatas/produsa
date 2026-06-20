@@ -274,29 +274,11 @@ export function TriviaGame() {
             </div>
           </div>
 
-          {/* Prize ladder strip */}
-          <div className="relative z-10 flex items-center gap-2 overflow-x-auto px-1 py-1 scrollbar-hide">
-            {PRIZE_LADDER.map((prize, i) => {
-              const isSafety = SAFETY_NETS.includes(i);
-              const isCurrent = i === current;
-              const isPassed = i < current;
-              return (
-                <span
-                  key={i}
-                  className={`flex-shrink-0 rounded-full px-2 py-0.5 text-[8px] font-semibold transition-all ${
-                    isCurrent
-                      ? "bg-amber-500/30 text-amber-300 ring-1 ring-amber-400/50 scale-110"
-                      : isPassed
-                        ? "bg-emerald-500/20 text-emerald-400"
-                        : isSafety
-                          ? "bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-400/30"
-                          : "bg-white/5 text-indigo-400/50"
-                  }`}
-                >
-                  {isSafety && !isPassed ? "🛡️ " : ""}{prize}
-                </span>
-              );
-            })}
+          {/* Current prize level */}
+          <div className="relative z-10 flex items-center justify-center py-1">
+            <span className="rounded-full bg-amber-500/20 px-4 py-1 text-xs font-bold text-amber-300 ring-1 ring-amber-400/30">
+              {current + 1} — {PRIZE_LADDER[current]}
+            </span>
           </div>
 
           {/* Question bar — hexagonal style */}
