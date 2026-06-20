@@ -74,6 +74,7 @@ export function TriviaGame() {
     setRevealMsg("");
     setShowCorrect(false);
     setScore(0);
+    setTimer(-1);
     setStatus("ready");
   }, []);
 
@@ -99,6 +100,7 @@ export function TriviaGame() {
       setShowHint(false);
       setShowCorrect(false);
       setRevealMsg("");
+      setTimer(-1);
       setStatus("ready");
     };
     if (hitSafety) {
