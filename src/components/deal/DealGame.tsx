@@ -29,6 +29,11 @@ export function DealGame() {
   const [revealedAmount, setRevealedAmount] = useState<number | null>(null);
   const [showReveal, setShowReveal] = useState(false);
   const [selectedCase, setSelectedCase] = useState<number | null>(null);
+  const [phoneRinging, setPhoneRinging] = useState(false);
+  const [bankerThinking, setBankerThinking] = useState(false);
+  const [offerHistory, setOfferHistory] = useState<number[]>([]);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [eliminatedAmount, setEliminatedAmount] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/deal")
@@ -60,6 +65,11 @@ export function DealGame() {
     setRevealedAmount(null);
     setShowReveal(false);
     setSelectedCase(null);
+    setPhoneRinging(false);
+    setBankerThinking(false);
+    setOfferHistory([]);
+    setShowConfetti(false);
+    setEliminatedAmount(null);
   }, []);
 
   const handleCaseClick = (idx: number) => {
@@ -75,16 +85,29 @@ export function DealGame() {
     if (state.phase === "pick") {
       setState(pickCase(state, idx));
     } else if (state.phase === "opening") {
-      setRevealedAmount(state.cases[idx]);
+      const amount = state.cases[idx];
+      setRevealedAmount(amount);
+      setEliminatedAmount(amount);
       setShowReveal(true);
+      setTimeout(() => setEliminatedAmount(null), 1500);
       setTimeout(() => {
         setShowReveal(false);
         setRevealedAmount(null);
         const next = openCase(state, idx);
         setState(next);
         if (next.phase === "offer") {
-          const phrases = BANKER_PHRASES_OFFER[bankerImg];
-          setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+          // Phone ring → thinking → reveal offer
+          setPhoneRinging(true);
+          setTimeout(() => {
+            setPhoneRinging(false);
+            setBankerThinking(true);
+            setTimeout(() => {
+              setBankerThinking(false);
+              setOfferHistory((h) => [...h, next.offer]);
+              const phrases = BANKER_PHRASES_OFFER[bankerImg];
+              setBankerPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+            }, 1500);
+          }, 2000);
         }
       }, 1200);
     }
@@ -96,6 +119,7 @@ export function DealGame() {
     const next = acceptDeal(state);
     setState(next);
     submitScore(next.finalAmount);
+    if (next.finalAmount >= 50_000) setShowConfetti(true);
   };
 
   const handleNoDeal = () => {
@@ -161,10 +185,12 @@ export function DealGame() {
               {LOW_AMOUNTS.map((amt) => (
                 <div
                   key={amt}
-                  className={`rounded px-2 py-0.5 text-[10px] font-bold text-center transition-all ${
-                    isAmountEliminated(amt)
-                      ? "bg-gray-800/50 text-gray-600 line-through"
-                      : "bg-blue-900/60 text-blue-200 ring-1 ring-blue-500/20"
+                  className={`rounded px-2 py-0.5 text-[10px] font-bold text-center transition-all duration-500 ${
+                    eliminatedAmount === amt
+                      ? "bg-red-500/40 text-red-300 ring-1 ring-red-400 scale-110"
+                      : isAmountEliminated(amt)
+                        ? "bg-gray-800/50 text-gray-600 line-through"
+                        : "bg-blue-900/60 text-blue-200 ring-1 ring-blue-500/20"
                   }`}
                 >
                   {formatMoney(amt)}
@@ -175,10 +201,12 @@ export function DealGame() {
               {HIGH_AMOUNTS.map((amt) => (
                 <div
                   key={amt}
-                  className={`rounded px-2 py-0.5 text-[10px] font-bold text-center transition-all ${
-                    isAmountEliminated(amt)
-                      ? "bg-gray-800/50 text-gray-600 line-through"
-                      : "bg-amber-900/60 text-amber-200 ring-1 ring-amber-500/20"
+                  className={`rounded px-2 py-0.5 text-[10px] font-bold text-center transition-all duration-500 ${
+                    eliminatedAmount === amt
+                      ? "bg-red-500/40 text-red-300 ring-1 ring-red-400 scale-110"
+                      : isAmountEliminated(amt)
+                        ? "bg-gray-800/50 text-gray-600 line-through"
+                        : "bg-amber-900/60 text-amber-200 ring-1 ring-amber-500/20"
                   }`}
                 >
                   {formatMoney(amt)}
@@ -260,14 +288,35 @@ export function DealGame() {
         </div>
       )}
 
+      {/* Phone ringing */}
+      {phoneRinging && (
+        <div className="flex flex-col items-center gap-4 py-12">
+          <span className="text-6xl animate-bounce">📞</span>
+          <p className="text-lg font-bold text-amber-400 animate-pulse" style={{ fontFamily: "var(--font-bebas)" }}>
+            RING... RING...
+          </p>
+          <p className="text-xs text-fifa-dark-gray">El banquero está llamando</p>
+        </div>
+      )}
+
+      {/* Banker thinking */}
+      {bankerThinking && (
+        <div className="flex flex-col items-center gap-4 py-8">
+          <div className="relative w-28 h-28 rounded-2xl overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
+            <Image src={COMODIN_IMAGES[bankerImg]} alt="Banquero" fill className="object-cover" />
+          </div>
+          <p className="text-sm text-amber-300 animate-pulse">El banquero está pensando...</p>
+        </div>
+      )}
+
       {/* Banker offer */}
-      {state.phase === "offer" && (
-        <div className="flex flex-col items-center gap-4 py-6 px-4">
-          <div className="relative w-32 h-32 rounded-2xl overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
+      {state.phase === "offer" && !phoneRinging && !bankerThinking && (
+        <div className="flex flex-col items-center gap-3 py-4 px-4">
+          <div className="relative w-28 h-28 rounded-2xl overflow-hidden ring-2 ring-amber-400 shadow-lg shadow-amber-500/30">
             <Image src={COMODIN_IMAGES[bankerImg]} alt="Banquero" fill className="object-cover" />
           </div>
           {bankerPhrase && (
-            <p className="text-center text-sm italic text-amber-300 max-w-xs">&ldquo;{bankerPhrase}&rdquo;</p>
+            <p className="text-center text-xs italic text-amber-300 max-w-xs">&ldquo;{bankerPhrase}&rdquo;</p>
           )}
           <div className="text-center">
             <p className="text-[10px] uppercase tracking-widest text-fifa-dark-gray">El banquero ofrece</p>
@@ -275,6 +324,14 @@ export function DealGame() {
               {formatMoney(state.offer)}
             </p>
           </div>
+          {/* Offer history */}
+          {offerHistory.length > 1 && (
+            <div className="flex flex-wrap justify-center gap-1.5">
+              {offerHistory.slice(0, -1).map((o, i) => (
+                <span key={i} className="text-[9px] text-fifa-dark-gray/50 line-through">{formatMoney(o)}</span>
+              ))}
+            </div>
+          )}
           <div className="flex gap-3">
             <button
               type="button"
@@ -330,37 +387,91 @@ export function DealGame() {
       })()}
 
       {/* Game over */}
-      {state.phase === "done" && (
-        <div className="flex flex-col items-center gap-4 py-8">
-          {state.dealTaken ? (
-            <>
-              <span className="text-5xl">🤝</span>
-              <h3 className="font-display text-2xl uppercase tracking-wider text-emerald-400">DEAL!</h3>
-              <p className="text-sm text-fifa-dark-gray">Aceptaste la oferta del banquero</p>
-            </>
-          ) : (
-            <>
-              <div className="relative w-24 h-16">
-                <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+      {state.phase === "done" && (() => {
+        const unopenedCases = state.cases
+          .map((v, i) => ({ value: v, idx: i }))
+          .filter(({ idx }) => !state.opened.has(idx) && idx !== state.playerCase)
+          .sort((a, b) => b.value - a.value);
+
+        return (
+          <div className="flex flex-col items-center gap-3 py-6 relative">
+            {/* Confetti */}
+            {showConfetti && (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {Array.from({ length: 30 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute w-2 h-2 rounded-full animate-bounce"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 40}%`,
+                      backgroundColor: ["#f59e0b", "#22c55e", "#3b82f6", "#ef4444", "#8b5cf6"][i % 5],
+                      animationDelay: `${Math.random() * 2}s`,
+                      animationDuration: `${1 + Math.random()}s`,
+                    }}
+                  />
+                ))}
               </div>
-              <h3 className="font-display text-2xl uppercase tracking-wider text-amber-400">Tu maletín</h3>
-            </>
-          )}
-          <p className="font-display text-4xl text-fifa-gold" style={{ fontFamily: "var(--font-bebas)" }}>
-            {formatMoney(state.finalAmount)}
-          </p>
-          {state.dealTaken && (
-            <p className="text-xs text-fifa-dark-gray">
-              Tu maletín tenía: <span className={state.cases[state.playerCase] > state.offer ? "text-red-400" : "text-emerald-400"}>
-                {formatMoney(state.cases[state.playerCase])}
-              </span>
+            )}
+
+            {state.dealTaken ? (
+              <>
+                <span className="text-5xl">🤝</span>
+                <h3 className="font-display text-2xl uppercase tracking-wider text-emerald-400">DEAL!</h3>
+              </>
+            ) : (
+              <>
+                <div className="relative w-20 h-14">
+                  <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+                </div>
+                <h3 className="font-display text-2xl uppercase tracking-wider text-amber-400">Tu maletín</h3>
+              </>
+            )}
+            <p className="font-display text-4xl text-fifa-gold" style={{ fontFamily: "var(--font-bebas)" }}>
+              {formatMoney(state.finalAmount)}
             </p>
-          )}
-          <button type="button" onClick={start} className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white">
-            Jugar de nuevo
-          </button>
-        </div>
-      )}
+
+            {/* What could have been */}
+            {state.dealTaken && (
+              <div className="w-full max-w-xs space-y-2">
+                <p className="text-[10px] uppercase tracking-widest text-center text-fifa-dark-gray">Lo que quedaba sin abrir</p>
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  <div className={`rounded px-2 py-0.5 text-[10px] font-bold ring-1 ${
+                    state.cases[state.playerCase] > state.offer ? "bg-red-900/40 text-red-300 ring-red-500/30" : "bg-emerald-900/40 text-emerald-300 ring-emerald-500/30"
+                  }`}>
+                    Tu maletín: {formatMoney(state.cases[state.playerCase])}
+                  </div>
+                  {unopenedCases.map(({ value, idx }) => (
+                    <div key={idx} className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-fifa-dark-gray ring-1 ring-white/10">
+                      {formatMoney(value)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Offer history */}
+            {offerHistory.length > 0 && (
+              <div className="w-full max-w-xs">
+                <p className="text-[10px] uppercase tracking-widest text-center text-fifa-dark-gray mb-1">Ofertas del banquero</p>
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  {offerHistory.map((o, i) => (
+                    <span key={i} className={`text-[9px] px-1.5 py-0.5 rounded ${
+                      i === offerHistory.length - 1 && state.dealTaken ? "bg-emerald-900/40 text-emerald-300" : "text-fifa-dark-gray/60"
+                    }`}>
+                      R{i + 1}: {formatMoney(o)}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <button type="button" onClick={start} className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white">
+              Jugar de nuevo
+            </button>
+          </div>
+        );
+      })()}
 
       {/* Leaderboard */}
       <div className="mt-4 rounded-2xl bg-card-bg p-4 ring-1 ring-white/5">
