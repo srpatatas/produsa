@@ -194,16 +194,22 @@ export function DealGame() {
                 type="button"
                 onClick={() => handleCaseClick(idx)}
                 disabled={isOpened || (state.phase === "opening" && isPlayer)}
-                className={`relative flex flex-col items-center justify-center rounded-lg py-2 transition-all ${
+                className={`relative flex flex-col items-center justify-center rounded-lg py-1 transition-all ${
                   isOpened
-                    ? "bg-gray-800/30 opacity-30"
+                    ? "opacity-20 grayscale"
                     : isPlayer
-                      ? "bg-gradient-to-b from-amber-500 to-amber-700 ring-2 ring-amber-300 shadow-lg shadow-amber-500/30"
-                      : "bg-gradient-to-b from-gray-600 to-gray-800 ring-1 ring-gray-500/30 hover:from-gray-500 hover:to-gray-700 hover:scale-105 active:scale-95"
+                      ? "ring-2 ring-amber-300 shadow-lg shadow-amber-500/30 scale-105"
+                      : "hover:scale-110 active:scale-95"
                 }`}
               >
-                <span className="text-lg">💼</span>
-                <span className="text-[9px] font-bold text-white/80">{idx + 1}</span>
+                <div className="relative w-12 h-8">
+                  <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+                </div>
+                <img
+                  src={`https://flagcdn.com/w40/${state.caseFlags[idx]}.png`}
+                  alt=""
+                  className="h-3 w-5 object-cover rounded-[1px] mt-0.5"
+                />
               </button>
             );
           })}
@@ -213,7 +219,9 @@ export function DealGame() {
       {/* Case reveal overlay */}
       {showReveal && revealedAmount !== null && (
         <div className="flex flex-col items-center justify-center gap-3 py-12">
-          <span className="text-5xl">💼</span>
+          <div className="relative w-24 h-16">
+            <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+          </div>
           <p className={`font-display text-3xl font-bold ${revealedAmount >= 50000 ? "text-red-400" : "text-emerald-400"}`}>
             {formatMoney(revealedAmount)}
           </p>
@@ -266,7 +274,9 @@ export function DealGame() {
             onClick={handleRevealFinal}
             className="flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-b from-amber-500 to-amber-700 px-12 py-6 ring-2 ring-amber-300 shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
           >
-            <span className="text-4xl">💼</span>
+            <div className="relative w-28 h-20">
+              <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+            </div>
             <span className="text-xs font-bold text-white uppercase tracking-wider">Abrir maletín</span>
           </button>
         </div>
@@ -283,7 +293,9 @@ export function DealGame() {
             </>
           ) : (
             <>
-              <span className="text-5xl">💼</span>
+              <div className="relative w-24 h-16">
+                <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+              </div>
               <h3 className="font-display text-2xl uppercase tracking-wider text-amber-400">Tu maletín</h3>
             </>
           )}

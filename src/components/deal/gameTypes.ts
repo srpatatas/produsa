@@ -11,10 +11,17 @@ export const HIGH_AMOUNTS = AMOUNTS.slice(13);
 
 export const CASES_PER_ROUND = [6, 5, 4, 3, 2, 1, 1, 1, 1];
 
+export const CASE_FLAGS = [
+  "ar", "br", "de", "fr", "es", "gb-eng", "it", "pt", "nl", "mx",
+  "us", "jp", "kr", "ma", "hr", "uy", "co", "se", "au", "ca",
+  "qa", "sa", "ir", "gh", "sn", "ch",
+];
+
 export type GamePhase = "pick" | "opening" | "offer" | "final" | "done";
 
 export interface DealState {
   cases: number[];
+  caseFlags: string[];
   playerCase: number;
   opened: Set<number>;
   round: number;

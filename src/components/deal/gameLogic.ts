@@ -1,4 +1,4 @@
-import { AMOUNTS, CASES_PER_ROUND, type DealState } from "./gameTypes";
+import { AMOUNTS, CASE_FLAGS, CASES_PER_ROUND, type DealState } from "./gameTypes";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -12,6 +12,7 @@ function shuffle<T>(arr: T[]): T[] {
 export function createInitialState(): DealState {
   return {
     cases: shuffle(AMOUNTS),
+    caseFlags: shuffle(CASE_FLAGS),
     playerCase: -1,
     opened: new Set(),
     round: 0,
