@@ -79,14 +79,9 @@ export function TriviaGame() {
 
   const handleRetire = () => {
     if (status !== "tree" || !treeReady) return;
-    const hitSafety = SAFETY_NETS.includes(current);
-    if (hitSafety) {
-      setScore(current + 1);
-      submitScore(current + 1);
-    } else {
-      setScore(current);
-      submitScore(current);
-    }
+    const level = current + 1;
+    setScore(level);
+    submitScore(level);
     setStatus("retired");
   };
 
