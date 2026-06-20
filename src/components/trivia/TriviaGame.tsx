@@ -271,23 +271,29 @@ export function TriviaGame() {
                 })}
               </div>
 
-              {/* Continue / Retire buttons */}
+              {/* Continue / Retire overlay */}
               {treeReady && (
-                <div className="flex items-center justify-center gap-3 mt-3">
-                  <button
-                    type="button"
-                    onClick={handleContinue}
-                    className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-2 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
-                  >
-                    Continuar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleRetire}
-                    className="rounded-full bg-white/10 px-5 py-2 text-[11px] font-semibold uppercase tracking-wider text-white/70 ring-1 ring-white/20 transition-all hover:bg-white/20 hover:text-white"
-                  >
-                    Retirarse
-                  </button>
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-black/60 backdrop-blur-sm rounded-2xl">
+                  <p className="text-sm text-white/80 font-medium">¿Seguís o te retirás?</p>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={handleContinue}
+                      className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-7 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+                    >
+                      Continuar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleRetire}
+                      className="rounded-full bg-white/10 px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-white/70 ring-1 ring-white/20 transition-all hover:bg-white/20 hover:text-white"
+                    >
+                      Retirarse
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-white/40">
+                    Te llevás: <span className="text-amber-400">{PRIZE_LADDER[current]}</span>
+                  </p>
                 </div>
               )}
             </div>
