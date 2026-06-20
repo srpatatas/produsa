@@ -28,6 +28,7 @@ export function DealGame() {
   const [bankerPhrase, setBankerPhrase] = useState("");
   const [revealedAmount, setRevealedAmount] = useState<number | null>(null);
   const [showReveal, setShowReveal] = useState(false);
+  const [selectedCase, setSelectedCase] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("/api/deal")
@@ -58,13 +59,22 @@ export function DealGame() {
     setBankerPhrase("");
     setRevealedAmount(null);
     setShowReveal(false);
+    setSelectedCase(null);
   }, []);
 
   const handleCaseClick = (idx: number) => {
+    if (idx === state.playerCase || state.opened.has(idx)) return;
+    setSelectedCase(idx);
+  };
+
+  const handleConfirmCase = () => {
+    if (selectedCase === null) return;
+    const idx = selectedCase;
+    setSelectedCase(null);
+
     if (state.phase === "pick") {
       setState(pickCase(state, idx));
     } else if (state.phase === "opening") {
-      if (idx === state.playerCase || state.opened.has(idx)) return;
       setRevealedAmount(state.cases[idx]);
       setShowReveal(true);
       setTimeout(() => {
@@ -203,11 +213,13 @@ export function DealGame() {
                     ? "opacity-20 grayscale"
                     : isPlayer
                       ? "ring-2 ring-amber-300 shadow-lg shadow-amber-500/30 scale-105"
-                      : "hover:scale-110 active:scale-95"
+                      : selectedCase === idx
+                        ? "ring-2 ring-cyan-400 shadow-lg shadow-cyan-500/30 scale-110"
+                        : "hover:scale-105 active:scale-95"
                 }`}
               >
-                <div className="relative w-[52px] h-[38px]">
-                  <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+                <div className="relative w-[52px] h-[38px] overflow-hidden rounded">
+                  <Image src="/images/maletin.png" alt="Maletín" fill className="object-cover scale-[1.6]" />
                   <img
                     src={`https://flagcdn.com/w40/${state.caseFlags[idx]}.png`}
                     alt=""
@@ -217,6 +229,19 @@ export function DealGame() {
               </button>
             );
           })}
+        </div>
+      )}
+
+      {/* Confirm selected case */}
+      {selectedCase !== null && !showReveal && (state.phase === "pick" || state.phase === "opening") && (
+        <div className="flex justify-center py-2">
+          <button
+            type="button"
+            onClick={handleConfirmCase}
+            className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+          >
+            {state.phase === "pick" ? "Elegir este" : "Abrir"}
+          </button>
         </div>
       )}
 
