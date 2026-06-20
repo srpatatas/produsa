@@ -29,6 +29,7 @@ export function TriviaGame() {
   const [hinchadaPcts, setHinchadaPcts] = useState<number[] | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [revealMsg, setRevealMsg] = useState("");
+  const [showCorrect, setShowCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const [treeLevel, setTreeLevel] = useState(-1);
   const [treeReady, setTreeReady] = useState(false);
@@ -69,6 +70,7 @@ export function TriviaGame() {
     setHinchadaPcts(null);
     setShowHint(false);
     setRevealMsg("");
+    setShowCorrect(false);
     setScore(0);
     setStatus("playing");
   }, []);
@@ -147,8 +149,9 @@ export function TriviaGame() {
       setScore(finalScore);
       setRevealMsg("La respuesta correcta es...");
       setTimeout(() => {
+        setShowCorrect(true);
         setRevealMsg(`${optionLetter[q.answer]}: ${q.options[q.answer]}`);
-      }, 1200);
+      }, 1500);
       setTimeout(() => {
         setRevealMsg("");
         setStatus("wrong");
@@ -216,7 +219,7 @@ export function TriviaGame() {
     const base = "border border-cyan-500/30 bg-gradient-to-b from-[#1a1a4e] via-[#0d0d35] to-[#1a1a4e]";
     if (eliminated.has(idx)) return base + " opacity-20 pointer-events-none";
     if (confirmed) {
-      if (idx === q?.answer) return "border-2 border-emerald-400 bg-gradient-to-b from-emerald-900/60 via-emerald-950/80 to-emerald-900/60 shadow-lg shadow-emerald-500/30";
+      if (idx === q?.answer && (showCorrect || selected === q?.answer)) return "border-2 border-emerald-400 bg-gradient-to-b from-emerald-900/60 via-emerald-950/80 to-emerald-900/60 shadow-lg shadow-emerald-500/30";
       if (idx === selected && idx !== q?.answer) return "border-2 border-red-400 bg-gradient-to-b from-red-900/60 via-red-950/80 to-red-900/60 shadow-lg shadow-red-500/30";
     }
     if (idx === selected) return "border-2 border-amber-400 bg-gradient-to-b from-amber-900/40 via-[#1a1a4e] to-amber-900/40 shadow-lg shadow-amber-500/20";
