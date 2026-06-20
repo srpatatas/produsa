@@ -248,6 +248,14 @@ export function NextMatchCountdown() {
               <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>¿Quién quiere?</span>
             </Link>
           )}
+          {Date.now() >= Date.UTC(2026, 5, 21, 7, 0, 0) && (
+            <Link href="/deal" className="group flex flex-col items-center gap-1.5">
+              <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-amber-500 via-yellow-400 to-orange-500 shadow-md shadow-amber-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
+                <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">💼</span>
+              </div>
+              <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Deal or No Deal</span>
+            </Link>
+          )}
         </div>
       </div>
 
