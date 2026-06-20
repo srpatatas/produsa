@@ -14,7 +14,7 @@ interface LeaderboardEntry {
 }
 
 type Lifeline = "var" | "hinchada" | "dt";
-type GameStatus = "idle" | "playing" | "correct" | "tree" | "safety" | "wrong" | "won" | "retired";
+type GameStatus = "idle" | "ready" | "playing" | "correct" | "tree" | "safety" | "wrong" | "won" | "retired";
 
 export function TriviaGame() {
   const user = useUser();
@@ -74,7 +74,7 @@ export function TriviaGame() {
     setRevealMsg("");
     setShowCorrect(false);
     setScore(0);
-    setStatus("playing");
+    setStatus("ready");
   }, []);
 
   const q = questions[current];
@@ -288,6 +288,21 @@ export function TriviaGame() {
           >
             Empezar
           </button>
+        </div>
+      )}
+
+      {status === "ready" && (
+        <div
+          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden mb-16 h-[480px] cursor-pointer"
+          style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+          onClick={() => setStatus("playing")}
+        >
+          <div className="absolute inset-0 bg-black/75" />
+          <div className="relative z-10 flex flex-col items-center justify-center h-full gap-5">
+            <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-bebas)" }}>PREGUNTA 1</p>
+            <p className="text-lg text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>{PRIZE_LADDER[0].stage} — {PRIZE_LADDER[0].money}</p>
+            <p className="text-sm text-white/60 animate-pulse">Tocá cuando estés listo</p>
+          </div>
         </div>
       )}
 
