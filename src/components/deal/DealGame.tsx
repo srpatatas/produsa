@@ -70,6 +70,7 @@ export function DealGame() {
     setOfferHistory([]);
     setShowConfetti(false);
     setEliminatedAmount(null);
+    setBankerImg(Math.floor(Math.random() * 3));
   }, []);
 
   const handleCaseClick = (idx: number) => {
@@ -97,7 +98,6 @@ export function DealGame() {
         setState(next);
         if (next.phase === "offer") {
           // Phone ring → thinking → reveal offer
-          setBankerImg((prev) => (prev + 1) % 3);
           setPhoneRinging(true);
           setTimeout(() => {
             setPhoneRinging(false);
