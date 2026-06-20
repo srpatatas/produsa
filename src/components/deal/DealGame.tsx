@@ -206,14 +206,14 @@ export function DealGame() {
                       : "hover:scale-110 active:scale-95"
                 }`}
               >
-                <div className="relative w-12 h-8">
+                <div className="relative w-14 h-10">
                   <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+                  <img
+                    src={`https://flagcdn.com/w40/${state.caseFlags[idx]}.png`}
+                    alt=""
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] h-4 w-6 object-cover rounded-[2px] shadow-sm"
+                  />
                 </div>
-                <img
-                  src={`https://flagcdn.com/w40/${state.caseFlags[idx]}.png`}
-                  alt=""
-                  className="h-3 w-5 object-cover rounded-[1px] mt-0.5"
-                />
               </button>
             );
           })}
