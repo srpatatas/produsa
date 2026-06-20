@@ -429,22 +429,22 @@ export function TriviaGame() {
           {(status === "playing" || status === "correct") && q && (
             <div className="relative z-10 flex flex-col gap-3 px-3 py-4 pb-5" >
           {/* Lifelines bar */}
-          <div className="relative z-10 flex items-center justify-between px-1 pt-2">
-            <div className="flex gap-2">
-              {([["var", "🖥️", "VAR"], ["hinchada", "👥", "Hinchada"], ["dt", "📞", "DT"]] as const).map(([key, emoji, label]) => (
+          <div className="relative z-10 flex items-center justify-center px-1 pt-2">
+            <div className="flex gap-3">
+              {([["var", "🖥️", "VAR", "from-cyan-600 to-cyan-800", "cyan"], ["hinchada", "👥", "Hinchada", "from-purple-600 to-purple-800", "purple"], ["dt", "📞", "DT", "from-amber-600 to-amber-800", "amber"]] as const).map(([key, emoji, label, grad, color]) => (
                 <button
                   key={key}
                   type="button"
                   onClick={key === "var" ? useVar : key === "hinchada" ? useHinchada : useDt}
                   disabled={usedLifelines.has(key) || confirmed}
-                  className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] transition-all ${
+                  className={`flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 transition-all ${
                     usedLifelines.has(key)
-                      ? "opacity-25 bg-white/5"
-                      : "bg-indigo-500/20 hover:bg-indigo-500/30 ring-1 ring-indigo-400/30"
+                      ? "opacity-20 bg-white/5"
+                      : `bg-gradient-to-b ${grad} ring-1 ring-${color}-400/40 shadow-md shadow-${color}-500/20 hover:scale-105`
                   }`}
                 >
-                  <span>{emoji}</span>
-                  <span className="text-indigo-200">{label}</span>
+                  <span className="text-xl">{emoji}</span>
+                  <span className="text-[9px] font-bold text-white/90 uppercase tracking-wider">{label}</span>
                 </button>
               ))}
             </div>
