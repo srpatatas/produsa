@@ -6,7 +6,6 @@ import { matches } from "@/data/matches";
 
 const API_BASE = "https://v3.football.api-sports.io";
 const CHECK_START_MS = 105 * 60 * 1000;
-const CHECK_END_MS = 180 * 60 * 1000;
 const FINISHED_STATUSES = new Set(["FT", "AET", "PEN"]);
 
 interface ApiScore {
@@ -113,8 +112,7 @@ function getPendingMatches(now: number): string[] {
   return getAllUnifiedMatches()
     .filter((m) => {
       const kickoff = new Date(m.kickoff).getTime();
-      const elapsed = now - kickoff;
-      return elapsed >= CHECK_START_MS && elapsed <= CHECK_END_MS;
+      return now - kickoff >= CHECK_START_MS;
     })
     .map((m) => m.id);
 }
