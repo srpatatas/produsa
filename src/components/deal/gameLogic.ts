@@ -20,6 +20,7 @@ export function createInitialState(): DealState {
     offer: 0,
     finalAmount: 0,
     dealTaken: false,
+    started: false,
   };
 }
 

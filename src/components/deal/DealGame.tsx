@@ -110,13 +110,31 @@ export function DealGame() {
   return (
     <div className="mx-auto max-w-lg pb-20">
       {/* IDLE / INTRO */}
-      {state.phase === "pick" && state.playerCase === -1 && (
+      {state.phase === "pick" && state.playerCase === -1 && !state.started && (
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-3xl text-foreground text-center">DEAL OR NO DEAL</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            Elegí un maletín y descubrí cuánto vale. El banquero te va a ofrecer plata para que dejes de jugar. ¿Aceptás o seguís?
+            26 maletines con premios de $0,01 a $1.000.000. Elegí uno, abrí los demás y decidí si aceptás la oferta del banquero o seguís jugando.
           </p>
-          <p className="text-xs text-fifa-dark-gray animate-pulse">Elegí tu maletín</p>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-fifa-dark-gray">
+            <span>🟢 DEAL <span className="text-fifa-gold">(aceptar oferta)</span></span>
+            <span>🔴 NO DEAL <span className="text-fifa-gold">(seguir jugando)</span></span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setState((s) => ({ ...s, started: true }))}
+            className="rounded-full bg-gradient-to-r from-fifa-purple via-fifa-blue to-fifa-teal px-8 py-3 font-display text-lg uppercase tracking-wider text-white shadow-lg shadow-fifa-purple/30 transition-transform hover:scale-105"
+          >
+            Empezar
+          </button>
+        </div>
+      )}
+
+      {/* PICK YOUR CASE */}
+      {state.phase === "pick" && state.playerCase === -1 && state.started && (
+        <div className="flex flex-col items-center gap-3 py-4">
+          <h3 className="font-display text-lg uppercase tracking-wider text-foreground">Elegí tu maletín</h3>
+          <p className="text-xs text-fifa-dark-gray animate-pulse">Tocá uno para quedártelo</p>
         </div>
       )}
 
@@ -165,7 +183,7 @@ export function DealGame() {
       )}
 
       {/* Briefcases grid */}
-      {(state.phase === "pick" || state.phase === "opening") && !showReveal && (
+      {(state.phase === "pick" || state.phase === "opening") && !showReveal && state.started && (
         <div className="grid grid-cols-6 gap-1.5 px-3 py-2">
           {state.cases.map((_, idx) => {
             const isPlayer = idx === state.playerCase;

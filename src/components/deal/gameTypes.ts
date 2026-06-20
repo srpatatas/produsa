@@ -23,6 +23,7 @@ export interface DealState {
   offer: number;
   finalAmount: number;
   dealTaken: boolean;
+  started: boolean;
 }
 
 export function formatMoney(amount: number): string {
