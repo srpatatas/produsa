@@ -143,8 +143,10 @@ export function TriviaGame() {
       const safetyLevel = [...SAFETY_NETS].reverse().find((s) => s < current) ?? -1;
       const finalScore = safetyLevel + 1;
       setScore(finalScore);
-      setStatus("wrong");
-      submitScore(finalScore);
+      setTimeout(() => {
+        setStatus("wrong");
+        submitScore(finalScore);
+      }, 2000);
     }
   };
 
