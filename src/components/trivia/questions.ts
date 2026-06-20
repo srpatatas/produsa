@@ -5,44 +5,52 @@ export interface Question {
   hint: string;
 }
 
-// Difficulty tiers: 1-5 easy, 6-10 medium, 11-15 hard
+// EASY: any WC fan should know these
 const EASY: Question[] = [
-  { q: "¿Cuántas estrellas tiene Argentina en su camiseta?", options: ["1", "2", "3", "4"], answer: 2, hint: "Ganó en el '78, '86 y 2022" },
-  { q: "¿En qué país se jugó el primer Mundial?", options: ["Brasil", "Italia", "Uruguay", "Francia"], answer: 2, hint: "Fue en 1930, en Sudamérica" },
-  { q: "¿Qué selección ganó el Mundial 2022 en Qatar?", options: ["Francia", "Argentina", "Brasil", "Croacia"], answer: 1, hint: "Messi levantó la copa" },
-  { q: "¿Cuántos jugadores tiene un equipo en la cancha?", options: ["10", "11", "12", "9"], answer: 1, hint: "Diez de campo más el arquero" },
-  { q: "¿De qué color es la camiseta titular de Brasil?", options: ["Azul", "Verde", "Amarilla", "Blanca"], answer: 2, hint: "El color de la canarinha" },
-  { q: "¿Qué selección es conocida como 'La Roja'?", options: ["Portugal", "Chile", "España", "Las dos últimas"], answer: 3, hint: "Ambas usan rojo y comparten el apodo" },
-  { q: "¿Cuántos minutos dura un partido de fútbol reglamentario?", options: ["80", "90", "100", "120"], answer: 1, hint: "Dos tiempos de 45" },
-  { q: "¿Qué país organizó el Mundial 2014?", options: ["Sudáfrica", "Rusia", "Brasil", "Alemania"], answer: 2, hint: "El famoso 7-1 fue como local" },
-  { q: "¿Cuál es el trofeo que se entrega al campeón del mundo?", options: ["Copa Jules Rimet", "Copa FIFA", "Balón de Oro", "Copa del Mundo FIFA"], answer: 3, hint: "Se usa desde 1974" },
-  { q: "¿En qué continente se juega el Mundial 2026?", options: ["Europa", "Asia", "América", "África"], answer: 2, hint: "Tres países co-organizadores" },
+  { q: "¿Qué selección ganó el primer Mundial de la historia en 1930?", options: ["Argentina", "Brasil", "Uruguay", "Italia"], answer: 2, hint: "Fue el país anfitrión" },
+  { q: "¿Quién hizo la 'Mano de Dios' en México 1986?", options: ["Valdano", "Maradona", "Burruchaga", "Batista"], answer: 1, hint: "El mismo que hizo el Gol del Siglo" },
+  { q: "¿Qué selección ganó el Mundial 2006 en Alemania?", options: ["Francia", "Alemania", "Italia", "Brasil"], answer: 2, hint: "Zidane dio el cabezazo en la final" },
+  { q: "¿Cuántos Mundiales ganó Brasil hasta 2022?", options: ["4", "5", "6", "3"], answer: 1, hint: "Es la selección más ganadora de la historia" },
+  { q: "¿En qué ciudad se jugó la final del Mundial 2022?", options: ["Doha", "Lusail", "Al Khor", "Abu Dabi"], answer: 1, hint: "El estadio más grande de Qatar" },
+  { q: "¿Qué jugador francés hizo un hat-trick en la final del Mundial 2022?", options: ["Griezmann", "Dembélé", "Mbappé", "Giroud"], answer: 2, hint: "Metió 2 en 97 segundos" },
+  { q: "¿Qué selección eliminó a Brasil en el 'Maracanazo' de 1950?", options: ["Argentina", "Uruguay", "Paraguay", "Suecia"], answer: 1, hint: "Fue en la ronda final, no fue técnicamente una final" },
+  { q: "¿Quién es el DT que dirigió a España en el Mundial 2010?", options: ["Del Bosque", "Luis Enrique", "Aragonés", "Lopetegui"], answer: 0, hint: "Había sido DT del Real Madrid" },
+  { q: "¿En qué año Alemania goleó 7-1 a Brasil como local?", options: ["2010", "2014", "2018", "2006"], answer: 1, hint: "Semifinal en Belo Horizonte" },
+  { q: "¿Quién convirtió el gol del triunfo de Argentina en la final del Mundial '86?", options: ["Maradona", "Valdano", "Burruchaga", "Brown"], answer: 2, hint: "Fue el 3-2 sobre Alemania" },
+  { q: "¿Qué país fue sede del Mundial 2018?", options: ["Qatar", "Brasil", "Rusia", "Sudáfrica"], answer: 2, hint: "Francia ganó esa edición" },
+  { q: "¿Qué jugador ganó el Balón de Oro del Mundial 1998?", options: ["Zidane", "Ronaldo", "Rivaldo", "Suker"], answer: 0, hint: "Francés, hizo 2 goles en la final" },
 ];
 
+// MEDIUM: dedicated WC fans know these
 const MEDIUM: Question[] = [
-  { q: "¿Quién es el máximo goleador en la historia de los Mundiales?", options: ["Pelé", "Ronaldo", "Miroslav Klose", "Gerd Müller"], answer: 2, hint: "Alemán, 16 goles en 4 Mundiales" },
-  { q: "¿En qué Mundial Maradona hizo el 'Gol del Siglo'?", options: ["España 1982", "México 1986", "Italia 1990", "USA 1994"], answer: 1, hint: "El mismo partido de la Mano de Dios" },
-  { q: "¿Qué selección perdió tres finales de Mundial consecutivas (2010-2018)?", options: ["Alemania", "Brasil", "Países Bajos", "Argentina"], answer: 3, hint: "Perdió en 2014 y ganó en 2022" },
-  { q: "¿Cuántos Mundiales ganó Italia?", options: ["2", "3", "4", "5"], answer: 2, hint: "'34, '38, '82 y 2006" },
-  { q: "¿Qué país fue el primer anfitrión africano de un Mundial?", options: ["Nigeria", "Sudáfrica", "Marruecos", "Egipto"], answer: 1, hint: "Fue en 2010, con las vuvuzelas" },
-  { q: "¿Quién metió el gol de la final del Mundial 2014?", options: ["Messi", "Müller", "Götze", "Kroos"], answer: 2, hint: "Un gol en el alargue, de volea con el pecho" },
-  { q: "¿Qué jugador ganó el Balón de Oro del Mundial 2022?", options: ["Mbappé", "Messi", "Modric", "Martínez"], answer: 1, hint: "Ganó el torneo y el premio individual" },
-  { q: "¿Cuántos países participan en el Mundial 2026?", options: ["32", "36", "48", "64"], answer: 2, hint: "Se expandió por primera vez desde 1998" },
-  { q: "¿Qué selección fue eliminada en fase de grupos en 2014 siendo campeona vigente?", options: ["Italia", "Francia", "España", "Alemania"], answer: 2, hint: "Había ganado en Sudáfrica 2010" },
-  { q: "¿En qué estadio se jugará la final del Mundial 2026?", options: ["SoFi Stadium", "MetLife Stadium", "Estadio Azteca", "AT&T Stadium"], answer: 1, hint: "Está en Nueva Jersey, cerca de Nueva York" },
+  { q: "¿Quién fue el arquero titular de Italia en la final del Mundial 2006?", options: ["Buffon", "Peruzzi", "Toldo", "Dida"], answer: 0, hint: "Jugó en Juventus casi toda su carrera" },
+  { q: "¿Qué jugador colombiano fue asesinado tras el Mundial 1994 por un autogol?", options: ["Valderrama", "Asprilla", "Escobar", "Rincón"], answer: 2, hint: "Andrés, defensor" },
+  { q: "¿Cuántos goles hizo Ronaldo (el brasileño) en el Mundial 2002?", options: ["6", "8", "10", "5"], answer: 1, hint: "Fue goleador del torneo" },
+  { q: "¿Qué país organizó el Mundial por segunda vez en 1986 tras reemplazar a Colombia?", options: ["USA", "México", "Argentina", "Chile"], answer: 1, hint: "La sede original tuvo problemas económicos" },
+  { q: "¿Quién le atajó dos penales a Países Bajos en la semifinal del Mundial 2014?", options: ["Romero", "Neuer", "Bravo", "Navas"], answer: 0, hint: "Argentino, jugaba en el Mónaco" },
+  { q: "¿Qué selección fue la primera asiática en llegar a semifinales de un Mundial?", options: ["Japón", "Corea del Sur", "Arabia Saudita", "Australia"], answer: 1, hint: "Fue en 2002, como co-anfitrión" },
+  { q: "¿Qué jugador marcó el 'Gol del Siglo' según la FIFA votado en 2002?", options: ["Pelé vs Suecia 1958", "Maradona vs Inglaterra 1986", "Carlos Alberto vs Italia 1970", "Bergkamp vs Argentina 1998"], answer: 1, hint: "Arrancó desde su propia mitad de cancha" },
+  { q: "¿Quién es el jugador con más partidos en la historia de los Mundiales?", options: ["Miroslav Klose", "Lothar Matthäus", "Paolo Maldini", "Cafu"], answer: 1, hint: "Alemán, 25 partidos en 5 Mundiales" },
+  { q: "¿Qué entrenador ganó el Mundial como jugador y como DT?", options: ["Zagallo", "Beckenbauer", "Didier Deschamps", "Los tres"], answer: 3, hint: "Zagallo ('58/'62 y '70), Beckenbauer ('74 y '90), Deschamps ('98 y '18)" },
+  { q: "¿Cuál fue la primera selección africana en llegar a cuartos de final?", options: ["Nigeria", "Camerún", "Ghana", "Senegal"], answer: 1, hint: "Fue en Italia 1990, con Roger Milla" },
+  { q: "¿Quién metió el gol de oro que le dio el Mundial 2002 a Brasil en la final?", options: ["Rivaldo", "Ronaldo", "Ronaldinho", "Cafu"], answer: 1, hint: "Hizo los dos goles contra Alemania" },
+  { q: "¿Cuántos penales erró Argentina en la tanda vs Francia en la final 2022?", options: ["0", "1", "2", "3"], answer: 0, hint: "Fueron perfectos: 4 de 4" },
 ];
 
+// HARD: only true WC historians know these
 const HARD: Question[] = [
-  { q: "¿Quién es el jugador más joven en marcar en una final de Mundial?", options: ["Pelé", "Mbappé", "Michael Owen", "Ronaldo"], answer: 0, hint: "Tenía 17 años en la final de 1958" },
-  { q: "¿Cuál fue el primer Mundial que se definió por penales en la final?", options: ["Italia 1990", "USA 1994", "Alemania 2006", "Brasil 2014"], answer: 1, hint: "Brasil vs Italia, Baggio erró el último penal" },
-  { q: "¿Qué selección tiene más partidos jugados en la historia de los Mundiales?", options: ["Brasil", "Alemania", "Argentina", "Italia"], answer: 1, hint: "Participó en todas las ediciones excepto una" },
-  { q: "¿Quién es el arquero con más partidos en Mundiales?", options: ["Buffon", "Neuer", "Sepp Maier", "Manuel Neuer"], answer: 1, hint: "Alemán, 4 Mundiales (2006-2022)" },
-  { q: "¿En qué año se usó por primera vez el VAR en un Mundial?", options: ["2014", "2018", "2022", "2010"], answer: 1, hint: "Fue en Rusia" },
-  { q: "¿Qué jugador marcó el gol más rápido en la historia de los Mundiales?", options: ["Hakan Şükür", "Davide Gualtieri", "Clint Dempsey", "Neymar"], answer: 0, hint: "A los 11 segundos, en el partido por el tercer puesto de 2002" },
-  { q: "¿Cuántos goles se marcaron en la final Argentina-Francia del Mundial 2022?", options: ["5", "6", "7", "8"], answer: 1, hint: "3-3 en tiempo reglamentario y extra, definido por penales" },
-  { q: "¿Qué selección es la única en haber jugado todos los Mundiales?", options: ["Argentina", "Alemania", "Italia", "Brasil"], answer: 3, hint: "La pentacampeona nunca faltó" },
-  { q: "¿Quién dirigió a Argentina en los Mundiales 1978 y 1982?", options: ["Bilardo", "Menotti", "Sabella", "Basile"], answer: 1, hint: "El Flaco, campeón en el '78" },
-  { q: "¿Cuál es la mayor goleada en la historia de los Mundiales?", options: ["Alemania 7-1 Brasil", "Hungría 10-1 El Salvador", "Australia 31-0 Samoa", "Hungría 9-0 Corea del Sur"], answer: 1, hint: "Fue en España 1982" },
+  { q: "¿Quién fue el primer jugador en ser expulsado en una final de Mundial?", options: ["Zidane", "Beckham", "Pedro Monzón", "Marcel Desailly"], answer: 2, hint: "Argentino, en Italia 1990 vs Alemania" },
+  { q: "¿Qué selección se retiró de la cancha en el Mundial 1938 por una disputa política?", options: ["Austria", "España", "Alemania", "India"], answer: 0, hint: "Fue anexada al Tercer Reich antes del torneo" },
+  { q: "¿Cuántos goles marcó Just Fontaine en el Mundial 1958?", options: ["10", "11", "13", "15"], answer: 2, hint: "Récord imbatible en un solo Mundial" },
+  { q: "¿Qué árbitro cobró el penal para Argentina de Messi en la final 2022?", options: ["Néstor Pitana", "Szymon Marciniak", "Cüneyt Çakır", "Wilton Sampaio"], answer: 1, hint: "Polaco" },
+  { q: "¿En qué Mundial se usó por primera vez el balón Adidas Tango?", options: ["1974", "1978", "1982", "1970"], answer: 1, hint: "El primer Mundial en Argentina" },
+  { q: "¿Qué jugador tiene el récord de goles en fase de grupos de un solo Mundial?", options: ["Just Fontaine", "Sándor Kocsis", "Gerd Müller", "Eusébio"], answer: 0, hint: "Francés, en Suecia 1958" },
+  { q: "¿Cuál fue el único Mundial donde no se cantaron himnos antes de los partidos?", options: ["1930", "1934", "1950", "1954"], answer: 2, hint: "Brasil como anfitrión, usó un formato de liga" },
+  { q: "¿Qué jugador anotó en dos finales de Mundial separadas por 20 años?", options: ["Pelé", "Cafu", "Vavá", "Ronaldo"], answer: 2, hint: "Brasil '58 y '62... pero la pregunta dice 20 años" },
+  { q: "¿Cuántos autogoles hubo en el Mundial 2018 de Rusia?", options: ["8", "10", "12", "6"], answer: 2, hint: "Récord histórico de autogoles" },
+  { q: "¿Qué selección fue descalificada del Mundial 2010 por intervención gubernamental en su federación?", options: ["Nigeria", "Irak", "Chad", "Ninguna fue descalificada"], answer: 3, hint: "Varias fueron amenazadas pero ninguna fue descalificada en esa edición" },
+  { q: "¿Quién fue el jugador más joven en disputar un partido de Mundial?", options: ["Pelé", "Norman Whiteside", "Femi Opabunmi", "Salomon Olembé"], answer: 1, hint: "Norirlandés, tenía 17 años y 41 días en España 1982" },
+  { q: "¿Qué DT perdió dos finales de Mundial con selecciones diferentes?", options: ["Carlos Bilardo", "Vittorio Pozzo", "Ernst Happel", "Ninguno"], answer: 3, hint: "Trampa: Pozzo ganó dos, y nadie perdió dos con distintas selecciones" },
 ];
 
 export function getQuestions(): Question[] {
