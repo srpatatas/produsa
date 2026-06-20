@@ -182,7 +182,7 @@ export function TriviaGame() {
 
       {(status === "tree" || status === "playing" || status === "correct") && (
         <div
-          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden"
+          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden mb-16"
           style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
         >
           <div className="absolute inset-0 bg-black/75" />
