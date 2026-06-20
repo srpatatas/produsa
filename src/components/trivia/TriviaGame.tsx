@@ -448,7 +448,7 @@ export function TriviaGame() {
 
           {/* QUESTION VIEW */}
           {(status === "playing" || status === "correct") && q && (
-            <div className="relative z-10 flex flex-col gap-3 px-3 py-4 pb-5" >
+            <div className="relative z-10 flex flex-col gap-2 px-3 py-3 pb-4 overflow-y-auto" style={{ maxHeight: 480 }}>
           {/* Lifelines bar */}
           <div className="relative z-10 flex items-center justify-center px-1 pt-2">
             <div className="flex gap-3">
