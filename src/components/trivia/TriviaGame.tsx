@@ -285,10 +285,14 @@ export function TriviaGame() {
             </span>
           </div>
 
-          {/* Question bar — hexagonal style */}
-          <div className="relative z-10 flex items-center mx-1">
-            <div className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
-            <div className="relative z-10 mx-auto w-full rounded-full border border-cyan-500/30 bg-gradient-to-b from-[#1a1a4e] via-[#0d0d35] to-[#1a1a4e] px-6 py-4 shadow-lg shadow-cyan-500/10">
+          {/* Question bar — hexagonal with extending lines */}
+          <div className="relative z-10 flex items-center mx-0 my-2">
+            <div className="absolute left-0 w-[8%] top-1/2 h-[1px] bg-gradient-to-r from-cyan-500/20 to-cyan-500/50" />
+            <div className="absolute right-0 w-[8%] top-1/2 h-[1px] bg-gradient-to-l from-cyan-500/20 to-cyan-500/50" />
+            <div
+              className="relative z-10 mx-auto w-[86%] bg-gradient-to-b from-[#1e2a5e] via-[#0c1030] to-[#1e2a5e] px-6 py-4 shadow-lg shadow-cyan-900/30 border-t border-b border-cyan-500/20"
+              style={{ clipPath: "polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%)" }}
+            >
               <p className="text-center text-sm font-medium text-white leading-relaxed" style={{ fontFamily: "var(--font-oswald)" }}>{q.q}</p>
             </div>
           </div>
@@ -318,29 +322,34 @@ export function TriviaGame() {
             </div>
           )}
 
-          {/* Options — 2x2 hexagonal bars */}
-          <div className="relative z-10 mx-1">
-            <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent -translate-y-3" />
-            <div className="absolute left-0 right-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent translate-y-[-50%]" />
-            <div className="grid grid-cols-2 gap-x-2 gap-y-2">
-              {q.options.map((opt, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => handleSelect(idx)}
-                  disabled={eliminated.has(idx) || confirmed}
-                  className={`flex items-center gap-2 rounded-full px-3 py-2.5 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
-                >
-                  <span className="flex-shrink-0 font-display text-xs font-bold text-amber-400">
-                    {optionLetter[idx]}:
-                  </span>
-                  <span className="text-xs text-white/90 leading-tight" style={{ fontFamily: "var(--font-oswald)" }}>{opt}</span>
-                  {hinchadaPcts && !eliminated.has(idx) && (
-                    <span className="ml-auto text-[9px] font-bold text-indigo-300 flex-shrink-0">{hinchadaPcts[idx]}%</span>
-                  )}
-                </button>
-              ))}
-            </div>
+          {/* Options — 2x2 hexagonal bars with extending lines */}
+          <div className="relative z-10 mx-0 flex flex-col gap-2 my-2">
+            {[0, 2].map((rowStart) => (
+              <div key={rowStart} className="relative flex items-center">
+                <div className="absolute left-0 w-[5%] top-1/2 h-[1px] bg-gradient-to-r from-cyan-500/20 to-cyan-500/40" />
+                <div className="absolute right-0 w-[5%] top-1/2 h-[1px] bg-gradient-to-l from-cyan-500/20 to-cyan-500/40" />
+                <div className="flex w-full gap-1 px-[5%]">
+                  {[rowStart, rowStart + 1].map((idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handleSelect(idx)}
+                      disabled={eliminated.has(idx) || confirmed}
+                      className={`flex-1 flex items-center gap-2 px-4 py-2.5 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
+                      style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%)" }}
+                    >
+                      <span className="flex-shrink-0 text-xs font-bold text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>
+                        {optionLetter[idx]}:
+                      </span>
+                      <span className="text-xs text-white/90 leading-tight" style={{ fontFamily: "var(--font-oswald)" }}>{q.options[idx]}</span>
+                      {hinchadaPcts && !eliminated.has(idx) && (
+                        <span className="ml-auto text-[9px] font-bold text-indigo-300 flex-shrink-0">{hinchadaPcts[idx]}%</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Confirm button */}
