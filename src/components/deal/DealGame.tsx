@@ -278,7 +278,7 @@ export function DealGame() {
             <div className="flex items-end gap-6">
               <button
                 type="button"
-                onClick={handleRevealFinal}
+                onClick={() => handleRevealFinal()}
                 className="flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-b from-amber-500 to-amber-700 px-6 py-4 ring-2 ring-amber-300 shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
               >
                 <div className="relative w-20 h-14">
