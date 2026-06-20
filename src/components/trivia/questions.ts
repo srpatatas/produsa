@@ -94,7 +94,7 @@ const EASY: Question[] = [
   { q: "¿Qué director técnico llevó a Croacia a la final del Mundial 2018?", options: ["Bilić", "Dalić", "Kovač", "Prosinečki"], answer: 1, hint: "Sigue dirigiendo a Croacia" },
   { q: "¿Quién marcó el primer gol del Mundial 2022?", options: ["Messi", "Valencia", "Enner Valencia", "Al-Shehri"], answer: 2, hint: "Ecuatoriano, en el partido inaugural" },
   { q: "¿Qué selección eliminó a Portugal del Mundial 2022?", options: ["España", "Suiza", "Marruecos", "Francia"], answer: 2, hint: "Sorpresa en cuartos de final" },
-  { q: "¿Cuántos mundiales disputó Cristiano Ronaldo?", options: ["3", "4", "5", "6"], answer: 2, hint: "2006, 2010, 2014, 2018, 2022" },
+  { q: "¿Cuántos mundiales disputó Cristiano Ronaldo?", options: ["4", "5", "6", "7"], answer: 2, hint: "2006, 2010, 2014, 2018, 2022 y 2026" },
   { q: "¿Qué selección perdió el tercer puesto del Mundial 2014?", options: ["Argentina", "Países Bajos", "Brasil", "Colombia"], answer: 2, hint: "Perdió 3-0 contra Países Bajos" },
   { q: "¿Quién fue el DT de Francia cuando ganó el Mundial 2018?", options: ["Zidane", "Blanc", "Deschamps", "Domenech"], answer: 2, hint: "También fue campeón como jugador en 1998" },
   { q: "¿Qué jugador erró el penal contra Ghana que eliminó a Uruguay del Mundial 2010?", options: ["Forlán", "Suárez", "Gyan", "Appiah"], answer: 2, hint: "Ghanés, después de la mano de Suárez" },
