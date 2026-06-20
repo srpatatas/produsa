@@ -28,6 +28,7 @@ export function TriviaGame() {
   const [eliminated, setEliminated] = useState<Set<number>>(new Set());
   const [hinchadaPcts, setHinchadaPcts] = useState<number[] | null>(null);
   const [showHint, setShowHint] = useState(false);
+  const [revealMsg, setRevealMsg] = useState("");
   const [score, setScore] = useState(0);
   const [treeLevel, setTreeLevel] = useState(-1);
   const [treeReady, setTreeReady] = useState(false);
@@ -67,6 +68,7 @@ export function TriviaGame() {
     setEliminated(new Set());
     setHinchadaPcts(null);
     setShowHint(false);
+    setRevealMsg("");
     setScore(0);
     setStatus("playing");
   }, []);
@@ -143,10 +145,15 @@ export function TriviaGame() {
       const safetyLevel = [...SAFETY_NETS].reverse().find((s) => s < current) ?? -1;
       const finalScore = safetyLevel + 1;
       setScore(finalScore);
+      setRevealMsg("La respuesta correcta es...");
       setTimeout(() => {
+        setRevealMsg(`${optionLetter[q.answer]}: ${q.options[q.answer]}`);
+      }, 1200);
+      setTimeout(() => {
+        setRevealMsg("");
         setStatus("wrong");
         submitScore(finalScore);
-      }, 2000);
+      }, 3500);
     }
   };
 
@@ -463,6 +470,12 @@ export function TriviaGame() {
             >
               Confirmar
             </button>
+          )}
+
+          {revealMsg && (
+            <div className="relative z-10 mx-auto text-center">
+              <p className="text-sm font-medium text-amber-300 italic animate-pulse">{revealMsg}</p>
+            </div>
           )}
             </div>
           )}
