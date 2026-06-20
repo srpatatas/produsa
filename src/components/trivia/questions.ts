@@ -129,21 +129,21 @@ export function getQuestions(): Question[] {
 }
 
 export const PRIZE_LADDER = [
-  "Eliminatoria 1",
-  "Eliminatoria 2",
-  "Eliminatoria 3",
-  "Eliminatoria 4",
-  "Eliminatoria 5",
-  "Eliminatoria 6",
-  "Fase de Grupos 1",
-  "Fase de Grupos 2",
-  "Fase de Grupos 3",
-  "Dieciseisavos",
-  "Octavos",
-  "Cuartos",
-  "Semifinal",
-  "Final",
-  "¡Campeón!",
+  { stage: "Eliminatoria 1", money: "$100" },
+  { stage: "Eliminatoria 2", money: "$200" },
+  { stage: "Eliminatoria 3", money: "$300" },
+  { stage: "Eliminatoria 4", money: "$500" },
+  { stage: "Eliminatoria 5", money: "$1.000" },
+  { stage: "Eliminatoria 6", money: "$2.000" },
+  { stage: "Fase de Grupos 1", money: "$4.000" },
+  { stage: "Fase de Grupos 2", money: "$8.000" },
+  { stage: "Fase de Grupos 3", money: "$16.000" },
+  { stage: "Dieciseisavos", money: "$32.000" },
+  { stage: "Octavos", money: "$64.000" },
+  { stage: "Cuartos", money: "$125.000" },
+  { stage: "Semifinal", money: "$250.000" },
+  { stage: "Final", money: "$500.000" },
+  { stage: "¡Campeón!", money: "$1.000.000" },
 ];
 
 export const SAFETY_NETS = [5, 8];

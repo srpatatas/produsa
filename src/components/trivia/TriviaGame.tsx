@@ -262,7 +262,20 @@ export function TriviaGame() {
                                 ? "text-white"
                                 : "text-amber-500/60"
                       }`}>
-                        {prize}
+                        {prize.stage}
+                      </span>
+                      <span style={{ fontFamily: "var(--font-bebas)" }} className={`text-sm tracking-wider ${
+                        isNext
+                          ? "text-amber-300 font-bold"
+                          : isCurrent
+                            ? "text-emerald-400"
+                            : isPassed
+                              ? "text-emerald-400/50"
+                              : isSafety
+                                ? "text-amber-400"
+                                : "text-amber-500/40"
+                      }`}>
+                        {prize.money}
                       </span>
                       {isNext && <span className="text-amber-400 text-xs animate-pulse">◀</span>}
                       {isCurrent && <span className="text-emerald-400 text-xs">✓</span>}
@@ -292,7 +305,7 @@ export function TriviaGame() {
                     </button>
                   </div>
                   <p className="text-[10px] text-white/40">
-                    Te llevás: <span className="text-amber-400">{PRIZE_LADDER[current]}</span>
+                    Te llevás: <span className="text-amber-400">{PRIZE_LADDER[current].stage}</span>
                   </p>
                 </div>
               )}
@@ -312,7 +325,7 @@ export function TriviaGame() {
                   : "Entraste al knockout — no podés bajar de acá"}
               </p>
               <span className="font-display text-lg text-emerald-400" style={{ fontFamily: "var(--font-bebas)" }}>
-                🛡️ {PRIZE_LADDER[current]}
+                🛡️ {PRIZE_LADDER[current].stage}
               </span>
             </div>
           )}
@@ -345,7 +358,7 @@ export function TriviaGame() {
           {/* Current prize level */}
           <div className="relative z-10 flex items-center justify-center py-1">
             <span className="rounded-full bg-amber-500/20 px-4 py-1 text-sm font-bold text-amber-300 ring-1 ring-amber-400/30 tracking-wider" style={{ fontFamily: "var(--font-bebas)" }}>
-              {current + 1} — {PRIZE_LADDER[current]}
+              {current + 1} — {PRIZE_LADDER[current].stage}
             </span>
           </div>
 
@@ -435,7 +448,7 @@ export function TriviaGame() {
           <span className="text-5xl">🤝</span>
           <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-gold">¡Te retiraste!</h3>
           <p className="text-sm text-fifa-dark-gray">Decisión inteligente. Te llevás:</p>
-          <p className="font-display text-3xl text-fifa-gold">{score > 0 ? PRIZE_LADDER[score - 1] : "Nada"}</p>
+          <p className="font-display text-3xl text-fifa-gold">{score > 0 ? PRIZE_LADDER[score - 1]?.stage : "Nada"}</p>
           <button type="button" onClick={start} className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white">
             Jugar de nuevo
           </button>
@@ -452,7 +465,7 @@ export function TriviaGame() {
           {score > 0 ? (
             <div className="text-center">
               <p className="text-xs text-fifa-dark-gray">Te llevás:</p>
-              <p className="font-display text-2xl text-fifa-gold">{PRIZE_LADDER[score - 1]}</p>
+              <p className="font-display text-2xl text-fifa-gold">{PRIZE_LADDER[score - 1]?.stage}</p>
             </div>
           ) : (
             <p className="text-xs text-fifa-dark-gray">No alcanzaste ninguna red de seguridad</p>
@@ -467,7 +480,7 @@ export function TriviaGame() {
         <div className="flex flex-col items-center gap-4 py-12">
           <span className="text-5xl">🏆</span>
           <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-gold">¡GANASTE EL MUNDIAL!</h3>
-          <p className="font-display text-3xl text-fifa-gold">{PRIZE_LADDER[14]}</p>
+          <p className="font-display text-3xl text-fifa-gold">{PRIZE_LADDER[14].stage}</p>
           <p className="text-xs text-emerald-400">15/15 — Perfecto</p>
           <button type="button" onClick={start} className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white">
             Jugar de nuevo
@@ -499,7 +512,7 @@ export function TriviaGame() {
                 <span className="flex-1 text-xs font-medium text-foreground truncate">
                   {entry.name}
                 </span>
-                <span className="font-display text-sm text-fifa-gold">{PRIZE_LADDER[entry.score - 1] || "—"}</span>
+                <span className="font-display text-sm text-fifa-gold">{PRIZE_LADDER[entry.score - 1]?.stage || "—"}</span>
               </div>
             ))}
           </div>
