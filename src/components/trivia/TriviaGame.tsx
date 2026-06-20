@@ -398,7 +398,7 @@ export function TriviaGame() {
             <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4 px-4">
               <span className="text-6xl">✅</span>
               <h3 className="font-display text-2xl uppercase tracking-wider text-amber-400">
-                {current === 5 ? "¡Clasificación asegurada!" : "¡Pasaste la fase de grupos!"}
+                {current === 5 ? "¡Clasificaste al mundial!" : "¡Pasaste la fase de grupos!"}
               </h3>
               <p className="text-center text-sm text-white/70">
                 {current === 5
