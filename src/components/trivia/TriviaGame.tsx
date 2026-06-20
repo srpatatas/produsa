@@ -86,9 +86,9 @@ export function TriviaGame() {
       } else {
         setStatus("correct");
         setTimeout(() => {
-          setTreeLevel(current);
+          setTreeLevel(Math.max(0, current - 1));
           setStatus("tree");
-          setTimeout(() => setTreeLevel(current + 1), 1200);
+          setTimeout(() => setTreeLevel(current), 1000);
           setTimeout(() => {
             setCurrent((c) => c + 1);
             setSelected(null);
