@@ -30,6 +30,7 @@ export function TriviaGame() {
   const [showHint, setShowHint] = useState(false);
   const [score, setScore] = useState(0);
   const [treeLevel, setTreeLevel] = useState(-1);
+  const [treeReady, setTreeReady] = useState(false);
 
   useEffect(() => {
     fetch("/api/trivia")
@@ -68,10 +69,41 @@ export function TriviaGame() {
   const q = questions[current];
 
   const handleRetire = () => {
-    if (status !== "playing" || confirmed) return;
-    setScore(current);
-    submitScore(current);
+    if (status !== "tree" || !treeReady) return;
+    const hitSafety = SAFETY_NETS.includes(current);
+    if (hitSafety) {
+      setScore(current + 1);
+      submitScore(current + 1);
+    } else {
+      setScore(current);
+      submitScore(current);
+    }
     setStatus("retired");
+  };
+
+  const handleContinue = () => {
+    if (status !== "tree" || !treeReady) return;
+    const hitSafety = SAFETY_NETS.includes(current);
+    if (hitSafety) {
+      setStatus("safety");
+      setTimeout(() => {
+        setCurrent((c) => c + 1);
+        setSelected(null);
+        setConfirmed(false);
+        setEliminated(new Set());
+        setHinchadaPcts(null);
+        setShowHint(false);
+        setStatus("playing");
+      }, 2500);
+    } else {
+      setCurrent((c) => c + 1);
+      setSelected(null);
+      setConfirmed(false);
+      setEliminated(new Set());
+      setHinchadaPcts(null);
+      setShowHint(false);
+      setStatus("playing");
+    }
   };
 
   const handleSelect = (idx: number) => {
@@ -94,25 +126,12 @@ export function TriviaGame() {
         setStatus("correct");
         setTimeout(() => {
           setTreeLevel(Math.max(0, current - 1));
+          setTreeReady(false);
           setStatus("tree");
-          setTimeout(() => setTreeLevel(current), 1000);
-
-          const hitSafety = SAFETY_NETS.includes(current);
-          const resumeDelay = hitSafety ? 5500 : 3500;
-
-          if (hitSafety) {
-            setTimeout(() => setStatus("safety"), 3000);
-          }
-
           setTimeout(() => {
-            setCurrent((c) => c + 1);
-            setSelected(null);
-            setConfirmed(false);
-            setEliminated(new Set());
-            setHinchadaPcts(null);
-            setShowHint(false);
-            setStatus("playing");
-          }, resumeDelay);
+            setTreeLevel(current);
+            setTimeout(() => setTreeReady(true), 800);
+          }, 1000);
         }, 1000);
       }
     } else {
@@ -251,6 +270,26 @@ export function TriviaGame() {
                   );
                 })}
               </div>
+
+              {/* Continue / Retire buttons */}
+              {treeReady && (
+                <div className="flex items-center justify-center gap-3 mt-3">
+                  <button
+                    type="button"
+                    onClick={handleContinue}
+                    className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-2 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+                  >
+                    Continuar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleRetire}
+                    className="rounded-full bg-white/10 px-5 py-2 text-[11px] font-semibold uppercase tracking-wider text-white/70 ring-1 ring-white/20 transition-all hover:bg-white/20 hover:text-white"
+                  >
+                    Retirarse
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -371,26 +410,15 @@ export function TriviaGame() {
           </div>
 
           {/* Confirm button */}
-          <div className="relative z-10 flex items-center justify-center gap-3">
-            {selected !== null && !confirmed && (
-              <button
-                type="button"
-                onClick={handleConfirm}
-                className="rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
-              >
-                Confirmar
-              </button>
-            )}
-            {current > 0 && !confirmed && (
-              <button
-                type="button"
-                onClick={handleRetire}
-                className="rounded-full bg-white/10 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-white/60 ring-1 ring-white/20 transition-all hover:bg-white/20 hover:text-white"
-              >
-                Retirarse
-              </button>
-            )}
-          </div>
+          {selected !== null && !confirmed && (
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="relative z-10 mx-auto rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-2.5 font-display text-sm uppercase tracking-wider text-black shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+            >
+              Confirmar
+            </button>
+          )}
             </div>
           )}
         </div>
