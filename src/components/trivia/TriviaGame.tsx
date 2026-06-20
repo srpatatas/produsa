@@ -111,12 +111,12 @@ export function TriviaGame() {
     }
   };
 
-  const getTimeLimit = () => current < 6 ? 5 : current < 11 ? 10 : 15;
+  const getTimeLimit = () => current < 6 ? 10 : current < 11 ? 15 : 20;
 
   // Timer: start on playing, stop on confirm/status change
   useEffect(() => {
     if (status === "playing" && !confirmed) {
-      const limit = current < 6 ? 5 : current < 11 ? 10 : 15;
+      const limit = current < 6 ? 10 : current < 11 ? 15 : 20;
       setTimer(limit);
       timerRef.current = setInterval(() => {
         setTimer((t) => {
