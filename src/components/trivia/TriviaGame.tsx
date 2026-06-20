@@ -322,11 +322,12 @@ export function TriviaGame() {
               {/* Continue / Retire overlay */}
               {treeReady && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-black/60 backdrop-blur-sm rounded-2xl">
-                  <p className="text-xs text-white/50 uppercase tracking-widest">¿Seguís o te retirás?</p>
+                  <p className="text-[10px] text-emerald-400 uppercase tracking-widest">Alcanzaste la fase</p>
                   <div className="text-center">
-                    <p className="text-lg font-bold text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>{PRIZE_LADDER[current].money}</p>
-                    <p className="text-sm text-white/70">{PRIZE_LADDER[current].stage}</p>
+                    <p className="text-2xl font-bold text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>{PRIZE_LADDER[current].money}</p>
+                    <p className="text-sm text-white/80">{PRIZE_LADDER[current].stage}</p>
                   </div>
+                  <p className="text-xs text-white/50 uppercase tracking-widest">¿Seguís o te retirás?</p>
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
