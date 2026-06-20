@@ -94,6 +94,7 @@ export function TriviaGame() {
           const resumeDelay = hitSafety ? 5500 : 3500;
 
           if (hitSafety) {
+            submitScore(current + 1);
             setTimeout(() => setStatus("safety"), 3000);
           }
 
