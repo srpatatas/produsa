@@ -47,7 +47,7 @@ const EASY: Question[] = [
   { q: "¿Qué estilo de juego fue asociado al campeón del Mundial 2010?", options: ["Catenaccio", "Tiki-taka", "Fútbol total", "Gegenpressing"], answer: 1, hint: "Xavi e Iniesta eran los motores" },
   { q: "¿Cuántos mundiales ganó Francia?", options: ["1", "2", "3", "4"], answer: 1, hint: "1998 y 2018" },
   { q: "¿Qué jugador anotó en los Mundiales 2006, 2010, 2014 y 2018?", options: ["Messi", "Cristiano Ronaldo", "Miroslav Klose", "Müller"], answer: 2, hint: "Alemán, máximo goleador histórico de Mundiales" },
-  { q: "¿Qué selección fue la primera en ganar un Mundial fuera de su continente?", options: ["Brasil", "Argentina", "España", "Brasil"], answer: 0, hint: "En Suecia 1958" },
+  { q: "¿Qué selección fue la primera en ganar un Mundial fuera de su continente?", options: ["Brasil", "Argentina", "España", "Uruguay"], answer: 0, hint: "En Suecia 1958" },
   { q: "¿Cuál fue la sede de la final del Mundial 2014?", options: ["Brasilia", "São Paulo", "Río de Janeiro", "Belo Horizonte"], answer: 2, hint: "En el Maracaná" },
   { q: "¿Qué selección centroamericana llegó a cuartos de final del Mundial 2014?", options: ["México", "Honduras", "Costa Rica", "Panamá"], answer: 2, hint: "Eliminó a Italia y pasó primera de grupo" },
   { q: "¿Quién marcó el gol del triunfo de Alemania en la final del Mundial 2014?", options: ["Müller", "Götze", "Kroos", "Schweinsteiger"], answer: 1, hint: "Gol de volea con el pecho en el alargue" },
