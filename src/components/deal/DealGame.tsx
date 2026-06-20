@@ -94,8 +94,12 @@ export function DealGame() {
     setState(rejectDeal(state));
   };
 
-  const handleRevealFinal = () => {
-    const next = revealFinal(state);
+  const handleRevealFinal = (swapToIdx?: number) => {
+    let s = state;
+    if (swapToIdx !== undefined) {
+      s = { ...s, playerCase: swapToIdx };
+    }
+    const next = revealFinal(s);
     setState(next);
     submitScore(next.finalAmount);
   };
@@ -265,22 +269,40 @@ export function DealGame() {
         </div>
       )}
 
-      {/* Final reveal */}
-      {state.phase === "final" && (
-        <div className="flex flex-col items-center gap-4 py-8">
-          <p className="text-sm text-fifa-dark-gray">Tu maletín contiene...</p>
-          <button
-            type="button"
-            onClick={handleRevealFinal}
-            className="flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-b from-amber-500 to-amber-700 px-12 py-6 ring-2 ring-amber-300 shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
-          >
-            <div className="relative w-28 h-20">
-              <Image src="/images/maletin.png" alt="Maletín" fill className="object-contain" />
+      {/* Final — keep or swap */}
+      {state.phase === "final" && (() => {
+        const lastIdx = state.cases.findIndex((_, i) => i !== state.playerCase && !state.opened.has(i));
+        return (
+          <div className="flex flex-col items-center gap-4 py-6">
+            <p className="text-sm text-fifa-dark-gray">Quedan 2 maletines. ¿Qué hacés?</p>
+            <div className="flex items-end gap-6">
+              <button
+                type="button"
+                onClick={handleRevealFinal}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-b from-amber-500 to-amber-700 px-6 py-4 ring-2 ring-amber-300 shadow-lg shadow-amber-500/30 transition-transform hover:scale-105"
+              >
+                <div className="relative w-20 h-14">
+                  <Image src="/images/maletin.png" alt="Tu maletín" fill className="object-contain" />
+                </div>
+                <img src={`https://flagcdn.com/w40/${state.caseFlags[state.playerCase]}.png`} alt="" className="h-3 w-5 object-cover rounded-[1px]" />
+                <span className="text-[10px] font-bold text-white uppercase tracking-wider">Quedarte</span>
+              </button>
+              <span className="text-lg text-fifa-dark-gray font-display mb-6">o</span>
+              <button
+                type="button"
+                onClick={() => handleRevealFinal(lastIdx)}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-b from-gray-600 to-gray-800 px-6 py-4 ring-1 ring-gray-500/30 shadow-lg transition-transform hover:scale-105"
+              >
+                <div className="relative w-20 h-14">
+                  <Image src="/images/maletin.png" alt="Otro maletín" fill className="object-contain" />
+                </div>
+                {lastIdx >= 0 && <img src={`https://flagcdn.com/w40/${state.caseFlags[lastIdx]}.png`} alt="" className="h-3 w-5 object-cover rounded-[1px]" />}
+                <span className="text-[10px] font-bold text-white/70 uppercase tracking-wider">Cambiar</span>
+              </button>
             </div>
-            <span className="text-xs font-bold text-white uppercase tracking-wider">Abrir maletín</span>
-          </button>
-        </div>
-      )}
+          </div>
+        );
+      })()}
 
       {/* Game over */}
       {state.phase === "done" && (
