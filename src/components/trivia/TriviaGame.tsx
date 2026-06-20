@@ -29,6 +29,7 @@ export function TriviaGame() {
   const [hinchadaPcts, setHinchadaPcts] = useState<number[] | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [score, setScore] = useState(0);
+  const [treeLevel, setTreeLevel] = useState(-1);
 
   useEffect(() => {
     fetch("/api/trivia")
@@ -85,7 +86,9 @@ export function TriviaGame() {
       } else {
         setStatus("correct");
         setTimeout(() => {
+          setTreeLevel(current);
           setStatus("tree");
+          setTimeout(() => setTreeLevel(current + 1), 600);
           setTimeout(() => {
             setCurrent((c) => c + 1);
             setSelected(null);
@@ -207,9 +210,9 @@ export function TriviaGame() {
               <div className="w-full max-w-xs flex flex-col gap-[3px]">
                 {[...PRIZE_LADDER].reverse().map((prize, revIdx) => {
                   const idx = 14 - revIdx;
-                  const isCurrent = idx === current;
-                  const isPassed = idx < current;
-                  const isNext = idx === current + 1;
+                  const isCurrent = idx === treeLevel;
+                  const isPassed = idx < treeLevel;
+                  const isNext = idx === treeLevel + 1;
                   const isSafety = SAFETY_NETS.includes(idx);
 
                   return (
