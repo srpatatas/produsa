@@ -495,9 +495,6 @@ export function TriviaGame() {
         <div className="flex flex-col items-center gap-4 py-12">
           <span className="text-5xl">😩</span>
           <h3 className="font-display text-2xl uppercase tracking-wider text-fifa-red">¡Eliminado!</h3>
-          <p className="text-sm text-fifa-dark-gray">
-            La respuesta correcta era: <span className="text-foreground font-medium">{q.options[q.answer]}</span>
-          </p>
           {score > 0 ? (
             <div className="text-center">
               <p className="text-xs text-fifa-dark-gray">Te llevás:</p>
