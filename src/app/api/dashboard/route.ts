@@ -4,6 +4,7 @@ import { withAuth } from "@/lib/apiAuth";
 
 export const dynamic = "force-dynamic";
 import { getResults } from "@/lib/resultsService";
+import { syncFinishedResults } from "@/lib/resultSync";
 import {
   getTodayUnifiedMatches,
   getAllUnifiedMatches,
@@ -11,6 +12,8 @@ import {
 
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
+
+  await syncFinishedResults();
 
   const [lockRows, predictionRows, resultsMap, bonusQuestionRows, bonusPredRows, comodinRows, matchSettingsRows, exactScoreRows] = await Promise.all([
     sql`SELECT scope, locks_at FROM lock_deadlines`,
