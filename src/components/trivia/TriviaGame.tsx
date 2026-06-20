@@ -175,7 +175,7 @@ export function TriviaGame() {
       } else {
         setStatus("correct");
         setTimeout(() => {
-          setTreeLevel(Math.max(0, current - 1));
+          setTreeLevel(current - 1);
           setTreeReady(false);
           setStatus("tree");
           setTimeout(() => {
