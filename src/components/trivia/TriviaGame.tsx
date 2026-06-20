@@ -133,23 +133,27 @@ export function TriviaGame() {
     if (timerRef.current) clearInterval(timerRef.current);
   }, [status, confirmed, current]);
 
-  // Time's up = auto-lose
+  // Time's up = auto-confirm selection or auto-lose
   useEffect(() => {
     if (timer === 0 && status === "playing" && !confirmed && questions.length > 0) {
-      setConfirmed(true);
-      const safetyLevel = [...SAFETY_NETS].reverse().find((s) => s < current) ?? -1;
-      const finalScore = safetyLevel + 1;
-      setScore(finalScore);
-      setRevealMsg("¡Se acabó el tiempo!");
-      setTimeout(() => {
-        setShowCorrect(true);
-        setRevealMsg(`${optionLetter[q.answer]}: ${q.options[q.answer]}`);
-      }, 1500);
-      setTimeout(() => {
-        setRevealMsg("");
-        setStatus("wrong");
-        submitScore(finalScore);
-      }, 3500);
+      if (selected !== null) {
+        handleConfirm();
+      } else {
+        setConfirmed(true);
+        const safetyLevel = [...SAFETY_NETS].reverse().find((s) => s < current) ?? -1;
+        const finalScore = safetyLevel + 1;
+        setScore(finalScore);
+        setRevealMsg("¡Se acabó el tiempo!");
+        setTimeout(() => {
+          setShowCorrect(true);
+          setRevealMsg(`${optionLetter[q.answer]}: ${q.options[q.answer]}`);
+        }, 1500);
+        setTimeout(() => {
+          setRevealMsg("");
+          setStatus("wrong");
+          submitScore(finalScore);
+        }, 3500);
+      }
     }
   }, [timer, status, confirmed]);
 
