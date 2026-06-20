@@ -177,81 +177,82 @@ export function TriviaGame() {
         </div>
       )}
 
-      {status === "tree" && (
+      {(status === "tree" || status === "playing" || status === "correct") && (
         <div
-          className="flex flex-col items-center gap-3 rounded-2xl py-6 px-4 overflow-hidden relative"
-          style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
+          className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden"
+          style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center", minHeight: 520 }}
         >
           <div className="absolute inset-0 bg-black/75" />
 
-          <div className="relative z-10 w-full max-w-xs">
-            {/* Lifelines at top */}
-            <div className="flex justify-center gap-4 mb-4">
-              {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
-                <div
-                  key={key}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-xs font-bold ${
-                    usedLifelines.has(key)
-                      ? "border-gray-600 text-gray-600"
-                      : "border-cyan-400 text-cyan-300"
-                  }`}
-                >
-                  {icon}
-                </div>
-              ))}
-            </div>
-
-            {/* Money tree */}
-            <div className="flex flex-col gap-0.5">
-              {[...PRIZE_LADDER].reverse().map((prize, revIdx) => {
-                const idx = 14 - revIdx;
-                const isCurrent = idx === current;
-                const isPassed = idx < current;
-                const isNext = idx === current + 1;
-                const isSafety = SAFETY_NETS.includes(idx);
-
-                return (
+          {/* MONEY TREE */}
+          {status === "tree" && (
+            <div className="relative z-10 flex flex-col items-center px-4 py-5" style={{ minHeight: 520 }}>
+              {/* Lifeline circles */}
+              <div className="flex justify-center gap-4 mb-3">
+                {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
                   <div
-                    key={idx}
-                    className={`flex items-center gap-3 rounded-sm px-3 py-1 transition-all duration-500 ${
-                      isNext
-                        ? "bg-amber-500/30 scale-105"
-                        : isCurrent
-                          ? "bg-emerald-500/20"
-                          : ""
+                    key={key}
+                    className={`flex h-9 w-9 items-center justify-center rounded-full border-2 text-[10px] font-bold ${
+                      usedLifelines.has(key)
+                        ? "border-gray-600 text-gray-600"
+                        : "border-cyan-400 text-cyan-300"
                     }`}
                   >
-                    <span className={`w-6 text-right font-display text-sm ${
-                      isNext ? "text-white font-bold" : isPassed ? "text-emerald-400" : isSafety ? "text-white" : "text-amber-500/70"
-                    }`}>
-                      {idx + 1}
-                    </span>
-                    <span className={`font-display text-sm tracking-wide ${
-                      isNext
-                        ? "text-white font-bold text-base"
-                        : isCurrent
-                          ? "text-emerald-400"
-                          : isPassed
-                            ? "text-emerald-400/60"
-                            : isSafety
-                              ? "text-white"
-                              : "text-amber-500/70"
-                    }`}>
-                      {prize}
-                    </span>
-                    {isNext && <span className="ml-auto text-white animate-pulse">◀</span>}
-                    {isCurrent && <span className="ml-auto text-emerald-400">✓</span>}
+                    {icon}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
+                ))}
+              </div>
 
-      {(status === "playing" || status === "correct") && q && (
-        <div className="relative flex flex-col gap-3 py-4 rounded-2xl px-3 pb-5 ring-1 ring-indigo-500/20 overflow-hidden" style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
+              {/* Ladder */}
+              <div className="w-full max-w-xs flex flex-col gap-[3px]">
+                {[...PRIZE_LADDER].reverse().map((prize, revIdx) => {
+                  const idx = 14 - revIdx;
+                  const isCurrent = idx === current;
+                  const isPassed = idx < current;
+                  const isNext = idx === current + 1;
+                  const isSafety = SAFETY_NETS.includes(idx);
+
+                  return (
+                    <div
+                      key={idx}
+                      className={`flex items-center gap-3 rounded-full px-4 py-1.5 transition-all duration-700 ${
+                        isNext
+                          ? "bg-amber-500/30 ring-1 ring-amber-400/50 scale-[1.03]"
+                          : isCurrent
+                            ? "bg-emerald-500/20 ring-1 ring-emerald-400/30"
+                            : "bg-white/[0.02]"
+                      }`}
+                    >
+                      <span className={`w-5 text-right font-display text-xs ${
+                        isNext ? "text-white font-bold" : isPassed ? "text-emerald-400" : isSafety ? "text-white" : "text-amber-500/60"
+                      }`}>
+                        {idx + 1}
+                      </span>
+                      <span className={`flex-1 font-display text-xs tracking-wide ${
+                        isNext
+                          ? "text-white font-bold"
+                          : isCurrent
+                            ? "text-emerald-400 font-bold"
+                            : isPassed
+                              ? "text-emerald-400/50"
+                              : isSafety
+                                ? "text-white"
+                                : "text-amber-500/60"
+                      }`}>
+                        {prize}
+                      </span>
+                      {isNext && <span className="text-amber-400 text-xs animate-pulse">◀</span>}
+                      {isCurrent && <span className="text-emerald-400 text-xs">✓</span>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* QUESTION VIEW */}
+          {(status === "playing" || status === "correct") && q && (
+            <div className="relative z-10 flex flex-col gap-3 px-3 py-4 pb-5" style={{ minHeight: 520 }}>
           {/* Lifelines bar */}
           <div className="relative z-10 flex items-center justify-between px-1 pt-2">
             <div className="flex gap-2">
@@ -348,6 +349,8 @@ export function TriviaGame() {
             >
               Confirmar
             </button>
+          )}
+            </div>
           )}
         </div>
       )}
