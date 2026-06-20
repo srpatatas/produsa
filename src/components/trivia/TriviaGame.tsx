@@ -189,7 +189,7 @@ export function TriviaGame() {
 
           {/* MONEY TREE */}
           {status === "tree" && (
-            <div className="relative z-10 flex flex-col items-center px-4 py-5" style={{ minHeight: 520 }}>
+            <div className="relative z-10 flex flex-col items-center px-4 py-5 pb-20" style={{ minHeight: 520 }}>
               {/* Lifeline circles */}
               <div className="flex justify-center gap-4 mb-3">
                 {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
@@ -293,7 +293,7 @@ export function TriviaGame() {
               className="relative z-10 mx-auto w-[86%] bg-gradient-to-b from-[#1e2a5e] via-[#0c1030] to-[#1e2a5e] px-6 py-4 shadow-lg shadow-cyan-900/30 border-t border-b border-cyan-500/20"
               style={{ clipPath: "polygon(4% 0%, 96% 0%, 100% 50%, 96% 100%, 4% 100%, 0% 50%)" }}
             >
-              <p className="text-center text-sm font-medium text-white leading-relaxed" style={{ fontFamily: "var(--font-oswald)" }}>{q.q}</p>
+              <p className="text-center text-sm font-medium text-white leading-relaxed" {q.q}</p>
             </div>
           </div>
 
@@ -338,10 +338,9 @@ export function TriviaGame() {
                       className={`flex-1 flex items-center gap-2 px-4 py-2.5 text-left transition-all duration-200 ${getOptionStyle(idx)}`}
                       style={{ clipPath: "polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%)" }}
                     >
-                      <span className="flex-shrink-0 text-xs font-bold text-amber-400" style={{ fontFamily: "var(--font-bebas)" }}>
-                        {optionLetter[idx]}:
+                      <span className="flex-shrink-0 text-xs font-bold text-amber-400" className="font-display">{optionLetter[idx]}:
                       </span>
-                      <span className="text-xs text-white/90 leading-tight" style={{ fontFamily: "var(--font-oswald)" }}>{q.options[idx]}</span>
+                      <span className="text-xs text-white/90 leading-tight" {q.options[idx]}</span>
                       {hinchadaPcts && !eliminated.has(idx) && (
                         <span className="ml-auto text-[9px] font-bold text-indigo-300 flex-shrink-0">{hinchadaPcts[idx]}%</span>
                       )}
