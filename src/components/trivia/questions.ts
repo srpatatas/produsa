@@ -71,21 +71,21 @@ export function getQuestions(): Question[] {
 }
 
 export const PRIZE_LADDER = [
-  "Alcanzapelotas",
-  "Hincha",
-  "Suplente",
-  "Titular",
-  "Capitán",
-  "Goleador",
-  "Figura",
-  "Crack",
-  "Estrella",
-  "Ídolo",
-  "Leyenda",
-  "Balón de Oro",
-  "Campeón",
-  "Bicampeón",
-  "D10S del Mundial",
+  "Eliminatoria 1",
+  "Eliminatoria 2",
+  "Eliminatoria 3",
+  "Eliminatoria 4",
+  "Eliminatoria 5",
+  "Eliminatoria 6",
+  "Fase de Grupos 1",
+  "Fase de Grupos 2",
+  "Fase de Grupos 3",
+  "Dieciseisavos",
+  "Octavos",
+  "Cuartos",
+  "Semifinal",
+  "Final",
+  "¡Campeón!",
 ];
 
-export const SAFETY_NETS = [4, 9];
+export const SAFETY_NETS = [5, 8];
