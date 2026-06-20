@@ -161,7 +161,7 @@ export function TriviaGame() {
     <div className="mx-auto max-w-lg">
       {status === "idle" && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <h2 className="font-title text-3xl text-foreground text-center">¿QUIÉN QUIERE GANAR EL MUNDIAL?</h2>
+          <h2 className="text-3xl text-foreground text-center tracking-wider" style={{ fontFamily: "var(--font-bebas)" }}>¿QUIÉN QUIERE GANAR EL MUNDIAL?</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
             15 preguntas de historia mundialista. Llegá lo más lejos que puedas. Tenés 3 comodines y 2 redes de seguridad.
           </p>
@@ -226,12 +226,12 @@ export function TriviaGame() {
                             : "bg-white/[0.02]"
                       }`}
                     >
-                      <span className={`w-5 text-right font-display text-xs ${
+                      <span style={{ fontFamily: "var(--font-bebas)" }} className={`w-5 text-right text-sm ${
                         isNext ? "text-white font-bold" : isPassed ? "text-emerald-400" : isSafety ? "text-white" : "text-amber-500/60"
                       }`}>
                         {idx + 1}
                       </span>
-                      <span className={`flex-1 font-display text-xs tracking-wide ${
+                      <span style={{ fontFamily: "var(--font-bebas)" }} className={`flex-1 text-sm tracking-wider ${
                         isNext
                           ? "text-white font-bold"
                           : isCurrent
@@ -280,7 +280,7 @@ export function TriviaGame() {
 
           {/* Current prize level */}
           <div className="relative z-10 flex items-center justify-center py-1">
-            <span className="rounded-full bg-amber-500/20 px-4 py-1 text-xs font-bold text-amber-300 ring-1 ring-amber-400/30">
+            <span className="rounded-full bg-amber-500/20 px-4 py-1 text-sm font-bold text-amber-300 ring-1 ring-amber-400/30 tracking-wider" style={{ fontFamily: "var(--font-bebas)" }}>
               {current + 1} — {PRIZE_LADDER[current]}
             </span>
           </div>
@@ -289,7 +289,7 @@ export function TriviaGame() {
           <div className="relative z-10 flex items-center mx-1">
             <div className="absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
             <div className="relative z-10 mx-auto w-full rounded-full border border-cyan-500/30 bg-gradient-to-b from-[#1a1a4e] via-[#0d0d35] to-[#1a1a4e] px-6 py-4 shadow-lg shadow-cyan-500/10">
-              <p className="text-center text-sm font-medium text-white leading-relaxed">{q.q}</p>
+              <p className="text-center text-sm font-medium text-white leading-relaxed" style={{ fontFamily: "var(--font-oswald)" }}>{q.q}</p>
             </div>
           </div>
 
@@ -334,7 +334,7 @@ export function TriviaGame() {
                   <span className="flex-shrink-0 font-display text-xs font-bold text-amber-400">
                     {optionLetter[idx]}:
                   </span>
-                  <span className="text-xs text-white/90 leading-tight">{opt}</span>
+                  <span className="text-xs text-white/90 leading-tight" style={{ fontFamily: "var(--font-oswald)" }}>{opt}</span>
                   {hinchadaPcts && !eliminated.has(idx) && (
                     <span className="ml-auto text-[9px] font-bold text-indigo-300 flex-shrink-0">{hinchadaPcts[idx]}%</span>
                   )}
