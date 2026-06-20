@@ -191,20 +191,6 @@ export function TriviaGame() {
           {status === "tree" && (
             <div className="relative z-10 flex flex-col items-center justify-center px-4 py-2 h-full">
               {/* Lifeline circles */}
-              <div className="flex justify-center gap-3 mb-2">
-                {([["var", "50:50"], ["hinchada", "👥"], ["dt", "📞"]] as const).map(([key, icon]) => (
-                  <div
-                    key={key}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-[9px] font-bold ${
-                      usedLifelines.has(key)
-                        ? "border-gray-600 text-gray-600"
-                        : "border-cyan-400 text-cyan-300"
-                    }`}
-                  >
-                    {icon}
-                  </div>
-                ))}
-              </div>
 
               {/* Ladder */}
               <div className="w-full max-w-xs flex flex-col gap-0">
