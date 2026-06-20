@@ -274,7 +274,7 @@ export function TriviaGame() {
         <div className="flex flex-col items-center gap-6 py-8">
           <h2 className="font-title text-3xl text-foreground text-center">¿QUIÉN QUIERE GANAR EL MUNDIAL?</h2>
           <p className="text-center text-sm text-fifa-dark-gray max-w-xs">
-            15 preguntas de historia mundialista. Llegá lo más lejos que puedas. Tenés 3 comodines y 2 redes de seguridad.
+            15 preguntas de historia mundialista. Llegá lo más lejos que puedas. Tenés 3 comodines y 2 clasificaciones aseguradas.
           </p>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-fifa-dark-gray">
             <span>🖥️ VAR <span className="text-fifa-gold">(50/50)</span></span>
@@ -396,9 +396,9 @@ export function TriviaGame() {
           {/* SAFETY NET CELEBRATION */}
           {status === "safety" && (
             <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4 px-4">
-              <span className="text-6xl">🛡️</span>
+              <span className="text-6xl">✅</span>
               <h3 className="font-display text-2xl uppercase tracking-wider text-amber-400">
-                {current === 5 ? "¡Clasificaste al mundial!" : "¡Pasaste la fase de grupos!"}
+                {current === 5 ? "¡Clasificación asegurada!" : "¡Pasaste la fase de grupos!"}
               </h3>
               <p className="text-center text-sm text-white/70">
                 {current === 5
@@ -406,7 +406,7 @@ export function TriviaGame() {
                   : "Entraste al knockout — no podés bajar de acá"}
               </p>
               <span className="font-display text-lg text-emerald-400" style={{ fontFamily: "var(--font-bebas)" }}>
-                🛡️ {PRIZE_LADDER[current].stage}
+                ✅ {PRIZE_LADDER[current].stage} — {PRIZE_LADDER[current].money}
               </span>
             </div>
           )}
@@ -559,7 +559,7 @@ export function TriviaGame() {
               <p className="font-display text-2xl text-fifa-gold">{PRIZE_LADDER[score - 1]?.stage}</p>
             </div>
           ) : (
-            <p className="text-xs text-fifa-dark-gray">No alcanzaste ninguna red de seguridad</p>
+            <p className="text-xs text-fifa-dark-gray">No alcanzaste ninguna clasificación asegurada</p>
           )}
           <button type="button" onClick={start} className="mt-2 rounded-full bg-fifa-blue px-6 py-2.5 font-display text-sm uppercase tracking-wider text-white">
             Jugar de nuevo
