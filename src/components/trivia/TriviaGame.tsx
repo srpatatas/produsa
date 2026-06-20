@@ -14,7 +14,7 @@ interface LeaderboardEntry {
 }
 
 type Lifeline = "var" | "hinchada" | "dt";
-type GameStatus = "idle" | "playing" | "correct" | "tree" | "wrong" | "won";
+type GameStatus = "idle" | "playing" | "correct" | "tree" | "safety" | "wrong" | "won";
 
 export function TriviaGame() {
   const user = useUser();
@@ -89,6 +89,14 @@ export function TriviaGame() {
           setTreeLevel(Math.max(0, current - 1));
           setStatus("tree");
           setTimeout(() => setTreeLevel(current), 1000);
+
+          const hitSafety = SAFETY_NETS.includes(current);
+          const resumeDelay = hitSafety ? 5500 : 3500;
+
+          if (hitSafety) {
+            setTimeout(() => setStatus("safety"), 3000);
+          }
+
           setTimeout(() => {
             setCurrent((c) => c + 1);
             setSelected(null);
@@ -97,7 +105,7 @@ export function TriviaGame() {
             setHinchadaPcts(null);
             setShowHint(false);
             setStatus("playing");
-          }, 3500);
+          }, resumeDelay);
         }, 1000);
       }
     } else {
@@ -180,7 +188,7 @@ export function TriviaGame() {
         </div>
       )}
 
-      {(status === "tree" || status === "playing" || status === "correct") && (
+      {(status === "tree" || status === "safety" || status === "playing" || status === "correct") && (
         <div
           className="relative rounded-2xl ring-1 ring-indigo-500/20 overflow-hidden mb-16 h-[480px]"
           style={{ backgroundImage: "url(/images/bg_millionaire.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}
@@ -236,6 +244,24 @@ export function TriviaGame() {
                   );
                 })}
               </div>
+            </div>
+          )}
+
+          {/* SAFETY NET CELEBRATION */}
+          {status === "safety" && (
+            <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4 px-4">
+              <span className="text-6xl">🛡️</span>
+              <h3 className="font-display text-2xl uppercase tracking-wider text-amber-400">
+                {current === 5 ? "¡Clasificaste al mundial!" : "¡Pasaste la fase de grupos!"}
+              </h3>
+              <p className="text-center text-sm text-white/70">
+                {current === 5
+                  ? "Llegaste a la fase de grupos — tu progreso está asegurado"
+                  : "Entraste al knockout — no podés bajar de acá"}
+              </p>
+              <span className="font-display text-lg text-emerald-400" style={{ fontFamily: "var(--font-bebas)" }}>
+                🛡️ {PRIZE_LADDER[current]}
+              </span>
             </div>
           )}
 
