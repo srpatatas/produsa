@@ -138,7 +138,7 @@ const MEDIUM: Question[] = [
   { q: "¿Qué defensor argentino marcó el primer gol en la final del Mundial 1978?", options: ["Tarantini", "Passarella", "Galván", "Kempes"], answer: 3, hint: "Trampa: Kempes no era defensor, fue el goleador" },
   { q: "¿En qué estadio se jugó la final del Mundial 2022?", options: ["Al Bayt", "Lusail", "Ahmad bin Ali", "Khalifa International"], answer: 1, hint: "80.000 espectadores, en forma de fanal" },
   { q: "¿Qué selección fue semifinalista sorpresa del Mundial 1994?", options: ["Bulgaria", "Rumania", "Nigeria", "Arabia Saudita"], answer: 0, hint: "Stoichkov fue su figura" },
-  { q: "¿Cuántos Mundiales jugó Lionel Messi?", options: ["4", "5", "6", "3"], answer: 1, hint: "2006, 2010, 2014, 2018, 2022" },
+  { q: "¿Cuántos Mundiales jugó Lionel Messi?", options: ["4", "5", "6", "7"], answer: 2, hint: "2006, 2010, 2014, 2018, 2022 y 2026" },
   { q: "¿Qué selección fue eliminada con el 'Gol de Oro' de Francia en el Mundial 2000?", options: ["No hubo Mundial en 2000", "Italia", "España", "Brasil"], answer: 0, hint: "El Mundial es cada 4 años" },
   { q: "¿Quién anotó el famoso gol de chilena contra Alemania en el Mundial 2018?", options: ["Cristiano Ronaldo", "Giroud", "Nacho", "No pasó en 2018"], answer: 3, hint: "La chilena famosa fue de Giroud vs Australia en 2022... o no?" },
   { q: "¿Qué selección fue la única en participar en los 3 Mundiales entre 1934 y 1950?", options: ["Italia", "Brasil", "Suecia", "Francia"], answer: 1, hint: "Nunca faltó a ninguno" },
