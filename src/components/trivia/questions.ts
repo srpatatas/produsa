@@ -92,7 +92,7 @@ const EASY: Question[] = [
   { q: "¿Qué selección fue semifinalista del Mundial 2022 por primera vez en su historia?", options: ["Croacia", "Marruecos", "Australia", "Japón"], answer: 1, hint: "Primera selección africana en llegar tan lejos" },
   { q: "¿En qué año Italia ganó su último Mundial?", options: ["1990", "1998", "2002", "2006"], answer: 3, hint: "Tanda de penales contra Francia" },
   { q: "¿Qué director técnico llevó a Croacia a la final del Mundial 2018?", options: ["Bilić", "Dalić", "Kovač", "Prosinečki"], answer: 1, hint: "Sigue dirigiendo a Croacia" },
-  { q: "¿Quién marcó el primer gol del Mundial 2022?", options: ["Messi", "Valencia", "Enner Valencia", "Al-Shehri"], answer: 2, hint: "Ecuatoriano, en el partido inaugural" },
+  { q: "¿Quién marcó el primer gol del Mundial 2022?", options: ["Messi", "Mbappé", "Enner Valencia", "Al-Shehri"], answer: 2, hint: "Ecuatoriano, en el partido inaugural" },
   { q: "¿Qué selección eliminó a Portugal del Mundial 2022?", options: ["España", "Suiza", "Marruecos", "Francia"], answer: 2, hint: "Sorpresa en cuartos de final" },
   { q: "¿Cuántos mundiales disputó Cristiano Ronaldo?", options: ["4", "5", "6", "7"], answer: 2, hint: "2006, 2010, 2014, 2018, 2022 y 2026" },
   { q: "¿Qué selección perdió el tercer puesto del Mundial 2014?", options: ["Argentina", "Países Bajos", "Brasil", "Colombia"], answer: 2, hint: "Perdió 3-0 contra Países Bajos" },

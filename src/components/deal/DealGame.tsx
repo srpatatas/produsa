@@ -39,6 +39,7 @@ export function DealGame() {
   const [revealingPhase, setRevealingPhase] = useState(false);
   const [revealedCases, setRevealedCases] = useState<Set<number>>(new Set());
   const [revealMessage, setRevealMessage] = useState(false);
+  const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
     fetch("/api/deal")
@@ -78,6 +79,7 @@ export function DealGame() {
     setRevealingPhase(false);
     setRevealedCases(new Set());
     setRevealMessage(false);
+    setShowSplash(false);
     setBankerIdx(Math.floor(Math.random() * BANKERS.length));
     pickPhrase.current = createPhraseTracker();
   }, []);
@@ -191,11 +193,28 @@ export function DealGame() {
           </div>
           <button
             type="button"
-            onClick={() => setState((s) => ({ ...s, started: true }))}
+            onClick={() => {
+              setShowSplash(true);
+              setTimeout(() => {
+                setShowSplash(false);
+                setState((s) => ({ ...s, started: true }));
+              }, 3500);
+            }}
             className="rounded-full bg-gradient-to-r from-fifa-purple via-fifa-blue to-fifa-teal px-8 py-3 font-display text-lg uppercase tracking-wider text-white shadow-lg shadow-fifa-purple/30 transition-transform hover:scale-105"
           >
             Empezar
           </button>
+        </div>
+      )}
+
+      {/* Splash GIF */}
+      {showSplash && (
+        <div className="flex flex-col items-center justify-center py-6">
+          <img
+            src="/images/deal_intro.GIF"
+            alt="Deal or No Deal"
+            className="w-full max-w-sm rounded-2xl shadow-2xl shadow-amber-500/20"
+          />
         </div>
       )}
 
