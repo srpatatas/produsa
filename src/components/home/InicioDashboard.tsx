@@ -48,9 +48,16 @@ export function InicioDashboard() {
   const pollTick = useCallback(async () => {
     const live = getLiveUnifiedMatches();
     if (live.length === 0) {
-      if (dashboardRefreshedRef.current) {
-        dashboardRefreshedRef.current = false;
-      }
+      setLiveMatches((prev) => {
+        if (prev.length === 0) return prev;
+        setActiveMatchIndex(0);
+        if (!dashboardRefreshedRef.current) {
+          dashboardRefreshedRef.current = true;
+          refreshDashboard();
+        }
+        return [];
+      });
+      dashboardRefreshedRef.current = false;
       return;
     }
 
