@@ -35,7 +35,7 @@ export function pickCase(state: DealState, idx: number): DealState {
   };
 }
 
-export function openCase(state: DealState, idx: number): DealState {
+export function openCase(state: DealState, idx: number, personalityMultiplier = 1.0): DealState {
   if (state.phase !== "opening") return state;
   if (idx === state.playerCase || state.opened.has(idx)) return state;
 
@@ -44,7 +44,7 @@ export function openCase(state: DealState, idx: number): DealState {
   const remaining = state.casesLeftThisRound - 1;
 
   if (remaining <= 0) {
-    const offer = calculateOffer(state.cases, newOpened, state.playerCase, state.round);
+    const offer = calculateOffer(state.cases, newOpened, state.playerCase, state.round, personalityMultiplier);
 
     // Check if only 1 case left (besides player's)
     const unopened = state.cases.filter((_, i) => i !== state.playerCase && !newOpened.has(i));
@@ -126,8 +126,8 @@ function calculateOffer(
   opened: Set<number>,
   playerCase: number,
   round: number,
+  personalityMultiplier = 1.0,
 ): number {
-  // Include player's case in the EV — banker doesn't know which case the player has
   const allRemaining = cases.filter((_, i) => !opened.has(i));
   if (allRemaining.length === 0) return 0;
 
@@ -135,21 +135,16 @@ function calculateOffer(
   const maxVal = Math.max(...allRemaining);
   const casesLeft = allRemaining.length;
 
-  // Base percentage from round
   const basePct = OFFER_PCT[Math.min(round, OFFER_PCT.length - 1)];
 
-  // Penalize if big values are still in play (banker is scared)
-  // Bonus if big values are gone (banker is confident)
   const bigValuesLeft = allRemaining.filter((v) => v >= 100_000).length;
   const bigValueRatio = bigValuesLeft / Math.max(1, casesLeft);
   const volatilityAdj = bigValueRatio > 0.3 ? -0.05 : bigValueRatio === 0 ? 0.08 : 0;
 
-  // Slight random variation (±5%) for drama
   const noise = (Math.random() - 0.5) * 0.1;
 
   const finalPct = Math.max(0.1, Math.min(1.05, basePct + volatilityAdj + noise));
-  const offer = Math.round(ev * finalPct);
+  const offer = Math.round(ev * finalPct * personalityMultiplier);
 
-  // Never exceed the max remaining value — otherwise it's a no-brainer
   return Math.max(1, Math.min(offer, maxVal - 1));
 }
