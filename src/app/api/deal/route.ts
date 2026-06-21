@@ -15,14 +15,14 @@ export const GET = withAuth(async (req, session) => {
 
   const rows = await sql`
     SELECT DISTINCT ON (s.user_id)
-      s.user_id, s.score, u.name, u.avatar
+      s.user_id, s.score, s.created_at, u.name, u.avatar
     FROM deal_scores s
     JOIN users u ON u.id = s.user_id
-    ORDER BY s.user_id, s.score DESC
+    ORDER BY s.user_id, s.score DESC, s.created_at ASC
   `;
 
   const leaderboard = rows
-    .sort((a, b) => (b.score as number) - (a.score as number))
+    .sort((a, b) => (b.score as number) - (a.score as number) || new Date(a.created_at as string).getTime() - new Date(b.created_at as string).getTime())
     .slice(0, 10)
     .map((r, i) => ({
       position: i + 1,
