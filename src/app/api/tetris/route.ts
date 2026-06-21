@@ -13,14 +13,14 @@ export const GET = withAuth(async (req, session) => {
 
   const rows = await sql`
     SELECT DISTINCT ON (ts.user_id)
-      ts.user_id, ts.score, u.name, u.avatar
+      ts.user_id, ts.score, ts.created_at, u.name, u.avatar
     FROM tetris_scores ts
     JOIN users u ON u.id = ts.user_id
-    ORDER BY ts.user_id, ts.score DESC
+    ORDER BY ts.user_id, ts.score DESC, ts.created_at ASC
   `;
 
   const leaderboard = rows
-    .sort((a, b) => (b.score as number) - (a.score as number))
+    .sort((a, b) => (b.score as number) - (a.score as number) || new Date(a.created_at as string).getTime() - new Date(b.created_at as string).getTime())
     .slice(0, 10)
     .map((r, i) => ({
       position: i + 1,
