@@ -26,6 +26,10 @@ const GAME_COLORS: Record<string, string> = {
   "Produtris": "text-fuchsia-400",
   "Arkanusa": "text-cyan-400",
   "FIFA Invaders": "text-orange-400",
+  "Flappy D10S": "text-pink-400",
+  "Frogusa": "text-lime-400",
+  "Trivia": "text-amber-400",
+  "Deal": "text-yellow-400",
 };
 
 const GAMES = [
@@ -35,6 +39,10 @@ const GAMES = [
   { api: "/api/tetris", emoji: "🧱", name: "Produtris" },
   { api: "/api/arkanoid", emoji: "🏓", name: "Arkanusa" },
   { api: "/api/invaders", emoji: "👾", name: "FIFA Invaders" },
+  { api: "/api/flappy", emoji: "⚽", name: "Flappy D10S" },
+  { api: "/api/frogusa", emoji: "🐸", name: "Frogusa" },
+  { api: "/api/trivia", emoji: "💰", name: "Trivia" },
+  { api: "/api/deal", emoji: "💼", name: "Deal" },
 ];
 
 interface BirthdayInfo {
