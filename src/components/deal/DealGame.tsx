@@ -105,7 +105,7 @@ export function DealGame() {
       setTimeout(() => {
         setShowReveal(false);
         setRevealedAmount(null);
-        const next = openCase(state, idx);
+        const next = openCase(state, idx, banker.offerMultiplier);
         setState(next);
         if (next.phase === "offer") {
           // Phone ring → thinking → reveal offer

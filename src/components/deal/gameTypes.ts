@@ -50,6 +50,7 @@ interface MoodPhrases {
 
 export interface BankerConfig {
   image: string;
+  offerMultiplier: number;
   offer: MoodPhrases;
   noDeal: MoodPhrases;
   deal: MoodPhrases;
@@ -92,9 +93,10 @@ export function createPhraseTracker() {
 }
 
 export const BANKERS: BankerConfig[] = [
-  // Chiqui — passive-aggressive DT energy
+  // Chiqui — passive-aggressive DT energy, skims off the top
   {
     image: "/images/comodin-fecha-1.jpg",
+    offerMultiplier: 0.90,
     offer: {
       smug: [
         "Tomá, comprá unos chicles...",
@@ -204,9 +206,10 @@ export const BANKERS: BankerConfig[] = [
       ],
     },
   },
-  // Pollo Vignolo — screaming commentator energy
+  // Pollo Vignolo — generous showman, wants big moments
   {
     image: "/images/comodin-fecha-2.jpg",
+    offerMultiplier: 1.10,
     offer: {
       smug: [
         "Bueno, bajó la oferta señores, era esperable...",
@@ -316,9 +319,10 @@ export const BANKERS: BankerConfig[] = [
       ],
     },
   },
-  // Trump — spanglish dealmaker
+  // Trump — cheap dealmaker, always lowballs
   {
     image: "/images/comodin-fecha-3.jpg",
+    offerMultiplier: 0.85,
     offer: {
       smug: [
         "You blew up the big ones, amigo. This is what's left",
