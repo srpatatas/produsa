@@ -30,6 +30,7 @@ const GAME_COLORS: Record<string, string> = {
   "Frogusa": "text-lime-400",
   "Trivia": "text-amber-400",
   "Deal": "text-yellow-400",
+  "Triompy": "text-blue-400",
 };
 
 const GAMES = [
@@ -43,6 +44,7 @@ const GAMES = [
   { api: "/api/frogusa", emoji: "🐸", name: "Frogusa" },
   { api: "/api/trivia", emoji: "💰", name: "Trivia" },
   { api: "/api/deal", emoji: "💼", name: "Deal" },
+  { api: "/api/triompy", emoji: "🏀", name: "Triompy" },
 ];
 
 interface BirthdayInfo {
