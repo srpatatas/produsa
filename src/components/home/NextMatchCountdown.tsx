@@ -256,7 +256,7 @@ export function NextMatchCountdown() {
               <span className="whitespace-nowrap text-[10px] font-semibold text-fifa-dark-gray" style={{ fontFamily: "var(--font-playful)" }}>Deal or No Deal</span>
             </Link>
           )}
-          {Date.now() >= Date.UTC(2026, 5, 22, 20, 0, 0) && (
+          {Date.now() >= Date.UTC(2026, 5, 22, 0, 0, 0) && (
             <Link href="/triompy" className="group flex flex-col items-center gap-1.5">
               <div className="flex h-14 w-14 items-center justify-center rounded-[16px] bg-gradient-to-br from-blue-800 via-indigo-700 to-blue-900 shadow-md shadow-blue-500/30 transition-all duration-200 group-hover:scale-110 group-active:scale-90">
                 <span className="text-2xl transition-transform duration-200 group-hover:-rotate-6">🏀</span>
