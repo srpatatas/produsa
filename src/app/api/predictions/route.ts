@@ -34,7 +34,7 @@ export const POST = withAuth(async (req, session) => {
   }
 
   // Knockout: only L or V allowed, no E, no doubles
-  const isKnockout = matchId.startsWith("R32") || matchId.startsWith("R16") || matchId.startsWith("QF") || matchId.startsWith("SF") || matchId.startsWith("F-") || matchId.startsWith("3P");
+  const isKnockout = matchId.startsWith("R32-") || matchId.startsWith("R16-") || matchId.startsWith("QF-") || matchId.startsWith("SF-") || matchId === "F" || matchId === "3P";
   if (isKnockout && (outcome.includes("E") || outcome.length > 1)) {
     return NextResponse.json({ error: "En knockout solo se puede elegir L o V" }, { status: 400 });
   }

@@ -37,7 +37,7 @@ export const POST = withAuth(async (req, session) => {
   const sql = getDb();
 
   // Knockout matches: all have exact score, draws allowed (goes to pens)
-  const isKnockout = matchId.startsWith("R32") || matchId.startsWith("R16") || matchId.startsWith("QF") || matchId.startsWith("SF") || matchId.startsWith("F-") || matchId.startsWith("3P");
+  const isKnockout = matchId.startsWith("R32-") || matchId.startsWith("R16-") || matchId.startsWith("QF-") || matchId.startsWith("SF-") || matchId === "F" || matchId === "3P";
 
   // Validate exact score is consistent with L/E/V prediction (group stage only)
   const predRows = await sql`

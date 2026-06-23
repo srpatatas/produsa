@@ -68,7 +68,7 @@ export async function fetchRankingMaps(sql: NeonQueryFunction<false, false>): Pr
   const exactScoreMatches = new Set(matchSettingsRows.map((r) => r.match_id as string));
   for (const p of predictions) {
     const mid = p.match_id as string;
-    if (mid.startsWith("R32") || mid.startsWith("R16") || mid.startsWith("QF") || mid.startsWith("SF") || mid.startsWith("F-") || mid.startsWith("3P")) {
+    if (mid.startsWith("R32-") || mid.startsWith("R16-") || mid.startsWith("QF-") || mid.startsWith("SF-") || mid === "F" || mid === "3P") {
       exactScoreMatches.add(mid);
     }
   }
@@ -196,7 +196,7 @@ export function computeMatchPoints(
     if (maps.exactScoreMatches.has(matchId) && userExact[matchId]) {
       const ex = userExact[matchId];
       if (ex.homeScore === result.homeScore && ex.awayScore === result.awayScore) {
-        const isKO = matchId.startsWith("R32") || matchId.startsWith("R16") || matchId.startsWith("QF") || matchId.startsWith("SF") || matchId.startsWith("F-") || matchId.startsWith("3P");
+        const isKO = matchId.startsWith("R32-") || matchId.startsWith("R16-") || matchId.startsWith("QF-") || matchId.startsWith("SF-") || matchId === "F" || matchId === "3P";
         const exactPts = isKO ? 1 : 2;
         points += exactPts;
         exactScorePoints += exactPts;
