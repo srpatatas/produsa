@@ -64,7 +64,14 @@ export async function fetchRankingMaps(sql: NeonQueryFunction<false, false>): Pr
     };
   }
 
+  // All knockout matches automatically have exact score enabled
   const exactScoreMatches = new Set(matchSettingsRows.map((r) => r.match_id as string));
+  for (const p of predictions) {
+    const mid = p.match_id as string;
+    if (mid.startsWith("R32") || mid.startsWith("R16") || mid.startsWith("QF") || mid.startsWith("SF") || mid.startsWith("F-") || mid.startsWith("3P")) {
+      exactScoreMatches.add(mid);
+    }
+  }
 
   const result: RankingMaps = {
     users: users.map((u) => ({ id: u.id as number, name: u.name as string, avatar: u.avatar as string })),
@@ -189,8 +196,10 @@ export function computeMatchPoints(
     if (maps.exactScoreMatches.has(matchId) && userExact[matchId]) {
       const ex = userExact[matchId];
       if (ex.homeScore === result.homeScore && ex.awayScore === result.awayScore) {
-        points += 2;
-        exactScorePoints += 2;
+        const isKO = matchId.startsWith("R32") || matchId.startsWith("R16") || matchId.startsWith("QF") || matchId.startsWith("SF") || matchId.startsWith("F-") || matchId.startsWith("3P");
+        const exactPts = isKO ? 1 : 2;
+        points += exactPts;
+        exactScorePoints += exactPts;
       }
     }
   }

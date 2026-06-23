@@ -14,6 +14,7 @@ interface PredictionEntry {
 
 interface MatchPredictionsDropdownProps {
   matchId: string;
+  isKnockout?: boolean;
   actualOutcome?: "L" | "E" | "V";
   actualScore?: { home: number; away: number };
 }
@@ -30,7 +31,7 @@ const outcomeRing: Record<string, string> = {
   VL: "ring-outcome-local",
 };
 
-export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }: MatchPredictionsDropdownProps) {
+export function MatchPredictionsDropdown({ matchId, isKnockout, actualOutcome, actualScore }: MatchPredictionsDropdownProps) {
   const [predictions, setPredictions] = useState<PredictionEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -65,6 +66,9 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }
           const isCorrect = actualOutcome ? pred.outcome.includes(actualOutcome) : null;
           const dimmed = isCorrect === false;
           const hasExact = !!pred.exactScore;
+          const exactHit = hasExact && actualScore && pred.exactScore!.home === actualScore.home && pred.exactScore!.away === actualScore.away;
+
+          // Same layout for group and knockout — ring + badge from exact score or outcome
           const ringOutcome = hasExact
             ? getLiveOutcome(pred.exactScore!.home, pred.exactScore!.away)
             : pred.outcome;
@@ -79,7 +83,7 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }
             <div key={pred.user.id} className={`flex flex-col items-center gap-1.5 transition-opacity ${dimmed ? "opacity-30" : ""}`}>
               <div className="relative mb-1">
                 <div className={`rounded-full ring-2 ${
-                  pred.isComodin || (hasExact && actualScore && pred.exactScore!.home === actualScore.home && pred.exactScore!.away === actualScore.away)
+                  pred.isComodin || exactHit
                     ? "ring-fifa-gold" : outcomeRing[ringOutcome] ?? "ring-white/20"
                 }`}>
                   <AvatarDisplay avatar={pred.user.avatar} size="lg" />
@@ -90,8 +94,15 @@ export function MatchPredictionsDropdown({ matchId, actualOutcome, actualScore }
                 {pred.isComodin && (
                   <span className="absolute -top-1 -right-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
                 )}
-                {hasExact && actualScore && pred.exactScore!.home === actualScore.home && pred.exactScore!.away === actualScore.away && (
+                {exactHit && !isKnockout && (
                   <span className="absolute -top-1 -left-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
+                )}
+                {isKnockout && hasExact && (
+                  <span className={`absolute -top-1 -left-1 rounded-full px-1 py-px text-[7px] font-bold text-white ${
+                    pred.outcome === "L" ? "bg-outcome-local" : "bg-outcome-visitante"
+                  }`}>
+                    {pred.outcome}
+                  </span>
                 )}
               </div>
               <span className="text-[10px] text-fifa-dark-gray truncate max-w-full">

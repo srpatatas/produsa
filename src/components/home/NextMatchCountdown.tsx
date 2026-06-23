@@ -287,7 +287,7 @@ export function NextMatchCountdown() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
-          {expanded && <MatchPredictionsDropdown matchId={match.id} />}
+          {expanded && <MatchPredictionsDropdown matchId={match.id} isKnockout={match.phase === "knockout"} />}
         </div>
       )}
     </div>

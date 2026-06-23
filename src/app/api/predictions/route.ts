@@ -33,6 +33,12 @@ export const POST = withAuth(async (req, session) => {
     return NextResponse.json({ error: "Outcome inválido" }, { status: 400 });
   }
 
+  // Knockout: only L or V allowed, no E, no doubles
+  const isKnockout = matchId.startsWith("R32") || matchId.startsWith("R16") || matchId.startsWith("QF") || matchId.startsWith("SF") || matchId.startsWith("F-") || matchId.startsWith("3P");
+  if (isKnockout && (outcome.includes("E") || outcome.length > 1)) {
+    return NextResponse.json({ error: "En knockout solo se puede elegir L o V" }, { status: 400 });
+  }
+
   if (await isMatchLocked(matchId)) {
     return NextResponse.json({ error: "Predicciones cerradas para este partido" }, { status: 403 });
   }
