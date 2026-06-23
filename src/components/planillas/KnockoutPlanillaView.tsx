@@ -28,6 +28,7 @@ export function KnockoutPlanillaView() {
   const [activeTab, setActiveTab] = useState<PlanillaRound>("R32");
   const { predictions } = usePlanilla();
   const [comodinByRound, setComodinByRound] = useState<Record<string, string | null>>({});
+  const [exactScores, setExactScores] = useState<Record<string, { homeScore: number; awayScore: number }>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [placementMode, setPlacementMode] = useState(false);
   const dropSucceeded = useRef(false);
@@ -43,10 +44,12 @@ export function KnockoutPlanillaView() {
       fetch("/api/comodines").then((r) => r.ok ? r.json() : { comodines: {} }),
       fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
       fetch("/api/match-settings").then((r) => r.ok ? r.json() : { settings: {} }),
-    ]).then(([comodinData, lockData, settingsData]) => {
+      fetch("/api/exact-score").then((r) => r.ok ? r.json() : { predictions: {} }),
+    ]).then(([comodinData, lockData, settingsData, exactData]) => {
       setComodinByRound(comodinData.comodines);
       setLocks(lockData.locks);
       setMatchSettings(settingsData.settings);
+      setExactScores(exactData.predictions);
     }).catch(() => {});
   }, []);
 
@@ -237,6 +240,8 @@ export function KnockoutPlanillaView() {
                         comodinDragging={comodinDragging}
                         comodinAllowed={matchSettings[match.id]?.comodinAllowed}
                         hasComodinRestrictions={Object.values(matchSettings).some((s) => s.comodinAllowed)}
+                        exactScore={exactScores[match.id]}
+                        onExactScoreChange={setExactScores}
                         onComodinDrop={handleComodinDrop}
                         onComodinTouchDrop={(matchId) => {
                           setComodinDragging(false);

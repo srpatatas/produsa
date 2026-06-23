@@ -36,23 +36,35 @@ export const POST = withAuth(async (req, session) => {
 
   const sql = getDb();
 
-  // Validate exact score is consistent with L/E/V prediction
+  // Knockout matches: all have exact score, draws allowed (goes to pens)
+  const isKnockout = matchId.startsWith("R32") || matchId.startsWith("R16") || matchId.startsWith("QF") || matchId.startsWith("SF") || matchId.startsWith("F-") || matchId.startsWith("3P");
+
+  // Validate exact score is consistent with L/E/V prediction (group stage only)
   const predRows = await sql`
     SELECT outcome FROM planilla_predictions WHERE user_id = ${session.id} AND match_id = ${matchId}
   `;
   if (predRows.length === 0) {
-    return NextResponse.json({ error: "Primero elegí L, E o V para este partido" }, { status: 400 });
+    return NextResponse.json({ error: "Primero elegí L o V para este partido" }, { status: 400 });
   }
   const outcome = predRows[0].outcome as string;
   const scoreOutcome = homeScore > awayScore ? "L" : homeScore < awayScore ? "V" : "E";
-  if (!outcome.includes(scoreOutcome)) {
-    return NextResponse.json({ error: "El resultado exacto no coincide con tu predicción L/E/V" }, { status: 400 });
+  if (isKnockout) {
+    // Knockout: allow draws (pens) but not contradictions (e.g. 0-1 with L)
+    if (scoreOutcome !== "E" && !outcome.includes(scoreOutcome)) {
+      return NextResponse.json({ error: "El resultado exacto no coincide con tu predicción" }, { status: 400 });
+    }
+  } else {
+    if (!outcome.includes(scoreOutcome)) {
+      return NextResponse.json({ error: "El resultado exacto no coincide con tu predicción L/E/V" }, { status: 400 });
+    }
   }
 
-  // Verify this match has exact_score enabled
-  const settings = await sql`SELECT exact_score FROM match_settings WHERE match_id = ${matchId}`;
-  if (settings.length === 0 || !settings[0].exact_score) {
-    return NextResponse.json({ error: "Este partido no tiene resultado exacto habilitado" }, { status: 400 });
+  // Verify: group stage needs match_settings, knockout always enabled
+  if (!isKnockout) {
+    const settings = await sql`SELECT exact_score FROM match_settings WHERE match_id = ${matchId}`;
+    if (settings.length === 0 || !settings[0].exact_score) {
+      return NextResponse.json({ error: "Este partido no tiene resultado exacto habilitado" }, { status: 400 });
+    }
   }
 
   await sql`

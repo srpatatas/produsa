@@ -23,6 +23,7 @@ interface PlanillaMatchRowProps {
   comodinDragging?: boolean;
   comodinAllowed?: boolean;
   hasComodinRestrictions?: boolean;
+  isKnockout?: boolean;
   exactScoreEnabled?: boolean;
   exactScore?: { homeScore: number; awayScore: number };
   onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
@@ -35,7 +36,8 @@ interface PlanillaMatchRowProps {
   onDoubleAttemptOnComodin: () => void;
 }
 
-const outcomes: ("L" | "E" | "V")[] = ["L", "E", "V"];
+const groupOutcomes: ("L" | "E" | "V")[] = ["L", "E", "V"];
+const knockoutOutcomes: ("L" | "V")[] = ["L", "V"];
 
 function isSelected(current: PlanillaOutcome | undefined, btn: "L" | "E" | "V"): boolean {
   if (!current) return false;
@@ -79,6 +81,7 @@ export function PlanillaMatchRow({
   comodinImage = "/images/comodino.JPG",
   comodinAllowed,
   hasComodinRestrictions,
+  isKnockout,
   exactScoreEnabled,
   exactScore,
   onExactScoreChange,
@@ -232,7 +235,7 @@ export function PlanillaMatchRow({
     if (prevOutcome.current === currentOutcome) return;
     prevOutcome.current = currentOutcome;
 
-    const shouldClear = !currentOutcome || (exactHome !== "" && exactAway !== "" && (() => {
+    const shouldClear = !currentOutcome || (!isKnockout && exactHome !== "" && exactAway !== "" && (() => {
       const h = parseInt(exactHome, 10);
       const a = parseInt(exactAway, 10);
       if (isNaN(h) || isNaN(a)) return false;
@@ -277,8 +280,9 @@ export function PlanillaMatchRow({
     setTimeout(() => setExactRejectMsg(null), 2000);
   };
 
-  // Auto-validate when both fields have values
+  // Auto-validate when both fields have values (skip for knockout — draws allowed)
   useEffect(() => {
+    if (isKnockout) return;
     if (exactHome === "" || exactAway === "") return;
     const h = parseInt(exactHome, 10);
     const a = parseInt(exactAway, 10);
@@ -288,7 +292,7 @@ export function PlanillaMatchRow({
     if (!currentOutcome.includes(implied)) {
       rejectExactScore();
     }
-  }, [exactHome, exactAway, currentOutcome]);
+  }, [exactHome, exactAway, currentOutcome, isKnockout]);
 
   const handleExactScoreSave = async () => {
     const h = parseInt(exactHome, 10);
@@ -299,10 +303,12 @@ export function PlanillaMatchRow({
     if (h < 0 || a < 0) return;
     if (!currentOutcome) return;
 
-    const implied = h > a ? "L" : h < a ? "V" : "E";
-    if (!currentOutcome.includes(implied)) {
-      rejectExactScore();
-      return;
+    if (!isKnockout) {
+      const implied = h > a ? "L" : h < a ? "V" : "E";
+      if (!currentOutcome.includes(implied)) {
+        rejectExactScore();
+        return;
+      }
     }
 
     setExactSaving(true);
@@ -394,7 +400,7 @@ export function PlanillaMatchRow({
       </div>
 
       <div className="flex items-center gap-1">
-        {outcomes.map((o) => (
+        {(isKnockout ? knockoutOutcomes : groupOutcomes).map((o) => (
           <button
             key={o}
             type="button"

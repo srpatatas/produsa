@@ -72,7 +72,7 @@ export function TodayMatchCard({ match, isLocked }: TodayMatchCardProps) {
         </div>
       </button>
 
-      {expanded && isLocked && <MatchPredictionsDropdown matchId={match.id} />}
+      {expanded && isLocked && <MatchPredictionsDropdown matchId={match.id} isKnockout={match.phase === "knockout"} />}
 
       {!isLocked && (
         <div className="px-4 pb-3 -mt-1">

@@ -10,6 +10,10 @@ import { FlagImage } from "@/components/teams/FlagImage";
 import { formatMatchDate, cn } from "@/lib/utils";
 import { usePlanilla } from "@/context/PlanillaContext";
 
+interface ExactScoresMap {
+  [matchId: string]: { homeScore: number; awayScore: number };
+}
+
 interface KnockoutPlanillaMatchRowProps {
   match: KnockoutMatch;
   featured?: boolean;
@@ -20,6 +24,8 @@ interface KnockoutPlanillaMatchRowProps {
   comodinDragging?: boolean;
   comodinAllowed?: boolean;
   hasComodinRestrictions?: boolean;
+  exactScore?: { homeScore: number; awayScore: number };
+  onExactScoreChange?: React.Dispatch<React.SetStateAction<ExactScoresMap>>;
   onComodinDrop: (matchId: string) => void;
   onComodinTouchDrop?: (matchId: string) => void;
   onComodinReject?: (message: string) => void;
@@ -41,6 +47,8 @@ export function KnockoutPlanillaMatchRow({
   comodinDragging,
   comodinAllowed,
   hasComodinRestrictions,
+  exactScore,
+  onExactScoreChange,
   onComodinDrop,
   onComodinTouchDrop,
   onComodinReject,
@@ -115,6 +123,47 @@ export function KnockoutPlanillaMatchRow({
 
   const [saving, setSaving] = useState(false);
 
+  // Exact score — always enabled for knockout, draws allowed (goes to pens)
+  const [exactHome, setExactHome] = useState(exactScore?.homeScore?.toString() ?? "");
+  const [exactAway, setExactAway] = useState(exactScore?.awayScore?.toString() ?? "");
+  const [exactSaving, setExactSaving] = useState(false);
+
+  useEffect(() => {
+    setExactHome(exactScore?.homeScore?.toString() ?? "");
+    setExactAway(exactScore?.awayScore?.toString() ?? "");
+  }, [exactScore]);
+
+  const isExactScoreValid = (h: number, a: number): boolean => {
+    if (!currentOutcome) return false;
+    if (h === a) return true; // draw = goes to pens, always valid
+    const implied = h > a ? "L" : "V";
+    return currentOutcome.includes(implied);
+  };
+
+  const handleExactScoreSave = async () => {
+    const h = parseInt(exactHome, 10);
+    const a = parseInt(exactAway, 10);
+    if (exactHome === "" || exactAway === "" || isNaN(h) || isNaN(a) || h < 0 || a < 0) return;
+    if (!currentOutcome) return;
+    if (!isExactScoreValid(h, a)) {
+      setExactHome("");
+      setExactAway("");
+      return;
+    }
+    setExactSaving(true);
+    try {
+      const res = await fetch("/api/exact-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchId: match.id, homeScore: h, awayScore: a }),
+      });
+      if (res.ok && onExactScoreChange) {
+        onExactScoreChange((prev) => ({ ...prev, [match.id]: { homeScore: h, awayScore: a } }));
+      }
+    } catch {}
+    setExactSaving(false);
+  };
+
   const handleClick = async (btn: "L" | "V") => {
     if (disabled || saving) return;
     setSaving(true);
@@ -172,6 +221,7 @@ export function KnockoutPlanillaMatchRow({
       onClick={handleRowClick}
       className={cn(
         "relative flex items-center gap-2 rounded-xl bg-card-bg ring-1 transition-all",
+        predictable && currentOutcome && "mb-10",
         featured ? "px-4 py-4" : "px-3 py-2.5",
         featured && !hasComodin && !dragOver && "ring-fifa-gold/30 bg-fifa-gold/[0.03] shadow-lg shadow-fifa-gold/10",
         hasComodin
@@ -285,9 +335,50 @@ export function KnockoutPlanillaMatchRow({
         </span>
       )}
 
+
+
       <div className="hidden sm:block flex-shrink-0 text-right">
         <span className="text-[10px] text-fifa-dark-gray/50">{dateStr}</span>
       </div>
+
+      {predictable && currentOutcome && (
+        <div className="absolute -bottom-[1rem] left-1/2 -translate-x-[4.5rem] w-[1.3rem] h-[1rem] border-l border-b border-white/15 rounded-bl-md" />
+      )}
+
+      {predictable && currentOutcome && (
+        <div className={cn(
+          "absolute left-1/2 -translate-x-1/2 -bottom-8 flex items-center justify-center gap-1.5 rounded-full px-3 py-1 ring-1 animate-[slideDown_0.2s_ease-out]",
+          exactScore ? "bg-fifa-gold/10 ring-fifa-gold/20" : "bg-surface ring-white/5",
+        )}>
+          <input
+            type="number"
+            min={0}
+            max={20}
+            value={exactHome}
+            onChange={(e) => setExactHome(e.target.value)}
+            onBlur={handleExactScoreSave}
+            onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+            disabled={disabled || exactSaving}
+            placeholder="—"
+            className="w-8 rounded bg-card-bg px-1 py-0.5 text-center text-xs text-foreground outline-none ring-1 ring-white/10 focus:ring-fifa-gold/40 placeholder:text-fifa-dark-gray/30"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <span className="text-[9px] text-fifa-dark-gray">:</span>
+          <input
+            type="number"
+            min={0}
+            max={20}
+            value={exactAway}
+            onChange={(e) => setExactAway(e.target.value)}
+            onBlur={handleExactScoreSave}
+            onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+            disabled={disabled || exactSaving}
+            placeholder="—"
+            className="w-8 rounded bg-card-bg px-1 py-0.5 text-center text-xs text-foreground outline-none ring-1 ring-white/10 focus:ring-fifa-gold/40 placeholder:text-fifa-dark-gray/30"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
