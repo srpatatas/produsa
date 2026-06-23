@@ -592,5 +592,5 @@ export function useGameLoop(
     ctx.textBaseline = "alphabetic";
   }
 
-  return { startLoop, stopLoop };
+  return { startLoop, stopLoop, keys };
 }

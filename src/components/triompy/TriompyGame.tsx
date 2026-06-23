@@ -1,12 +1,54 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, type RefObject } from "react";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { CANVAS_W, CANVAS_H, TOTAL_LEVELS, PLATFORM_COLORS, type TriompyState } from "./gameTypes";
 import { createInitialState, nextLevel } from "./gameLogic";
 import { useGameLoop } from "./useGameLoop";
 import { LevelSelect } from "./LevelSelect";
+
+function GameDPad({ keysRef }: { keysRef: RefObject<Set<string>> }) {
+  const press = useCallback((key: string) => { keysRef.current?.add(key); }, [keysRef]);
+  const release = useCallback((key: string) => { keysRef.current?.delete(key); }, [keysRef]);
+  return (
+    <div className="md:hidden select-none flex justify-center pt-2" style={{ touchAction: "none" }}>
+      <div className="grid grid-cols-3 gap-1 w-36">
+        <div />
+        <GameBtn label="▲" k="ArrowUp" onPress={press} onRelease={release} />
+        <div />
+        <GameBtn label="◀" k="ArrowLeft" onPress={press} onRelease={release} />
+        <div />
+        <GameBtn label="▶" k="ArrowRight" onPress={press} onRelease={release} />
+        <div />
+        <GameBtn label="▼" k="ArrowDown" onPress={press} onRelease={release} />
+        <div />
+      </div>
+    </div>
+  );
+}
+
+function GameBtn({ label, k, onPress, onRelease }: { label: string; k: string; onPress: (k: string) => void; onRelease: (k: string) => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const start = (e: TouchEvent) => { e.preventDefault(); onPress(k); };
+    const end = () => onRelease(k);
+    el.addEventListener("touchstart", start, { passive: false });
+    el.addEventListener("touchend", end);
+    el.addEventListener("touchcancel", end);
+    return () => { el.removeEventListener("touchstart", start); el.removeEventListener("touchend", end); el.removeEventListener("touchcancel", end); };
+  }, [k, onPress, onRelease]);
+  return (
+    <button
+      ref={ref} type="button"
+      onMouseDown={() => onPress(k)} onMouseUp={() => onRelease(k)} onMouseLeave={() => onRelease(k)}
+      className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-lg text-white/70 active:bg-white/20 active:text-white select-none"
+      style={{ WebkitTouchCallout: "none", WebkitUserSelect: "none", touchAction: "none" }}
+    >{label}</button>
+  );
+}
 
 function SplashReveal({ onDone }: { onDone: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -108,7 +150,7 @@ export function TriompyGame() {
   const scoreSubmitted = useRef(false);
 
   const onStateChange = useCallback((s: TriompyState) => setUiState(s), []);
-  const { startLoop, stopLoop } = useGameLoop(canvasRef, stateRef, onStateChange);
+  const { startLoop, stopLoop, keys } = useGameLoop(canvasRef, stateRef, onStateChange);
 
   useEffect(() => {
     fetch("/api/triompy")
@@ -359,6 +401,7 @@ export function TriompyGame() {
               </div>
             </div>
           )}
+          <GameDPad keysRef={keys} />
         </div>
       )}
 
