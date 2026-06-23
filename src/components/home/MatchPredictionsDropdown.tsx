@@ -75,9 +75,14 @@ export function MatchPredictionsDropdown({ matchId, isKnockout, actualOutcome, a
           const badgeBg = hasExact
             ? getOutcomeBg(getLiveOutcome(pred.exactScore!.home, pred.exactScore!.away))
             : getOutcomeBg(pred.outcome);
-          const badgeLabel = hasExact
-            ? `${pred.exactScore!.home}-${pred.exactScore!.away}`
-            : normalizeOutcome(pred.outcome);
+          let badgeLabel: string;
+          if (hasExact) {
+            const score = `${pred.exactScore!.home}-${pred.exactScore!.away}`;
+            const isDraw = pred.exactScore!.home === pred.exactScore!.away;
+            badgeLabel = isKnockout && isDraw ? `${score} (${pred.outcome})` : score;
+          } else {
+            badgeLabel = normalizeOutcome(pred.outcome);
+          }
 
           return (
             <div key={pred.user.id} className={`flex flex-col items-center gap-1.5 transition-opacity ${dimmed ? "opacity-30" : ""}`}>
@@ -96,13 +101,6 @@ export function MatchPredictionsDropdown({ matchId, isKnockout, actualOutcome, a
                 )}
                 {exactHit && !isKnockout && (
                   <span className="absolute -top-1 -left-1 rounded-full bg-fifa-gold px-1 py-px text-[7px] font-bold text-black">+2</span>
-                )}
-                {isKnockout && hasExact && (
-                  <span className={`absolute -top-1 -left-1 rounded-full px-1 py-px text-[7px] font-bold text-white ${
-                    pred.outcome === "L" ? "bg-outcome-local" : "bg-outcome-visitante"
-                  }`}>
-                    {pred.outcome}
-                  </span>
                 )}
               </div>
               <span className="text-[10px] text-fifa-dark-gray truncate max-w-full">
