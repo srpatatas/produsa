@@ -366,8 +366,8 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
     // Check for new events every 15s
     const eventInterval = setInterval(checkEvents, 15000);
 
-    // Idle phrase every ~60s
-    const idleInterval = setInterval(showIdle, 55000 + Math.random() * 10000);
+    // Idle phrase every ~30s
+    const idleInterval = setInterval(showIdle, 25000 + Math.random() * 10000);
 
     // Show first phrase after 5s
     timerRef.current = setTimeout(showIdle, 5000);
