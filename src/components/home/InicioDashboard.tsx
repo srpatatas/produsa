@@ -9,6 +9,7 @@ import { TodayMatchesList } from "./TodayMatchesList";
 import { RecentResults } from "./RecentResults";
 import { LiveCarousel } from "@/components/live/LiveCarousel";
 import { LiveMiniRanking } from "@/components/live/LiveMiniRanking";
+import { clearLiveComodinCaches } from "@/components/live/LiveScoreboard";
 
 const POLL_INTERVAL_MS = 15_000;
 
@@ -52,6 +53,7 @@ export function InicioDashboard() {
       setLiveMatches((prev) => {
         if (prev.length === 0) return prev;
         setActiveMatchIndex(0);
+        clearLiveComodinCaches();
         if (!dashboardRefreshedRef.current) {
           dashboardRefreshedRef.current = true;
           refreshDashboard();

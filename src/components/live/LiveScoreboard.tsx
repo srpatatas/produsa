@@ -493,6 +493,13 @@ const predCache = new Map<string, ComodinPred[]>();
 const eventIndexCache = new Map<string, number>();
 const lastEventCountCache = new Map<string, number>();
 
+export function clearLiveComodinCaches() {
+  predCache.clear();
+  eventIndexCache.clear();
+  lastEventCountCache.clear();
+  usedPhrases.clear();
+}
+
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
   const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
   const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
