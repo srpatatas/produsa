@@ -33,7 +33,16 @@ interface PersonalityVoice {
   rankingTaunt: (name: string, pos: number, diff: number) => string;
 }
 
-function pick<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)]; }
+const usedPhrases = new Set<string>();
+function pick<T>(arr: T[]): T {
+  if (arr.length <= 1) return arr[0];
+  const fresh = arr.filter((v) => !usedPhrases.has(String(v)));
+  const pool = fresh.length > 0 ? fresh : arr;
+  if (fresh.length === 0) usedPhrases.clear();
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
+  usedPhrases.add(String(chosen));
+  return chosen;
+}
 
 const VOICES: Record<string, PersonalityVoice> = {
   "fecha-1": { // Chiqui
@@ -330,6 +339,11 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const eventIndexRef = useRef(0);
 
+  // Clear phrase tracker on match change
+  useEffect(() => {
+    usedPhrases.clear();
+  }, [matchId]);
+
   useEffect(() => {
     fetch(`/api/live-predictions?matchId=${matchId}`)
       .then((r) => r.ok ? r.json() : { predictions: [] })
@@ -354,7 +368,6 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
 
   const lastEventCount = useRef(0);
   const eventQueue = useRef<string[]>([]);
-  const recentPhrases = useRef<string[]>([]);
   const isShowingRef = useRef(false);
 
   useEffect(() => {
@@ -364,16 +377,9 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
     const EVENT_CHECK_MS = isDev ? 3000 : 15000;
     const IDLE_INTERVAL_MS = isDev ? 8000 + Math.random() * 4000 : 25000 + Math.random() * 10000;
 
-    function avoidRepeat(text: string): string {
-      if (recentPhrases.current.includes(text)) return text + " "; // force unique
-      recentPhrases.current.push(text);
-      if (recentPhrases.current.length > 10) recentPhrases.current.shift();
-      return text;
-    }
-
     function showPhrase(text: string, durationMs: number) {
       isShowingRef.current = true;
-      setPhrase(avoidRepeat(text));
+      setPhrase(text);
       setVisible(true);
       timerRef.current = setTimeout(() => {
         setVisible(false);
