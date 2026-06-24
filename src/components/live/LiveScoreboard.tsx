@@ -333,24 +333,50 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
   const rankingRef = useRef(rankingSnapshot);
   rankingRef.current = rankingSnapshot;
 
-  useEffect(() => {
-    function showNext() {
-      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
-      eventIndexRef.current = result.newEventIndex;
+  // Event-driven: check for new events every 15s, show immediately if found
+  // Idle: show one phrase every ~60s, visible for 10s
+  const lastEventCount = useRef(0);
 
-      setPhrase(result.phrase);
+  useEffect(() => {
+    function showPhrase(text: string, isEvent: boolean) {
+      setPhrase(text);
       setVisible(true);
       timerRef.current = setTimeout(() => {
         setVisible(false);
-        // Shorter pause after events, longer for idle
-        const hasNewEvents = (liveScoreRef.current.events?.length ?? 0) > eventIndexRef.current;
-        const pause = hasNewEvents ? 2000 + Math.random() * 2000 : 5000 + Math.random() * 5000;
-        timerRef.current = setTimeout(showNext, pause);
-      }, 4000);
+      }, isEvent ? 8000 : 10000);
     }
 
-    timerRef.current = setTimeout(showNext, 2000);
-    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+    function checkEvents() {
+      const events = liveScoreRef.current.events ?? [];
+      if (events.length > lastEventCount.current) {
+        // New event — react immediately
+        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
+        eventIndexRef.current = result.newEventIndex;
+        lastEventCount.current = events.length;
+        showPhrase(result.phrase, true);
+      }
+    }
+
+    function showIdle() {
+      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
+      eventIndexRef.current = result.newEventIndex;
+      showPhrase(result.phrase, false);
+    }
+
+    // Check for new events every 15s
+    const eventInterval = setInterval(checkEvents, 15000);
+
+    // Idle phrase every ~60s
+    const idleInterval = setInterval(showIdle, 55000 + Math.random() * 10000);
+
+    // Show first phrase after 5s
+    timerRef.current = setTimeout(showIdle, 5000);
+
+    return () => {
+      clearInterval(eventInterval);
+      clearInterval(idleInterval);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [scope]);
 
   if (!config.name) return null;
