@@ -79,6 +79,7 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Posiciones en vivo
       </h2>
+
       <div className="space-y-1">
         {ranking.map((entry) => (
           <LiveMiniRankingRow
