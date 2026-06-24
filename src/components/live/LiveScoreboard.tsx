@@ -399,7 +399,7 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
 
   useEffect(() => {
     const EVENT_VISIBLE_MS = 8000;
-    const IDLE_VISIBLE_MS = 10000;
+    const IDLE_VISIBLE_MS = 8000;
     const EVENT_CHECK_MS = 15000;
     const IDLE_INTERVAL_MS = 25000 + Math.random() * 10000;
 
