@@ -10,6 +10,7 @@ import { RecentResults } from "./RecentResults";
 import { LiveCarousel } from "@/components/live/LiveCarousel";
 import { LiveMiniRanking } from "@/components/live/LiveMiniRanking";
 import { clearLiveComodinCaches } from "@/components/live/LiveScoreboard";
+import { setLiveResults } from "@/lib/knockoutResolver";
 
 const POLL_INTERVAL_MS = 15_000;
 
@@ -38,6 +39,14 @@ export function InicioDashboard() {
     fetch("/api/dashboard")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { if (d) setData(d); })
+      .catch(() => {});
+  }, []);
+
+  // Feed live results to knockout resolver on mount
+  useEffect(() => {
+    fetch("/api/results")
+      .then((r) => r.ok ? r.json() : { results: {} })
+      .then((data) => { if (data.results) setLiveResults(data.results); })
       .catch(() => {});
   }, []);
 
