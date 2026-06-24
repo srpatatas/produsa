@@ -313,7 +313,7 @@ function generateDynamicPhrase(
     if (withPred.length > 5) {
       const right = withPred.filter((p) => p.outcome.includes(actual));
       const wrong = withPred.filter((p) => !p.outcome.includes(actual));
-      if (wrong.length > withPred.length * 0.8) return { phrase: voice.nobodyRight(), newEventIndex: lastEventIndex };
+      if (right.length === 0) return { phrase: voice.nobodyRight(), newEventIndex: lastEventIndex };
       if (right.length > 0 && right.length <= 2) {
         return { phrase: voice.fewRight(right.map((p) => p.name).join(" y ")), newEventIndex: lastEventIndex };
       }
