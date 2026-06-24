@@ -18,10 +18,18 @@ interface RankingEntry {
   previousPosition: number;
 }
 
+export interface RankingSnapshot {
+  name: string;
+  position: number;
+  previousPosition: number;
+  totalPoints: number;
+}
+
 interface LiveMiniRankingProps {
   scores: Record<string, LiveScore>;
   activeMatchId: string;
   liveMatchIds: string[];
+  onRankingUpdate?: (snapshot: RankingSnapshot[]) => void;
 }
 
 function scoreFingerprint(scores: Record<string, LiveScore>, ids: string[]): string {
@@ -31,7 +39,7 @@ function scoreFingerprint(scores: Record<string, LiveScore>, ids: string[]): str
   }).join("|");
 }
 
-export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMiniRankingProps) {
+export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds, onRankingUpdate }: LiveMiniRankingProps) {
   const currentUser = useUser();
   const scope = useMemo(() => {
     const match = getAllUnifiedMatches().find((m) => m.id === activeMatchId);
@@ -60,6 +68,12 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
       if (res.ok) {
         const data = await res.json();
         setRanking(data.ranking);
+        onRankingUpdate?.(data.ranking.map((e: RankingEntry) => ({
+          name: e.user.name,
+          position: e.position,
+          previousPosition: e.previousPosition,
+          totalPoints: e.totalPoints,
+        })));
       }
     } catch {}
     setLoading(false);

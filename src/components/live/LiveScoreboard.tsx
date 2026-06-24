@@ -30,6 +30,7 @@ interface PersonalityVoice {
   fewRight: (names: string) => string;
   idle: () => string;
   taunt: (name: string) => string;
+  rankingTaunt: (name: string, pos: number, diff: number) => string;
 }
 
 function pick<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)]; }
@@ -71,6 +72,13 @@ const VOICES: Record<string, PersonalityVoice> = {
       `${n} transpira más que un dirigente en asamblea`,
       `A ${n} le recomiendo hablar con la AFA antes de predecir`,
     ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return pick([`${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. La AFA toma nota`, `${n} trepa en la tabla, lo voy a convocar`]);
+      if (diff < 0) return pick([`${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Le mando un fax de pésame`, `${n} baja en la tabla... esto es un escándalo`]);
+      if (pos === 1) return `${n} va primero. La FIFA aprueba`;
+      if (pos <= 3) return `${n} va ${pos}°, ojo que se mete en el podio`;
+      return pick([`${n} va ${pos}°... podría ser peor, podría ser dirigente`, `${n} en el puesto ${pos}, la AFA investiga`]);
+    },
   },
   "fecha-2": { // Pollo
     goal: (s, m, _side, h, a) => pick([
@@ -108,6 +116,13 @@ const VOICES: Record<string, PersonalityVoice> = {
       `¡¡${n.toUpperCase()} TRANSPIRA SEÑORES!! ¡¡SE LE COMPLICA!!`,
       `¡¡QUÉ SERÁ DE ${n.toUpperCase()} DESPUÉS DE ESTE PARTIDO!!`,
     ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `¡¡${n.toUpperCase()} SUBIÓ ${diff} PUESTO${diff > 1 ? "S" : ""} SEÑORES!! ¡¡CÓMO TREPA!!`;
+      if (diff < 0) return `¡¡${n.toUpperCase()} CAYÓ ${Math.abs(diff)} PUESTO${Math.abs(diff) > 1 ? "S" : ""}!! ¡¡QUÉ GOLPE!!`;
+      if (pos === 1) return `¡¡${n.toUpperCase()} VA PRIMERO SEÑORES!! ¡¡NADIE LO PARA!!`;
+      if (pos <= 3) return `¡¡${n.toUpperCase()} VA ${pos}°!! ¡¡SE METE EN EL PODIO!!`;
+      return `¡¡${n.toUpperCase()} VA ${pos}°!! ¡¡TIENE QUE REACCIONAR SEÑORES!!`;
+    },
   },
   "fecha-3": { // Trump
     goal: (s, m, _side, h, a) => pick([
@@ -145,6 +160,13 @@ const VOICES: Record<string, PersonalityVoice> = {
       `${n}, nobody predicts worse than you. Believe me`,
       `${n} needs to make their predictions great again`,
     ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} climbed ${diff} spot${diff > 1 ? "s" : ""}! Smart, very smart!`;
+      if (diff < 0) return `${n} dropped ${Math.abs(diff)} spot${Math.abs(diff) > 1 ? "s" : ""}. Sad! Very sad!`;
+      if (pos === 1) return `${n} is first! Almost as good as me, believe me`;
+      if (pos <= 3) return `${n} is ${pos}th. Not bad, amigo. Not bad at all`;
+      return `${n} is ${pos}th. I would be first, believe me`;
+    },
   },
   "R32": { // Albertito
     goal: (s, m, _side, h, a) => pick([
@@ -194,6 +216,13 @@ const VOICES: Record<string, PersonalityVoice> = {
       `${n} predice como yo gobernaba: con esperanza y sin datos`,
       `A ${n} le digo: guardo conmigo el dolor de tu predicción`,
     ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Yo nunca subí en las encuestas`;
+      if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Como mi imagen pública`;
+      if (pos === 1) return `${n} va primero. Ojalá yo hubiera tenido esos números de aprobación`;
+      if (pos <= 3) return `${n} va ${pos}°, mejor ubicado que yo en la historia`;
+      return pick([`${n} va ${pos}°. Como yo en el ranking de presidentes`, `${n} en el puesto ${pos}... la culpa es de Macri`]);
+    },
   },
 };
 
@@ -202,6 +231,7 @@ function generateDynamicPhrase(
   preds: ComodinPred[],
   scope: string,
   lastEventIndex: number,
+  ranking?: RankingSnapshotEntry[],
 ): { phrase: string; newEventIndex: number } {
   const voice = VOICES[scope] ?? VOICES["fecha-1"];
   const h = score.homeScore;
@@ -256,17 +286,24 @@ function generateDynamicPhrase(
   if (h === 0 && a === 0 && min > 30) return { phrase: voice.scoreless(min), newEventIndex: lastEventIndex };
   if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
 
-  // Priority 5: Taunt a random player (30% chance)
+  // Priority 5: Ranking commentary (25% chance)
+  if (ranking && ranking.length > 0 && Math.random() < 0.25) {
+    const target = pick(ranking);
+    const diff = target.previousPosition - target.position;
+    return { phrase: voice.rankingTaunt(target.name, target.position, diff), newEventIndex: lastEventIndex };
+  }
+
+  // Priority 6: Taunt a random player (30% chance)
   if (preds.length > 0 && Math.random() < 0.3) {
     const target = pick(preds);
     return { phrase: voice.taunt(target.name), newEventIndex: lastEventIndex };
   }
 
-  // Priority 6: Idle chatter
+  // Priority 7: Idle chatter
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
-function LiveComodinDock({ scope, matchId, liveScore }: { scope: string; matchId: string; liveScore: LiveScore }) {
+function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope: string; matchId: string; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[] }) {
   const config = getComodinConfig(scope);
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
@@ -293,10 +330,12 @@ function LiveComodinDock({ scope, matchId, liveScore }: { scope: string; matchId
   liveScoreRef.current = liveScore;
   const predsRef = useRef(preds);
   predsRef.current = preds;
+  const rankingRef = useRef(rankingSnapshot);
+  rankingRef.current = rankingSnapshot;
 
   useEffect(() => {
     function showNext() {
-      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current);
+      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
       eventIndexRef.current = result.newEventIndex;
 
       setPhrase(result.phrase);
@@ -335,13 +374,21 @@ function LiveComodinDock({ scope, matchId, liveScore }: { scope: string; matchId
   );
 }
 
+interface RankingSnapshotEntry {
+  name: string;
+  position: number;
+  previousPosition: number;
+  totalPoints: number;
+}
+
 interface LiveScoreboardProps {
   match: UnifiedMatch;
   liveScore: LiveScore;
   stale?: boolean;
+  rankingSnapshot?: RankingSnapshotEntry[];
 }
 
-export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboardProps) {
+export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
   const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
   const away = match.awayTeamId ? getTeam(match.awayTeamId) : null;
   const hasScore = liveScore.homeScore >= 0 && liveScore.awayScore >= 0;
@@ -428,7 +475,7 @@ export function LiveScoreboard({ match, liveScore, stale = false }: LiveScoreboa
 
       </div>
     </div>
-      <LiveComodinDock scope={match.scope} matchId={match.id} liveScore={liveScore} />
+      <LiveComodinDock scope={match.scope} matchId={match.id} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
     </div>
   );
 }

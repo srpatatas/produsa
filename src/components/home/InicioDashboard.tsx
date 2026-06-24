@@ -30,6 +30,7 @@ export function InicioDashboard() {
   const [liveScores, setLiveScores] = useState<Record<string, LiveScore>>({});
   const [staleIds, setStaleIds] = useState<Set<string>>(new Set());
   const [activeMatchIndex, setActiveMatchIndex] = useState(0);
+  const [rankingSnapshot, setRankingSnapshot] = useState<{ name: string; position: number; previousPosition: number; totalPoints: number }[]>([]);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const refreshDashboard = useCallback(() => {
@@ -159,6 +160,7 @@ export function InicioDashboard() {
             matches={liveMatches}
             scores={liveScores}
             staleIds={staleIds}
+            rankingSnapshot={rankingSnapshot}
             onActiveIndexChange={setActiveMatchIndex}
           />
 
@@ -167,6 +169,7 @@ export function InicioDashboard() {
               scores={liveScores}
               activeMatchId={activeMatch.id}
               liveMatchIds={liveMatches.map((m) => m.id)}
+              onRankingUpdate={setRankingSnapshot}
             />
           )}
         </>
