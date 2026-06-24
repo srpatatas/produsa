@@ -21,5 +21,7 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json({ matches: resolved });
+  return NextResponse.json({ matches: resolved }, {
+    headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" },
+  });
 }
