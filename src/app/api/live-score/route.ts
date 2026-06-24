@@ -45,7 +45,7 @@ export async function GET() {
 
   // DEV HACK: simulate a live game for A-6
   if (process.env.NODE_ENV === "development") {
-    const kickoff = new Date("2026-06-24T04:29:00Z").getTime();
+    const kickoff = new Date("2026-06-24T04:40:00Z").getTime();
     const elapsed = Math.floor((Date.now() - kickoff) / 1000);
     if (elapsed < 0) return NextResponse.json({ scores: {}, finished: [] }, { headers: cdnHeaders });
     const min = Math.min(90, Math.floor(elapsed / 1)); // 1s real = 1 game min (DEV SPEED)

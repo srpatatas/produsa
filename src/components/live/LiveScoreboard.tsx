@@ -25,6 +25,7 @@ interface PersonalityVoice {
   lateGame: (h: number, a: number) => string;
   comodinWinning: (name: string, h: number, a: number) => string;
   comodinLosing: (name: string, h: number, a: number) => string;
+  comodinDraw: (name: string, min: number) => string;
   comodinExactHit: (name: string, h: number, a: number) => string;
   nobodyRight: () => string;
   fewRight: (names: string) => string;
@@ -64,6 +65,7 @@ const VOICES: Record<string, PersonalityVoice> = {
     lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Voy a llamar al VAR por las dudas`, `Se termina esto. ${h}-${a}. La AFA se pronunciará`, `${h}-${a} y quedan minutos. Le rezo a la Conmebol`, `Esto se acaba con ${h}-${a}. La FIFA tomará cartas en el asunto`]),
     comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}... la AFA aprueba`, `¡${n} se frota las manos con ese +2!`, `${n} va ganando con el comodín. Lo voy a convocar al próximo congreso`]),
     comodinLosing: (n, h, a) => pick([`${n} puso el comodín con el ${h}-${a}... le mando un telegrama de pésame`, `El comodín de ${n} es un escándalo con este resultado`, `${n} y su comodín sufren con el ${h}-${a}. La AFA ofrece condolencias`]),
+    comodinDraw: (n, m) => pick([`${n} necesita un golcito urgente... minuto ${m} y empate`, `El comodín de ${n} pende de un hilo con este empate`]),
     comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! ¿Tiene contacto con la FIFA?`, `¡${n} acertó el ${h}-${a}! Le voy a ofrecer un cargo en la AFA`]),
     nobodyRight: () => pick(["¡Casi nadie le pegó! Voy a investigar esto", "Nadie predijo esto. La FIFA tampoco"]),
     fewRight: (names) => pick([`Solo ${names} le están pegando, los demás... al banco`, `${names} nada más aciertan. El resto que hable con la AFA`]),
@@ -113,6 +115,7 @@ const VOICES: Record<string, PersonalityVoice> = {
     lateGame: (h, a) => pick([`¡¡ÚLTIMOS MINUTOS!! ¡¡${h}-${a}!! ¡¡SE DEFINE SEÑORES!!`, `¡¡QUEDA NADA!! ¡¡${h}-${a}!! ¡¡ESTO ES AHORA O NUNCA!!`, `¡¡FINAL DEL PARTIDO!! ¡¡${h}-${a}!! ¡¡QUÉ TENSIÓN SEÑORES!!`]),
     comodinWinning: (n, h, a) => pick([`¡¡${n.toUpperCase()} CON EL COMODÍN Y VA ${h}-${a}!! ¡¡QUÉ GENIO!!`, `¡¡${n.toUpperCase()} SE FROTA LAS MANOS SEÑORES!!`, `¡¡EL COMODÍN DE ${n.toUpperCase()} BRILLA CON ESTE ${h}-${a}!!`]),
     comodinLosing: (n, h, a) => pick([`¡¡EL COMODÍN DE ${n.toUpperCase()} LLORA CON ESTE ${h}-${a}!!`, `¡¡${n.toUpperCase()} LA ESTÁ PASANDO MAL!!`, `¡¡${n.toUpperCase()} SUFRE SEÑORES!! ¡¡${h}-${a} Y EL COMODÍN TIEMBLA!!`]),
+    comodinDraw: (n, m) => pick([`¡¡${n.toUpperCase()} NECESITA UN GOL URGENTE!! ¡¡MINUTO ${m} Y EMPATE!!`, `¡¡EL COMODÍN DE ${n.toUpperCase()} TIEMBLA CON ESTE EMPATE!!`]),
     comodinExactHit: (n, h, a) => pick([`¡¡${n.toUpperCase()} CLAVÓ EL ${h}-${a}!! ¡¡INCREÍBLE SEÑORES!!`, `¡¡${n.toUpperCase()} ACERTÓ EL EXACTO!! ¡¡${h}-${a}!! ¡¡ES ADIVINO!!`]),
     nobodyRight: () => pick(["¡¡CASI NADIE LE PEGÓ SEÑORES!! ¡¡QUÉ PARTIDO!!", "¡¡NADIE LO VIO VENIR!! ¡¡ESTO ES FÚTBOL SEÑORES!!"]),
     fewRight: (names) => pick([`¡¡SOLO ${names.toUpperCase()} LE ESTÁN PEGANDO!! ¡¡EL RESTO A LLORAR!!`, `¡¡${names.toUpperCase()} NADA MÁS ACIERTAN!! ¡¡QUÉ BÁRBARO!!`]),
@@ -162,6 +165,7 @@ const VOICES: Record<string, PersonalityVoice> = {
     lateGame: (h, a) => pick([`Last minutes! ${h}-${a}. More dramatic than election night!`, `${h}-${a} and almost over! This is tremendous, señores!`, `Final minutes! ${h}-${a}! I love this tension, very exciting!`]),
     comodinWinning: (n, h, a) => pick([`${n} put the comodín and it's ${h}-${a}! Smart, very smart!`, `${n} is making Produsa great again!`, `${n} with the comodín winning at ${h}-${a}! Almost as smart as me`]),
     comodinLosing: (n, h, a) => pick([`${n} put the comodín here with ${h}-${a}? Bad decision! Sad!`, `The comodín of ${n} is crying. Very sad, muy triste`, `${n}'s comodín at ${h}-${a}... terrible decision, the worst!`]),
+    comodinDraw: (n, m) => pick([`${n} needs a goal NOW! Minute ${m} and it's tied! Come on, amigo!`, `${n}'s comodín is in trouble with this draw! Sad!`]),
     comodinExactHit: (n, h, a) => pick([`${n} nailed ${h}-${a}! Almost as smart as me, believe me!`, `${n} got the exact ${h}-${a}! Tremendous prediction! ¡Genio!`]),
     nobodyRight: () => pick(["Nobody predicted this! Not even Trump, and I'm the best predictor", "Nadie le pegó! This game is unpredictable, like me!"]),
     fewRight: (names) => pick([`Only ${names} got it right. The rest? You're fired!`, `${names} nailed it! Everyone else is a loser, believe me`]),
@@ -211,6 +215,7 @@ const VOICES: Record<string, PersonalityVoice> = {
     lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Como los últimos meses en Olivos`, `Se termina esto. ${h}-${a}. Como mi mandato, con más pena que gloria`, `${h}-${a} y queda nada. Guardo conmigo el dolor de estos últimos minutos`, `Final del partido con ${h}-${a}. Yo me voy a Disney`]),
     comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}... yo nunca tuve esa suerte`, `¡${n} con el +2! Ojalá yo hubiera tenido esos puntos de aprobación`, `${n} va ganando con el comodín. Mejor gestión que la mía`]),
     comodinLosing: (n, h, a) => pick([`${n} puso el comodín con el ${h}-${a}... F. Como mi legado`, `El comodín de ${n} llora como el presupuesto nacional`, `${n} sufre con el comodín y el ${h}-${a}. Bienvenido a mi mundo`]),
+    comodinDraw: (n, m) => pick([`${n} necesita un golcito... minuto ${m} y empate. Como yo necesitaba un milagro económico`, `El comodín de ${n} tiembla con este empate. Guardo conmigo el dolor`]),
     comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Más preciso que mis encuestas falsas`, `¡${n} acertó el ${h}-${a}! Le ofrezco un puesto... ah no, ya no tengo`]),
     nobodyRight: () => pick(["¡Nadie le pegó! Como nadie le pegó a mis predicciones económicas", "Nadie acertó. Como nadie acertó votándome a mí"]),
     fewRight: (names) => pick([`Solo ${names} le están pegando. Los demás están como mi gabinete: perdidos`, `${names} nada más aciertan. El resto predice como yo gobernaba`]),
@@ -288,25 +293,30 @@ function generateDynamicPhrase(
   // Priority 2: Comodin user reactions
   if (comodinUsers.length > 0 && Math.random() < 0.4) {
     const p = pick(comodinUsers);
-    const predictedL = p.outcome === "L";
-    const winning = predictedL ? h > a : a > h;
-    const losing = predictedL ? a > h : h > a;
+    const predictedL = p.outcome.includes("L");
+    const predictedV = p.outcome.includes("V");
+    const winning = (predictedL && h > a) || (predictedV && a > h);
+    const losing = (predictedL && a > h) || (predictedV && h > a);
 
     if (p.exactHome !== null && p.exactAway !== null && p.exactHome === h && p.exactAway === a) {
       return { phrase: voice.comodinExactHit(p.name, h, a), newEventIndex: lastEventIndex };
     }
     if (winning) return { phrase: voice.comodinWinning(p.name, h, a), newEventIndex: lastEventIndex };
     if (losing) return { phrase: voice.comodinLosing(p.name, h, a), newEventIndex: lastEventIndex };
+    if (h === a && h > 0 && min > 45) return { phrase: voice.comodinDraw(p.name, min), newEventIndex: lastEventIndex };
   }
 
   // Priority 3: General prediction commentary
-  if (Math.random() < 0.3 && preds.length > 3) {
+  if (Math.random() < 0.3 && preds.length > 5) {
     const actual = h > a ? "L" : a > h ? "V" : "E";
-    const wrong = preds.filter((p) => p.outcome && !p.outcome.includes(actual));
-    if (wrong.length > preds.length * 0.7) return { phrase: voice.nobodyRight(), newEventIndex: lastEventIndex };
-    const right = preds.filter((p) => p.outcome && p.outcome.includes(actual));
-    if (right.length <= 2 && right.length > 0) {
-      return { phrase: voice.fewRight(right.map((p) => p.name).join(" y ")), newEventIndex: lastEventIndex };
+    const withPred = preds.filter((p) => p.outcome);
+    if (withPred.length > 5) {
+      const right = withPred.filter((p) => p.outcome.includes(actual));
+      const wrong = withPred.filter((p) => !p.outcome.includes(actual));
+      if (wrong.length > withPred.length * 0.8) return { phrase: voice.nobodyRight(), newEventIndex: lastEventIndex };
+      if (right.length > 0 && right.length <= 2) {
+        return { phrase: voice.fewRight(right.map((p) => p.name).join(" y ")), newEventIndex: lastEventIndex };
+      }
     }
   }
 
@@ -314,17 +324,24 @@ function generateDynamicPhrase(
   if (h === 0 && a === 0 && min > 30) return { phrase: voice.scoreless(min), newEventIndex: lastEventIndex };
   if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
 
-  // Priority 5: Ranking commentary (25% chance)
+  // Priority 5: Ranking commentary — only when there's movement or podium spots (25% chance)
   if (ranking && ranking.length > 0 && Math.random() < 0.25) {
-    const target = pick(ranking);
-    const diff = target.previousPosition - target.position;
-    return { phrase: voice.rankingTaunt(target.name, target.position, diff), newEventIndex: lastEventIndex };
+    const movers = ranking.filter((r) => r.previousPosition - r.position !== 0 || r.position <= 3);
+    if (movers.length > 0) {
+      const target = pick(movers);
+      const diff = target.previousPosition - target.position;
+      return { phrase: voice.rankingTaunt(target.name, target.position, diff), newEventIndex: lastEventIndex };
+    }
   }
 
-  // Priority 6: Taunt a random player (30% chance)
-  if (preds.length > 0 && Math.random() < 0.3) {
-    const target = pick(preds);
-    return { phrase: voice.taunt(target.name), newEventIndex: lastEventIndex };
+  // Priority 6: Taunt a player who's currently wrong (30% chance)
+  if (hasScore && preds.length > 0 && Math.random() < 0.3) {
+    const actual = h > a ? "L" : a > h ? "V" : "E";
+    const wrongPlayers = preds.filter((p) => p.outcome && !p.outcome.includes(actual));
+    if (wrongPlayers.length > 0) {
+      const target = pick(wrongPlayers);
+      return { phrase: voice.taunt(target.name), newEventIndex: lastEventIndex };
+    }
   }
 
   // Priority 7: Idle chatter
