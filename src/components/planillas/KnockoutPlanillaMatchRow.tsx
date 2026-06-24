@@ -5,7 +5,6 @@ import Image from "next/image";
 import { KnockoutMatch, PlanillaOutcome } from "@/types";
 import { getTeam } from "@/data/teams";
 import { isKnockoutMatchLocked } from "@/data/knockoutMatches";
-import { resolveKnockoutMatch, isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { formatMatchDate, cn } from "@/lib/utils";
 import { usePlanilla } from "@/context/PlanillaContext";
@@ -16,6 +15,9 @@ interface ExactScoresMap {
 
 interface KnockoutPlanillaMatchRowProps {
   match: KnockoutMatch;
+  resolvedHomeTeamId: string | null;
+  resolvedAwayTeamId: string | null;
+  predictable: boolean;
   featured?: boolean;
   roundLocked?: boolean;
   comodinMatchId: string | null;
@@ -39,6 +41,9 @@ const outcomes: ("L" | "V")[] = ["L", "V"];
 
 export function KnockoutPlanillaMatchRow({
   match,
+  resolvedHomeTeamId,
+  resolvedAwayTeamId,
+  predictable,
   featured = false,
   roundLocked,
   comodinMatchId,
@@ -59,10 +64,8 @@ export function KnockoutPlanillaMatchRow({
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const prediction = predictions[match.id];
 
-  const resolved = resolveKnockoutMatch(match);
-  const predictable = isKnockoutMatchPredictable(match);
-  const homeTeam = resolved.homeTeamId ? getTeam(resolved.homeTeamId) : null;
-  const awayTeam = resolved.awayTeamId ? getTeam(resolved.awayTeamId) : null;
+  const homeTeam = resolvedHomeTeamId ? getTeam(resolvedHomeTeamId) : null;
+  const awayTeam = resolvedAwayTeamId ? getTeam(resolvedAwayTeamId) : null;
 
   const [matchLocked, setMatchLocked] = useState(false);
   const [dateStr, setDateStr] = useState("");

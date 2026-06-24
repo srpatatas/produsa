@@ -4,7 +4,6 @@ import React from "react";
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
 import { matches as groupMatches } from "@/data/matches";
 import { cn } from "@/lib/utils";
-import { isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
 import { KnockoutRound } from "@/types";
 
 interface ScopeStatus {
@@ -20,6 +19,7 @@ interface ScopeStatus {
 interface PredictionCompletionNudgeProps {
   predictionStatus: Record<string, ScopeStatus>;
   locks: Record<string, { locksAt: string; isLocked: boolean }>;
+  knockoutPredictable?: Record<string, boolean>;
 }
 
 const scopeOrder = ["fecha-1", "fecha-2", "fecha-3", "R32", "R16", "QF", "SF", "FINAL"];
@@ -66,11 +66,9 @@ function isScopeFinished(scope: string): boolean {
   return now >= nextDay.getTime();
 }
 
-function isScopePredictable(scope: string): boolean {
-  const rounds = knockoutScopeRounds[scope];
-  if (!rounds) return true;
-  const matches = rounds.flatMap((r) => getKnockoutMatchesByRound(r));
-  return matches.length > 0 && matches.every((m) => isKnockoutMatchPredictable(m));
+function isScopePredictable(scope: string, knockoutPredictable?: Record<string, boolean>): boolean {
+  if (!knockoutScopeRounds[scope]) return true;
+  return knockoutPredictable?.[scope] ?? false;
 }
 
 function Chip({ done, label }: { done: boolean; label: string }) {
@@ -92,11 +90,12 @@ function Chip({ done, label }: { done: boolean; label: string }) {
 export function PredictionCompletionNudge({
   predictionStatus,
   locks,
+  knockoutPredictable,
 }: PredictionCompletionNudgeProps) {
   const all = Object.entries(predictionStatus)
     .filter(([scope]) => {
       if (isScopeFinished(scope)) return false;
-      if (knockoutScopeRounds[scope] && !isScopePredictable(scope)) return false;
+      if (knockoutScopeRounds[scope] && !isScopePredictable(scope, knockoutPredictable)) return false;
       return true;
     })
     .sort(([a], [b]) => (scopeOrder.indexOf(a) ?? 99) - (scopeOrder.indexOf(b) ?? 99));

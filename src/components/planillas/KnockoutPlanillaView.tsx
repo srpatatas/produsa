@@ -11,7 +11,6 @@ import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { LockCountdown } from "./LockCountdown";
-import { isKnockoutMatchPredictable, setLiveResults } from "@/lib/knockoutResolver";
 import { cn } from "@/lib/utils";
 
 type PlanillaRound = "R32" | "R16" | "QF" | "SF" | "FINAL";
@@ -34,6 +33,7 @@ export function KnockoutPlanillaView() {
   const dropSucceeded = useRef(false);
   const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
   const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
+  const [resolvedMatches, setResolvedMatches] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null; predictable: boolean }>>({});
   const [comodinDragging, setComodinDragging] = useState(false);
   const [comodinReject, setComodinReject] = useState<string | null>(null);
   const [suppressBubble, setSuppressBubble] = useState(false);
@@ -45,13 +45,17 @@ export function KnockoutPlanillaView() {
       fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
       fetch("/api/match-settings").then((r) => r.ok ? r.json() : { settings: {} }),
       fetch("/api/exact-score").then((r) => r.ok ? r.json() : { predictions: {} }),
-      fetch("/api/results").then((r) => r.ok ? r.json() : { results: {} }),
-    ]).then(([comodinData, lockData, settingsData, exactData, resultsData]) => {
+      fetch("/api/knockout-matches").then((r) => r.ok ? r.json() : { matches: [] }),
+    ]).then(([comodinData, lockData, settingsData, exactData, knockoutData]) => {
       setComodinByRound(comodinData.comodines);
       setLocks(lockData.locks);
       setMatchSettings(settingsData.settings);
       setExactScores(exactData.predictions);
-      if (resultsData.results) setLiveResults(resultsData.results);
+      const resolved: Record<string, { homeTeamId: string | null; awayTeamId: string | null; predictable: boolean }> = {};
+      for (const m of knockoutData.matches ?? []) {
+        resolved[m.id] = { homeTeamId: m.homeTeamId, awayTeamId: m.awayTeamId, predictable: m.predictable };
+      }
+      setResolvedMatches(resolved);
     }).catch(() => {});
   }, []);
 
@@ -59,9 +63,8 @@ export function KnockoutPlanillaView() {
   const activeRounds = currentTab.rounds;
   const isRoundLocked = locks[activeTab]?.isLocked ?? false;
 
-  // Check if any match in this round has both teams resolved
   const roundMatches = activeRounds.flatMap((r) => getKnockoutMatchesByRound(r));
-  const isRoundPredictable = roundMatches.some((m) => isKnockoutMatchPredictable(m));
+  const isRoundPredictable = roundMatches.some((m) => resolvedMatches[m.id]?.predictable);
   const effectiveLocked = isRoundLocked || !isRoundPredictable;
 
   // Comodin is per tab
@@ -160,7 +163,7 @@ export function KnockoutPlanillaView() {
           const isActive = activeTab === tab.id;
           const tabLocked = locks[tab.id]?.isLocked ?? false;
           const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
-          const tabPredictable = tabMatches.some((m) => isKnockoutMatchPredictable(m));
+          const tabPredictable = tabMatches.some((m) => resolvedMatches[m.id]?.predictable);
           const tabDisabled = tabLocked || !tabPredictable;
 
           return (
@@ -234,6 +237,9 @@ export function KnockoutPlanillaView() {
                       <KnockoutPlanillaMatchRow
                         key={match.id}
                         match={match}
+                        resolvedHomeTeamId={resolvedMatches[match.id]?.homeTeamId ?? null}
+                        resolvedAwayTeamId={resolvedMatches[match.id]?.awayTeamId ?? null}
+                        predictable={resolvedMatches[match.id]?.predictable ?? false}
                         featured={match.id === "F"}
                         roundLocked={effectiveLocked}
                         comodinMatchId={comodinMatchId}
