@@ -11,7 +11,7 @@ import { ComodinDock } from "./ComodinDock";
 import { Toast } from "./Toast";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { LockCountdown } from "./LockCountdown";
-import { isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
+import { isKnockoutMatchPredictable, setLiveResults } from "@/lib/knockoutResolver";
 import { cn } from "@/lib/utils";
 
 type PlanillaRound = "R32" | "R16" | "QF" | "SF" | "FINAL";
@@ -45,11 +45,13 @@ export function KnockoutPlanillaView() {
       fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
       fetch("/api/match-settings").then((r) => r.ok ? r.json() : { settings: {} }),
       fetch("/api/exact-score").then((r) => r.ok ? r.json() : { predictions: {} }),
-    ]).then(([comodinData, lockData, settingsData, exactData]) => {
+      fetch("/api/results").then((r) => r.ok ? r.json() : { results: {} }),
+    ]).then(([comodinData, lockData, settingsData, exactData, resultsData]) => {
       setComodinByRound(comodinData.comodines);
       setLocks(lockData.locks);
       setMatchSettings(settingsData.settings);
       setExactScores(exactData.predictions);
+      if (resultsData.results) setLiveResults(resultsData.results);
     }).catch(() => {});
   }, []);
 

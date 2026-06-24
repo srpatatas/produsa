@@ -5,7 +5,7 @@ import { groups } from "@/data/groups";
 import { knockoutRounds } from "@/data/knockoutBracket";
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
 import { getTeam } from "@/data/teams";
-import { resolveKnockoutMatch } from "@/lib/knockoutResolver";
+import { resolveKnockoutMatch, setLiveResults } from "@/lib/knockoutResolver";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { MatchResult } from "@/data/results";
 import { FixtureGroupCard } from "@/components/fixture/FixtureGroupCard";
@@ -28,7 +28,7 @@ export default function FixturePage() {
   useEffect(() => {
     fetch("/api/results")
       .then((r) => r.ok ? r.json() : { results: {} })
-      .then((data) => setResults(data.results))
+      .then((data) => { setResults(data.results); setLiveResults(data.results); })
       .catch(() => {});
   }, []);
 

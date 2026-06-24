@@ -1,19 +1,32 @@
 import { KnockoutMatch, TeamSlot } from "@/types";
-import { matchResults } from "@/data/results";
+import { matchResults as staticResults } from "@/data/results";
+import type { MatchResult } from "@/data/results";
 import { groups } from "@/data/groups";
 import { matches as groupMatches } from "@/data/matches";
 import { knockoutMatches } from "@/data/knockoutMatches";
 import { computeStandings } from "./scoring";
 
+// Live results override static ones — set from API calls at runtime
+let liveResults: Record<string, MatchResult> = {};
+
+export function setLiveResults(results: Record<string, MatchResult>) {
+  liveResults = results;
+}
+
+function getResults(): Record<string, MatchResult> {
+  return Object.keys(liveResults).length > 0 ? liveResults : staticResults;
+}
+
 function getGroupStandings(groupId: string): string[] | null {
+  const results = getResults();
   const group = groups.find((g) => g.id === groupId);
   if (!group) return null;
 
   const gMatches = groupMatches.filter((m) => m.groupId === groupId);
-  const allPlayed = gMatches.every((m) => matchResults[m.id]);
+  const allPlayed = gMatches.every((m) => results[m.id]);
   if (!allPlayed) return null;
 
-  const standings = computeStandings([...group.teams], gMatches, matchResults);
+  const standings = computeStandings([...group.teams], gMatches, results);
   return standings.map((s) => s.teamId);
 }
 
@@ -26,7 +39,7 @@ function resolveGroupPosition(ref: string): string | null {
 }
 
 function resolveBestThird(_ref: string): string | null {
-  // Simplified: check if all 12 groups are complete, rank all 3rd-placed teams
+  const results = getResults();
   const allThirds: { teamId: string; groupId: string; points: number; gd: number; gf: number }[] = [];
 
   for (const group of groups) {
@@ -34,7 +47,7 @@ function resolveBestThird(_ref: string): string | null {
     if (!standings) return null;
 
     const gMatches = groupMatches.filter((m) => m.groupId === group.id);
-    const fullStandings = computeStandings([...group.teams], gMatches, matchResults);
+    const fullStandings = computeStandings([...group.teams], gMatches, results);
     const third = fullStandings[2];
     allThirds.push({
       teamId: third.teamId,
@@ -58,32 +71,40 @@ function resolveBestThird(_ref: string): string | null {
 }
 
 function resolveKnockoutWinner(ref: string): string | null {
-  const matchId = ref.slice(2); // "W-R32-1" → "R32-1"
+  const results = getResults();
+  const matchId = ref.slice(2);
   const match = knockoutMatches.find((m) => m.id === matchId);
   if (!match) return null;
 
   const resolved = resolveKnockoutMatch(match);
   if (!resolved.homeTeamId || !resolved.awayTeamId) return null;
 
-  const result = matchResults[matchId];
+  const result = results[matchId];
   if (!result) return null;
 
+  if (result.homePenalty != null && result.awayPenalty != null) {
+    return result.homePenalty > result.awayPenalty ? resolved.homeTeamId : resolved.awayTeamId;
+  }
   if (result.homeScore > result.awayScore) return resolved.homeTeamId;
   if (result.awayScore > result.homeScore) return resolved.awayTeamId;
-  return null; // Draw — need penalty result (future extension)
+  return null;
 }
 
 function resolveKnockoutLoser(ref: string): string | null {
-  const matchId = ref.slice(2); // "L-SF-1" → "SF-1"
+  const results = getResults();
+  const matchId = ref.slice(2);
   const match = knockoutMatches.find((m) => m.id === matchId);
   if (!match) return null;
 
   const resolved = resolveKnockoutMatch(match);
   if (!resolved.homeTeamId || !resolved.awayTeamId) return null;
 
-  const result = matchResults[matchId];
+  const result = results[matchId];
   if (!result) return null;
 
+  if (result.homePenalty != null && result.awayPenalty != null) {
+    return result.homePenalty > result.awayPenalty ? resolved.awayTeamId : resolved.homeTeamId;
+  }
   if (result.homeScore > result.awayScore) return resolved.awayTeamId;
   if (result.awayScore > result.homeScore) return resolved.homeTeamId;
   return null;
