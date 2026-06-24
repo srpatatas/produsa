@@ -65,7 +65,8 @@ export function KnockoutPlanillaView() {
 
   const roundMatches = activeRounds.flatMap((r) => getKnockoutMatchesByRound(r));
   const isRoundPredictable = roundMatches.some((m) => resolvedMatches[m.id]?.predictable);
-  const effectiveLocked = isRoundLocked || !isRoundPredictable;
+  const hasComodinSetup = roundMatches.some((m) => matchSettings[m.id]?.comodinAllowed);
+  const effectiveLocked = isRoundLocked || !isRoundPredictable || !hasComodinSetup;
 
   // Comodin is per tab
   const comodinMatchId = comodinByRound[activeTab] ?? null;
@@ -164,7 +165,8 @@ export function KnockoutPlanillaView() {
           const tabLocked = locks[tab.id]?.isLocked ?? false;
           const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
           const tabPredictable = tabMatches.some((m) => resolvedMatches[m.id]?.predictable);
-          const tabDisabled = tabLocked || !tabPredictable;
+          const tabHasComodin = tabMatches.some((m) => matchSettings[m.id]?.comodinAllowed);
+          const tabDisabled = tabLocked || !tabPredictable || !tabHasComodin;
 
           return (
             <button
@@ -200,12 +202,12 @@ export function KnockoutPlanillaView() {
             <p className="text-xs text-fifa-dark-gray">Las predicciones ya no se pueden modificar</p>
           </div>
         </div>
-      ) : !isRoundPredictable ? (
+      ) : !isRoundPredictable || !hasComodinSetup ? (
         <div className="flex items-center gap-2 rounded-xl bg-fifa-purple/10 px-4 py-3 ring-1 ring-white/5">
           <span className="text-lg">🔒</span>
           <div>
             <p className="text-sm font-semibold text-foreground">Partidos por definir</p>
-            <p className="text-xs text-fifa-dark-gray">Se habilitará cuando se definan los cruces</p>
+            <p className="text-xs text-fifa-dark-gray">Se habilitará cuando se definan los cruces y el comodín</p>
           </div>
         </div>
       ) : locks[activeTab]?.locksAt ? (
