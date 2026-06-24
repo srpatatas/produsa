@@ -119,7 +119,7 @@ export function LiveCarousel({
                 data-index={i}
                 className="w-full flex-shrink-0 snap-center"
               >
-                <LiveScoreboard match={m} liveScore={score} stale={staleIds.has(m.id)} rankingSnapshot={rankingSnapshot} />
+                <LiveScoreboard match={m} liveScore={score} stale={staleIds.has(m.id)} rankingSnapshot={i === activeIndex ? rankingSnapshot : undefined} />
               </div>
             );
           })}
