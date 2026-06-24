@@ -9,6 +9,9 @@ import {
   getTodayUnifiedMatches,
   getAllUnifiedMatches,
 } from "@/lib/unifiedMatches";
+import { setLiveResults, isKnockoutMatchPredictable } from "@/lib/knockoutResolver";
+import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
+import { KnockoutRound } from "@/types";
 
 export const GET = withAuth(async (req, session) => {
   const sql = getDb();
@@ -122,10 +125,22 @@ export const GET = withAuth(async (req, session) => {
       awayScore: resultsMap[m.id].awayScore,
     }));
 
+  // Knockout scope predictability — resolved server-side with live DB results
+  setLiveResults(resultsMap);
+  const knockoutScopes: Record<string, string[]> = {
+    R32: ["R32"], R16: ["R16"], QF: ["QF"], SF: ["SF"], FINAL: ["3P", "F"],
+  };
+  const knockoutPredictable: Record<string, boolean> = {};
+  for (const [scope, rounds] of Object.entries(knockoutScopes)) {
+    const matches = rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
+    knockoutPredictable[scope] = matches.length > 0 && matches.every((m) => isKnockoutMatchPredictable(m));
+  }
+
   return NextResponse.json({
     todayMatches,
     recentResults,
     locks,
     predictionStatus,
+    knockoutPredictable,
   });
 });

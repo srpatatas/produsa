@@ -5,7 +5,6 @@ import { groups } from "@/data/groups";
 import { knockoutRounds } from "@/data/knockoutBracket";
 import { getKnockoutMatchesByRound } from "@/data/knockoutMatches";
 import { getTeam } from "@/data/teams";
-import { resolveKnockoutMatch, setLiveResults } from "@/lib/knockoutResolver";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { MatchResult } from "@/data/results";
 import { FixtureGroupCard } from "@/components/fixture/FixtureGroupCard";
@@ -23,13 +22,21 @@ const roundGradients: Record<KnockoutRound, string> = {
 
 export default function FixturePage() {
   const [results, setResults] = useState<Record<string, MatchResult>>({});
+  const [resolvedKnockout, setResolvedKnockout] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
 
   useEffect(() => {
-    fetch("/api/results")
-      .then((r) => r.ok ? r.json() : { results: {} })
-      .then((data) => { setResults(data.results); setLiveResults(data.results); })
-      .catch(() => {});
+    Promise.all([
+      fetch("/api/results").then((r) => r.ok ? r.json() : { results: {} }),
+      fetch("/api/knockout-matches").then((r) => r.ok ? r.json() : { matches: [] }),
+    ]).then(([resultsData, knockoutData]) => {
+      setResults(resultsData.results);
+      const resolved: Record<string, { homeTeamId: string | null; awayTeamId: string | null }> = {};
+      for (const m of knockoutData.matches ?? []) {
+        resolved[m.id] = { homeTeamId: m.homeTeamId, awayTeamId: m.awayTeamId };
+      }
+      setResolvedKnockout(resolved);
+    }).catch(() => {});
   }, []);
 
   return (
@@ -96,9 +103,9 @@ export default function FixturePage() {
                   </div>
                 <div className="space-y-0">
                   {matches.map((km) => {
-                    const resolved = resolveKnockoutMatch(km);
-                    const home = resolved.homeTeamId ? getTeam(resolved.homeTeamId) : null;
-                    const away = resolved.awayTeamId ? getTeam(resolved.awayTeamId) : null;
+                    const resolved = resolvedKnockout[km.id];
+                    const home = resolved?.homeTeamId ? getTeam(resolved.homeTeamId) : null;
+                    const away = resolved?.awayTeamId ? getTeam(resolved.awayTeamId) : null;
                     const result = results[km.id];
 
                     return (
