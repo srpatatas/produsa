@@ -388,11 +388,10 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
   const isShowingRef = useRef(false);
 
   useEffect(() => {
-    const isDev = process.env.NODE_ENV === "development";
-    const EVENT_VISIBLE_MS = isDev ? 4000 : 8000;
-    const IDLE_VISIBLE_MS = isDev ? 5000 : 10000;
-    const EVENT_CHECK_MS = isDev ? 3000 : 15000;
-    const IDLE_INTERVAL_MS = isDev ? 8000 + Math.random() * 4000 : 25000 + Math.random() * 10000;
+    const EVENT_VISIBLE_MS = 8000;
+    const IDLE_VISIBLE_MS = 10000;
+    const EVENT_CHECK_MS = 15000;
+    const IDLE_INTERVAL_MS = 25000 + Math.random() * 10000;
 
     function showPhrase(text: string, durationMs: number) {
       isShowingRef.current = true;

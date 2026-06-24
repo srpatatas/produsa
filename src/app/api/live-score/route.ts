@@ -43,29 +43,6 @@ export async function GET() {
     return NextResponse.json(responseCache.data, { headers: cdnHeaders });
   }
 
-  // DEV HACK: simulate a live game for A-6
-  if (process.env.NODE_ENV === "development") {
-    const kickoff = new Date("2026-06-24T04:40:00Z").getTime();
-    const elapsed = Math.floor((Date.now() - kickoff) / 1000);
-    if (elapsed < 0) return NextResponse.json({ scores: {}, finished: [] }, { headers: cdnHeaders });
-    const min = Math.min(90, Math.floor(elapsed / 1)); // 1s real = 1 game min (DEV SPEED)
-    let homeScore = 0;
-    let awayScore = 0;
-    const events: { minute: number; extra: null; type: string; side: string; player: string; detail?: string }[] = [];
-    if (min >= 12) { homeScore = 1; events.push({ minute: 12, extra: null, type: "goal", side: "home", player: "Tau" }); }
-    if (min >= 23) { events.push({ minute: 23, extra: null, type: "yellow", side: "away", player: "Son" }); }
-    if (min >= 38) { awayScore = 1; events.push({ minute: 38, extra: null, type: "goal", side: "away", player: "Son" }); }
-    if (min >= 55) { homeScore = 2; events.push({ minute: 55, extra: null, type: "goal", side: "home", player: "Zwane" }); }
-    if (min >= 67) { events.push({ minute: 67, extra: null, type: "yellow", side: "home", player: "Mokwana" }); }
-    if (min >= 72) { events.push({ minute: 72, extra: null, type: "red", side: "away", player: "Kim" }); }
-    if (min >= 81) { awayScore = 2; events.push({ minute: 81, extra: null, type: "goal", side: "away", player: "Hwang" }); }
-    if (min >= 88) { homeScore = 3; events.push({ minute: 88, extra: null, type: "goal", side: "home", player: "Tau" }); }
-    const mockScores = {
-      "A-6": { homeScore, awayScore, minute: min, extra: null, status: min < 45 ? "1H" : min === 45 ? "HT" : "2H", events },
-    };
-    return NextResponse.json({ scores: mockScores, finished: [] }, { headers: cdnHeaders });
-  }
-
   const key = process.env.API_FOOTBALL_KEY;
   if (!key) {
     return NextResponse.json({ scores: {}, finished: [] });
