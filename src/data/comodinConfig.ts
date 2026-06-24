@@ -93,7 +93,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
   "R32": {
     scope: "R32",
     image: "/images/comodin-R32.jpg",
-    name: "Albertito Disney",
+    name: "Albertito",
     phrases: [
       "Mi querida Fabiola convocó a este comodín que no debió haberse puesto...",
       "El único responsable soy yo. Bueno, Fabiola también. Bueno, Cristina en realidad",

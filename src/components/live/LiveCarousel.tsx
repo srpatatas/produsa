@@ -4,10 +4,19 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { UnifiedMatch, LiveScore } from "@/types";
 import { LiveScoreboard } from "./LiveScoreboard";
 
+export interface RankingSnapshotEntry {
+  name: string;
+  position: number;
+  previousPosition: number;
+  totalPoints: number;
+  hasComodinOnActive: boolean;
+}
+
 interface LiveCarouselProps {
   matches: UnifiedMatch[];
   scores: Record<string, LiveScore>;
   staleIds: Set<string>;
+  rankingSnapshot?: RankingSnapshotEntry[];
   onActiveIndexChange: (index: number) => void;
 }
 
@@ -34,6 +43,7 @@ export function LiveCarousel({
   matches,
   scores,
   staleIds,
+  rankingSnapshot,
   onActiveIndexChange,
 }: LiveCarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -81,7 +91,7 @@ export function LiveCarousel({
     const score = scores[m.id] ?? { matchId: m.id, homeScore: -1, awayScore: -1, minute: 0 };
     return (
       <div className="mx-auto max-w-md">
-        <LiveScoreboard match={m} liveScore={score} stale={staleIds.has(m.id)} />
+        <LiveScoreboard match={m} liveScore={score} stale={staleIds.has(m.id)} rankingSnapshot={rankingSnapshot} />
       </div>
     );
   }
@@ -109,7 +119,7 @@ export function LiveCarousel({
                 data-index={i}
                 className="w-full flex-shrink-0 snap-center"
               >
-                <LiveScoreboard match={m} liveScore={score} stale={staleIds.has(m.id)} />
+                <LiveScoreboard match={m} liveScore={score} stale={staleIds.has(m.id)} rankingSnapshot={i === activeIndex ? rankingSnapshot : undefined} />
               </div>
             );
           })}

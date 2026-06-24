@@ -18,10 +18,19 @@ interface RankingEntry {
   previousPosition: number;
 }
 
+export interface RankingSnapshot {
+  name: string;
+  position: number;
+  previousPosition: number;
+  totalPoints: number;
+  hasComodinOnActive: boolean;
+}
+
 interface LiveMiniRankingProps {
   scores: Record<string, LiveScore>;
   activeMatchId: string;
   liveMatchIds: string[];
+  onRankingUpdate?: (snapshot: RankingSnapshot[]) => void;
 }
 
 function scoreFingerprint(scores: Record<string, LiveScore>, ids: string[]): string {
@@ -31,7 +40,7 @@ function scoreFingerprint(scores: Record<string, LiveScore>, ids: string[]): str
   }).join("|");
 }
 
-export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMiniRankingProps) {
+export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds, onRankingUpdate }: LiveMiniRankingProps) {
   const currentUser = useUser();
   const scope = useMemo(() => {
     const match = getAllUnifiedMatches().find((m) => m.id === activeMatchId);
@@ -60,6 +69,13 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
       if (res.ok) {
         const data = await res.json();
         setRanking(data.ranking);
+        onRankingUpdate?.(data.ranking.map((e: RankingEntry) => ({
+          name: e.user.name,
+          position: e.position,
+          previousPosition: e.previousPosition,
+          totalPoints: e.totalPoints,
+          hasComodinOnActive: e.liveComodinMatchId === activeMatchId,
+        })));
       }
     } catch {}
     setLoading(false);
@@ -79,6 +95,7 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds }: LiveMin
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-fifa-dark-gray">
         Posiciones en vivo
       </h2>
+
       <div className="space-y-1">
         {ranking.map((entry) => (
           <LiveMiniRankingRow
