@@ -41,18 +41,23 @@ const VOICES: Record<string, PersonalityVoice> = {
       `Gol de ${s} en el minuto ${m}. ${h}-${a}. Yo lo hubiese anulado`,
       `¡${s} la metió! ${h}-${a}. La FIFA va a revisar esto`,
       `${s}, minuto ${m}. Le voy a avisar a Conmebol que hay gol`,
+      `${h}-${a}. ${s} convirtió en el ${m}'. Voy a pedir el VAR`,
+      `¡Gol! ${s} en el ${m}'. La AFA no fue consultada sobre este gol`,
+      `${s} metió el ${h}-${a} en el ${m}'. Esto va al tribunal de disciplina`,
+      `¡${h}-${a}! ${s} festeja pero yo no lo autorizo`,
+      `Minuto ${m}, gol de ${s}. Le voy a poner una multa al arquero`,
     ]),
-    ownGoal: (s, m) => `En contra de ${s} en el ${m}'. Esto es un escándalo para la FIFA`,
-    redCard: (p, m) => pick([`¡Roja para ${p} en el ${m}'! Yo lo hubiese expulsado antes`, `${p} se va expulsado. Le mando un fax de despedida`]),
-    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. La AFA toma nota`, `${p} amonestado. Ojo que la próxima lo suspendo yo`]),
-    penalty: (s, m) => `¡Penal de ${s} en el ${m}'! Esto lo reviso con la FIFA`,
-    scoreless: (m) => pick([`${m} minutos y 0-0... esto no lo aprueba nadie`, `¿No piensan meter un gol? Le voy a avisar al árbitro`]),
-    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Voy a llamar al VAR por las dudas`, `Se termina esto. ${h}-${a}. La AFA se pronunciará`]),
-    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}... la AFA aprueba`, `¡${n} se frota las manos con ese +2!`]),
-    comodinLosing: (n, h, a) => pick([`${n} puso el comodín con el ${h}-${a}... le mando un telegrama de pésame`, `El comodín de ${n} es un escándalo con este resultado`]),
-    comodinExactHit: (n, h, a) => `¡${n} CLAVÓ el ${h}-${a}! ¿Tiene contacto con la FIFA?`,
-    nobodyRight: () => "¡Casi nadie le pegó! Voy a investigar esto",
-    fewRight: (names) => `Solo ${names} le están pegando, los demás... al banco`,
+    ownGoal: (s, m) => pick([`En contra de ${s} en el ${m}'. Esto es un escándalo para la FIFA`, `¡Autogol de ${s}! En el ${m}'. Voy a pedir explicaciones`]),
+    redCard: (p, m) => pick([`¡Roja para ${p} en el ${m}'! Yo lo hubiese expulsado antes`, `${p} se va expulsado. Le mando un fax de despedida`, `Roja para ${p} en el ${m}'. La AFA hubiera puesto 5 fechas mínimo`, `${p} afuera en el ${m}'. Esto lo sabía la FIFA y no dijo nada`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. La AFA toma nota`, `${p} amonestado. Ojo que la próxima lo suspendo yo`, `Amarilla para ${p}. Minuto ${m}. Le voy a mandar un memo`, `${p} con amarilla en el ${m}'. Está en la lista negra de la FIFA`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Esto lo reviso con la FIFA`, `¡Penal! ${s} en el ${m}'. Yo lo cobré desde la tribuna`]),
+    scoreless: (m) => pick([`${m} minutos y 0-0... esto no lo aprueba nadie`, `¿No piensan meter un gol? Le voy a avisar al árbitro`, `0-0 al minuto ${m}. Voy a mandar a investigar esto`, `${m}' y seguimos 0-0. La FIFA va a recibir una queja formal`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Voy a llamar al VAR por las dudas`, `Se termina esto. ${h}-${a}. La AFA se pronunciará`, `${h}-${a} y quedan minutos. Le rezo a la Conmebol`, `Esto se acaba con ${h}-${a}. La FIFA tomará cartas en el asunto`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}... la AFA aprueba`, `¡${n} se frota las manos con ese +2!`, `${n} va ganando con el comodín. Lo voy a convocar al próximo congreso`]),
+    comodinLosing: (n, h, a) => pick([`${n} puso el comodín con el ${h}-${a}... le mando un telegrama de pésame`, `El comodín de ${n} es un escándalo con este resultado`, `${n} y su comodín sufren con el ${h}-${a}. La AFA ofrece condolencias`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! ¿Tiene contacto con la FIFA?`, `¡${n} acertó el ${h}-${a}! Le voy a ofrecer un cargo en la AFA`]),
+    nobodyRight: () => pick(["¡Casi nadie le pegó! Voy a investigar esto", "Nadie predijo esto. La FIFA tampoco"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando, los demás... al banco`, `${names} nada más aciertan. El resto que hable con la AFA`]),
     idle: () => pick([
       "Acá estoy, supervisando este partido para la FIFA...",
       "La FIFA me pidió que mire atento...",
@@ -85,18 +90,23 @@ const VOICES: Record<string, PersonalityVoice> = {
       `¡¡GOOOOOL DE ${s.toUpperCase()} EN EL ${m}'!! ¡¡${h}-${a} SEÑORES!!`,
       `¡¡LA METIÓ ${s.toUpperCase()}!! ¡¡${h}-${a}!! ¡¡ESTO ES INCREÍBLE!!`,
       `¡¡${s.toUpperCase()}, MINUTO ${m}!! ¡¡${h}-${a}!! ¡¡QUÉ PARTIDAZO!!`,
+      `¡¡GOOOOL!! ¡¡${s.toUpperCase()} LA CLAVÓ EN EL ${m}'!! ¡¡${h}-${a}!!`,
+      `¡¡${h}-${a}!! ¡¡${s.toUpperCase()} NO PERDONA SEÑORES!! ¡¡MINUTO ${m}!!`,
+      `¡¡SE GRITÓ GOL!! ¡¡${s.toUpperCase()}!! ¡¡${h}-${a} EN EL ${m}'!!`,
+      `¡¡LA ROMPIÓ ${s.toUpperCase()}!! ¡¡${h}-${a}!! ¡¡QUÉ GOLAZO SEÑORES!!`,
+      `¡¡ENTRÓ!! ¡¡${s.toUpperCase()} EN EL MINUTO ${m}!! ¡¡${h}-${a}!! ¡¡VAMOOOS!!`,
     ]),
-    ownGoal: (s, m) => `¡¡EN CONTRA DE ${s.toUpperCase()} EN EL ${m}'!! ¡¡MAMITA QUERIDA!!`,
-    redCard: (p, m) => pick([`¡¡ROJA PARA ${p.toUpperCase()} EN EL ${m}'!! ¡¡SE VA SEÑORES!!`, `¡¡EXPULSADO ${p.toUpperCase()}!! ¡¡ESTO SE PONE PICANTE!!`]),
-    yellowCard: (p, m) => `¡AMARILLA PARA ${p.toUpperCase()} EN EL ${m}'! ¡OJO QUE LA PRÓXIMA SE VA!`,
-    penalty: (s, m) => `¡¡PENAL DE ${s.toUpperCase()} EN EL ${m}'!! ¡¡SEÑOOOORES!!`,
-    scoreless: (m) => pick([`¡¡${m} MINUTOS Y NO HAY GOLES SEÑORES!!`, `¡¡ESTO NO SE ABRE!! ¡¡INCREÍBLE!!`]),
-    lateGame: (h, a) => `¡¡ÚLTIMOS MINUTOS!! ¡¡${h}-${a}!! ¡¡SE DEFINE SEÑORES!!`,
-    comodinWinning: (n, h, a) => pick([`¡¡${n.toUpperCase()} CON EL COMODÍN Y VA ${h}-${a}!! ¡¡QUÉ GENIO!!`, `¡¡${n.toUpperCase()} SE FROTA LAS MANOS SEÑORES!!`]),
-    comodinLosing: (n, h, a) => pick([`¡¡EL COMODÍN DE ${n.toUpperCase()} LLORA CON ESTE ${h}-${a}!!`, `¡¡${n.toUpperCase()} LA ESTÁ PASANDO MAL!!`]),
-    comodinExactHit: (n, h, a) => `¡¡${n.toUpperCase()} CLAVÓ EL ${h}-${a}!! ¡¡INCREÍBLE SEÑORES!!`,
-    nobodyRight: () => "¡¡CASI NADIE LE PEGÓ SEÑORES!! ¡¡QUÉ PARTIDO!!",
-    fewRight: (names) => `¡¡SOLO ${names.toUpperCase()} LE ESTÁN PEGANDO!! ¡¡EL RESTO A LLORAR!!`,
+    ownGoal: (s, m) => pick([`¡¡EN CONTRA DE ${s.toUpperCase()} EN EL ${m}'!! ¡¡MAMITA QUERIDA!!`, `¡¡AUTOGOL DE ${s.toUpperCase()}!! ¡¡NO LO PUEDO CREER SEÑORES!!`]),
+    redCard: (p, m) => pick([`¡¡ROJA PARA ${p.toUpperCase()} EN EL ${m}'!! ¡¡SE VA SEÑORES!!`, `¡¡EXPULSADO ${p.toUpperCase()}!! ¡¡ESTO SE PONE PICANTE!!`, `¡¡${p.toUpperCase()} SE VA EN EL ${m}'!! ¡¡ROJA DIRECTA!! ¡¡INCREÍBLE!!`, `¡¡ROJAAAA!! ¡¡${p.toUpperCase()} AFUERA EN EL ${m}'!! ¡¡QUÉ LOCURA!!`]),
+    yellowCard: (p, m) => pick([`¡AMARILLA PARA ${p.toUpperCase()} EN EL ${m}'! ¡OJO QUE LA PRÓXIMA SE VA!`, `¡${p.toUpperCase()} AMONESTADO EN EL ${m}'! ¡TIENE QUE CUIDARSE!`, `¡TARJETA PARA ${p.toUpperCase()}! ¡MINUTO ${m}! ¡CUIDADO!`]),
+    penalty: (s, m) => pick([`¡¡PENAL DE ${s.toUpperCase()} EN EL ${m}'!! ¡¡SEÑOOOORES!!`, `¡¡PENAAAAL!! ¡¡${s.toUpperCase()} EN EL ${m}'!! ¡¡ESTO ES DRAMÁTICO!!`]),
+    scoreless: (m) => pick([`¡¡${m} MINUTOS Y NO HAY GOLES SEÑORES!!`, `¡¡ESTO NO SE ABRE!! ¡¡INCREÍBLE!!`, `¡¡0-0 AL MINUTO ${m}!! ¡¡CUÁNDO VA A ENTRAR UNA!!`, `¡¡SEGUIMOS SIN GOLES SEÑORES!! ¡¡${m} MINUTOS YA!!`]),
+    lateGame: (h, a) => pick([`¡¡ÚLTIMOS MINUTOS!! ¡¡${h}-${a}!! ¡¡SE DEFINE SEÑORES!!`, `¡¡QUEDA NADA!! ¡¡${h}-${a}!! ¡¡ESTO ES AHORA O NUNCA!!`, `¡¡FINAL DEL PARTIDO!! ¡¡${h}-${a}!! ¡¡QUÉ TENSIÓN SEÑORES!!`]),
+    comodinWinning: (n, h, a) => pick([`¡¡${n.toUpperCase()} CON EL COMODÍN Y VA ${h}-${a}!! ¡¡QUÉ GENIO!!`, `¡¡${n.toUpperCase()} SE FROTA LAS MANOS SEÑORES!!`, `¡¡EL COMODÍN DE ${n.toUpperCase()} BRILLA CON ESTE ${h}-${a}!!`]),
+    comodinLosing: (n, h, a) => pick([`¡¡EL COMODÍN DE ${n.toUpperCase()} LLORA CON ESTE ${h}-${a}!!`, `¡¡${n.toUpperCase()} LA ESTÁ PASANDO MAL!!`, `¡¡${n.toUpperCase()} SUFRE SEÑORES!! ¡¡${h}-${a} Y EL COMODÍN TIEMBLA!!`]),
+    comodinExactHit: (n, h, a) => pick([`¡¡${n.toUpperCase()} CLAVÓ EL ${h}-${a}!! ¡¡INCREÍBLE SEÑORES!!`, `¡¡${n.toUpperCase()} ACERTÓ EL EXACTO!! ¡¡${h}-${a}!! ¡¡ES ADIVINO!!`]),
+    nobodyRight: () => pick(["¡¡CASI NADIE LE PEGÓ SEÑORES!! ¡¡QUÉ PARTIDO!!", "¡¡NADIE LO VIO VENIR!! ¡¡ESTO ES FÚTBOL SEÑORES!!"]),
+    fewRight: (names) => pick([`¡¡SOLO ${names.toUpperCase()} LE ESTÁN PEGANDO!! ¡¡EL RESTO A LLORAR!!`, `¡¡${names.toUpperCase()} NADA MÁS ACIERTAN!! ¡¡QUÉ BÁRBARO!!`]),
     idle: () => pick([
       "¡Acá estamos señores!",
       "¡ESTO SE PONE LINDO!",
@@ -129,18 +139,23 @@ const VOICES: Record<string, PersonalityVoice> = {
       `Goal by ${s}, minute ${m}. ${h}-${a}. Tremendous goal, believe me!`,
       `${s} scored! ${h}-${a}! Almost as good as my goals, amigo`,
       `¡Gol de ${s} en el ${m}'! ${h}-${a}. I predicted this, nobody predicts like me`,
+      `${s}, minute ${m}! ${h}-${a}! This is YUGE, absolutamente yuge!`,
+      `${h}-${a}! ${s} scored in the ${m}'! Great player, almost as great as me`,
+      `¡GOOOL! ${s} in the ${m}'! ${h}-${a}! I would have scored sooner, believe me`,
+      `${s} just made this game great again! ${h}-${a}, minute ${m}!`,
+      `Tremendous! ${s} scores! ${h}-${a}! ¡Qué golazo, amigos!`,
     ]),
-    ownGoal: (s, m) => `Own goal by ${s} in minute ${m}? ¡Qué desastre! You're fired, ${s}!`,
-    redCard: (p, m) => pick([`Red card for ${p} in minute ${m}! You're fired!`, `${p} expelled! Sad! Very unfair!`]),
-    yellowCard: (p, m) => `Yellow card for ${p}, minute ${m}. I would have given red, believe me`,
-    penalty: (s, m) => `Penalty by ${s} in the ${m}'! ¡Penal, amigos!`,
-    scoreless: (m) => pick([`${m} minutes, 0-0? This is very boring, muy aburrido`, `Nobody is scoring! I could score faster, believe me`]),
-    lateGame: (h, a) => `Last minutes! ${h}-${a}. More dramatic than election night!`,
-    comodinWinning: (n, h, a) => pick([`${n} put the comodín and it's ${h}-${a}! Smart, very smart!`, `${n} is making Produsa great again!`]),
-    comodinLosing: (n, h, a) => pick([`${n} put the comodín here with ${h}-${a}? Bad decision! Sad!`, `The comodín of ${n} is crying. Very sad, muy triste`]),
-    comodinExactHit: (n, h, a) => `${n} nailed ${h}-${a}! Almost as smart as me, believe me!`,
-    nobodyRight: () => "Nobody predicted this! Not even Trump, and I'm the best predictor",
-    fewRight: (names) => `Only ${names} got it right. The rest? You're fired!`,
+    ownGoal: (s, m) => pick([`Own goal by ${s} in minute ${m}? ¡Qué desastre! You're fired, ${s}!`, `${s} scored on himself in the ${m}'! Sad! Very sad, muy triste!`]),
+    redCard: (p, m) => pick([`Red card for ${p} in minute ${m}! You're fired!`, `${p} expelled! Sad! Very unfair!`, `${p} got red in the ${m}'! I would have deported him, not just expelled`, `¡Roja para ${p}! Minute ${m}! Bye bye amigo!`]),
+    yellowCard: (p, m) => pick([`Yellow card for ${p}, minute ${m}. I would have given red, believe me`, `${p} with a yellow in the ${m}'. Weak call! Should be red!`, `Amarilla for ${p}! Minute ${m}! The ref is being too nice, muy blando`]),
+    penalty: (s, m) => pick([`Penalty by ${s} in the ${m}'! ¡Penal, amigos!`, `¡PENAL! ${s} in the ${m}'! Nobody calls penalties better than me`]),
+    scoreless: (m) => pick([`${m} minutes, 0-0? This is very boring, muy aburrido`, `Nobody is scoring! I could score faster, believe me`, `0-0 at minute ${m}? This is a disaster! Total disaster!`, `${m}' and still nothing! Even my wall went up faster than these goals`]),
+    lateGame: (h, a) => pick([`Last minutes! ${h}-${a}. More dramatic than election night!`, `${h}-${a} and almost over! This is tremendous, señores!`, `Final minutes! ${h}-${a}! I love this tension, very exciting!`]),
+    comodinWinning: (n, h, a) => pick([`${n} put the comodín and it's ${h}-${a}! Smart, very smart!`, `${n} is making Produsa great again!`, `${n} with the comodín winning at ${h}-${a}! Almost as smart as me`]),
+    comodinLosing: (n, h, a) => pick([`${n} put the comodín here with ${h}-${a}? Bad decision! Sad!`, `The comodín of ${n} is crying. Very sad, muy triste`, `${n}'s comodín at ${h}-${a}... terrible decision, the worst!`]),
+    comodinExactHit: (n, h, a) => pick([`${n} nailed ${h}-${a}! Almost as smart as me, believe me!`, `${n} got the exact ${h}-${a}! Tremendous prediction! ¡Genio!`]),
+    nobodyRight: () => pick(["Nobody predicted this! Not even Trump, and I'm the best predictor", "Nadie le pegó! This game is unpredictable, like me!"]),
+    fewRight: (names) => pick([`Only ${names} got it right. The rest? You're fired!`, `${names} nailed it! Everyone else is a loser, believe me`]),
     idle: () => pick([
       "I'm watching the best game ever, believe me",
       "¡Esto se pone bueno, amigos!",
@@ -174,18 +189,22 @@ const VOICES: Record<string, PersonalityVoice> = {
       `¡${s} la metió! ${h}-${a}. Guardo conmigo el dolor o la alegría, no sé cuál`,
       `${s}, minuto ${m}. ${h}-${a}. La culpa de este resultado es de Macri`,
       `¡Gol! ${s} en el ${m}'. Esto es como mi gestión: impredecible`,
+      `${h}-${a}. ${s} en el ${m}'. Me lo avisaron por WhatsApp desde Olivos`,
+      `¡${s} convirtió! ${h}-${a}. Yo hubiera metido el gol de otra manera`,
+      `Gol en el ${m}', ${s}. ${h}-${a}. Esto no estaba en el plan de gobierno`,
+      `¡${h}-${a}! ${s} en el ${m}'. Fabiola me dijo que iba a pasar`,
     ]),
-    ownGoal: (s, m) => `En contra de ${s} en el ${m}'. Más autogol que mi candidatura`,
-    redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Se va más rápido que yo de Olivos`, `${p} expulsado. Como yo del poder, pero más dignamente`]),
-    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Le pasa por no escuchar a Cristina`, `${p} amonestado. Todavía no lo echaron, le va mejor que a mí`]),
-    penalty: (s, m) => `¡Penal de ${s} en el ${m}'! Más polémico que la fiesta de Olivos`,
-    scoreless: (m) => pick([`${m} minutos y 0-0... esto está más trabado que la economía que dejé`, `¿No piensan meter un gol? Esto es peor que mi gestión`]),
-    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Como los últimos meses en Olivos`, `Se termina esto. ${h}-${a}. Como mi mandato, con más pena que gloria`]),
-    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}... yo nunca tuve esa suerte`, `¡${n} con el +2! Ojalá yo hubiera tenido esos puntos de aprobación`]),
-    comodinLosing: (n, h, a) => pick([`${n} puso el comodín con el ${h}-${a}... F. Como mi legado`, `El comodín de ${n} llora como el presupuesto nacional`]),
-    comodinExactHit: (n, h, a) => `¡${n} CLAVÓ el ${h}-${a}! Más preciso que mis encuestas falsas`,
-    nobodyRight: () => "¡Nadie le pegó! Como nadie le pegó a mis predicciones económicas",
-    fewRight: (names) => `Solo ${names} le están pegando. Los demás están como mi gabinete: perdidos`,
+    ownGoal: (s, m) => pick([`En contra de ${s} en el ${m}'. Más autogol que mi candidatura`, `Autogol de ${s} en el ${m}'. Peor que mis declaraciones en cadena nacional`]),
+    redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Se va más rápido que yo de Olivos`, `${p} expulsado. Como yo del poder, pero más dignamente`, `${p} se fue en el ${m}'. Lo echaron mejor que a mí`, `Roja para ${p} en el ${m}'. Se va como Guzmán del ministerio`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Le pasa por no escuchar a Cristina`, `${p} amonestado. Todavía no lo echaron, le va mejor que a mí`, `${p} con amarilla en el ${m}'. Yo le hubiera dado un cargo en vez de una tarjeta`, `Amarilla para ${p}. Minuto ${m}. Se la dedico a Macri`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Más polémico que la fiesta de Olivos`, `¡Penal! ${s} en el ${m}'. Más cuestionable que mi gestión`]),
+    scoreless: (m) => pick([`${m} minutos y 0-0... esto está más trabado que la economía que dejé`, `¿No piensan meter un gol? Esto es peor que mi gestión`, `0-0 al minuto ${m}. Más vacío que las arcas del Estado`, `${m}' sin goles. Heredamos un partido sin goles y no lo pudimos resolver`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Como los últimos meses en Olivos`, `Se termina esto. ${h}-${a}. Como mi mandato, con más pena que gloria`, `${h}-${a} y queda nada. Guardo conmigo el dolor de estos últimos minutos`, `Final del partido con ${h}-${a}. Yo me voy a Disney`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}... yo nunca tuve esa suerte`, `¡${n} con el +2! Ojalá yo hubiera tenido esos puntos de aprobación`, `${n} va ganando con el comodín. Mejor gestión que la mía`]),
+    comodinLosing: (n, h, a) => pick([`${n} puso el comodín con el ${h}-${a}... F. Como mi legado`, `El comodín de ${n} llora como el presupuesto nacional`, `${n} sufre con el comodín y el ${h}-${a}. Bienvenido a mi mundo`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Más preciso que mis encuestas falsas`, `¡${n} acertó el ${h}-${a}! Le ofrezco un puesto... ah no, ya no tengo`]),
+    nobodyRight: () => pick(["¡Nadie le pegó! Como nadie le pegó a mis predicciones económicas", "Nadie acertó. Como nadie acertó votándome a mí"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando. Los demás están como mi gabinete: perdidos`, `${names} nada más aciertan. El resto predice como yo gobernaba`]),
     idle: () => pick([
       "Ahí veo al compañero de Garganta Profun... Poderosa, Poderosa...",
       "Lo que hay que veeeeer es la producción de Sandra",
@@ -333,43 +352,65 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
   const rankingRef = useRef(rankingSnapshot);
   rankingRef.current = rankingSnapshot;
 
-  // Event-driven: check for new events every 15s, show immediately if found
-  // Idle: show one phrase every ~60s, visible for 10s
   const lastEventCount = useRef(0);
+  const eventQueue = useRef<string[]>([]);
+  const recentPhrases = useRef<string[]>([]);
+  const isShowingRef = useRef(false);
 
   useEffect(() => {
-    function showPhrase(text: string, isEvent: boolean) {
-      setPhrase(text);
+    const isDev = process.env.NODE_ENV === "development";
+    const EVENT_VISIBLE_MS = isDev ? 4000 : 8000;
+    const IDLE_VISIBLE_MS = isDev ? 5000 : 10000;
+    const EVENT_CHECK_MS = isDev ? 3000 : 15000;
+    const IDLE_INTERVAL_MS = isDev ? 8000 + Math.random() * 4000 : 25000 + Math.random() * 10000;
+
+    function avoidRepeat(text: string): string {
+      if (recentPhrases.current.includes(text)) return text + " "; // force unique
+      recentPhrases.current.push(text);
+      if (recentPhrases.current.length > 10) recentPhrases.current.shift();
+      return text;
+    }
+
+    function showPhrase(text: string, durationMs: number) {
+      isShowingRef.current = true;
+      setPhrase(avoidRepeat(text));
       setVisible(true);
       timerRef.current = setTimeout(() => {
         setVisible(false);
-      }, isEvent ? 8000 : 10000);
+        isShowingRef.current = false;
+        // Drain queue if more events waiting
+        if (eventQueue.current.length > 0) {
+          const next = eventQueue.current.shift()!;
+          setTimeout(() => showPhrase(next, EVENT_VISIBLE_MS), 1500);
+        }
+      }, durationMs);
     }
 
     function checkEvents() {
       const events = liveScoreRef.current.events ?? [];
-      if (events.length > lastEventCount.current) {
-        // New event — react immediately
+      // Generate phrases for ALL new events
+      while (events.length > lastEventCount.current) {
         const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
         eventIndexRef.current = result.newEventIndex;
-        lastEventCount.current = events.length;
-        showPhrase(result.phrase, true);
+        lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
+        eventQueue.current.push(result.phrase);
+      }
+      // Show first queued event if not already showing
+      if (!isShowingRef.current && eventQueue.current.length > 0) {
+        const next = eventQueue.current.shift()!;
+        showPhrase(next, EVENT_VISIBLE_MS);
       }
     }
 
     function showIdle() {
+      if (isShowingRef.current || eventQueue.current.length > 0) return;
       const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
       eventIndexRef.current = result.newEventIndex;
-      showPhrase(result.phrase, false);
+      showPhrase(result.phrase, IDLE_VISIBLE_MS);
     }
 
-    // Check for new events every 15s
-    const eventInterval = setInterval(checkEvents, 15000);
-
-    // Idle phrase every ~30s
-    const idleInterval = setInterval(showIdle, 25000 + Math.random() * 10000);
-
-    // Show first phrase after 5s
+    const eventInterval = setInterval(checkEvents, EVENT_CHECK_MS);
+    const idleInterval = setInterval(showIdle, IDLE_INTERVAL_MS);
     timerRef.current = setTimeout(showIdle, 5000);
 
     return () => {

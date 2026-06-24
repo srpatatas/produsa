@@ -7,7 +7,7 @@ export const matches: Match[] = [
   { id: "A-3", groupId: "A", homeTeamId: "CZE", awayTeamId: "RSA", matchday: 2, kickoff: "2026-06-18T16:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
   { id: "A-4", groupId: "A", homeTeamId: "MEX", awayTeamId: "KOR", matchday: 2, kickoff: "2026-06-19T01:00:00Z", venue: "Estadio Akron", city: "Guadalajara" },
   { id: "A-5", groupId: "A", homeTeamId: "MEX", awayTeamId: "CZE", matchday: 3, kickoff: "2026-06-25T01:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
-  { id: "A-6", groupId: "A", homeTeamId: "RSA", awayTeamId: "KOR", matchday: 3, kickoff: "2026-06-25T01:00:00Z", venue: "Estadio BBVA", city: "Monterrey" },
+  { id: "A-6", groupId: "A", homeTeamId: "RSA", awayTeamId: "KOR", matchday: 3, kickoff: "2026-06-24T04:29:00Z", venue: "Estadio BBVA", city: "Monterrey" }, // DEV HACK
 
   // Group B: Canada, Bosnia-Herzegovina, Qatar, Switzerland
   { id: "B-1", groupId: "B", homeTeamId: "CAN", awayTeamId: "BIH", matchday: 1, kickoff: "2026-06-12T19:00:00Z", venue: "BMO Field", city: "Toronto" },
