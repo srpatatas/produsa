@@ -73,6 +73,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-fecha-1.jpg",
   "/images/comodin-fecha-2.jpg",
   "/images/comodin-fecha-3.jpg",
+  "/images/comodin-R32.jpg",
 ];
 
 export const COMODIN_HIT_PHRASES = [
