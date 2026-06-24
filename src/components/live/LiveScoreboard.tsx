@@ -452,6 +452,7 @@ interface RankingSnapshotEntry {
   position: number;
   previousPosition: number;
   totalPoints: number;
+  hasComodinOnActive: boolean;
 }
 
 interface LiveScoreboardProps {
@@ -548,7 +549,9 @@ export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapsho
 
       </div>
     </div>
-      <LiveComodinDock scope={match.scope} matchId={match.id} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
+      {rankingSnapshot && rankingSnapshot.some((r) => r.hasComodinOnActive) && (
+        <LiveComodinDock scope={match.scope} matchId={match.id} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
+      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ export interface RankingSnapshotEntry {
   position: number;
   previousPosition: number;
   totalPoints: number;
+  hasComodinOnActive: boolean;
 }
 
 interface LiveCarouselProps {

@@ -23,6 +23,7 @@ export interface RankingSnapshot {
   position: number;
   previousPosition: number;
   totalPoints: number;
+  hasComodinOnActive: boolean;
 }
 
 interface LiveMiniRankingProps {
@@ -73,6 +74,7 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds, onRanking
           position: e.position,
           previousPosition: e.previousPosition,
           totalPoints: e.totalPoints,
+          hasComodinOnActive: e.liveComodinMatchId === activeMatchId,
         })));
       }
     } catch {}
