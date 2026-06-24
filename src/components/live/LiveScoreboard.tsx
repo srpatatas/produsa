@@ -352,26 +352,37 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
   const config = getComodinConfig(scope);
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
-  const [preds, setPreds] = useState<ComodinPred[]>([]);
+  const [preds, setPreds] = useState<ComodinPred[]>(predCache.get(matchId) ?? []);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const eventIndexRef = useRef(0);
+  const eventIndexRef = useRef(eventIndexCache.get(matchId) ?? 0);
+  const lastEventCount = useRef(lastEventCountCache.get(matchId) ?? 0);
 
-  // Clear phrase tracker on match change
+  // Persist event tracking on unmount
   useEffect(() => {
-    usedPhrases.clear();
+    return () => {
+      eventIndexCache.set(matchId, eventIndexRef.current);
+      lastEventCountCache.set(matchId, lastEventCount.current);
+    };
   }, [matchId]);
 
+  // Fetch predictions once per match (cached across mount cycles)
   useEffect(() => {
+    if (predCache.has(matchId)) {
+      setPreds(predCache.get(matchId)!);
+      return;
+    }
     fetch(`/api/live-predictions?matchId=${matchId}`)
       .then((r) => r.ok ? r.json() : { predictions: [] })
       .then((data) => {
-        setPreds((data.predictions ?? []).map((p: { user: { name: string }; outcome: string; exactScore: { home: number; away: number } | null; isComodin: boolean }) => ({
+        const parsed = (data.predictions ?? []).map((p: { user: { name: string }; outcome: string; exactScore: { home: number; away: number } | null; isComodin: boolean }) => ({
           name: p.user.name,
           outcome: p.outcome,
           exactHome: p.exactScore?.home ?? null,
           exactAway: p.exactScore?.away ?? null,
           isComodin: p.isComodin,
-        })));
+        }));
+        predCache.set(matchId, parsed);
+        setPreds(parsed);
       })
       .catch(() => {});
   }, [matchId]);
@@ -383,7 +394,6 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
   const rankingRef = useRef(rankingSnapshot);
   rankingRef.current = rankingSnapshot;
 
-  const lastEventCount = useRef(0);
   const eventQueue = useRef<string[]>([]);
   const isShowingRef = useRef(false);
 
@@ -477,6 +487,11 @@ interface LiveScoreboardProps {
   stale?: boolean;
   rankingSnapshot?: RankingSnapshotEntry[];
 }
+
+// Per-match caches that persist across dock mount/unmount cycles
+const predCache = new Map<string, ComodinPred[]>();
+const eventIndexCache = new Map<string, number>();
+const lastEventCountCache = new Map<string, number>();
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
   const home = match.homeTeamId ? getTeam(match.homeTeamId) : null;
