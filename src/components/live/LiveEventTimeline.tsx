@@ -19,11 +19,14 @@ function shortenName(name: string): string {
 }
 
 function EventRow({ event, side }: { event: LiveEvent; side: "home" | "away" }) {
-  const isGoal = event.type === "goal";
+  const isMissedPenalty = event.type === "goal" && event.detail === "Missed Penalty";
+  const isGoal = event.type === "goal" && !isMissedPenalty;
   const player = event.player && event.player !== "None" ? shortenName(event.player) : "";
   const detail = event.detail ? ` (${event.detail})` : "";
 
-  const icon = isGoal ? (
+  const icon = isMissedPenalty ? (
+    <span className="shrink-0 text-[10px] leading-none">❌</span>
+  ) : isGoal ? (
     <Image
       src="/images/trionda.png"
       alt="gol"
