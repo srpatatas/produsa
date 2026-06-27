@@ -37,6 +37,12 @@ export const POST = withAuth(async (req, session) => {
       return NextResponse.json({ error: "Ese equipo no está permitido para esta pregunta" }, { status: 400 });
     }
   }
+  if (questionRows.length > 0 && questionRows[0].source_type === "exact_value") {
+    const num = Number(answer);
+    if (!Number.isInteger(num)) {
+      return NextResponse.json({ error: "Solo se permiten números enteros" }, { status: 400 });
+    }
+  }
   if (questionRows.length > 0 && questionRows[0].source_type === "participants") {
     const userRows = await sql`SELECT name FROM users WHERE id = ${session.id}`;
     if (userRows.length > 0 && userRows[0].name === answer) {

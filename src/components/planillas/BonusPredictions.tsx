@@ -140,11 +140,21 @@ function BonusSelect({
         </label>
         <input
           type={sourceType === "exact_value" ? "number" : "text"}
+          step={sourceType === "exact_value" ? "1" : undefined}
+          inputMode={sourceType === "exact_value" ? "numeric" : undefined}
+          pattern={sourceType === "exact_value" ? "[0-9]*" : undefined}
           value={localText}
-          onChange={(e) => setLocalText(e.target.value)}
+          onChange={(e) => {
+            if (sourceType === "exact_value") {
+              const v = e.target.value.replace(/[^0-9]/g, "");
+              setLocalText(v);
+            } else {
+              setLocalText(e.target.value);
+            }
+          }}
           onBlur={saveTextInput}
           onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
-          placeholder={sourceType === "exact_value" ? "Ingresá un número" : "Escribí tu pronóstico"}
+          placeholder={sourceType === "exact_value" ? "Ingresá un número entero" : "Escribí tu pronóstico"}
           disabled={locked}
           className={cn(
             "w-full rounded-lg bg-surface px-3 py-2 text-xs text-foreground outline-none ring-1 ring-white/5 transition-all focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30",
