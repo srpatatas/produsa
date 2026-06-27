@@ -13,7 +13,7 @@ const scopeLabels: Record<string, string> = {
   R32: "16avos", R16: "Octavos", QF: "Cuartos", SF: "Semifinales", FINAL: "Final",
 };
 const typeLabels: Record<string, string> = {
-  teams: "Equipos", players: "Jugadores", participants: "Participantes", exact_value: "Valor exacto",
+  teams: "Equipos", players: "Jugadores", participants: "Participantes", exact_value: "Valor aproximado",
 };
 const scopeGradients: Record<string, string> = {
   "fecha-1": "from-fifa-green to-fifa-teal",
@@ -248,7 +248,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
               <option value="teams">Equipos</option>
               <option value="players">Jugadores</option>
               <option value="participants">Participantes</option>
-              <option value="exact_value">Valor exacto</option>
+              <option value="exact_value">Valor aproximado</option>
             </select>
             <select
               value={newQuestion.lockScope}
@@ -346,7 +346,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                             <option value="teams">Equipos</option>
                             <option value="players">Jugadores</option>
                             <option value="participants">Participantes</option>
-                            <option value="exact_value">Valor exacto</option>
+                            <option value="exact_value">Valor aproximado</option>
                           </select>
                           <select
                             value={questionEdit.lockScope}
