@@ -218,6 +218,9 @@ function QuestionCarousel({ questions, totalUsers, participants }: { questions: 
                 </button>
                 <div className="text-center">
                   <h4 className="text-sm font-semibold text-white">{question.label}</h4>
+                  {question.sourceType === "exact_value" && (
+                    <p className="text-[10px] text-white/60 mt-0.5">Gana el más cercano al valor real</p>
+                  )}
                   <div className="flex items-center justify-center gap-2">
                     <span className="text-[11px] font-semibold text-white">+{question.points} pts</span>
                     {questions.length > 1 && (
