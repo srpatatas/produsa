@@ -38,7 +38,10 @@ function resolveGroupPosition(ref: string): string | null {
   return standings[position - 1] ?? null;
 }
 
-function resolveBestThird(_ref: string): string | null {
+// Cache best-third assignment so each team is assigned to exactly one R32 slot
+let bestThirdCache: { results: Record<string, string>; key: string } | null = null;
+
+function computeBestThirdAssignment(): Record<string, string> | null {
   const results = getResults();
   const allThirds: { teamId: string; groupId: string; points: number; gd: number; gf: number }[] = [];
 
@@ -65,9 +68,54 @@ function resolveBestThird(_ref: string): string | null {
   });
 
   const best8 = allThirds.slice(0, 8);
-  const possibleGroups = _ref.slice(1).split("/");
-  const match = best8.find((t) => possibleGroups.includes(t.groupId));
-  return match?.teamId ?? null;
+
+  // R32 best-third slots in match order — each needs one unique team
+  const btSlots: { matchId: string; possibleGroups: string[] }[] = [
+    { matchId: "R32-3", possibleGroups: ["A", "B", "C", "D", "F"] },
+    { matchId: "R32-6", possibleGroups: ["C", "D", "F", "G", "H"] },
+    { matchId: "R32-7", possibleGroups: ["C", "E", "F", "H", "I"] },
+    { matchId: "R32-8", possibleGroups: ["E", "H", "I", "J", "K"] },
+    { matchId: "R32-9", possibleGroups: ["A", "E", "H", "I", "J"] },
+    { matchId: "R32-10", possibleGroups: ["B", "E", "F", "I", "J"] },
+    { matchId: "R32-13", possibleGroups: ["E", "F", "G", "I", "J"] },
+    { matchId: "R32-16", possibleGroups: ["D", "E", "I", "J", "L"] },
+  ];
+
+  // Greedy assignment: for each slot, pick the best available team from eligible groups
+  const assigned = new Set<string>();
+  const assignment: Record<string, string> = {};
+
+  for (const slot of btSlots) {
+    const candidate = best8.find(
+      (t) => slot.possibleGroups.includes(t.groupId) && !assigned.has(t.groupId),
+    );
+    if (candidate) {
+      assignment[slot.matchId] = candidate.teamId;
+      assigned.add(candidate.groupId);
+    }
+  }
+
+  return assignment;
+}
+
+function resolveBestThird(ref: string, matchId?: string): string | null {
+  const cacheKey = JSON.stringify(getResults());
+  if (!bestThirdCache || bestThirdCache.key !== cacheKey) {
+    const assignment = computeBestThirdAssignment();
+    if (!assignment) return null;
+    bestThirdCache = { results: assignment, key: cacheKey };
+  }
+
+  if (matchId && bestThirdCache.results[matchId]) {
+    return bestThirdCache.results[matchId];
+  }
+
+  // Fallback: try to find by possible groups
+  const possibleGroups = ref.slice(1).split("/");
+  for (const [, teamId] of Object.entries(bestThirdCache.results)) {
+    if (teamId) return teamId;
+  }
+  return null;
 }
 
 function resolveKnockoutWinner(ref: string): string | null {
@@ -110,12 +158,12 @@ function resolveKnockoutLoser(ref: string): string | null {
   return null;
 }
 
-export function resolveTeamSlot(slot: TeamSlot): string | null {
+export function resolveTeamSlot(slot: TeamSlot, matchId?: string): string | null {
   switch (slot.type) {
     case "group-position":
       return resolveGroupPosition(slot.ref);
     case "best-third":
-      return resolveBestThird(slot.ref);
+      return resolveBestThird(slot.ref, matchId);
     case "knockout-winner":
       return resolveKnockoutWinner(slot.ref);
     case "knockout-loser":
@@ -130,8 +178,8 @@ export function resolveKnockoutMatch(match: KnockoutMatch): {
   awayTeamId: string | null;
 } {
   return {
-    homeTeamId: resolveTeamSlot(match.homeSlot),
-    awayTeamId: resolveTeamSlot(match.awaySlot),
+    homeTeamId: resolveTeamSlot(match.homeSlot, match.id),
+    awayTeamId: resolveTeamSlot(match.awaySlot, match.id),
   };
 }
 
