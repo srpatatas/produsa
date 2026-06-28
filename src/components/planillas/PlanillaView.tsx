@@ -35,6 +35,7 @@ export function PlanillaView() {
   const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
   const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
   const [exactScores, setExactScores] = useState<Record<string, { homeScore: number; awayScore: number }>>({});
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -52,7 +53,8 @@ export function PlanillaView() {
         (f) => lockData.locks[`fecha-${f}`]?.isLocked,
       );
       if (allFechasLocked) setPhase("eliminatorias");
-    }).catch((err) => console.error("[PlanillaView] Failed to load initial data:", err));
+      setReady(true);
+    }).catch((err) => { console.error("[PlanillaView] Failed to load initial data:", err); setReady(true); });
   }, []);
 
   const isFechaLocked = locks[`fecha-${fecha}`]?.isLocked ?? false;
@@ -163,6 +165,8 @@ export function PlanillaView() {
     setComodinDragging(false);
     if (!dropSucceeded.current) handleComodinRemove();
   }, [handleComodinRemove]);
+
+  if (!ready) return <div className="flex justify-center py-12 text-fifa-dark-gray">Cargando...</div>;
 
   return (
     <div className="space-y-6">
