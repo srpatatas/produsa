@@ -24,8 +24,19 @@ const groupPairs = [
   [groups[10], groups[11]],
 ];
 
+function isFechaStarted(matchday: number): boolean {
+  const firstKickoff = matches
+    .filter((m) => m.matchday === matchday)
+    .reduce((min, m) => Math.min(min, new Date(m.kickoff).getTime()), Infinity);
+  return Date.now() >= firstKickoff;
+}
+
+function computeInitialPhase(): "grupos" | "eliminatorias" {
+  return [1, 2, 3].every(isFechaStarted) ? "eliminatorias" : "grupos";
+}
+
 export function PlanillaView() {
-  const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
+  const [phase, setPhase] = useState<"grupos" | "eliminatorias">(computeInitialPhase);
   const [fecha, setFecha] = useState<1 | 2 | 3>(1);
   const { predictions, setPrediction, removePrediction } = usePlanilla();
   const [comodinByFecha, setComodinByFecha] = useState<Record<string, string | null>>({});
@@ -35,7 +46,6 @@ export function PlanillaView() {
   const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
   const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
   const [exactScores, setExactScores] = useState<Record<string, { homeScore: number; awayScore: number }>>({});
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -48,13 +58,7 @@ export function PlanillaView() {
       setLocks(lockData.locks);
       setMatchSettings(settingsData.settings);
       setExactScores(exactData.predictions);
-
-      const allFechasLocked = [1, 2, 3].every(
-        (f) => lockData.locks[`fecha-${f}`]?.isLocked,
-      );
-      if (allFechasLocked) setPhase("eliminatorias");
-      setReady(true);
-    }).catch((err) => { console.error("[PlanillaView] Failed to load initial data:", err); setReady(true); });
+    }).catch((err) => console.error("[PlanillaView] Failed to load initial data:", err));
   }, []);
 
   const isFechaLocked = locks[`fecha-${fecha}`]?.isLocked ?? false;
@@ -165,8 +169,6 @@ export function PlanillaView() {
     setComodinDragging(false);
     if (!dropSucceeded.current) handleComodinRemove();
   }, [handleComodinRemove]);
-
-  if (!ready) return <div className="flex justify-center py-12 text-fifa-dark-gray">Cargando...</div>;
 
   return (
     <div className="space-y-6">
