@@ -409,6 +409,10 @@ function generateDynamicPhrase(
 }
 
 function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[] }) {
+  const homeTeamRef = useRef(homeTeamId);
+  homeTeamRef.current = homeTeamId;
+  const awayTeamRef = useRef(awayTeamId);
+  awayTeamRef.current = awayTeamId;
   const config = getComodinConfig(scope);
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
@@ -484,7 +488,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       const events = liveScoreRef.current.events ?? [];
       // Generate phrases for ALL new events
       while (events.length > lastEventCount.current) {
-        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamId, awayTeamId);
+        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
@@ -498,7 +502,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
     function showIdle() {
       if (isShowingRef.current || eventQueue.current.length > 0) return;
-      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
+      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current);
       eventIndexRef.current = result.newEventIndex;
       showPhrase(result.phrase);
     }
