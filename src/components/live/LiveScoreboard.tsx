@@ -343,8 +343,20 @@ function generateDynamicPhrase(
     return { phrase: voice.idle(), newEventIndex: lastEventIndex };
   }
 
-  // Priority 2: Comodin user reactions
-  if (comodinUsers.length > 0 && Math.random() < 0.4) {
+  // Single roll distributes across phrase types so nothing gets starved
+  const roll = Math.random();
+
+  // 25% — Professor lecture
+  if (roll < 0.25 && voice.lecture) {
+    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
+    const tid = pick(teamIds);
+    if (tid && voice.lecture[tid]?.length) {
+      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+    }
+  }
+
+  // 20% — Comodin user reactions
+  if (roll < 0.45 && comodinUsers.length > 0) {
     const p = pick(comodinUsers);
     const predictedL = p.outcome.includes("L");
     const predictedV = p.outcome.includes("V");
@@ -359,35 +371,14 @@ function generateDynamicPhrase(
     if (h === a && h > 0 && min > 45) return { phrase: voice.comodinDraw(p.name, min), newEventIndex: lastEventIndex };
   }
 
-  // Priority 3: General prediction commentary
-  if (Math.random() < 0.3 && preds.length > 5) {
-    const actual = h > a ? "L" : a > h ? "V" : "E";
-    const withPred = preds.filter((p) => p.outcome);
-    if (withPred.length > 5) {
-      const right = withPred.filter((p) => p.outcome.includes(actual));
-      const wrong = withPred.filter((p) => !p.outcome.includes(actual));
-      if (right.length === 0) return { phrase: voice.nobodyRight(), newEventIndex: lastEventIndex };
-      if (right.length > 0 && right.length <= 2) {
-        return { phrase: voice.fewRight(right.map((p) => p.name).join(" y ")), newEventIndex: lastEventIndex };
-      }
-    }
+  // 15% — Score/time commentary
+  if (roll < 0.6) {
+    if (h === 0 && a === 0 && min > 30) return { phrase: voice.scoreless(min), newEventIndex: lastEventIndex };
+    if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
   }
 
-  // Priority 4: Score/time commentary
-  if (h === 0 && a === 0 && min > 30) return { phrase: voice.scoreless(min), newEventIndex: lastEventIndex };
-  if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
-
-  // Priority 5: Professor lecture about one of the teams (35% chance)
-  if (voice.lecture && Math.random() < 0.35) {
-    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
-    const tid = pick(teamIds);
-    if (tid && voice.lecture[tid]?.length) {
-      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
-    }
-  }
-
-  // Priority 6: Ranking commentary — only when there's movement or podium spots (25% chance)
-  if (ranking && ranking.length > 0 && Math.random() < 0.25) {
+  // 10% — Ranking commentary
+  if (roll < 0.7 && ranking && ranking.length > 0) {
     const movers = ranking.filter((r) => r.previousPosition - r.position !== 0 || r.position <= 3);
     if (movers.length > 0) {
       const target = pick(movers);
@@ -396,9 +387,17 @@ function generateDynamicPhrase(
     }
   }
 
-  // Priority 7: Taunt a player who's currently wrong (30% chance)
-  if (hasScore && preds.length > 0 && Math.random() < 0.3) {
+  // 15% — Prediction commentary or taunts
+  if (roll < 0.85 && preds.length > 0) {
     const actual = h > a ? "L" : a > h ? "V" : "E";
+    const withPred = preds.filter((p) => p.outcome);
+    if (withPred.length > 5) {
+      const right = withPred.filter((p) => p.outcome.includes(actual));
+      if (right.length === 0) return { phrase: voice.nobodyRight(), newEventIndex: lastEventIndex };
+      if (right.length > 0 && right.length <= 2) {
+        return { phrase: voice.fewRight(right.map((p) => p.name).join(" y ")), newEventIndex: lastEventIndex };
+      }
+    }
     const wrongPlayers = preds.filter((p) => p.outcome && !p.outcome.includes(actual));
     if (wrongPlayers.length > 0) {
       const target = pick(wrongPlayers);
@@ -406,7 +405,7 @@ function generateDynamicPhrase(
     }
   }
 
-  // Priority 7: Idle chatter
+  // 15% — Idle chatter (fallthrough)
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
