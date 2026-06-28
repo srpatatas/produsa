@@ -56,6 +56,17 @@ export function KnockoutPlanillaView() {
         resolved[m.id] = { homeTeamId: m.homeTeamId, awayTeamId: m.awayTeamId, predictable: m.predictable };
       }
       setResolvedMatches(resolved);
+
+      // Auto-select the current active round: first non-locked round with predictable matches and comodin setup
+      const activeRound = planillaRoundTabs.find((tab) => {
+        const isLocked = lockData.locks[tab.id]?.isLocked;
+        if (isLocked) return false;
+        const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
+        const isPredictable = tabMatches.some((m) => resolved[m.id]?.predictable);
+        const hasComodin = tabMatches.some((m) => settingsData.settings[m.id]?.comodinAllowed);
+        return isPredictable && hasComodin;
+      });
+      if (activeRound) setActiveTab(activeRound.id);
     }).catch(() => {});
   }, []);
 

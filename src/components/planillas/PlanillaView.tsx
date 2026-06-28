@@ -47,6 +47,11 @@ export function PlanillaView() {
       setLocks(lockData.locks);
       setMatchSettings(settingsData.settings);
       setExactScores(exactData.predictions);
+
+      const allFechasLocked = [1, 2, 3].every(
+        (f) => lockData.locks[`fecha-${f}`]?.isLocked,
+      );
+      if (allFechasLocked) setPhase("eliminatorias");
     }).catch((err) => console.error("[PlanillaView] Failed to load initial data:", err));
   }, []);
 
