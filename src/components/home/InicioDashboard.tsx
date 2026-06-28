@@ -73,9 +73,9 @@ export function InicioDashboard() {
       const activeMatches = live.filter((m: UnifiedMatch) => !finishedSet.has(m.id));
 
       setLiveMatches((prev) => {
-        if (activeMatches.length === prev.length && activeMatches.every((m: UnifiedMatch, i: number) => m.id === prev[i]?.id)) return prev;
-        if (activeMatches.length === 0) setActiveMatchIndex(0);
-        else setActiveMatchIndex((idx) => Math.min(idx, activeMatches.length - 1));
+        const sameMatches = activeMatches.length === prev.length && activeMatches.every((m: UnifiedMatch, i: number) => m.id === prev[i]?.id);
+        if (activeMatches.length === 0 && prev.length > 0) setActiveMatchIndex(0);
+        else if (!sameMatches) setActiveMatchIndex((idx) => Math.min(idx, activeMatches.length - 1));
         return activeMatches;
       });
 

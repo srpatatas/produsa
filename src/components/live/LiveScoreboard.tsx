@@ -326,8 +326,7 @@ function generateDynamicPhrase(
   if (isHalftime) {
     if (voice.lecture && Math.random() < 0.6) {
       const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
-      const lectureTeams = teamIds.length > 0 ? teamIds : Object.keys(voice.lecture);
-      const tid = pick(lectureTeams);
+      const tid = teamIds.length > 0 ? pick(teamIds) : null;
       if (tid && voice.lecture[tid]?.length) {
         return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
       }
@@ -346,13 +345,10 @@ function generateDynamicPhrase(
   // Single roll distributes across phrase types so nothing gets starved
   const roll = Math.random();
 
-  // Resolve team IDs for lectures — fall back to searching lecture keys by match labels
-  const resolvedTeamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
-
   // 25% — Professor lecture
   if (roll < 0.25 && voice.lecture) {
-    const lectureTeams = resolvedTeamIds.length > 0 ? resolvedTeamIds : Object.keys(voice.lecture);
-    const tid = pick(lectureTeams);
+    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
+    const tid = teamIds.length > 0 ? pick(teamIds) : null;
     if (tid && voice.lecture[tid]?.length) {
       return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
     }
