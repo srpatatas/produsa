@@ -196,13 +196,31 @@ function PossessionBar({ question }: { question: BonusQuestion }) {
   const maxVal = Math.min(100, Math.max(...guesses.map((g) => g.value)) + 5);
   const range = maxVal - minVal || 1;
 
+  // Stagger rows: assign each avatar a row (0, 1, 2) to avoid overlap
+  const AVATAR_WIDTH_PCT = 8; // ~8% of bar width per avatar
+  const rows: number[] = [];
+  for (let i = 0; i < guesses.length; i++) {
+    const pct = ((guesses[i].value - minVal) / range) * 100;
+    let row = 0;
+    for (let r = 0; r < 3; r++) {
+      const conflict = guesses.some((_, j) => j < i && rows[j] === r && Math.abs(((guesses[j].value - minVal) / range) * 100 - pct) < AVATAR_WIDTH_PCT);
+      if (!conflict) { row = r; break; }
+      row = r + 1;
+    }
+    rows.push(Math.min(row, 2));
+  }
+  const maxRow = Math.max(...rows, 0);
+  const topPadding = 40 + maxRow * 28;
+
   return (
-    <div className="pt-10 pb-2">
+    <div className="pb-2" style={{ paddingTop: `${topPadding}px` }}>
       <div className="relative">
         {/* Avatars above the bar */}
-        <div className="absolute -top-9 left-0 right-0">
+        <div className="absolute left-0 right-0" style={{ top: `-${topPadding - 4}px` }}>
           {guesses.map((g, i) => {
             const pct = ((g.value - minVal) / range) * 100;
+            const row = rows[i];
+            const bottomOffset = row * 28;
             const isClosest = correctValue !== null && guesses.every(
               (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
             );
@@ -210,7 +228,7 @@ function PossessionBar({ question }: { question: BonusQuestion }) {
               <div
                 key={`${g.userId}-${i}`}
                 className="absolute -translate-x-1/2"
-                style={{ left: `${pct}%` }}
+                style={{ left: `${pct}%`, bottom: `${bottomOffset}px` }}
               >
                 <button
                   type="button"
