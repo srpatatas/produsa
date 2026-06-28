@@ -345,8 +345,8 @@ function generateDynamicPhrase(
   // Single roll distributes across phrase types so nothing gets starved
   const roll = Math.random();
 
-  // 80% — Professor lecture (temporarily bumped for testing)
-  if (roll < 0.80 && voice.lecture) {
+  // 25% — Professor lecture
+  if (roll < 0.25 && voice.lecture) {
     const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
     const tid = teamIds.length > 0 ? pick(teamIds) : null;
     if (tid && voice.lecture[tid]?.length) {
