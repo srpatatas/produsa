@@ -153,7 +153,7 @@ function SortedValueList({ question }: { question: BonusQuestion }) {
   const correctValue = question.correctAnswer ? parseInt(question.correctAnswer, 10) : null;
 
   return (
-    <div className="space-y-1 max-h-52 overflow-y-auto">
+    <div className="space-y-1 max-h-52 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/25 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/40">
       {guesses.map((g, i) => {
         const isClosest = correctValue !== null && guesses.every(
           (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
