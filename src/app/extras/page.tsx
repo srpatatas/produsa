@@ -192,91 +192,123 @@ function PossessionBar({ question }: { question: BonusQuestion }) {
   const cpv = teams["CPV"];
   const arg = teams["ARG"];
   const correctValue = question.correctAnswer ? parseInt(question.correctAnswer, 10) : null;
-  const minVal = Math.max(0, Math.min(...guesses.map((g) => g.value)) - 5);
-  const maxVal = Math.min(100, Math.max(...guesses.map((g) => g.value)) + 5);
-  const range = maxVal - minVal || 1;
 
-  // Stagger rows: assign each avatar a row (0, 1, 2) to avoid overlap
-  const AVATAR_WIDTH_PCT = 8; // ~8% of bar width per avatar
-  const rows: number[] = [];
-  for (let i = 0; i < guesses.length; i++) {
-    const pct = ((guesses[i].value - minVal) / range) * 100;
-    let row = 0;
-    for (let r = 0; r < 3; r++) {
-      const conflict = guesses.some((_, j) => j < i && rows[j] === r && Math.abs(((guesses[j].value - minVal) / range) * 100 - pct) < AVATAR_WIDTH_PCT);
-      if (!conflict) { row = r; break; }
-      row = r + 1;
-    }
-    rows.push(Math.min(row, 2));
-  }
-  const maxRow = Math.max(...rows, 0);
+  // Assign each avatar to top or bottom, staggering within each side
+  const AVATAR_WIDTH_PCT = 8;
   const rowHeight = 32;
+  const topSlots: number[] = []; // row index per avatar placed on top
+  const bottomSlots: number[] = []; // row index per avatar placed on bottom
+  const side: ("top" | "bottom")[] = [];
+  const rowIndex: number[] = [];
+
+  for (let i = 0; i < guesses.length; i++) {
+    const pct = guesses[i].value;
+    const tryPlace = (slotArr: number[], sideLabel: "top" | "bottom") => {
+      for (let r = 0; r < 3; r++) {
+        const conflict = guesses.some((_, j) => j < i && side[j] === sideLabel && rowIndex[j] === r && Math.abs(guesses[j].value - pct) < AVATAR_WIDTH_PCT);
+        if (!conflict) return r;
+      }
+      return -1;
+    };
+    // Alternate: even index tries top first, odd tries bottom first
+    const first = i % 2 === 0 ? "top" : "bottom";
+    const second = first === "top" ? "bottom" : "top";
+    const firstArr = first === "top" ? topSlots : bottomSlots;
+    const secondArr = second === "top" ? topSlots : bottomSlots;
+
+    let r = tryPlace(firstArr, first);
+    if (r >= 0) {
+      side.push(first);
+      rowIndex.push(r);
+      firstArr.push(r);
+    } else {
+      r = tryPlace(secondArr, second);
+      side.push(second);
+      rowIndex.push(Math.max(r, 0));
+      secondArr.push(Math.max(r, 0));
+    }
+  }
+
+  const maxTopRow = topSlots.length > 0 ? Math.max(...topSlots, 0) : 0;
+  const maxBottomRow = bottomSlots.length > 0 ? Math.max(...bottomSlots, 0) : 0;
+  const topHeight = topSlots.length > 0 ? (maxTopRow + 1) * rowHeight : 0;
+  const bottomHeight = bottomSlots.length > 0 ? (maxBottomRow + 1) * rowHeight : 0;
 
   return (
     <div className="pb-2">
-      {/* Avatar rows — in normal flow, stacked above the bar */}
-      <div className="relative mb-2" style={{ height: `${(maxRow + 1) * rowHeight}px` }}>
-        {guesses.map((g, i) => {
-          const pct = ((g.value - minVal) / range) * 100;
-          const row = rows[i];
-          const topOffset = (maxRow - row) * rowHeight;
-          const isClosest = correctValue !== null && guesses.every(
-            (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
-          );
-          return (
-            <div
-              key={`${g.userId}-${i}`}
-              className="absolute -translate-x-1/2"
-              style={{ left: `${pct}%`, top: `${topOffset}px` }}
-            >
-              <button
-                type="button"
-                onClick={() => setActiveTooltip(activeTooltip === i ? null : i)}
-                className={cn(
-                  "block rounded-full ring-2 transition-transform hover:scale-110",
-                  isClosest ? "ring-emerald-300 shadow-lg shadow-emerald-300/30" : "ring-white/40",
+      {/* Avatars above the bar */}
+      {topHeight > 0 && (
+        <div className="relative mb-1" style={{ height: `${topHeight}px` }}>
+          {guesses.map((g, i) => {
+            if (side[i] !== "top") return null;
+            const isClosest = correctValue !== null && guesses.every(
+              (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
+            );
+            const bottomOffset = rowIndex[i] * rowHeight;
+            return (
+              <div key={`${g.userId}-${i}`} className="absolute -translate-x-1/2" style={{ left: `${g.value}%`, bottom: `${bottomOffset}px` }}>
+                <button type="button" onClick={() => setActiveTooltip(activeTooltip === i ? null : i)} className={cn("block rounded-full ring-2 transition-transform hover:scale-110", isClosest ? "ring-emerald-300 shadow-lg shadow-emerald-300/30" : "ring-white/40")}>
+                  <AvatarDisplay avatar={g.avatar} size="xs" />
+                </button>
+                {activeTooltip === i && (
+                  <div className="absolute left-1/2 -translate-x-1/2 -top-7 z-50 whitespace-nowrap rounded-lg bg-black/80 px-2 py-1 text-[10px] text-white shadow-lg">
+                    {g.userName}: {g.value}%
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-black/80" />
+                  </div>
                 )}
-              >
-                <AvatarDisplay avatar={g.avatar} size="xs" />
-              </button>
-              {activeTooltip === i && (
-                <div className="absolute left-1/2 -translate-x-1/2 -top-7 z-50 whitespace-nowrap rounded-lg bg-black/80 px-2 py-1 text-[10px] text-white shadow-lg">
-                  {g.userName}: {g.value}%
-                  <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-black/80" />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
+      {/* Bar + labels */}
       <div className="relative">
-
-        {/* Possession bar */}
         <div className="flex h-3 overflow-hidden rounded-full">
           <div className="bg-teal-600" style={{ width: "50%" }} />
           <div className="bg-sky-400" style={{ width: "50%" }} />
         </div>
-
-        {/* Correct answer marker */}
         {correctValue !== null && (
-          <div
-            className="absolute top-0 h-3 w-0.5 bg-emerald-300 shadow-lg shadow-emerald-300/50"
-            style={{ left: `${((correctValue - minVal) / range) * 100}%` }}
-          />
+          <div className="absolute top-0 h-3 w-0.5 bg-emerald-300 shadow-lg shadow-emerald-300/50" style={{ left: `${correctValue}%` }} />
         )}
+      </div>
 
-        {/* Scale labels */}
-        <div className="mt-2 flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <FlagImage code={cpv.flagCode} name={cpv.name} size="sm" />
-            <span className="text-[11px] font-semibold text-white">{minVal}%</span>
-          </div>
-          <span className="text-[9px] text-white/40 uppercase tracking-wider">Posesión CPV</span>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-semibold text-white">{maxVal}%</span>
-            <FlagImage code={arg.flagCode} name={arg.name} size="sm" />
-          </div>
+      {/* Avatars below the bar */}
+      {bottomHeight > 0 && (
+        <div className="relative mt-1" style={{ height: `${bottomHeight}px` }}>
+          {guesses.map((g, i) => {
+            if (side[i] !== "bottom") return null;
+            const isClosest = correctValue !== null && guesses.every(
+              (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
+            );
+            const topOffset = rowIndex[i] * rowHeight;
+            return (
+              <div key={`${g.userId}-${i}`} className="absolute -translate-x-1/2" style={{ left: `${g.value}%`, top: `${topOffset}px` }}>
+                <button type="button" onClick={() => setActiveTooltip(activeTooltip === i ? null : i)} className={cn("block rounded-full ring-2 transition-transform hover:scale-110", isClosest ? "ring-emerald-300 shadow-lg shadow-emerald-300/30" : "ring-white/40")}>
+                  <AvatarDisplay avatar={g.avatar} size="xs" />
+                </button>
+                {activeTooltip === i && (
+                  <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 z-50 whitespace-nowrap rounded-lg bg-black/80 px-2 py-1 text-[10px] text-white shadow-lg">
+                    {g.userName}: {g.value}%
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-black/80" />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Scale labels */}
+      <div className="mt-2 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <FlagImage code={cpv.flagCode} name={cpv.name} size="sm" />
+          <span className="text-[11px] font-semibold text-white">0%</span>
+        </div>
+        <span className="text-[9px] text-white/40 uppercase tracking-wider">Posesión CPV</span>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[11px] font-semibold text-white">100%</span>
+          <FlagImage code={arg.flagCode} name={arg.name} size="sm" />
         </div>
       </div>
     </div>
