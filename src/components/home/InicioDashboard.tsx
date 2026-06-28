@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { UnifiedMatch, LiveScore } from "@/types";
-import { getLiveUnifiedMatches, getNextUnifiedMatch } from "@/lib/unifiedMatches";
+import { getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import { NextMatchCountdown } from "./NextMatchCountdown";
 import { PredictionCompletionNudge } from "./PredictionCompletionNudge";
 import { TodayMatchesList } from "./TodayMatchesList";
@@ -21,6 +21,7 @@ interface RecentResult extends UnifiedMatch {
 interface DashboardData {
   todayMatches: UnifiedMatch[];
   recentResults: RecentResult[];
+  nextMatch: UnifiedMatch | null;
   locks: Record<string, { locksAt: string; isLocked: boolean }>;
   predictionStatus: Record<string, { total: number; completed: number }>;
   knockoutPredictable?: Record<string, boolean>;
@@ -138,7 +139,7 @@ export function InicioDashboard() {
 
   const isLive = liveMatches.length > 0;
   const liveMatchIds = new Set(liveMatches.map((m) => m.id));
-  const nextMatch = getNextUnifiedMatch();
+  const nextMatch = data?.nextMatch ?? null;
   const activeMatch = liveMatches[activeMatchIndex];
 
   const now = Date.now();
@@ -179,7 +180,7 @@ export function InicioDashboard() {
           )}
         </>
       ) : (
-        <NextMatchCountdown />
+        <NextMatchCountdown serverMatch={nextMatch} />
       )}
 
       {data && (

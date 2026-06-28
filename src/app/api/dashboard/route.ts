@@ -128,6 +128,11 @@ export const GET = withAuth(async (req, session) => {
       awayScore: resultsMap[m.id].awayScore,
     }));
 
+  // Next upcoming match (resolved server-side so knockout teams show correctly)
+  const nextMatch = allMatches
+    .filter((m) => new Date(m.kickoff).getTime() > now)
+    .sort((a, b) => new Date(a.kickoff).getTime() - new Date(b.kickoff).getTime())[0] ?? null;
+
   // Knockout scope predictability
   const knockoutScopes: Record<string, string[]> = {
     R32: ["R32"], R16: ["R16"], QF: ["QF"], SF: ["SF"], FINAL: ["3P", "F"],
@@ -141,6 +146,7 @@ export const GET = withAuth(async (req, session) => {
   return NextResponse.json({
     todayMatches,
     recentResults,
+    nextMatch,
     locks,
     predictionStatus,
     knockoutPredictable,

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { UnifiedMatch } from "@/types";
 import { getTeam } from "@/data/teams";
-import { getNextUnifiedMatch } from "@/lib/unifiedMatches";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { usePlanilla } from "@/context/PlanillaContext";
 import { getComodinConfig } from "@/data/comodinConfig";
@@ -42,20 +41,25 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
   );
 }
 
-export function NextMatchCountdown() {
-  const [match, setMatch] = useState<UnifiedMatch | undefined>();
+export function NextMatchCountdown({ serverMatch }: { serverMatch?: UnifiedMatch | null }) {
+  const [match, setMatch] = useState<UnifiedMatch | undefined>(serverMatch ?? undefined);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(!!serverMatch);
   const [comodines, setComodines] = useState<Record<string, string>>({});
   const [isLocked, setIsLocked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const { predictions } = usePlanilla();
 
   useEffect(() => {
-    const next = getNextUnifiedMatch();
-    setMatch(next);
-    if (next) setTimeLeft(getTimeLeft(next.kickoff));
-    setReady(true);
+    if (serverMatch) {
+      setMatch(serverMatch);
+      setTimeLeft(getTimeLeft(serverMatch.kickoff));
+      setReady(true);
+    }
+  }, [serverMatch]);
+
+  useEffect(() => {
+    if (!match) return;
 
     fetch("/api/comodines")
       .then((r) => r.ok ? r.json() : { comodines: {} })
@@ -65,13 +69,11 @@ export function NextMatchCountdown() {
     fetch("/api/locks")
       .then((r) => r.ok ? r.json() : { locks: {} })
       .then((data) => {
-        if (next) {
-          const lock = data.locks?.[next.scope];
-          setIsLocked(lock?.isLocked ?? false);
-        }
+        const lock = data.locks?.[match.scope];
+        setIsLocked(lock?.isLocked ?? false);
       })
       .catch(() => {});
-  }, []);
+  }, [match?.id]);
 
   useEffect(() => {
     if (!match) return;
