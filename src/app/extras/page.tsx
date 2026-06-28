@@ -210,46 +210,47 @@ function PossessionBar({ question }: { question: BonusQuestion }) {
     rows.push(Math.min(row, 2));
   }
   const maxRow = Math.max(...rows, 0);
-  const topPadding = 40 + maxRow * 28;
+  const rowHeight = 32;
 
   return (
-    <div className="pb-2" style={{ paddingTop: `${topPadding}px` }}>
-      <div className="relative">
-        {/* Avatars above the bar */}
-        <div className="absolute left-0 right-0" style={{ top: `-${topPadding - 4}px` }}>
-          {guesses.map((g, i) => {
-            const pct = ((g.value - minVal) / range) * 100;
-            const row = rows[i];
-            const bottomOffset = row * 28;
-            const isClosest = correctValue !== null && guesses.every(
-              (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
-            );
-            return (
-              <div
-                key={`${g.userId}-${i}`}
-                className="absolute -translate-x-1/2"
-                style={{ left: `${pct}%`, bottom: `${bottomOffset}px` }}
-              >
-                <button
-                  type="button"
-                  onClick={() => setActiveTooltip(activeTooltip === i ? null : i)}
-                  className={cn(
-                    "block rounded-full ring-2 transition-transform hover:scale-110",
-                    isClosest ? "ring-emerald-300 shadow-lg shadow-emerald-300/30" : "ring-white/40",
-                  )}
-                >
-                  <AvatarDisplay avatar={g.avatar} size="xs" />
-                </button>
-                {activeTooltip === i && (
-                  <div className="absolute left-1/2 -translate-x-1/2 -top-7 z-50 whitespace-nowrap rounded-lg bg-black/80 px-2 py-1 text-[10px] text-white shadow-lg">
-                    {g.userName}: {g.value}%
-                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-black/80" />
-                  </div>
+    <div className="pb-2">
+      {/* Avatar rows — in normal flow, stacked above the bar */}
+      <div className="relative mb-2" style={{ height: `${(maxRow + 1) * rowHeight}px` }}>
+        {guesses.map((g, i) => {
+          const pct = ((g.value - minVal) / range) * 100;
+          const row = rows[i];
+          const topOffset = (maxRow - row) * rowHeight;
+          const isClosest = correctValue !== null && guesses.every(
+            (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
+          );
+          return (
+            <div
+              key={`${g.userId}-${i}`}
+              className="absolute -translate-x-1/2"
+              style={{ left: `${pct}%`, top: `${topOffset}px` }}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveTooltip(activeTooltip === i ? null : i)}
+                className={cn(
+                  "block rounded-full ring-2 transition-transform hover:scale-110",
+                  isClosest ? "ring-emerald-300 shadow-lg shadow-emerald-300/30" : "ring-white/40",
                 )}
-              </div>
-            );
-          })}
-        </div>
+              >
+                <AvatarDisplay avatar={g.avatar} size="xs" />
+              </button>
+              {activeTooltip === i && (
+                <div className="absolute left-1/2 -translate-x-1/2 -top-7 z-50 whitespace-nowrap rounded-lg bg-black/80 px-2 py-1 text-[10px] text-white shadow-lg">
+                  {g.userName}: {g.value}%
+                  <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-black/80" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="relative">
 
         {/* Possession bar */}
         <div className="flex h-3 overflow-hidden rounded-full">
