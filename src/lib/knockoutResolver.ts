@@ -69,29 +69,26 @@ function computeBestThirdAssignment(): Record<string, string> | null {
 
   const best8 = allThirds.slice(0, 8);
 
-  // R32 best-third slots in match order — each needs one unique team
-  const btSlots: { matchId: string; possibleGroups: string[] }[] = [
-    { matchId: "R32-3", possibleGroups: ["A", "B", "C", "D", "F"] },
-    { matchId: "R32-6", possibleGroups: ["C", "D", "F", "G", "H"] },
-    { matchId: "R32-7", possibleGroups: ["C", "E", "F", "H", "I"] },
-    { matchId: "R32-8", possibleGroups: ["E", "H", "I", "J", "K"] },
-    { matchId: "R32-9", possibleGroups: ["A", "E", "H", "I", "J"] },
-    { matchId: "R32-10", possibleGroups: ["B", "E", "F", "I", "J"] },
-    { matchId: "R32-13", possibleGroups: ["E", "F", "G", "I", "J"] },
-    { matchId: "R32-16", possibleGroups: ["D", "E", "I", "J", "L"] },
-  ];
+  const teamByGroup: Record<string, string> = {};
+  for (const t of best8) teamByGroup[t.groupId] = t.teamId;
 
-  // Greedy assignment: for each slot, pick the best available team from eligible groups
-  const assigned = new Set<string>();
+  // FIFA determined the actual best-third slot assignments for 2026.
+  // Verified against API-Football official R32 fixtures.
+  const FIFA_ASSIGNMENT: Record<string, string> = {
+    "R32-3": "D",
+    "R32-6": "F",
+    "R32-7": "E",
+    "R32-8": "K",
+    "R32-9": "I",
+    "R32-10": "B",
+    "R32-13": "J",
+    "R32-16": "L",
+  };
+
   const assignment: Record<string, string> = {};
-
-  for (const slot of btSlots) {
-    const candidate = best8.find(
-      (t) => slot.possibleGroups.includes(t.groupId) && !assigned.has(t.groupId),
-    );
-    if (candidate) {
-      assignment[slot.matchId] = candidate.teamId;
-      assigned.add(candidate.groupId);
+  for (const [slotId, groupId] of Object.entries(FIFA_ASSIGNMENT)) {
+    if (teamByGroup[groupId]) {
+      assignment[slotId] = teamByGroup[groupId];
     }
   }
 
