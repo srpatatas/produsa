@@ -38,6 +38,7 @@ export function KnockoutPlanillaView() {
   const [comodinReject, setComodinReject] = useState<string | null>(null);
   const [suppressBubble, setSuppressBubble] = useState(false);
   const rejectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -57,7 +58,6 @@ export function KnockoutPlanillaView() {
       }
       setResolvedMatches(resolved);
 
-      // Auto-select the current active round: first non-locked round with predictable matches and comodin setup
       const activeRound = planillaRoundTabs.find((tab) => {
         const isLocked = lockData.locks[tab.id]?.isLocked;
         if (isLocked) return false;
@@ -67,7 +67,8 @@ export function KnockoutPlanillaView() {
         return isPredictable && hasComodin;
       });
       if (activeRound) setActiveTab(activeRound.id);
-    }).catch(() => {});
+      setReady(true);
+    }).catch(() => setReady(true));
   }, []);
 
   const currentTab = planillaRoundTabs.find((t) => t.id === activeTab)!;
@@ -166,6 +167,8 @@ export function KnockoutPlanillaView() {
       pairs.push(allGroups.slice(i, i + 2));
     }
   }
+
+  if (!ready) return <div className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando partidos...</div>;
 
   return (
     <div className="space-y-4">
