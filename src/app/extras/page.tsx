@@ -147,7 +147,7 @@ function flattenGuesses(question: BonusQuestion): Array<{ userId: number; userNa
 }
 
 function SortedValueList({ question }: { question: BonusQuestion }) {
-  const guesses = flattenGuesses(question).sort((a, b) => a.value - b.value);
+  const guesses = flattenGuesses(question).sort((a, b) => b.value - a.value);
   if (guesses.length === 0) return <p className="text-center text-xs text-white/40">Sin pronósticos todavía</p>;
 
   const correctValue = question.correctAnswer ? parseInt(question.correctAnswer, 10) : null;
