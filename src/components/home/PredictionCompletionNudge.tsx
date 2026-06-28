@@ -162,7 +162,7 @@ export function PredictionCompletionNudge({
                 <Chip done={hasComodin} label="Comodín" />
                 {!isKnockout && <Chip done={hasDoble} label="Doble" />}
                 {exacto && (
-                  <Chip done={exacto.completed === exacto.total} label="Exacto" />
+                  <Chip done={exacto.completed === exacto.total} label={`${exacto.completed}/${exacto.total} Exacto`} />
                 )}
               </div>
             </div>
