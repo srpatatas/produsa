@@ -52,32 +52,31 @@ export const knockoutMatches: KnockoutMatch[] = [
   { id: "R32-15", round: "R32", matchNumber: 15, homeSlot: gp(1, "J"), awaySlot: gp(2, "H"),       kickoff: "2026-07-03T22:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
   { id: "R32-16", round: "R32", matchNumber: 16, homeSlot: gp(1, "K"), awaySlot: bt("D/E/I/J/L"), kickoff: "2026-07-04T01:30:00Z", venue: "Arrowhead Stadium", city: "Kansas City" },
 
-  // Round of 16 — winners of R32 pairs feed in
-  // R16-1: W(R32-1) vs W(R32-2), R16-2: W(R32-3) vs W(R32-4), etc.
-  { id: "R16-1", round: "R16", matchNumber: 1, homeSlot: kw("R32-1"),  awaySlot: kw("R32-2"),  kickoff: "2026-07-04T17:00:00Z", venue: "NRG Stadium", city: "Houston" },
-  { id: "R16-2", round: "R16", matchNumber: 2, homeSlot: kw("R32-3"),  awaySlot: kw("R32-4"),  kickoff: "2026-07-04T21:00:00Z", venue: "Lincoln Financial Field", city: "Filadelfia" },
-  { id: "R16-3", round: "R16", matchNumber: 3, homeSlot: kw("R32-5"),  awaySlot: kw("R32-6"),  kickoff: "2026-07-05T20:00:00Z", venue: "MetLife Stadium", city: "Nueva Jersey" },
-  { id: "R16-4", round: "R16", matchNumber: 4, homeSlot: kw("R32-7"),  awaySlot: kw("R32-8"),  kickoff: "2026-07-06T00:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
-  { id: "R16-5", round: "R16", matchNumber: 5, homeSlot: kw("R32-9"),  awaySlot: kw("R32-10"), kickoff: "2026-07-06T19:00:00Z", venue: "AT&T Stadium", city: "Dallas" },
-  { id: "R16-6", round: "R16", matchNumber: 6, homeSlot: kw("R32-11"), awaySlot: kw("R32-12"), kickoff: "2026-07-07T00:00:00Z", venue: "Lumen Field", city: "Seattle" },
-  { id: "R16-7", round: "R16", matchNumber: 7, homeSlot: kw("R32-13"), awaySlot: kw("R32-14"), kickoff: "2026-07-07T16:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
-  { id: "R16-8", round: "R16", matchNumber: 8, homeSlot: kw("R32-15"), awaySlot: kw("R32-16"), kickoff: "2026-07-07T20:00:00Z", venue: "BC Place", city: "Vancouver" },
+  // Round of 16 — FIFA official bracket (verified against fifa.com)
+  { id: "R16-1", round: "R16", matchNumber: 1, homeSlot: kw("R32-3"),  awaySlot: kw("R32-6"),  kickoff: "2026-07-04T18:00:00Z", venue: "NRG Stadium", city: "Houston" },
+  { id: "R16-2", round: "R16", matchNumber: 2, homeSlot: kw("R32-1"),  awaySlot: kw("R32-4"),  kickoff: "2026-07-04T14:00:00Z", venue: "Lincoln Financial Field", city: "Filadelfia" },
+  { id: "R16-3", round: "R16", matchNumber: 3, homeSlot: kw("R32-12"), awaySlot: kw("R32-11"), kickoff: "2026-07-06T16:00:00Z", venue: "MetLife Stadium", city: "Nueva Jersey" },
+  { id: "R16-4", round: "R16", matchNumber: 4, homeSlot: kw("R32-10"), awaySlot: kw("R32-9"),  kickoff: "2026-07-06T21:00:00Z", venue: "Estadio Azteca", city: "Ciudad de México" },
+  { id: "R16-5", round: "R16", matchNumber: 5, homeSlot: kw("R32-2"),  awaySlot: kw("R32-5"),  kickoff: "2026-07-05T17:00:00Z", venue: "AT&T Stadium", city: "Dallas" },
+  { id: "R16-6", round: "R16", matchNumber: 6, homeSlot: kw("R32-7"),  awaySlot: kw("R32-8"),  kickoff: "2026-07-05T21:00:00Z", venue: "Lumen Field", city: "Seattle" },
+  { id: "R16-7", round: "R16", matchNumber: 7, homeSlot: kw("R32-15"), awaySlot: kw("R32-14"), kickoff: "2026-07-07T13:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
+  { id: "R16-8", round: "R16", matchNumber: 8, homeSlot: kw("R32-13"), awaySlot: kw("R32-16"), kickoff: "2026-07-07T17:00:00Z", venue: "BC Place", city: "Vancouver" },
 
-  // Quarter-finals
-  { id: "QF-1", round: "QF", matchNumber: 1, homeSlot: kw("R16-1"), awaySlot: kw("R16-2"), kickoff: "2026-07-09T20:00:00Z", venue: "Gillette Stadium", city: "Boston" },
-  { id: "QF-2", round: "QF", matchNumber: 2, homeSlot: kw("R16-3"), awaySlot: kw("R16-4"), kickoff: "2026-07-10T19:00:00Z", venue: "SoFi Stadium", city: "Los Ángeles" },
-  { id: "QF-3", round: "QF", matchNumber: 3, homeSlot: kw("R16-5"), awaySlot: kw("R16-6"), kickoff: "2026-07-11T21:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
-  { id: "QF-4", round: "QF", matchNumber: 4, homeSlot: kw("R16-7"), awaySlot: kw("R16-8"), kickoff: "2026-07-12T01:00:00Z", venue: "Arrowhead Stadium", city: "Kansas City" },
+  // Quarter-finals — FIFA official bracket
+  { id: "QF-1", round: "QF", matchNumber: 1, homeSlot: kw("R16-1"), awaySlot: kw("R16-2"), kickoff: "2026-07-09T17:00:00Z", venue: "Gillette Stadium", city: "Boston" },
+  { id: "QF-2", round: "QF", matchNumber: 2, homeSlot: kw("R16-3"), awaySlot: kw("R16-4"), kickoff: "2026-07-10T16:00:00Z", venue: "SoFi Stadium", city: "Los Ángeles" },
+  { id: "QF-3", round: "QF", matchNumber: 3, homeSlot: kw("R16-5"), awaySlot: kw("R16-6"), kickoff: "2026-07-11T22:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
+  { id: "QF-4", round: "QF", matchNumber: 4, homeSlot: kw("R16-7"), awaySlot: kw("R16-8"), kickoff: "2026-07-11T18:00:00Z", venue: "Arrowhead Stadium", city: "Kansas City" },
 
-  // Semi-finals
-  { id: "SF-1", round: "SF", matchNumber: 1, homeSlot: kw("QF-1"), awaySlot: kw("QF-2"), kickoff: "2026-07-14T19:00:00Z", venue: "AT&T Stadium", city: "Dallas" },
-  { id: "SF-2", round: "SF", matchNumber: 2, homeSlot: kw("QF-3"), awaySlot: kw("QF-4"), kickoff: "2026-07-15T19:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
+  // Semi-finals — FIFA official bracket
+  { id: "SF-1", round: "SF", matchNumber: 1, homeSlot: kw("QF-1"), awaySlot: kw("QF-2"), kickoff: "2026-07-14T16:00:00Z", venue: "AT&T Stadium", city: "Dallas" },
+  { id: "SF-2", round: "SF", matchNumber: 2, homeSlot: kw("QF-3"), awaySlot: kw("QF-4"), kickoff: "2026-07-15T16:00:00Z", venue: "Mercedes-Benz Stadium", city: "Atlanta" },
 
   // Third-place playoff
-  { id: "3P", round: "3P", matchNumber: 1, homeSlot: kl("SF-1"), awaySlot: kl("SF-2"), kickoff: "2026-07-18T21:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
+  { id: "3P", round: "3P", matchNumber: 1, homeSlot: kl("SF-1"), awaySlot: kl("SF-2"), kickoff: "2026-07-18T18:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
 
   // Final
-  { id: "F", round: "F", matchNumber: 1, homeSlot: kw("SF-1"), awaySlot: kw("SF-2"), kickoff: "2026-07-19T19:00:00Z", venue: "MetLife Stadium", city: "Nueva Jersey" },
+  { id: "F", round: "F", matchNumber: 1, homeSlot: kw("SF-1"), awaySlot: kw("SF-2"), kickoff: "2026-07-19T16:00:00Z", venue: "MetLife Stadium", city: "Nueva Jersey" },
 ];
 
 export function getKnockoutMatchesByRound(round: string): KnockoutMatch[] {
