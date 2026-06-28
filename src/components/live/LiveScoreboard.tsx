@@ -633,7 +633,7 @@ export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapsho
 
       </div>
     </div>
-      {rankingSnapshot && rankingSnapshot.some((r) => r.hasComodinOnActive) && (
+      {rankingSnapshot && (match.phase === "knockout" || rankingSnapshot.some((r) => r.hasComodinOnActive)) && (
         <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
       )}
     </div>
