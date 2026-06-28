@@ -15,12 +15,12 @@ import { cn } from "@/lib/utils";
 
 type PlanillaRound = "R32" | "R16" | "QF" | "SF" | "FINAL";
 
-const planillaRoundTabs: { id: PlanillaRound; label: string; rounds: KnockoutRound[]; visibleAfter?: PlanillaRound }[] = [
+const planillaRoundTabs: { id: PlanillaRound; label: string; rounds: KnockoutRound[] }[] = [
   { id: "R32", label: "Dieciseisavos", rounds: ["R32"] },
-  { id: "R16", label: "Octavos", rounds: ["R16"], visibleAfter: "R32" },
-  { id: "QF", label: "Cuartos", rounds: ["QF"], visibleAfter: "R16" },
-  { id: "SF", label: "Semifinales", rounds: ["SF"], visibleAfter: "QF" },
-  { id: "FINAL", label: "Final", rounds: ["3P", "F"], visibleAfter: "SF" },
+  { id: "R16", label: "Octavos", rounds: ["R16"] },
+  { id: "QF", label: "Cuartos", rounds: ["QF"] },
+  { id: "SF", label: "Semifinales", rounds: ["SF"] },
+  { id: "FINAL", label: "Final", rounds: ["3P", "F"] },
 ];
 
 export function KnockoutPlanillaView() {
@@ -57,11 +57,8 @@ export function KnockoutPlanillaView() {
       }
       setResolvedMatches(resolved);
 
-      // Auto-select the current active round: first visible, non-locked round with predictable matches and comodin setup
-      const visible = planillaRoundTabs.filter((tab) =>
-        !tab.visibleAfter || lockData.locks[tab.visibleAfter]?.isLocked,
-      );
-      const activeRound = visible.find((tab) => {
+      // Auto-select the current active round: first non-locked round with predictable matches and comodin setup
+      const activeRound = planillaRoundTabs.find((tab) => {
         const isLocked = lockData.locks[tab.id]?.isLocked;
         if (isLocked) return false;
         const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
@@ -73,12 +70,7 @@ export function KnockoutPlanillaView() {
     }).catch(() => {});
   }, []);
 
-  // Only show rounds whose previous round is locked
-  const visibleTabs = planillaRoundTabs.filter((tab) =>
-    !tab.visibleAfter || locks[tab.visibleAfter]?.isLocked,
-  );
-
-  const currentTab = visibleTabs.find((t) => t.id === activeTab) ?? visibleTabs[0];
+  const currentTab = planillaRoundTabs.find((t) => t.id === activeTab)!;
   const activeRounds = currentTab.rounds;
   const isRoundLocked = locks[activeTab]?.isLocked ?? false;
 
@@ -179,7 +171,7 @@ export function KnockoutPlanillaView() {
     <div className="space-y-4">
       {/* Round tabs */}
       <div className="flex overflow-x-auto rounded-full bg-surface p-1 ring-1 ring-white/5">
-        {visibleTabs.map((tab) => {
+        {planillaRoundTabs.map((tab) => {
           const isActive = activeTab === tab.id;
           const tabLocked = locks[tab.id]?.isLocked ?? false;
           const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
