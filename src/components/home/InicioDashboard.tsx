@@ -48,6 +48,7 @@ export function InicioDashboard() {
   }, [refreshDashboard]);
 
   const dashboardRefreshedRef = useRef(false);
+  const deployIdRef = useRef<string | null>(null);
 
   const pollTick = useCallback(async () => {
     let live: UnifiedMatch[] = [];
@@ -55,6 +56,15 @@ export function InicioDashboard() {
       const res = await fetch("/api/live-score");
       if (!res.ok) return;
       const data = await res.json();
+
+      if (data.deployId) {
+        if (deployIdRef.current && deployIdRef.current !== data.deployId) {
+          window.location.reload();
+          return;
+        }
+        deployIdRef.current = data.deployId;
+      }
+
       live = data.liveMatches ?? [];
 
       const { scores, finished } = data;

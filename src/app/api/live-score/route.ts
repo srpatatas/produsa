@@ -42,7 +42,7 @@ export async function GET() {
   setLiveResults(resultsMap);
 
   if (!isAnyMatchInLiveWindow()) {
-    return NextResponse.json({ scores: {}, finished: [], liveMatches: [] }, { headers: cdnHeaders });
+    return NextResponse.json({ scores: {}, finished: [], liveMatches: [], deployId: process.env.VERCEL_DEPLOYMENT_ID ?? "dev" }, { headers: cdnHeaders });
   }
 
   if (responseCache && Date.now() - responseCache.time < RESPONSE_CACHE_TTL) {
@@ -95,7 +95,7 @@ export async function GET() {
   }
 
   const liveMatches = getLiveUnifiedMatches();
-  const response = { scores, finished, liveMatches };
+  const response = { scores, finished, liveMatches, deployId: process.env.VERCEL_DEPLOYMENT_ID ?? "dev" };
   responseCache = { data: response, time: Date.now() };
   return NextResponse.json(response, {
     headers: {
