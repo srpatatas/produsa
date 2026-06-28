@@ -109,8 +109,6 @@ export function PredictionCompletionNudge({
       </p>
       <div className="flex flex-col gap-2">
         {all.map(([scope, status]) => {
-          const pct = status.total > 0 ? Math.round((status.completed / status.total) * 100) : 0;
-          const complete = pct === 100;
           const m = status.matches;
           const b = status.bonus;
           const isLocked = locks[scope]?.isLocked;
@@ -122,10 +120,14 @@ export function PredictionCompletionNudge({
           const hasDoble = status.doble ?? false;
           const exacto = status.exacto;
           const isKnockout = !!knockoutScopeRounds[scope];
-          const allExtrasComplete = hasComodin && (isKnockout || hasDoble)
-            && (!exacto || exacto.completed === exacto.total);
 
-          const fullyComplete = complete && allExtrasComplete;
+          let totalItems = (m?.total ?? 0) + (b?.total ?? 0) + 1; // +1 comodin
+          let doneItems = (m?.completed ?? 0) + (b?.completed ?? 0) + (hasComodin ? 1 : 0);
+          if (!isKnockout) { totalItems += 1; doneItems += hasDoble ? 1 : 0; }
+          if (exacto) { totalItems += exacto.total; doneItems += exacto.completed; }
+
+          const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
+          const fullyComplete = doneItems === totalItems;
 
           return (
             <div key={scope} className={cn("flex flex-col gap-1", rowOpacity)}>
