@@ -18,6 +18,7 @@ interface BonusQuestion {
   subtitle: string | null;
   points: number;
   sourceType: string;
+  lockScope: string;
   correctAnswer: string | null;
   totalPredictions: number;
   grouped: AnswerGroup[];
@@ -483,15 +484,21 @@ export default function ExtraEPage() {
   const [questions, setQuestions] = useState<BonusQuestion[]>([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [participants, setParticipants] = useState<Record<string, string>>({});
+  const [locks, setLocks] = useState<Record<string, { locksAt: string; isLocked: boolean }>>({});
   const [loading, setLoading] = useState(true);
   const desktopRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState(0);
 
   useEffect(() => {
-    fetch("/api/extras")
-      .then((r) => r.ok ? r.json() : { questions: [], totalUsers: 0 })
-      .then((d) => { setQuestions(d.questions); setTotalUsers(d.totalUsers); setParticipants(d.participants ?? {}); })
-      .catch(() => {})
+    Promise.all([
+      fetch("/api/extras").then((r) => r.ok ? r.json() : { questions: [], totalUsers: 0 }),
+      fetch("/api/locks").then((r) => r.ok ? r.json() : { locks: {} }),
+    ]).then(([extrasData, lockData]) => {
+      setQuestions(extrasData.questions);
+      setTotalUsers(extrasData.totalUsers);
+      setParticipants(extrasData.participants ?? {});
+      setLocks(lockData.locks);
+    }).catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -522,7 +529,11 @@ export default function ExtraEPage() {
 
   if (loading) return <div className="flex justify-center py-12 text-fifa-dark-gray">Cargando...</div>;
 
-  const qMap = new Map(questions.map((q) => [q.id, q]));
+  const knockoutScopes = new Set(["R32", "R16", "QF", "SF", "FINAL"]);
+  const visibleQuestions = questions.filter((q) =>
+    !knockoutScopes.has(q.lockScope) || locks[q.lockScope]?.isLocked,
+  );
+  const qMap = new Map(visibleQuestions.map((q) => [q.id, q]));
 
   const sectionData = SECTIONS
     .map((section) => ({
