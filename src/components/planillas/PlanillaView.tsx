@@ -51,7 +51,8 @@ export function PlanillaView() {
       const allFechasLocked = [1, 2, 3].every(
         (f) => lockData.locks[`fecha-${f}`]?.isLocked,
       );
-      if (allFechasLocked) setPhase("eliminatorias");
+      const r32Locked = lockData.locks["R32"]?.isLocked ?? false;
+      if (allFechasLocked && r32Locked) setPhase("eliminatorias");
     }).catch((err) => console.error("[PlanillaView] Failed to load initial data:", err));
   }, []);
 
@@ -177,34 +178,36 @@ export function PlanillaView() {
         </p>
       </div>
 
-      <div className="relative flex h-10 w-[260px] ml-auto items-center rounded-full bg-surface ring-1 ring-white/5">
-        <div className={cn(
-          "absolute h-9 w-[127px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
-          phase === "grupos" ? "left-0.5" : "left-[131px]",
-        )} />
-        <button
-          onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
-          className={cn(
-            "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
-            phase === "grupos"
-              ? "text-white"
-              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
-          )}
-        >
-          Grupos
-        </button>
-        <button
-          onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
-          className={cn(
-            "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
-            phase === "eliminatorias"
-              ? "text-white"
-              : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
-          )}
-        >
-          Eliminatorias
-        </button>
-      </div>
+      {(locks["R32"]?.isLocked) && (
+        <div className="relative flex h-10 w-[260px] ml-auto items-center rounded-full bg-surface ring-1 ring-white/5">
+          <div className={cn(
+            "absolute h-9 w-[127px] rounded-full bg-fifa-purple shadow-lg shadow-fifa-purple/30 transition-all duration-300",
+            phase === "grupos" ? "left-0.5" : "left-[131px]",
+          )} />
+          <button
+            onClick={() => { setPhase("grupos"); setPlacementMode(false); }}
+            className={cn(
+              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
+              phase === "grupos"
+                ? "text-white"
+                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+            )}
+          >
+            Grupos
+          </button>
+          <button
+            onClick={() => { setPhase("eliminatorias"); setPlacementMode(false); }}
+            className={cn(
+              "relative z-10 flex-1 h-full flex items-center justify-center rounded-full font-display text-base uppercase tracking-wider transition-all duration-200 cursor-pointer",
+              phase === "eliminatorias"
+                ? "text-white"
+                : "text-fifa-dark-gray hover:text-foreground hover:bg-fifa-purple/10",
+            )}
+          >
+            Eliminatorias
+          </button>
+        </div>
+      )}
 
       {phase === "grupos" ? (
         <>
