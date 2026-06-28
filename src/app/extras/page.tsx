@@ -140,6 +140,130 @@ function AnswerRow({ g, totalUsers, isCorrect, sourceType, participants }: { g: 
   );
 }
 
+function flattenGuesses(question: BonusQuestion): Array<{ userId: number; userName: string; avatar: string; value: number }> {
+  return question.grouped.flatMap((g) =>
+    g.users.map((u) => ({ ...u, value: parseInt(g.answer, 10) || 0 })),
+  );
+}
+
+function SortedValueList({ question }: { question: BonusQuestion }) {
+  const guesses = flattenGuesses(question).sort((a, b) => a.value - b.value);
+  if (guesses.length === 0) return <p className="text-center text-xs text-white/40">Sin pronósticos todavía</p>;
+
+  const correctValue = question.correctAnswer ? parseInt(question.correctAnswer, 10) : null;
+
+  return (
+    <div className="space-y-1 max-h-52 overflow-y-auto">
+      {guesses.map((g, i) => {
+        const isClosest = correctValue !== null && guesses.every(
+          (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
+        );
+        return (
+          <div
+            key={`${g.userId}-${i}`}
+            className={cn(
+              "flex items-center gap-2 rounded-lg px-2.5 py-1.5",
+              isClosest ? "bg-emerald-400/20 ring-1 ring-emerald-300/40" : "bg-black/15",
+            )}
+          >
+            <div className="rounded-full ring-1 ring-white/30">
+              <AvatarDisplay avatar={g.avatar} size="xs" />
+            </div>
+            <span className="flex-1 text-xs text-white truncate">{g.userName}</span>
+            <span className={cn(
+              "font-display text-sm tracking-wider",
+              isClosest ? "text-emerald-300" : "text-white",
+            )}>
+              {g.value}
+            </span>
+            {isClosest && <span className="text-[10px]">✓</span>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function PossessionBar({ question }: { question: BonusQuestion }) {
+  const [activeTooltip, setActiveTooltip] = useState<number | null>(null);
+  const guesses = flattenGuesses(question).sort((a, b) => a.value - b.value);
+  if (guesses.length === 0) return <p className="text-center text-xs text-white/40">Sin pronósticos todavía</p>;
+
+  const cpv = teams["CPV"];
+  const arg = teams["ARG"];
+  const correctValue = question.correctAnswer ? parseInt(question.correctAnswer, 10) : null;
+  const minVal = Math.max(0, Math.min(...guesses.map((g) => g.value)) - 5);
+  const maxVal = Math.min(100, Math.max(...guesses.map((g) => g.value)) + 5);
+  const range = maxVal - minVal || 1;
+
+  return (
+    <div className="pt-10 pb-2">
+      <div className="relative">
+        {/* Avatars above the bar */}
+        <div className="absolute -top-9 left-0 right-0">
+          {guesses.map((g, i) => {
+            const pct = ((g.value - minVal) / range) * 100;
+            const isClosest = correctValue !== null && guesses.every(
+              (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
+            );
+            return (
+              <div
+                key={`${g.userId}-${i}`}
+                className="absolute -translate-x-1/2"
+                style={{ left: `${pct}%` }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setActiveTooltip(activeTooltip === i ? null : i)}
+                  className={cn(
+                    "block rounded-full ring-2 transition-transform hover:scale-110",
+                    isClosest ? "ring-emerald-300 shadow-lg shadow-emerald-300/30" : "ring-white/40",
+                  )}
+                >
+                  <AvatarDisplay avatar={g.avatar} size="xs" />
+                </button>
+                {activeTooltip === i && (
+                  <div className="absolute left-1/2 -translate-x-1/2 -top-7 z-50 whitespace-nowrap rounded-lg bg-black/80 px-2 py-1 text-[10px] text-white shadow-lg">
+                    {g.userName}: {g.value}%
+                    <div className="absolute left-1/2 -translate-x-1/2 -bottom-1 h-2 w-2 rotate-45 bg-black/80" />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Possession bar */}
+        <div className="flex h-3 overflow-hidden rounded-full">
+          <div className="bg-teal-600" style={{ width: "50%" }} />
+          <div className="bg-sky-400" style={{ width: "50%" }} />
+        </div>
+
+        {/* Correct answer marker */}
+        {correctValue !== null && (
+          <div
+            className="absolute top-0 h-3 w-0.5 bg-emerald-300 shadow-lg shadow-emerald-300/50"
+            style={{ left: `${((correctValue - minVal) / range) * 100}%` }}
+          />
+        )}
+
+        {/* Scale labels */}
+        <div className="mt-2 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <FlagImage code={cpv.flagCode} name={cpv.name} size="sm" />
+            <span className="text-[11px] font-semibold text-white">{minVal}%</span>
+          </div>
+          <span className="text-[9px] text-white/40 uppercase tracking-wider">Posesión CPV</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-semibold text-white">{maxVal}%</span>
+            <FlagImage code={arg.flagCode} name={arg.name} size="sm" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function QuestionCarousel({ questions, totalUsers, participants }: { questions: BonusQuestion[]; totalUsers: number; participants: Record<string, string> }) {
   const [current, setCurrent] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
@@ -240,11 +364,17 @@ function QuestionCarousel({ questions, totalUsers, participants }: { questions: 
                   </svg>
                 </button>
               </div>
-              <div className="space-y-2.5">
-                {question.grouped.map((g) => (
-                  <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={question.correctAnswer ? g.answer === question.correctAnswer : null} sourceType={question.sourceType} participants={participants} />
-                ))}
-              </div>
+              {question.id === "golestotales-16vos" ? (
+                <SortedValueList question={question} />
+              ) : question.id === "posesion-caboverde" ? (
+                <PossessionBar question={question} />
+              ) : (
+                <div className="space-y-2.5">
+                  {question.grouped.map((g) => (
+                    <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={question.correctAnswer ? g.answer === question.correctAnswer : null} sourceType={question.sourceType} participants={participants} />
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
