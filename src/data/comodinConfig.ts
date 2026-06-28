@@ -101,7 +101,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "Por ahí los argentinos necesitábamos un comodín que nos una",
       "No hemos logrado resolver un comodín sólido... pero ampliamos derechos",
       "Me da vergüenza que en la Argentina alguien pierda un comodín",
-      "Los mexicanos salieron de los indios, los brasileros de la selva, los argentinos de los barcos... y vos todavía no sacaste el comodín, dale",
+      "Los mexicanos salieron de los indios, los brasileros de la selva, los argentinos de los barcos... y vos todavía no pusiste el comodín, dale",
       "Estoy muy feliz de estar poniéndole el fin a tu racha sin puntos extra",
       "Ahí veo al compañero de Garganta Profun... Poderosa, Poderosa...",
       "Lo que hay que veeeeer es la producción de Sandra",
