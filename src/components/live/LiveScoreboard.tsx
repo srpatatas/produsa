@@ -320,6 +320,29 @@ function generateDynamicPhrase(
 
   if (!hasScore) return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 
+  const isHalftime = score.status === "HT" || score.status === "BT";
+
+  // During halftime: mostly idle, lectures, and occasional prediction banter
+  if (isHalftime) {
+    const r = Math.random();
+    if (r < 0.4 && voice.lecture) {
+      const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
+      const tid = pick(teamIds);
+      if (tid && voice.lecture[tid]?.length) {
+        return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+      }
+    }
+    if (r < 0.6 && preds.length > 5) {
+      const actual = h > a ? "L" : a > h ? "V" : "E";
+      const withPred = preds.filter((p) => p.outcome);
+      const right = withPred.filter((p) => p.outcome.includes(actual));
+      if (right.length > 0 && right.length <= 2) {
+        return { phrase: voice.fewRight(right.map((p) => p.name).join(" y ")), newEventIndex: lastEventIndex };
+      }
+    }
+    return { phrase: voice.idle(), newEventIndex: lastEventIndex };
+  }
+
   // Priority 2: Comodin user reactions
   if (comodinUsers.length > 0 && Math.random() < 0.4) {
     const p = pick(comodinUsers);
@@ -354,22 +377,22 @@ function generateDynamicPhrase(
   if (h === 0 && a === 0 && min > 30) return { phrase: voice.scoreless(min), newEventIndex: lastEventIndex };
   if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
 
-  // Priority 5: Ranking commentary — only when there's movement or podium spots (25% chance)
+  // Priority 5: Professor lecture about one of the teams (35% chance)
+  if (voice.lecture && Math.random() < 0.35) {
+    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
+    const tid = pick(teamIds);
+    if (tid && voice.lecture[tid]?.length) {
+      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+    }
+  }
+
+  // Priority 6: Ranking commentary — only when there's movement or podium spots (25% chance)
   if (ranking && ranking.length > 0 && Math.random() < 0.25) {
     const movers = ranking.filter((r) => r.previousPosition - r.position !== 0 || r.position <= 3);
     if (movers.length > 0) {
       const target = pick(movers);
       const diff = target.previousPosition - target.position;
       return { phrase: voice.rankingTaunt(target.name, target.position, diff), newEventIndex: lastEventIndex };
-    }
-  }
-
-  // Priority 6: Professor lecture about one of the teams (20% chance)
-  if (voice.lecture && Math.random() < 0.2) {
-    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
-    const tid = pick(teamIds);
-    if (tid && voice.lecture[tid]?.length) {
-      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
     }
   }
 
