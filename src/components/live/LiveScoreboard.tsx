@@ -32,6 +32,7 @@ interface PersonalityVoice {
   idle: () => string;
   taunt: (name: string) => string;
   rankingTaunt: (name: string, pos: number, diff: number) => string;
+  lecture?: Record<string, string[]>;
 }
 
 const usedPhrases = new Set<string>();
@@ -256,6 +257,40 @@ const VOICES: Record<string, PersonalityVoice> = {
       if (pos <= 3) return `${n} va ${pos}°, mejor ubicado que yo en la historia`;
       return pick([`${n} va ${pos}°. Como yo en el ranking de presidentes`, `${n} en el puesto ${pos}... la culpa es de Macri`]);
     },
+    lecture: {
+      RSA: ["Dato de profesor: Sudáfrica tiene 11 idiomas oficiales. Once. Yo con uno solo ya me metía en problemas", "Sudáfrica fue sede del Mundial 2010. El de la vuvuzela. Peor ruido que mis conferencias de prensa", "Mandela estuvo 27 años preso y después fue presidente. Yo fui presidente y después me sentí preso"],
+      CAN: ["Canadá tiene más lagos que todos los demás países juntos. Dato verificable, no como mis estadísticas del INDEC", "Clase de geografía: Canadá es el segundo país más grande del mundo. El primero en hockey sobre hielo y en pedir perdón", "Los canadienses dicen 'sorry' por todo. Yo también debería"],
+      BRA: ["Brasil tiene 5 mundiales. Nosotros 3. Pero como diría Cristina, no es una competencia... o sí", "Dato: Brasil es el único país que jugó todos los mundiales. Presencia perfecta. La mía en el Congreso era otra cosa", "Brasil tiene 200 millones de habitantes. Todos opinan de fútbol. Como los 45 millones nuestros"],
+      JPN: ["Japón tiene trenes que llegan a horario. Imagínense si acá tuviéramos eso. Sería otro país", "En Japón los hinchas limpian el estadio después del partido. Si hicieran eso acá, el estadio estaría más limpio que mi expediente", "Dato cultural: en Japón hay más de 5 millones de máquinas expendedoras. Una cada 23 personas. Más accesibles que un ministro mío"],
+      GER: ["Alemania tiene 4 mundiales y el partido más largo de mi vida fue contra ellos en 2014. No quiero hablar de eso", "Dato de profesor: la Bundesliga tiene la mayor asistencia promedio del mundo. Más público que mis actos de campaña", "Los alemanes son famosos por ser puntuales. Yo era puntual... para las clases en la UBA, no para las reuniones de gabinete"],
+      PAR: ["Paraguay es el único país de Sudamérica con una bandera diferente en cada lado. Como yo, que tenía una cara para cada lado político", "Los guaraníes son uno de los pueblos originarios más orgullosos. Paraguay tiene dos idiomas oficiales: español y guaraní. Más bilingüe que mi doble discurso"],
+      NED: ["Holanda está un tercio bajo el nivel del mar. Aun así no se hunden. Nosotros con el dólar... mejor no hablo", "Los holandeses inventaron el microscopio. Si me hubieran mirado a mí con microscopio... mejor cambiemos de tema", "Dato: Holanda es el mayor exportador de flores del mundo. Yo también repartía flores... a Cristina, para que no se enoje"],
+      MAR: ["Marruecos fue semifinalista en Qatar 2022. La mejor actuación africana en un mundial. Dato verificable", "El cuscús marroquí es patrimonio de la humanidad. Las empanadas argentinas todavía no, pero deberían", "Marruecos tiene el desierto del Sahara. Más seco que mi relación con Cristina al final del mandato"],
+      CIV: ["Costa de Marfil es el mayor productor de cacao del mundo. Sin ellos no hay chocolate. Dato que me enseñaron en la UBA", "Dato: Didier Drogba es el máximo goleador histórico de Costa de Marfil. Un crack. Lástima que no jugó para nosotros"],
+      NOR: ["Noruega tiene el fondo soberano más grande del mundo. 1.4 billones de dólares. Nosotros teníamos... el ANSES", "Los noruegos inventaron el esquí. Nosotros inventamos el dulce de leche. No sé cuál es más importante, pero sí más rico", "Noruega tiene más fiordos que yo excusas para la inflación. Y miren que yo tenía muchas"],
+      FRA: ["Francia tiene 2 mundiales. El último con Mbappé que metió un hat-trick en la final y perdió. Más drama que mi gobierno", "La Torre Eiffel iba a ser temporal. Como mi presidencia... bueno, esa sí fue temporal", "Dato de cátedra: los franceses consumen 25 mil toneladas de queso por año. Más agujeros que mi plan económico"],
+      SWE: ["Suecia inventó IKEA. Yo también armé un gabinete con instrucciones confusas y sobraron piezas", "Los suecos tienen 'fika', una pausa obligatoria para el café. Yo tenía zoom, que es parecido pero más aburrido", "Dato: Zlatan Ibrahimovic es sueco. Un tipo que habla de sí mismo en tercera persona. Yo nunca haría eso... o sí"],
+      MEX: ["México tiene 35 sitios patrimonio de la humanidad. Más que cualquier país de América. La cancha del Azteca es casi uno más", "El Estadio Azteca recibió 2 finales mundialistas. Ahí Maradona hizo el gol del siglo. Como profesor debo decir: fue irregular... pero hermoso", "Los mexicanos inventaron el chocolate caliente. Sin los aztecas no hay submarino. Dato que debería estar en los manuales"],
+      ECU: ["Ecuador se llama así por la línea del ecuador que lo cruza. Dato que parece obvio pero mis alumnos no lo sabían", "Las Islas Galápagos son de Ecuador. Darwin desarrolló su teoría ahí. Yo desarrollé mis teorías en Olivos, con menos éxito"],
+      ENG: ["Inglaterra inventó el fútbol en 1863 pero solo ganó un mundial. En 1966. De local. Con un gol fantasma. Dato polémico de profesor", "Dato: la Premier League es la liga más vista del mundo. Más audiencia que mis cadenas nacionales, seguro", "Los ingleses toman té a las 5. Nosotros tomamos mate todo el día. Somos más constantes"],
+      COD: ["El Congo tiene el río Congo, el más profundo del mundo. 220 metros. Más profunda que la crisis económica que heredamos... bueno, casi", "Dato: la República Democrática del Congo es el país más grande de África subsahariana. Grande como mi sueño de ser recordado como buen presidente"],
+      USA: ["Estados Unidos es el país con más mundiales organizados después de este. Dato de profesor, no de alineación política", "150 millones de estadounidenses van a ver partidos del mundial en su país. Más que la población de Argentina, Paraguay y Uruguay juntos"],
+      BIH: ["Bosnia tiene el puente de Mostar, reconstruido después de la guerra. Símbolo de reconciliación. Algo que yo con Cristina nunca logré", "Dato cultural: el café bosnio se sirve en un džezva. Es como el café turco pero te lo explican con más historia"],
+      BEL: ["Bélgica tiene más de 1.500 tipos de cerveza. Más variedades que mis excusas para la inflación", "Los belgas inventaron las papas fritas. No los franceses. Esto lo enseño en cada clase y nadie me cree", "Bélgica tiene 3 idiomas oficiales: francés, neerlandés y alemán. Un quilombo administrativo, pero menos que el nuestro"],
+      SEN: ["Senegal ganó la Copa Africana en 2022. El mismo año que Argentina ganó el mundial. Buen año para el fútbol", "Dato: el rally Dakar se llamaba así por la capital de Senegal, aunque ya no pasa por ahí. Como yo y la Rosada"],
+      POR: ["Cristiano Ronaldo es portugués y tiene más de 900 goles. Más productivo que todo mi gabinete junto", "Portugal descubrió Brasil en 1500. Quinientos años después, Brasil los elimina en los mundiales. La historia tiene ironías"],
+      CRO: ["Croacia tiene 4 millones de habitantes y fue finalista en 2018 y semifinalista en 2022. Per cápita, la mejor selección del mundo", "Dato: la corbata es invento croata. Cravat viene de 'croata'. Yo prefiero no usar corbata, por las dudas"],
+      ESP: ["España ganó el mundial 2010 con el tiki-taka. 800 pases por partido. Más vueltas que yo para responder una pregunta", "Dato de cátedra: España tiene más bares per cápita que cualquier país europeo. El verdadero dato importante"],
+      AUT: ["Austria nos dio a Mozart, Freud y el strudel. Tres contribuciones fundamentales a la humanidad", "Dato: Austria y Australia se confunden todo el tiempo. En Austria no hay canguros. En Australia no hay schnitzel... bueno, tal vez sí"],
+      ARG: ["Argentina, mi país. 3 mundiales, Diego, Messi, el dulce de leche y... bueno, yo también soy argentino, para bien o para mal", "45 millones de directores técnicos. Dato oficial. Yo también opino de táctica pero nadie me pide consejo", "Dato de profesor patriótico: Argentina es el octavo país más grande del mundo. En superficie. En problemas económicos somos top 3"],
+      CPV: ["Cabo Verde tiene 10 islas volcánicas. Medio millón de habitantes. Es la selección más chica de este mundial. Dato", "El morna, la música de Cabo Verde, es patrimonio de la humanidad. Cesária Évora la hizo famosa. Cultura, señores, cultura"],
+      AUS: ["Australia tiene más canguros que personas. 50 millones contra 26 millones. Dato que siempre impresiona en clase", "Los australianos llaman 'football' al rugby y al fútbol le dicen 'soccer'. Un desastre lingüístico, como mi comunicación política"],
+      EGY: ["Egipto tiene las pirámides que tienen 4.500 años. Más estables que la economía argentina. Mucho más", "Dato: Mohamed Salah es el máximo goleador histórico de Egipto. Un fenómeno. Si cobrara en pesos sería triste"],
+      SUI: ["Suiza tiene más bancos que canchas de fútbol. Y más secretos bancarios que yo secretos de Estado... bueno, casi", "Los suizos son neutrales desde 1815. Yo intenté ser neutral entre Cristina y Macri y no me salió", "Dato: Suiza tiene 4 idiomas oficiales. Y el chocolate más caro del mundo. Como profesor les digo: prioricen el chocolate"],
+      ALG: ["Argelia es el país más grande de África. Más grande que la deuda externa... no, la deuda es más grande", "Dato: Argelia ganó la Copa Africana en 2019 con Belmadi. Un técnico que sabe delegar. Yo no, yo quería hacer todo"],
+      COL: ["Colombia tiene la biodiversidad de aves más grande del mundo. Más de 1.900 especies. Dato de National Geographic, no mío", "Dato: el café colombiano es de los mejores del mundo. Mucho mejor que el café del Congreso, que era horrible"],
+      GHA: ["Ghana fue el primer país de África subsahariana en independizarse, en 1957. Dato histórico importante", "Los ghaneses le dicen 'Black Stars' a su selección. Tienen 4 Copas Africanas. Historial respetable"],
+    },
   },
 };
 
@@ -265,6 +300,8 @@ function generateDynamicPhrase(
   scope: string,
   lastEventIndex: number,
   ranking?: RankingSnapshotEntry[],
+  homeTeamId?: string | null,
+  awayTeamId?: string | null,
 ): { phrase: string; newEventIndex: number } {
   const voice = VOICES[scope] ?? VOICES["fecha-1"];
   const h = score.homeScore;
@@ -334,7 +371,16 @@ function generateDynamicPhrase(
     }
   }
 
-  // Priority 6: Taunt a player who's currently wrong (30% chance)
+  // Priority 6: Professor lecture about one of the teams (20% chance)
+  if (voice.lecture && Math.random() < 0.2) {
+    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
+    const tid = pick(teamIds);
+    if (tid && voice.lecture[tid]?.length) {
+      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+    }
+  }
+
+  // Priority 7: Taunt a player who's currently wrong (30% chance)
   if (hasScore && preds.length > 0 && Math.random() < 0.3) {
     const actual = h > a ? "L" : a > h ? "V" : "E";
     const wrongPlayers = preds.filter((p) => p.outcome && !p.outcome.includes(actual));
@@ -348,7 +394,7 @@ function generateDynamicPhrase(
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
-function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope: string; matchId: string; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[] }) {
+function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[] }) {
   const config = getComodinConfig(scope);
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
@@ -422,7 +468,7 @@ function LiveComodinDock({ scope, matchId, liveScore, rankingSnapshot }: { scope
       const events = liveScoreRef.current.events ?? [];
       // Generate phrases for ALL new events
       while (events.length > lastEventCount.current) {
-        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
+        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamId, awayTeamId);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
@@ -588,7 +634,7 @@ export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapsho
       </div>
     </div>
       {rankingSnapshot && rankingSnapshot.some((r) => r.hasComodinOnActive) && (
-        <LiveComodinDock scope={match.scope} matchId={match.id} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
+        <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
       )}
     </div>
   );
