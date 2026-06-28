@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { UnifiedMatch, LiveScore } from "@/types";
-import { getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import { NextMatchCountdown } from "./NextMatchCountdown";
 import { PredictionCompletionNudge } from "./PredictionCompletionNudge";
 import { TodayMatchesList } from "./TodayMatchesList";
@@ -51,34 +50,22 @@ export function InicioDashboard() {
   const dashboardRefreshedRef = useRef(false);
 
   const pollTick = useCallback(async () => {
-    const live = getLiveUnifiedMatches();
-    if (live.length === 0) {
-      setLiveMatches((prev) => {
-        if (prev.length === 0) return prev;
-        setActiveMatchIndex(0);
-        clearLiveComodinCaches();
-        if (!dashboardRefreshedRef.current) {
-          dashboardRefreshedRef.current = true;
-          refreshDashboard();
-        }
-        return [];
-      });
-      dashboardRefreshedRef.current = false;
-      return;
-    }
-
+    let live: UnifiedMatch[] = [];
     try {
       const res = await fetch("/api/live-score");
       if (!res.ok) return;
-      const { scores, finished } = await res.json();
+      const data = await res.json();
+      live = data.liveMatches ?? [];
+
+      const { scores, finished } = data;
 
       const finishedSet = new Set<string>(finished ?? []);
-      const activeMatches = live.filter((m) => !finishedSet.has(m.id));
+      const activeMatches = live.filter((m: UnifiedMatch) => !finishedSet.has(m.id));
 
       setLiveMatches((prev) => {
-        if (activeMatches.length === prev.length && activeMatches.every((m, i) => m.id === prev[i]?.id)) return prev;
+        if (activeMatches.length === prev.length && activeMatches.every((m: UnifiedMatch, i: number) => m.id === prev[i]?.id)) return prev;
         if (activeMatches.length === 0) setActiveMatchIndex(0);
-        else setActiveMatchIndex((i) => Math.min(i, activeMatches.length - 1));
+        else setActiveMatchIndex((idx) => Math.min(idx, activeMatches.length - 1));
         return activeMatches;
       });
 
@@ -90,7 +77,6 @@ export function InicioDashboard() {
       setLiveScores((prev) => {
         const next = { ...prev };
         const newStale = new Set<string>();
-
         for (const m of activeMatches) {
           const apiScore = scores?.[m.id];
           if (apiScore) {
@@ -107,11 +93,26 @@ export function InicioDashboard() {
             newStale.add(m.id);
           }
         }
-
         setStaleIds(newStale);
         return next;
       });
-    } catch {}
+    } catch { /* ignore */ }
+
+    if (live.length === 0) {
+      setLiveMatches((prev) => {
+        if (prev.length === 0) return prev;
+        setActiveMatchIndex(0);
+        clearLiveComodinCaches();
+        if (!dashboardRefreshedRef.current) {
+          dashboardRefreshedRef.current = true;
+          refreshDashboard();
+        }
+        return [];
+      });
+      dashboardRefreshedRef.current = false;
+      return;
+    }
+
   }, [refreshDashboard]);
 
   useEffect(() => {

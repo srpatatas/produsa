@@ -3,6 +3,8 @@ import { fetchLiveScores, LiveScoreResult } from "@/lib/liveScoreApi";
 import { isAnyMatchInLiveWindow, getLiveUnifiedMatches } from "@/lib/unifiedMatches";
 import { getDb } from "@/lib/db";
 import { invalidateResultsCache } from "@/lib/resultsService";
+import { getResults } from "@/lib/resultsService";
+import { setLiveResults } from "@/lib/knockoutResolver";
 import { syncFinishedResults } from "@/lib/resultSync";
 
 export const dynamic = "force-dynamic";
@@ -35,8 +37,12 @@ const RESPONSE_CACHE_TTL = 12_000;
 export async function GET() {
   const cdnHeaders = { "Cache-Control": "public, s-maxage=12, stale-while-revalidate=30" };
 
+  // Feed DB results to knockout resolver before checking live matches
+  const resultsMap = await getResults();
+  setLiveResults(resultsMap);
+
   if (!isAnyMatchInLiveWindow()) {
-    return NextResponse.json({ scores: {}, finished: [] }, { headers: cdnHeaders });
+    return NextResponse.json({ scores: {}, finished: [], liveMatches: [] }, { headers: cdnHeaders });
   }
 
   if (responseCache && Date.now() - responseCache.time < RESPONSE_CACHE_TTL) {
@@ -88,7 +94,8 @@ export async function GET() {
     }
   }
 
-  const response = { scores, finished };
+  const liveMatches = getLiveUnifiedMatches();
+  const response = { scores, finished, liveMatches };
   responseCache = { data: response, time: Date.now() };
   return NextResponse.json(response, {
     headers: {
