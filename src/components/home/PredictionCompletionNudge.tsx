@@ -121,7 +121,8 @@ export function PredictionCompletionNudge({
           const hasComodin = status.comodin ?? false;
           const hasDoble = status.doble ?? false;
           const exacto = status.exacto;
-          const allExtrasComplete = hasComodin && hasDoble
+          const isKnockout = !!knockoutScopeRounds[scope];
+          const allExtrasComplete = hasComodin && (isKnockout || hasDoble)
             && (!exacto || exacto.completed === exacto.total);
 
           const fullyComplete = complete && allExtrasComplete;
@@ -157,7 +158,7 @@ export function PredictionCompletionNudge({
                   <Chip done={b.completed === b.total} label={`${b.completed}/${b.total} bonus`} />
                 )}
                 <Chip done={hasComodin} label="Comodín" />
-                <Chip done={hasDoble} label="Doble" />
+                {!isKnockout && <Chip done={hasDoble} label="Doble" />}
                 {exacto && (
                   <Chip done={exacto.completed === exacto.total} label="Exacto" />
                 )}
