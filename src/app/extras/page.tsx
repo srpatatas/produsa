@@ -146,7 +146,7 @@ function flattenGuesses(question: BonusQuestion): Array<{ userId: number; userNa
   );
 }
 
-function SortedValueList({ question }: { question: BonusQuestion }) {
+function SortedValueList({ question, suffix }: { question: BonusQuestion; suffix?: string }) {
   const guesses = flattenGuesses(question).sort((a, b) => b.value - a.value);
   if (guesses.length === 0) return <p className="text-center text-xs text-white/40">Sin pronósticos todavía</p>;
 
@@ -174,7 +174,7 @@ function SortedValueList({ question }: { question: BonusQuestion }) {
               "font-display text-sm tracking-wider",
               isClosest ? "text-emerald-300" : "text-white",
             )}>
-              {g.value}
+              {g.value}{suffix}
             </span>
             {isClosest && <span className="text-[10px]">✓</span>}
           </div>
@@ -418,7 +418,7 @@ function QuestionCarousel({ questions, totalUsers, participants }: { questions: 
               {question.id === "golestotales-16vos" ? (
                 <SortedValueList question={question} />
               ) : question.id === "posesion-caboverde" ? (
-                <PossessionBar question={question} />
+                <SortedValueList question={question} suffix="%" />
               ) : (
                 <div className="space-y-2.5">
                   {question.grouped.map((g) => (
