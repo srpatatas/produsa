@@ -98,7 +98,10 @@ export const GET = withAuth(async (req, session) => {
     const hasComodin = userComodines.has(scope);
     const hasDoble = matchIds.some((id) => (userPredOutcomes.get(id)?.length ?? 0) === 2);
 
-    const scopeExactMatches = matchIds.filter((id) => exactScoreMatchIds.has(id));
+    const isKnockoutScope = ["R32", "R16", "QF", "SF", "FINAL"].includes(scope);
+    const scopeExactMatches = isKnockoutScope
+      ? matchIds
+      : matchIds.filter((id) => exactScoreMatchIds.has(id));
     const exactoStatus = scopeExactMatches.length > 0
       ? { total: scopeExactMatches.length, completed: scopeExactMatches.filter((id) => userExactPreds.has(id)).length }
       : null;
