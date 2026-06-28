@@ -88,7 +88,7 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
             "rounded-md px-2 py-0.5 text-[9px] font-bold text-white",
             getOutcomeBg(getLiveOutcome(exactScore.home, exactScore.away)),
           )}>
-            {exactScore.home} - {exactScore.away}
+            {exactScore.home} - {exactScore.away}{exactScore.home === exactScore.away && prediction ? ` (${prediction})` : ""}
           </span>
         ) : prediction ? (
           <span className={cn(
