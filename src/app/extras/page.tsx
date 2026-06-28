@@ -299,15 +299,15 @@ function PossessionBar({ question }: { question: BonusQuestion }) {
         </div>
       )}
 
-      {/* Scale labels */}
+      {/* Team labels */}
       <div className="mt-2 flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           <FlagImage code={cpv.flagCode} name={cpv.name} size="sm" />
-          <span className="text-[11px] font-semibold text-white">0%</span>
+          <span className="font-display text-xs tracking-wider text-white">CPV</span>
         </div>
-        <span className="text-[9px] text-white/40 uppercase tracking-wider">Posesión CPV</span>
+        <span className="text-[9px] text-white/40">50%</span>
         <div className="flex items-center gap-1.5">
-          <span className="text-[11px] font-semibold text-white">100%</span>
+          <span className="font-display text-xs tracking-wider text-white">ARG</span>
           <FlagImage code={arg.flagCode} name={arg.name} size="sm" />
         </div>
       </div>
