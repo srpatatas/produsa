@@ -121,7 +121,8 @@ async function main() {
   console.log(`Found ${fixtures.length} fixtures.\n`);
 
   const mapping: Record<number, string> = {};
-  const unmatched: string[] = [];
+  const unknownTeams: string[] = [];
+  const missingMatchEntries: string[] = [];
 
   for (const f of fixtures) {
     const homeName = f.teams.home.name;
@@ -130,11 +131,11 @@ async function main() {
     const awayId = TEAM_NAME_TO_ID[awayName];
 
     if (!homeId) {
-      unmatched.push(`Unknown home team: "${homeName}" (fixture ${f.fixture.id})`);
+      unknownTeams.push(`Unknown home team: "${homeName}" (fixture ${f.fixture.id}) → add to TEAM_NAME_TO_ID`);
       continue;
     }
     if (!awayId) {
-      unmatched.push(`Unknown away team: "${awayName}" (fixture ${f.fixture.id})`);
+      unknownTeams.push(`Unknown away team: "${awayName}" (fixture ${f.fixture.id}) → add to TEAM_NAME_TO_ID`);
       continue;
     }
 
@@ -149,7 +150,9 @@ async function main() {
         mapping[f.fixture.id] = reverseMatchId;
         console.log(`  ✓ ${f.fixture.id} → ${reverseMatchId} (${homeName} vs ${awayName}) [reversed]`);
       } else {
-        unmatched.push(`No match found for: ${homeName} (${homeId}) vs ${awayName} (${awayId})`);
+        missingMatchEntries.push(
+          `No match entry for: ${homeName} (${homeId}) vs ${awayName} (${awayId}) → add to src/data/matches.ts`,
+        );
       }
       continue;
     }
@@ -158,9 +161,17 @@ async function main() {
     console.log(`  ✓ ${f.fixture.id} → ${matchId} (${homeName} vs ${awayName})`);
   }
 
-  if (unmatched.length > 0) {
-    console.log(`\n⚠ ${unmatched.length} unmatched fixtures:`);
-    for (const msg of unmatched) {
+  if (unknownTeams.length > 0) {
+    console.log(`\n⚠ ${unknownTeams.length} unknown team names (update TEAM_NAME_TO_ID in this script):`);
+    for (const msg of unknownTeams) {
+      console.log(`  - ${msg}`);
+    }
+  }
+
+  if (missingMatchEntries.length > 0) {
+    console.log(`\n⚠ ${missingMatchEntries.length} fixtures with known teams but no match entry in matches.ts:`);
+    console.log(`  (This is expected for knockout stage until match entries are added to src/data/matches.ts)`);
+    for (const msg of missingMatchEntries) {
       console.log(`  - ${msg}`);
     }
   }
@@ -172,14 +183,7 @@ async function main() {
   const sorted = Object.entries(mapping).sort((a, b) => Number(a[0]) - Number(b[0]));
   const entries = sorted.map(([k, v]) => `  "${k}": "${v}"`).join(",\n");
 
-  const output = `${teamNameSection}export const fixtureToMatch: Record<number, string> = {
-${entries}
-};
-
-export const matchToFixture: Record<string, number> = Object.fromEntries(
-  Object.entries(fixtureToMatch).map(([k, v]) => [v, Number(k)]),
-);
-`;
+  const output = `${teamNameSection}export const fixtureToMatch: Record<number, string> = {\n${entries}\n};\n\nexport const matchToFixture: Record<string, number> = Object.fromEntries(\n  Object.entries(fixtureToMatch).map(([k, v]) => [v, Number(k)]),\n);\n`;
 
   const fs = await import("fs");
   fs.writeFileSync("src/data/fixtureMap.ts", output);
