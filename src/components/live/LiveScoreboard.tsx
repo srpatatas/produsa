@@ -322,17 +322,17 @@ function generateDynamicPhrase(
 
   const isHalftime = score.status === "HT" || score.status === "BT";
 
-  // During halftime: mostly idle, lectures, and occasional prediction banter
+  // During halftime: lectures dominate, some idle, occasional prediction banter
   if (isHalftime) {
-    const r = Math.random();
-    if (r < 0.4 && voice.lecture) {
+    if (voice.lecture && Math.random() < 0.6) {
       const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
-      const tid = pick(teamIds);
+      const lectureTeams = teamIds.length > 0 ? teamIds : Object.keys(voice.lecture);
+      const tid = pick(lectureTeams);
       if (tid && voice.lecture[tid]?.length) {
         return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
       }
     }
-    if (r < 0.6 && preds.length > 5) {
+    if (Math.random() < 0.3 && preds.length > 5) {
       const actual = h > a ? "L" : a > h ? "V" : "E";
       const withPred = preds.filter((p) => p.outcome);
       const right = withPred.filter((p) => p.outcome.includes(actual));
@@ -346,10 +346,13 @@ function generateDynamicPhrase(
   // Single roll distributes across phrase types so nothing gets starved
   const roll = Math.random();
 
+  // Resolve team IDs for lectures — fall back to searching lecture keys by match labels
+  const resolvedTeamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
+
   // 25% — Professor lecture
   if (roll < 0.25 && voice.lecture) {
-    const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
-    const tid = pick(teamIds);
+    const lectureTeams = resolvedTeamIds.length > 0 ? resolvedTeamIds : Object.keys(voice.lecture);
+    const tid = pick(lectureTeams);
     if (tid && voice.lecture[tid]?.length) {
       return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
     }
