@@ -460,24 +460,26 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
   const isShowingRef = useRef(false);
 
   useEffect(() => {
-    const EVENT_VISIBLE_MS = 8000;
-    const IDLE_VISIBLE_MS = 8000;
     const EVENT_CHECK_MS = 15000;
     const IDLE_INTERVAL_MS = 25000 + Math.random() * 10000;
 
-    function showPhrase(text: string, durationMs: number) {
+    function phraseDuration(text: string): number {
+      return Math.min(Math.max(text.length * 80, 6000), 14000);
+    }
+
+    function showPhrase(text: string, durationMs?: number) {
+      const ms = durationMs ?? phraseDuration(text);
       isShowingRef.current = true;
       setPhrase(text);
       setVisible(true);
       timerRef.current = setTimeout(() => {
         setVisible(false);
         isShowingRef.current = false;
-        // Drain queue if more events waiting
         if (eventQueue.current.length > 0) {
           const next = eventQueue.current.shift()!;
-          setTimeout(() => showPhrase(next, EVENT_VISIBLE_MS), 1500);
+          setTimeout(() => showPhrase(next), 1500);
         }
-      }, durationMs);
+      }, ms);
     }
 
     function checkEvents() {
@@ -492,7 +494,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       // Show first queued event if not already showing
       if (!isShowingRef.current && eventQueue.current.length > 0) {
         const next = eventQueue.current.shift()!;
-        showPhrase(next, EVENT_VISIBLE_MS);
+        showPhrase(next);
       }
     }
 
@@ -500,7 +502,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       if (isShowingRef.current || eventQueue.current.length > 0) return;
       const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current);
       eventIndexRef.current = result.newEventIndex;
-      showPhrase(result.phrase, IDLE_VISIBLE_MS);
+      showPhrase(result.phrase);
     }
 
     const eventInterval = setInterval(checkEvents, EVENT_CHECK_MS);
