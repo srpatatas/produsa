@@ -17,6 +17,7 @@ export function AdminMatchSettingsTab({ flashStatus }: AdminMatchSettingsTabProp
   const [matchSettings, setMatchSettings] = useState<Record<string, { comodinAllowed: boolean; exactScore: boolean }>>({});
   const [matchSettingsLoaded, setMatchSettingsLoaded] = useState(false);
   const [settingSaving, setSettingSaving] = useState<string | null>(null);
+  const [resolvedTeams, setResolvedTeams] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
 
   const loadMatchSettings = async () => {
     const res = await fetch("/api/admin/match-settings");
@@ -29,6 +30,14 @@ export function AdminMatchSettingsTab({ flashStatus }: AdminMatchSettingsTabProp
 
   useEffect(() => {
     if (!matchSettingsLoaded) loadMatchSettings();
+    fetch("/api/knockout-matches")
+      .then((r) => r.ok ? r.json() : { matches: [] })
+      .then((data) => {
+        const map: Record<string, { homeTeamId: string | null; awayTeamId: string | null }> = {};
+        for (const m of data.matches) map[m.id] = { homeTeamId: m.homeTeamId, awayTeamId: m.awayTeamId };
+        setResolvedTeams(map);
+      })
+      .catch(() => {});
   }, [matchSettingsLoaded]);
 
   const handleToggleSetting = async (matchId: string, field: "comodinAllowed" | "exactScore") => {
@@ -181,6 +190,9 @@ export function AdminMatchSettingsTab({ flashStatus }: AdminMatchSettingsTabProp
               {koMatches.map((km) => {
                 const setting = matchSettings[km.id] ?? { comodinAllowed: false, exactScore: false };
                 const isSaving = settingSaving === km.id;
+                const resolved = resolvedTeams[km.id];
+                const homeTeam = resolved?.homeTeamId ? getTeam(resolved.homeTeamId) : null;
+                const awayTeam = resolved?.awayTeamId ? getTeam(resolved.awayTeamId) : null;
 
                 return (
                   <div
@@ -191,9 +203,25 @@ export function AdminMatchSettingsTab({ flashStatus }: AdminMatchSettingsTabProp
                       isSaving && "opacity-50",
                     )}
                   >
-                    <span className="flex-1 text-foreground truncate">
-                      {km.homeSlot.label} vs {km.awaySlot.label}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                      {homeTeam ? (
+                        <>
+                          <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
+                          <span className="font-display text-xs tracking-wider">{homeTeam.shortName}</span>
+                        </>
+                      ) : (
+                        <span className="text-fifa-dark-gray/60 text-[10px] truncate">{km.homeSlot.label}</span>
+                      )}
+                      <span className="text-fifa-dark-gray/40 text-[10px]">vs</span>
+                      {awayTeam ? (
+                        <>
+                          <span className="font-display text-xs tracking-wider">{awayTeam.shortName}</span>
+                          <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />
+                        </>
+                      ) : (
+                        <span className="text-fifa-dark-gray/60 text-[10px] truncate">{km.awaySlot.label}</span>
+                      )}
+                    </div>
 
                     <label className="flex items-center gap-1 cursor-pointer">
                       <input

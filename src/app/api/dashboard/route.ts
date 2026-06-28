@@ -29,6 +29,9 @@ export const GET = withAuth(async (req, session) => {
     sql`SELECT match_id FROM exact_score_predictions WHERE user_id = ${session.id}`,
   ]);
 
+  // Feed DB results to knockout resolver BEFORE building unified matches
+  setLiveResults(resultsMap);
+
   // Locks
   const now = Date.now();
   const locks: Record<string, { locksAt: string; isLocked: boolean }> = {};
@@ -125,8 +128,7 @@ export const GET = withAuth(async (req, session) => {
       awayScore: resultsMap[m.id].awayScore,
     }));
 
-  // Knockout scope predictability — resolved server-side with live DB results
-  setLiveResults(resultsMap);
+  // Knockout scope predictability
   const knockoutScopes: Record<string, string[]> = {
     R32: ["R32"], R16: ["R16"], QF: ["QF"], SF: ["SF"], FINAL: ["3P", "F"],
   };

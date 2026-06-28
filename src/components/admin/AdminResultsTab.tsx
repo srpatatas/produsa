@@ -22,6 +22,7 @@ export function AdminResultsTab({ flashStatus }: AdminResultsTabProps) {
   const [editAway, setEditAway] = useState("");
   const [resultError, setResultError] = useState("");
   const [resultSaving, setResultSaving] = useState(false);
+  const [resolvedTeams, setResolvedTeams] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
 
   const loadResults = async () => {
     const res = await fetch("/api/admin/results");
@@ -34,6 +35,14 @@ export function AdminResultsTab({ flashStatus }: AdminResultsTabProps) {
 
   useEffect(() => {
     if (!resultsLoaded) loadResults();
+    fetch("/api/knockout-matches")
+      .then((r) => r.ok ? r.json() : { matches: [] })
+      .then((data) => {
+        const map: Record<string, { homeTeamId: string | null; awayTeamId: string | null }> = {};
+        for (const m of data.matches) map[m.id] = { homeTeamId: m.homeTeamId, awayTeamId: m.awayTeamId };
+        setResolvedTeams(map);
+      })
+      .catch(() => {});
   }, [resultsLoaded]);
 
   const allGroupMatches = matches.map((m) => ({
@@ -218,7 +227,9 @@ export function AdminResultsTab({ flashStatus }: AdminResultsTabProps) {
             </div>
             <div className="space-y-1.5">
               {koMatches.map((km) => {
-                const label = `${km.homeSlot.label} vs ${km.awaySlot.label}`;
+                const resolved = resolvedTeams[km.id];
+                const homeTeam = resolved?.homeTeamId ? getTeam(resolved.homeTeamId) : null;
+                const awayTeam = resolved?.awayTeamId ? getTeam(resolved.awayTeamId) : null;
                 const result = dbResults[km.id];
                 const isEditing = editingMatch === km.id;
 
@@ -227,7 +238,25 @@ export function AdminResultsTab({ flashStatus }: AdminResultsTabProps) {
                     key={km.id}
                     className="flex items-center gap-2 rounded-xl bg-card-bg px-3 py-2 ring-1 ring-white/5 text-sm"
                   >
-                    <span className="flex-1 text-foreground">{label}</span>
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                      {homeTeam ? (
+                        <>
+                          <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
+                          <span className="font-display text-xs tracking-wider">{homeTeam.shortName}</span>
+                        </>
+                      ) : (
+                        <span className="text-fifa-dark-gray/60 text-xs truncate">{km.homeSlot.label}</span>
+                      )}
+                      <span className="text-fifa-dark-gray/40">vs</span>
+                      {awayTeam ? (
+                        <>
+                          <span className="font-display text-xs tracking-wider">{awayTeam.shortName}</span>
+                          <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />
+                        </>
+                      ) : (
+                        <span className="text-fifa-dark-gray/60 text-xs truncate">{km.awaySlot.label}</span>
+                      )}
+                    </div>
 
                     {isEditing ? (
                       <div className="flex items-center gap-1.5">
