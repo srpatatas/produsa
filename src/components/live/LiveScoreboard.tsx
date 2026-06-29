@@ -325,6 +325,14 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Tremendous deal. No, pará, ese es otro",
     "Como asesor médico para la industria farmacéutica les digo: este partido necesita suplementación",
     "Profesional secret",
+    "Vieron que cuando el admin hace un comentario ácido el ex admin pone risitas y viceversa?",
+    "Póngase el alias. No quisiera boludearlo por su nombre de pila",
+    "Cada mundial estás más fachero, querido. Ya no me da para pelearme",
+    "Yo solamente pienso ganar mis mano a mano de siempre. El premio principal está lejos",
+    "Lo poco que le importa al admin el bienestar de sus participantes...",
+    "Me tomé el tiempo de hacer el análisis y matemáticamente no hay posibilidades de que no gane",
+    "Pregunto: no sería mejor darle el premio a Polo y disfrutar sin presión?",
+    "Creo que hablo por todos cuando pido una lista seria de los candidatos a ganar esto",
   ]),
   taunt: (n) => pick([
     `${n}, pronosticar no es tu fuerte. Está visto. Fuente: Dr. Almoño`,
@@ -332,6 +340,13 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     `${n} merece lo que le está pasando. Es una cuestión de eficiencia`,
     `A ${n} le recomiendo una segunda opinión médica sobre sus pronósticos`,
     `${n} tiene la misma suerte que el ex admin organizando cosas`,
+    `No se puede bardear adecuadamente a ${n} sin conocerlo. Pero lo intento igual`,
+    `${n}, si pronosticás así de mal, no quiero ver cómo manejás el resto de tu vida`,
+    `Lo que me cuesta igualar al mudito de ${n}. No, mentira, me está yendo peor`,
+    `${n} puso eso? Increíble que choreen y encima lo digan así`,
+    `${n}, como KOL & Speaker te digo: tu pronóstico tiene baja evidencia científica`,
+    `${n} predice como el admin administra: mal y cobrando igual`,
+    `Alguien le avise a ${n} que esto no es una obra de caridad`,
   ]),
   rankingTaunt: (n, pos, diff) => {
     if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Me tomé el tiempo de hacer el análisis y es merecido`;
