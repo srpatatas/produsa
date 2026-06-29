@@ -73,11 +73,13 @@ export const GET = withAuth(async (req, session) => {
           }
         }
       }
-      if (maps.exactScoreMatches.has(ls.matchId) && userExact[ls.matchId]) {
+      const isKnockout = ls.matchId.startsWith("R32-") || ls.matchId.startsWith("R16-") || ls.matchId.startsWith("QF-") || ls.matchId.startsWith("SF-") || ls.matchId === "F" || ls.matchId === "3P";
+      const hasExactScore = isKnockout || maps.exactScoreMatches.has(ls.matchId);
+      if (hasExactScore && userExact[ls.matchId]) {
         const ex = userExact[ls.matchId];
         liveExactScores[ls.matchId] = { home: ex.homeScore, away: ex.awayScore };
         if (hasRealScore && ex.homeScore === ls.homeScore && ex.awayScore === ls.awayScore) {
-          livePoints += 2;
+          livePoints += isKnockout ? 1 : 2;
         }
       }
     }
