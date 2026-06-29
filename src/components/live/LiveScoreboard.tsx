@@ -379,6 +379,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "Rosca por privado me pregunta cómo se calculan los puntos. Y después gana. Algo no cierra",
       "Mi hermano Rosca ganándome en el prode. En el día de MI cumpleaños. Así es la familia Almoño",
       "Feliz día a todos los papis y a Rosca Floja por semejante acto de generosidad... de ganarme",
+      "Quiero preparar los pochoclos para cuando Rosca lea el puntaje y haga la conversión a dólares",
     ]);
     if (n === "El Poeta") return pick([
       "Ya es inalcanzable, Poeta. Felicitaciones. Me duele pero lo digo",
@@ -395,7 +396,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "Mi viejo ni sabe que está jugando esto y va arriba. Genética pura, señores",
       "El Justo está más desbordado que lateral derecho de Alfaro. Pero le quiero igual",
       "JUSTO? campeón sería lo más justo. Solo eso. Objetividad total. Fuente: su hijo",
-      "Quiero preparar los pochoclos para cuando el Justo lea el puntaje y haga la conversión a dólares",
+      "La que metió el Justo. Ni él sabe cómo le fue tan bien",
       "Justo lo estás viendo con 5 minutos de delay! Mire que acá no dan cuartel, eh!",
       "Sin el Justo me hacía cartonero. Gracias viejo. Aunque no sepas qué pusiste",
     ]);
