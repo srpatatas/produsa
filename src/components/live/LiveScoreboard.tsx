@@ -361,6 +361,8 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "SE RINDEN???",
     "Que puse, Oso?",
     "Que puse en este partido? Alguien se fija?",
+    "Este partido es más difícil de digerir que el gluten para mí",
+    "Ser celíaco y de Argentina te prepara para sufrir. En la mesa y en el prode",
   ]),
   taunt: (n) => {
     if (n === "Morei Trumpista") return pick([
