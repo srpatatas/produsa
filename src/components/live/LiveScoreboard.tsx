@@ -512,7 +512,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber como asesor de la industria",
       "En Alemania la puntualidad es ley. Mi querido ex admin vivió allá y no aprendió nada. Se nota",
       "Creo que hablo por todos cuando digo que los alemanes fabrican los mejores equipos de laboratorio. Los uso todos los días",
-      "Alemania lidera en investigación de IA aplicada a medicina reproductiva. Mi próximo paper es con un grupo de Berlín",
+      "En Alemania la puntualidad es ley. Acá llegamos tarde a todo. Empezando por el admin con los resultados",
       "Los alemanes toman más cerveza per cápita que cualquiera. Como médico no lo recomiendo. Como hincha, hoy sí",
     ],
     PAR: [
