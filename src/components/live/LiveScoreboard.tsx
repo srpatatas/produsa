@@ -313,7 +313,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     return pick([`${n} pierde con el comodín. ${h}-${a}. Baja motilidad del resultado`, `El comodín de ${n} con el ${h}-${a}... hay tongo mal`, `${n} sufre con el comodín. Ya denle su premio y basta`, `${n} puso el comodín con el ${h}-${a}... al pedo como gastar tokens de Claude`, `El comodín de ${n} llora. ${h}-${a}. Como médico recomiendo paciencia`]);
   },
   comodinDraw: (n, m) => pick([`${n} empata en el ${m}' con el comodín. Esto no rinde, como el admin`, `El comodín de ${n} tiembla. Minuto ${m}. Se necesita más análisis`, `${n} con el comodín y empate. Creo que hablo por todos cuando pido un gol`, `Empate y el comodín de ${n} transpira. Minuto ${m}. Más turbio que los resultados del ex admin`]),
-  comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como KOL & Speaker, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`]),
+  comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como KOL & Speaker, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`, `¡${n} con el ${h}-${a} exacto! Aplauso de pie. De pie, señores`]),
   nobodyRight: () => pick(["¡Nadie le pegó! Creo que hablo por todos cuando digo: somos un desastre", "Nadie acertó. Más fallido que un ciclo sin monitoring", "Cero aciertos. Este mundial desfavorece a la razón", "Nadie predijo esto. Ni con IA aplicada, ni con nada", "¡Nadie le pegó! Al pedo los tokens de Claude"]),
   fewRight: (names) => pick([`Solo ${names} le están pegando. Los demás están como el admin: cobrando sin aportar`, `${names} nada más aciertan. El resto necesita una consulta médica`, `Únicamente ${names} aciertan. Creo que hablo por todos los demás cuando digo: vergüenza`, `Solo ${names} le pegan. El resto tiene la misma puntería que mis pacientes con el timing`]),
   idle: () => pick([
@@ -389,6 +389,35 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     if (n === "Heredero") return pick([
       "No veo la hora de ganarle al Heredero. Es personal",
       "Que pena que el Heredero pierda. Era el gran merecedor del torneo. Después de mí, claro",
+    ]);
+    if (n === "Pito Páez") return pick([
+      "Una genialidad del Pito. Como siempre. Aplauso de pie",
+      "El Pito le mandó empate? Ni el Pito desentonó. Increíble",
+      "Cuando pongan los extras quedo pegadito al Pito. Anoten",
+      "El premio para el Pito es doble? Creo que hablo por todos cuando pregunto",
+    ]);
+    if (n === "chijuan") return pick([
+      "Chijuan vuelve la play a casa y dejá de pronosticar",
+      "Anda a estudiar, chijuan. Esto no es lo tuyo",
+      "Pasa la lista, chijuan. A ver si así acertás algo",
+      "Chijuan con esa predicción? Aplauso de pie... por la valentía",
+    ]);
+    if (n === "Fatigatti") return pick([
+      "Póngase el alias, Fati. No quisiera boludearlo por su nombre de pila",
+      "Brillante Fatigati de la mano del negro Tapia. Aplauso de pie",
+      "Fati pronosticando así? Es una cuestión de eficiencia... que no tiene",
+      "Creo que hablo por todos cuando digo que Fatigatti merece lo que le pasa",
+    ]);
+    if (n === "Mago Numi") return pick([
+      "Qué lindo tener de cuñado al Mago. Te envidio...",
+      "Tampoco es tan difícil, Mago. Bueno, para vos parece que sí",
+      "El Mago haciendo magia... negra. Con esas predicciones no se gana",
+      "Creo que hablo por todos cuando digo que el Mago necesita un truco nuevo",
+    ]);
+    if (n === "Rayo McQueen") return pick([
+      "Qué día gris... Disfrútalo, Rayo...",
+      "Rayo McQueen rápido para todo menos para acertar",
+      "Creo que hablo por todos cuando digo que Rayo necesita un pit stop urgente",
     ]);
     if (n === "El Profesor") return pick([
       "El Profe no sale de abajo ni con carta documento",
