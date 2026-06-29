@@ -341,10 +341,50 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     return pick([`${n} va ${pos}°. Ya denle su premio y basta`, `${n} en el puesto ${pos}. Hay cuentas que saldar`]);
   },
   lecture: {
-    BRA: ["Dato médico: Brasil tiene el mayor número de cesáreas del mundo. 56%. Como médico me preocupa. Como hincha, me preocupa más este partido", "Creo que hablo por todos cuando digo que Brasil con 5 mundiales es injusto para el resto"],
-    JPN: ["En Japón la expectativa de vida es 84 años. Como especialista en reproducción les digo: es porque comen sano, no porque van al médico. Fuente: Dr. Almoño", "Los japoneses tienen robots para todo. Cuando llegue la IA a la reproducción, me quedo sin laburo"],
-    GER: ["Los alemanes son los más eficientes. Es una cuestión de eficiencia. Como todo en la vida", "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber"],
-    PAR: ["Paraguay tiene la represa de Itaipú, la más grande del mundo. Energía pura. Como un embrión de buena calidad", "Creo que hablo por todos cuando digo que Paraguay siempre sorprende. Como los resultados de laboratorio"],
+    BRA: [
+      "Dato médico: Brasil tiene el mayor número de cesáreas del mundo. 56%. Como médico me preocupa. Como hincha, me preocupa más este partido",
+      "Creo que hablo por todos cuando digo que Brasil con 5 mundiales es injusto para el resto",
+      "Brasil tiene 200 millones de personas. Si el 1% necesita fertilización, son 2 millones de pacientes. Mi próximo congreso va a ser allá",
+      "Neymar se lesiona más que mis pacientes se quejan. Y eso es mucho. Fuente: Dr. Almoño",
+      "En Brasil se toman 400 mil millones de cafecitos por año. Dato que le paso a la industria farmacéutica cuando me preguntan sobre cafeína y fertilidad",
+      "Miren el rostro de Vini Jr. Los brasileños son otra cosa. Dato objetivo del Dr. Almoño",
+    ],
+    JPN: [
+      "En Japón la expectativa de vida es 84 años. Como especialista en reproducción les digo: es porque comen sano, no porque van al médico",
+      "Los japoneses tienen robots para todo. Cuando llegue la IA a la reproducción, me quedo sin laburo",
+      "Japón tiene la tasa de natalidad más baja del mundo. 1.2 hijos por mujer. Me necesitan allá urgente. Profesional secret",
+      "Creo que hablo por todos cuando digo que la disciplina japonesa es admirable. Yo no la tengo, pero la admiro",
+      "En Japón los hinchas limpian el estadio. Yo limpio la clínica antes de cada procedimiento. Es una cuestión de eficiencia",
+    ],
+    GER: [
+      "Los alemanes son los más eficientes. Es una cuestión de eficiencia. Como todo en la vida",
+      "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber como asesor de la industria",
+      "En Alemania la puntualidad es ley. Mi querido ex admin vivió allá y no aprendió nada. Se nota",
+      "Creo que hablo por todos cuando digo que los alemanes fabrican los mejores equipos de laboratorio. Los uso todos los días",
+      "Dato de KOL: Alemania lidera en investigación de IA aplicada a medicina reproductiva. Mi próximo paper es con un grupo de Berlín",
+      "Los alemanes toman más cerveza per cápita que cualquiera. Como médico no lo recomiendo. Como hincha, hoy sí",
+    ],
+    PAR: [
+      "Paraguay tiene la represa de Itaipú, la más grande del mundo. Energía pura. Como un embrión de buena calidad",
+      "Creo que hablo por todos cuando digo que Paraguay siempre sorprende. Como los resultados de laboratorio a las 6 AM",
+      "Los paraguayos toman tereré, no mate caliente. Un dato que aprendí en un congreso en Asunción. Gran congreso, poca asistencia",
+      "Paraguay tiene 7 millones de habitantes y va a jugar contra Alemania. David vs Goliat. Dato: en reproducción, tamaño no importa tanto",
+      "En Paraguay hay más vacas que personas. Dato que uso en mis charlas como speaker. El público siempre se ríe. Bueno, a veces",
+    ],
+    NED: [
+      "Holanda tiene la mejor tecnología de fertilización in vitro de Europa. Dato que manejo como asesor de la industria",
+      "Creo que hablo por todos cuando digo que Van Dijk mide 1.93m. Eso no se fertiliza, se hereda",
+      "Los holandeses legalizaron todo. Como médico no opino, pero como persona curiosa... profesional secret",
+      "En Holanda andan todos en bicicleta. Dato que les doy a mis pacientes cuando les digo que hagan ejercicio",
+      "Holanda tiene más bicicletas que personas. 23 millones de bicis, 17 millones de holandeses. Dato de congreso en Ámsterdam",
+    ],
+    MAR: [
+      "Marruecos fue semifinalista en Qatar. Como médico especialista digo: ese equipo tiene buen ADN competitivo",
+      "Creo que hablo por todos cuando digo que Hakimi es un crack. Dato: nació en Madrid pero eligió Marruecos. Profesional secret",
+      "En Marruecos toman mucho té con menta. Antioxidante natural. Como médico lo recomiendo. Como hincha también",
+      "Marruecos tiene el desierto del Sahara. Más seco que mi pronóstico cuando no le pego a nada",
+      "Dato de speaker internacional: Marruecos lidera en turismo médico en África. Me invitaron a un congreso en Marrakech. Fui",
+    ],
   },
 };
 
@@ -357,7 +397,7 @@ function generateDynamicPhrase(
   homeTeamId?: string | null,
   awayTeamId?: string | null,
 ): { phrase: string; newEventIndex: number } {
-  const isBirthdayOverride = scope === "R32" && (() => { const d = new Date(); return `${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}` === "06-29"; })();
+    const isBirthdayOverride = scope === "R32" && (() => { const d = new Date(Date.now() - 3 * 60 * 60 * 1000); return `${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}` === "06-29"; })();
   const voice = isBirthdayOverride ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
   const h = score.homeScore;
   const a = score.awayScore;
