@@ -300,7 +300,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
   ]),
   ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Es una cuestión de eficiencia... para el otro equipo`, `En contra de ${s} en el ${m}'. Peor que un ciclo cancelado`, `¡Autogol de ${s}! Más fallido que un tratamiento sin seguimiento`, `En contra en el ${m}'. ${s} se mandó una más grande que el admin cuando cobra`]),
   redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Creo que hablo por todos cuando digo: bien echado`, `${p} expulsado. Como médico no puedo avalar esa violencia... pero la entiendo`, `${p} se fue en el ${m}'. Más rápido que el ex admin escapando de sus responsabilidades`, `Roja para ${p}. Como asesor de la industria farmacéutica: esa conducta no pasa el control de calidad`]),
-  yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace. Es una cuestión de criterio`, `${p} amonestado en el ${m}'. Creo que hablo por todos cuando digo: innecesaria`]),
+  yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace. Profesional secret`, `${p} amonestado en el ${m}'. Creo que hablo por todos cuando digo: innecesaria`]),
   penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Hay tongo mal`, `¡Penal! ${s} en el ${m}'. Increíble que choreen y encima lo digan así`, `¡${s} con penal! Minuto ${m}. Creo que hablo por todos cuando pido VAR`, `¡Penal en el ${m}'! Ni el tuerto se animó a tanto`]),
   scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`]),
   lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Me tomé el tiempo de hacer el análisis y ya no hay vuelta`, `Se termina esto. ${h}-${a}. Cuando gane no lo diré... pero habrá señales`, `${h}-${a} y queda nada. Creo que hablo por todos cuando digo: ya fue`, `Final con ${h}-${a}. Acabo de llegar. Algunos construimos un país distinto desde la madrugada`]),
@@ -313,7 +313,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     return pick([`${n} pierde con el comodín. ${h}-${a}. Baja motilidad del resultado`, `El comodín de ${n} con el ${h}-${a}... hay tongo mal`, `${n} sufre con el comodín. Ya denle su premio y basta`, `${n} puso el comodín con el ${h}-${a}... al pedo como gastar tokens de Claude`, `El comodín de ${n} llora. ${h}-${a}. Como médico recomiendo paciencia`]);
   },
   comodinDraw: (n, m) => pick([`${n} empata en el ${m}' con el comodín. Esto no rinde, como el admin`, `El comodín de ${n} tiembla. Minuto ${m}. Se necesita más análisis`, `${n} con el comodín y empate. Creo que hablo por todos cuando pido un gol`, `Empate y el comodín de ${n} transpira. Minuto ${m}. Más turbio que los resultados del ex admin`]),
-  comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como KOL & Speaker, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`, `¡${n} con el ${h}-${a} exacto! Aplauso de pie. De pie, señores`]),
+  comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como médico especialista, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`, `¡${n} con el ${h}-${a} exacto! Aplauso de pie. De pie, señores`]),
   nobodyRight: () => pick(["¡Nadie le pegó! Creo que hablo por todos cuando digo: somos un desastre", "Nadie acertó. Más fallido que un ciclo sin monitoring", "Cero aciertos. Este mundial desfavorece a la razón", "Nadie predijo esto. Ni con IA aplicada, ni con nada", "¡Nadie le pegó! Al pedo los tokens de Claude"]),
   fewRight: (names) => pick([`Solo ${names} le están pegando. Los demás están como el admin: cobrando sin aportar`, `${names} nada más aciertan. El resto necesita una consulta médica`, `Únicamente ${names} aciertan. Creo que hablo por todos los demás cuando digo: vergüenza`, `Solo ${names} le pegan. El resto tiene la misma puntería que mis pacientes con el timing`]),
   idle: () => pick([
@@ -332,7 +332,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Sapeeeee",
     "Tremendous deal. No, pará, ese es otro",
     "Como asesor médico para la industria farmacéutica les digo: este partido necesita suplementación",
-    "Creo que hablo por todos cuando digo que este partido es una vergüenza",
+    "Profesional secret",
     "Vieron que cuando el admin hace un comentario ácido el ex admin pone risitas y viceversa?",
     "Póngase el alias. No quisiera boludearlo por su nombre de pila",
     "Cada mundial estás más fachero, querido. Ya no me da para pelearme",
@@ -473,7 +473,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       `${n}, si pronosticás así de mal, no quiero ver cómo manejás el resto de tu vida`,
       `Lo que me cuesta igualar al mudito de ${n}. No, mentira, me está yendo peor`,
       `${n} puso eso? Increíble que choreen y encima lo digan así`,
-      `${n}, como KOL & Speaker te digo: tu pronóstico tiene baja evidencia científica`,
+      `${n}, como médico te digo: tu pronóstico tiene baja evidencia científica`,
       `${n} predice como el admin administra: mal y cobrando igual`,
       `Alguien le avise a ${n} que esto no es una obra de caridad`,
       `GOOOOL! GOOOL! Ah no, me confundí. Pero mirá la cara de ${n}...`,
@@ -503,7 +503,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     JPN: [
       "En Japón la expectativa de vida es 84 años. Como especialista en reproducción les digo: es porque comen sano, no porque van al médico",
       "Los japoneses tienen robots para todo. Cuando llegue la IA a la reproducción, me quedo sin laburo",
-      "Japón tiene la tasa de natalidad más baja del mundo. 1.2 hijos por mujer. Me necesitan allá urgente. Dato de KOL",
+      "Japón tiene la tasa de natalidad más baja del mundo. 1.2 hijos por mujer. Me necesitan allá urgente. Profesional secret",
       "Creo que hablo por todos cuando digo que la disciplina japonesa es admirable. Yo no la tengo, pero la admiro",
       "En Japón los hinchas limpian el estadio. Yo limpio la clínica antes de cada procedimiento. Es una cuestión de eficiencia",
     ],
@@ -512,7 +512,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber como asesor de la industria",
       "En Alemania la puntualidad es ley. Mi querido ex admin vivió allá y no aprendió nada. Se nota",
       "Creo que hablo por todos cuando digo que los alemanes fabrican los mejores equipos de laboratorio. Los uso todos los días",
-      "Dato de KOL: Alemania lidera en investigación de IA aplicada a medicina reproductiva. Mi próximo paper es con un grupo de Berlín",
+      "Alemania lidera en investigación de IA aplicada a medicina reproductiva. Mi próximo paper es con un grupo de Berlín",
       "Los alemanes toman más cerveza per cápita que cualquiera. Como médico no lo recomiendo. Como hincha, hoy sí",
     ],
     PAR: [
@@ -531,7 +531,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     ],
     MAR: [
       "Marruecos fue semifinalista en Qatar. Como médico especialista digo: ese equipo tiene buen ADN competitivo",
-      "Creo que hablo por todos cuando digo que Hakimi es un crack. Dato: nació en Madrid pero eligió Marruecos. Dato verificable",
+      "Creo que hablo por todos cuando digo que Hakimi es un crack. Dato: nació en Madrid pero eligió Marruecos. Profesional secret",
       "En Marruecos toman mucho té con menta. Antioxidante natural. Como médico lo recomiendo. Como hincha también",
       "Marruecos tiene el desierto del Sahara. Más seco que mi pronóstico cuando no le pego a nada",
       "Dato de speaker internacional: Marruecos lidera en turismo médico en África. Me invitaron a un congreso en Marrakech. Fui",
