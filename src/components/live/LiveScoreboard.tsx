@@ -372,10 +372,12 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     if (n === "Chekoloko") return pick([
       "No conviene transferirle la guita al Cheko para que la use en USA?",
       "El Cheko destrozaría todo si gana. Tengo un dilema con este muchacho",
-      "Chekoloko arriba? Anda a estudiar, chijuan. Ah no, ese es otro",
       "Chekoloko le pega a todo. Sospechoso. Muy sospechoso",
-      "Que puse, oso? Estoy acostumbrado a trabajar con asistentes",
-      "Gracias oso. Siempre laburando... siempre...",
+      "Estoy acostumbrado a trabajar con asistentes, Oso",
+      "Oso vas a poner la casa para festejar el premio?",
+      "Oso, lo puedo demandar? Creo que hablo por todos cuando pregunto",
+      "El Oso metió la doble encima? Siempre laburando, Oso... siempre...",
+      "Que vas a hacer con la plata, Oso?",
     ]);
     if (n === "Rosca Floja") return pick([
       "Da la Rosca peleando la punta y nadie dice nada porque les paga la pauta?",
