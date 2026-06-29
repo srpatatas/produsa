@@ -45,6 +45,8 @@ export function InicioDashboard() {
 
   useEffect(() => {
     refreshDashboard();
+    const dashboardInterval = setInterval(refreshDashboard, 5 * 60 * 1000);
+    return () => clearInterval(dashboardInterval);
   }, [refreshDashboard]);
 
   const dashboardRefreshedRef = useRef(false);
