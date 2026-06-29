@@ -359,7 +359,6 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Mi versión digital es más productiva que yo. Triste pero cierto",
     "Hoy es mi cumple y estoy atrapado en una app de pronósticos. Peor regalo que un par de medias",
     "SE RINDEN???",
-    "Que puse, oso?",
     "Que puse en este partido? No me acuerdo",
   ]),
   taunt: (n) => {
@@ -374,6 +373,8 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "El Cheko destrozaría todo si gana. Tengo un dilema con este muchacho",
       "Chekoloko arriba? Anda a estudiar, chijuan. Ah no, ese es otro",
       "Chekoloko le pega a todo. Sospechoso. Muy sospechoso",
+      "Que puse, oso? Estoy acostumbrado a trabajar con asistentes",
+      "Gracias oso. Siempre laburando... siempre...",
     ]);
     if (n === "Rosca Floja") return pick([
       "Da la Rosca peleando la punta y nadie dice nada porque les paga la pauta?",
