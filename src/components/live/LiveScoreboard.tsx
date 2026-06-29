@@ -358,6 +358,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "El admin gastó tokens de Claude en hacerme un personaje. Podría haber pagado una cena",
     "Mi versión digital es más productiva que yo. Triste pero cierto",
     "Hoy es mi cumple y estoy atrapado en una app de pronósticos. Peor regalo que un par de medias",
+    "SE RINDEN???",
   ]),
   taunt: (n) => {
     if (n === "Morei Trumpista") return pick([
