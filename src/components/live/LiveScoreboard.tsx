@@ -550,7 +550,7 @@ function generateDynamicPhrase(
   homeTeamId?: string | null,
   awayTeamId?: string | null,
 ): { phrase: string; newEventIndex: number } {
-    const isBirthdayOverride = scope === "R32" && (() => { const d = new Date(Date.now() - 3 * 60 * 60 * 1000); return `${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}` === "06-29"; })();
+  const isBirthdayOverride = scope === "R32" && (() => { const d = new Date(Date.now() - 3 * 60 * 60 * 1000); return `${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}` === "06-29"; })();
   const voice = isBirthdayOverride ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
   const h = score.homeScore;
   const a = score.awayScore;
@@ -669,7 +669,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
   const baseConfig = getComodinConfig(scope);
-  const isBdayOverride = scope === "R32" && (() => { const d = new Date(); return `${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}` === "06-29"; })();
+  const isBdayOverride = scope === "R32" && (() => { const d = new Date(Date.now() - 3 * 60 * 60 * 1000); return `${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}` === "06-29"; })();
   const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
