@@ -76,5 +76,7 @@ export const GET = withAuth(async (req, session) => {
     participants[u.name as string] = u.avatar as string;
   }
 
-  return NextResponse.json({ questions: data, totalUsers: users.length, participants });
+  return NextResponse.json({ questions: data, totalUsers: users.length, participants }, {
+    headers: { "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=600" },
+  });
 });

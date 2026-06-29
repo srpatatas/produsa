@@ -17,5 +17,7 @@ export const GET = withAuth(async (req: NextRequest) => {
     number: (r.number as number) || undefined,
   }));
 
-  return NextResponse.json({ players });
+  return NextResponse.json({ players }, {
+    headers: { "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=600" },
+  });
 });

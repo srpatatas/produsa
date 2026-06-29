@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
 import { withAuth } from "@/lib/apiAuth";
 
-export const dynamic = "force-dynamic";
 import { MatchResult } from "@/data/results";
 import { fetchRankingMaps, fetchBonusMaps, computeMatchPoints, computeBonusPoints } from "@/lib/rankingService";
 
@@ -55,5 +54,7 @@ export const GET = withAuth(async (req, session) => {
 
   const response = { ranking };
   rankingCache = { data: response, time: Date.now() };
-  return NextResponse.json(response);
+  return NextResponse.json(response, {
+    headers: { "Cache-Control": "public, max-age=0, s-maxage=120, stale-while-revalidate=600" },
+  });
 });

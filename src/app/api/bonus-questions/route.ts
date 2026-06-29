@@ -17,5 +17,7 @@ export const GET = withAuth(async (req, session) => {
     teamFilter: (r.team_filter as string) || undefined,
   }));
 
-  return NextResponse.json({ questions });
+  return NextResponse.json({ questions }, {
+    headers: { "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=600" },
+  });
 });

@@ -12,5 +12,7 @@ export async function GET() {
       exactScore: row.exact_score as boolean,
     };
   }
-  return NextResponse.json({ settings });
+  return NextResponse.json({ settings }, {
+    headers: { "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=600" },
+  });
 }
