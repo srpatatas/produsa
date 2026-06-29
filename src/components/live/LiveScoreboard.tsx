@@ -549,9 +549,10 @@ function generateDynamicPhrase(
   ranking?: RankingSnapshotEntry[],
   homeTeamId?: string | null,
   awayTeamId?: string | null,
+  birthdayVoice?: boolean,
 ): { phrase: string; newEventIndex: number } {
-  const isBirthdayOverride = scope === "R32" && (() => { const d = new Date(Date.now() - 3 * 60 * 60 * 1000); return `${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}` === "06-29"; })();
-  const voice = isBirthdayOverride ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
+  const voice = birthdayVoice ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
+
   const h = score.homeScore;
   const a = score.awayScore;
   const min = score.minute;
@@ -669,7 +670,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
   const baseConfig = getComodinConfig(scope);
-  const isBdayOverride = scope === "R32" && (() => { const d = new Date(Date.now() - 3 * 60 * 60 * 1000); return `${String(d.getUTCMonth()+1).padStart(2,"0")}-${String(d.getUTCDate()).padStart(2,"0")}` === "06-29"; })();
+  const isBdayOverride = matchId === "R32-3" || matchId === "R32-4";
   const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
@@ -745,7 +746,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       const events = liveScoreRef.current.events ?? [];
       // Generate phrases for ALL new events
       while (events.length > lastEventCount.current) {
-        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current);
+        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
