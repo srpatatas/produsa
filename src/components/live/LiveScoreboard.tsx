@@ -342,15 +342,15 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Pregunto: no sería mejor darle el premio a Polo y disfrutar sin presión?",
     "Creo que hablo por todos cuando pido una lista seria de los candidatos a ganar esto",
     "Polo primero y el admin controlando el sistema. No hay nada raro, no?",
-    "Quiero felicitar personalmente al juez y a los hermanos sanma por este resultado",
+    "Quiero felicitar personalmente al juez y a los hermanos san martin por este resultado",
     "Están organizando transferirle el premio directo a Polo. Fuente: de adentro",
     "El ex admin manda un Excel, no mira el mundial, y bardea a Morei todos los días. Un genio",
     "Vieron que Polo siempre gana? Es el juez. El juez siempre gana. Coincidencia? No lo creo",
-    "Los hermanos sanma van a lo seguro. Nunca arriesgan. Por eso nunca pierden. Sospechoso",
-    "Una genialidad del pito. Una genialidad de los hermanos sanma. Todo armado. Hay señales",
+    "Los hermanos san martin van a lo seguro. Nunca arriesgan. Por eso nunca pierden. Sospechoso",
+    "Una genialidad del pito. Una genialidad de los hermanos san martin. Todo armado. Hay señales",
     "Vieron que cuando el admin hace un comentario ácido el ex admin pone risitas y viceversa? Están coludidos",
     "Yo pedí incorporación de gente y el admin ni bola. Pero para cobrar sí está",
-    "Se necesita una auditoría de los hermanos sanma. Creo que hablo por todos",
+    "Se necesita una auditoría de los hermanos san martin. Creo que hablo por todos",
     "Es mi cumpleaños y el admin me puso de comodín. No sé si es un regalo o un castigo",
     "Feliz cumple a mí. Esperaba una torta, no un comodín digital",
     "Estoy adentro de la app comentando partidos. Esto no estaba en mi plan de vida",
@@ -360,11 +360,19 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Hoy es mi cumple y estoy atrapado en una app de pronósticos. Peor regalo que un par de medias",
   ]),
   taunt: (n) => {
+    if (n === "JUSTO?") return pick([
+      "El Justo acaba de llegar a casa. No sabe ni qué puso. Lo amo",
+      "JUSTO? no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
+      "Mi viejo ni sabe que está jugando esto y va arriba. Genética pura, señores",
+      "El Justo está más desbordado que lateral derecho de Alfaro. Pero le quiero igual",
+      "JUSTO? campeón sería lo más justo. Solo eso. Objetividad total. Fuente: su hijo",
+      "Quiero preparar los pochoclos para cuando el Justo lea el puntaje y haga la conversión a dólares",
+    ]);
     if (n === "Polo") return pick([
       "Polo primero como siempre. El juez siempre gana. Hay tongo mal",
       "Polo le pega a todo. Está arreglado. No tengo pruebas pero tampoco dudas",
       "Creo que hablo por todos cuando digo que Polo tiene información privilegiada",
-      "El juez Polo siempre arriba. Los hermanos sanma le pasan data, seguro",
+      "El juez Polo siempre arriba. Los hermanos san martin le pasan data, seguro",
       "Polo campeón de vuelta? Increíble que choreen y encima lo digan así",
     ]);
     if (n === "Ex-Admin") return pick([
