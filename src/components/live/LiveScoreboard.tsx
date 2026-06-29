@@ -510,7 +510,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     GER: [
       "Los alemanes son los más eficientes. Es una cuestión de eficiencia. Como todo en la vida",
       "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber como asesor de la industria",
-      "En Alemania la puntualidad es ley. Mi querido ex admin vivió allá y no aprendió nada. Se nota",
+      "En Alemania la puntualidad es ley. El ex admin vivió en Suecia y tampoco aprendió. Se nota",
       "Creo que hablo por todos cuando digo que los alemanes fabrican los mejores equipos de laboratorio. Los uso todos los días",
       "En Alemania la puntualidad es ley. Acá llegamos tarde a todo. Empezando por el admin con los resultados",
       "Los alemanes toman más cerveza per cápita que cualquiera. Yo me tomaría una ahora mismo",
