@@ -300,7 +300,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
   ]),
   ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Es una cuestión de eficiencia... para el otro equipo`, `En contra de ${s} en el ${m}'. Peor que un ciclo cancelado`, `¡Autogol de ${s}! Más fallido que un tratamiento sin seguimiento`, `En contra en el ${m}'. ${s} se mandó una más grande que el admin cuando cobra`]),
   redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Creo que hablo por todos cuando digo: bien echado`, `${p} expulsado. Como médico no puedo avalar esa violencia... pero la entiendo`, `${p} se fue en el ${m}'. Más rápido que el ex admin escapando de sus responsabilidades`, `Roja para ${p}. Como asesor de la industria farmacéutica: esa conducta no pasa el control de calidad`]),
-  yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace. Profesional secret`, `${p} amonestado en el ${m}'. Creo que hablo por todos cuando digo: innecesaria`]),
+  yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace, señor`, `${p} amonestado en el ${m}'. Creo que hablo por todos cuando digo: innecesaria`]),
   penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Hay tongo mal`, `¡Penal! ${s} en el ${m}'. Increíble que choreen y encima lo digan así`, `¡${s} con penal! Minuto ${m}. Creo que hablo por todos cuando pido VAR`, `¡Penal en el ${m}'! Ni el tuerto se animó a tanto`]),
   scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`]),
   lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Me tomé el tiempo de hacer el análisis y ya no hay vuelta`, `Se termina esto. ${h}-${a}. Cuando gane no lo diré... pero habrá señales`, `${h}-${a} y queda nada. Creo que hablo por todos cuando digo: ya fue`, `Final con ${h}-${a}. Acabo de llegar. Algunos construimos un país distinto desde la madrugada`]),
@@ -503,7 +503,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     JPN: [
       "En Japón la expectativa de vida es 84 años. Como especialista en reproducción les digo: es porque comen sano, no porque van al médico",
       "Los japoneses tienen robots para todo. Cuando llegue la IA a la reproducción, me quedo sin laburo",
-      "Japón tiene la tasa de natalidad más baja del mundo. 1.2 hijos por mujer. Me necesitan allá urgente. Profesional secret",
+      "Japón tiene la tasa de natalidad más baja del mundo. 1.2 hijos por mujer. Me necesitan allá urgente. Aplauso de pie",
       "Creo que hablo por todos cuando digo que la disciplina japonesa es admirable. Yo no la tengo, pero la admiro",
       "En Japón los hinchas limpian el estadio. Yo limpio la clínica antes de cada procedimiento. Es una cuestión de eficiencia",
     ],
@@ -531,7 +531,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     ],
     MAR: [
       "Marruecos fue semifinalista en Qatar. Como médico especialista digo: ese equipo tiene buen ADN competitivo",
-      "Creo que hablo por todos cuando digo que Hakimi es un crack. Dato: nació en Madrid pero eligió Marruecos. Profesional secret",
+      "Creo que hablo por todos cuando digo que Hakimi es un crack. Dato: nació en Madrid pero eligió Marruecos. Hay que respetarlo",
       "En Marruecos toman mucho té con menta. Antioxidante natural. Como médico lo recomiendo. Como hincha también",
       "Marruecos tiene el desierto del Sahara. Más seco que mi pronóstico cuando no le pego a nada",
       "Dato de speaker internacional: Marruecos lidera en turismo médico en África. Me invitaron a un congreso en Marrakech. Fui",
