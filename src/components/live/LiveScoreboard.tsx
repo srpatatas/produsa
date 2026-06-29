@@ -304,8 +304,14 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
   penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Hay tongo mal`, `¡Penal! ${s} en el ${m}'. Increíble que choreen y encima lo digan así`, `¡${s} con penal! Minuto ${m}. Creo que hablo por todos cuando pido VAR`, `¡Penal en el ${m}'! Ni el tuerto se animó a tanto`]),
   scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`]),
   lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Me tomé el tiempo de hacer el análisis y ya no hay vuelta`, `Se termina esto. ${h}-${a}. Cuando gane no lo diré... pero habrá señales`, `${h}-${a} y queda nada. Creo que hablo por todos cuando digo: ya fue`, `Final con ${h}-${a}. Acabo de llegar. Algunos construimos un país distinto desde la madrugada`]),
-  comodinWinning: (n, h, a) => pick([`${n} con el comodín y va ${h}-${a}. Es sabiduría, no es suerte`, `¡${n} con el +2! Mejor diagnóstico que cualquiera de mis pacientes`, `${n} va ganando con el comodín. Donde firmo para que siga así?`, `${n} y el comodín con el ${h}-${a}. Más efectivo que un tratamiento de primera línea`]),
-  comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Baja motilidad del resultado`, `El comodín de ${n} con el ${h}-${a}... hay tongo mal`, `${n} sufre con el comodín. Ya denle su premio y basta`, `${n} puso el comodín con el ${h}-${a}... al pedo como gastar tokens de Claude`, `El comodín de ${n} llora. ${h}-${a}. Como médico recomiendo paciencia`]),
+  comodinWinning: (n, h, a) => {
+    if (n === "Ahh, La Tia de todo") return pick([`Yo mismo con el comodín y va ${h}-${a}. Mejor regalo de cumple no hay`, `¡Mi propio comodín rinde! ${h}-${a}. Creo que hablo por todos cuando digo: lo merezco`, `Va ${h}-${a} y mi comodín vuela. El admin por fin hizo algo bien`]);
+    return pick([`${n} con el comodín y va ${h}-${a}. Es sabiduría, no es suerte`, `¡${n} con el +2! Mejor diagnóstico que cualquiera de mis pacientes`, `${n} va ganando con el comodín. Donde firmo para que siga así?`, `${n} y el comodín con el ${h}-${a}. Más efectivo que un tratamiento de primera línea`]);
+  },
+  comodinLosing: (n, h, a) => {
+    if (n === "Ahh, La Tia de todo") return pick([`Pierdo con mi propio comodín. ${h}-${a}. Ni en mi cumple me dejan ganar`, `Mi comodín llora y yo también. ${h}-${a}. Peor cumpleaños imposible`, `${h}-${a} y mi comodín se hunde. El admin me regaló sufrimiento digital`]);
+    return pick([`${n} pierde con el comodín. ${h}-${a}. Baja motilidad del resultado`, `El comodín de ${n} con el ${h}-${a}... hay tongo mal`, `${n} sufre con el comodín. Ya denle su premio y basta`, `${n} puso el comodín con el ${h}-${a}... al pedo como gastar tokens de Claude`, `El comodín de ${n} llora. ${h}-${a}. Como médico recomiendo paciencia`]);
+  },
   comodinDraw: (n, m) => pick([`${n} empata en el ${m}' con el comodín. Esto no rinde, como el admin`, `El comodín de ${n} tiembla. Minuto ${m}. Se necesita más análisis`, `${n} con el comodín y empate. Creo que hablo por todos cuando pido un gol`, `Empate y el comodín de ${n} transpira. Minuto ${m}. Más turbio que los resultados del ex admin`]),
   comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como KOL & Speaker, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`]),
   nobodyRight: () => pick(["¡Nadie le pegó! Creo que hablo por todos cuando digo: somos un desastre", "Nadie acertó. Más fallido que un ciclo sin monitoring", "Cero aciertos. Este mundial desfavorece a la razón", "Nadie predijo esto. Ni con IA aplicada, ni con nada", "¡Nadie le pegó! Al pedo los tokens de Claude"]),
@@ -335,21 +341,37 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Me tomé el tiempo de hacer el análisis y matemáticamente no hay posibilidades de que no gane",
     "Pregunto: no sería mejor darle el premio a Polo y disfrutar sin presión?",
     "Creo que hablo por todos cuando pido una lista seria de los candidatos a ganar esto",
+    "Es mi cumpleaños y el admin me puso de comodín. No sé si es un regalo o un castigo",
+    "Feliz cumple a mí. Esperaba una torta, no un comodín digital",
+    "Estoy adentro de la app comentando partidos. Esto no estaba en mi plan de vida",
+    "Siendo honesto, es impresionante lo del personaje con sus frases. Me siento halagado",
+    "El admin gastó tokens de Claude en hacerme un personaje. Podría haber pagado una cena",
+    "Mi versión digital es más productiva que yo. Triste pero cierto",
+    "Hoy es mi cumple y estoy atrapado en una app de pronósticos. Peor regalo que un par de medias",
   ]),
-  taunt: (n) => pick([
-    `${n}, pronosticar no es tu fuerte. Está visto. Fuente: Dr. Almoño`,
-    `${n}, creo que hablo por todos cuando digo que tu predicción da vergüenza`,
-    `${n} merece lo que le está pasando. Es una cuestión de eficiencia`,
-    `A ${n} le recomiendo una segunda opinión médica sobre sus pronósticos`,
-    `${n} tiene la misma suerte que el ex admin organizando cosas`,
-    `No se puede bardear adecuadamente a ${n} sin conocerlo. Pero lo intento igual`,
-    `${n}, si pronosticás así de mal, no quiero ver cómo manejás el resto de tu vida`,
-    `Lo que me cuesta igualar al mudito de ${n}. No, mentira, me está yendo peor`,
-    `${n} puso eso? Increíble que choreen y encima lo digan así`,
-    `${n}, como KOL & Speaker te digo: tu pronóstico tiene baja evidencia científica`,
-    `${n} predice como el admin administra: mal y cobrando igual`,
-    `Alguien le avise a ${n} que esto no es una obra de caridad`,
-  ]),
+  taunt: (n) => {
+    if (n === "Ahh, La Tia de todo") return pick([
+      "Yo mismo la estoy pasando mal. Ni en mi cumple me dejan ganar tranquilo",
+      "Me pusieron de comodín el día de mi cumple y ni así le pego. La vida es injusta",
+      "Creo que hablo por todos cuando digo que merezco ganar HOY. Es mi cumple, por favor",
+      "El admin me puso de comodín como regalo de cumpleaños. El regalo sería ganar, no sufrir",
+      "Hasta mi versión digital la pasa mal. Feliz cumple a mí",
+    ]);
+    return pick([
+      `${n}, pronosticar no es tu fuerte. Está visto. Fuente: Dr. Almoño`,
+      `${n}, creo que hablo por todos cuando digo que tu predicción da vergüenza`,
+      `${n} merece lo que le está pasando. Es una cuestión de eficiencia`,
+      `A ${n} le recomiendo una segunda opinión médica sobre sus pronósticos`,
+      `${n} tiene la misma suerte que el ex admin organizando cosas`,
+      `No se puede bardear adecuadamente a ${n} sin conocerlo. Pero lo intento igual`,
+      `${n}, si pronosticás así de mal, no quiero ver cómo manejás el resto de tu vida`,
+      `Lo que me cuesta igualar al mudito de ${n}. No, mentira, me está yendo peor`,
+      `${n} puso eso? Increíble que choreen y encima lo digan así`,
+      `${n}, como KOL & Speaker te digo: tu pronóstico tiene baja evidencia científica`,
+      `${n} predice como el admin administra: mal y cobrando igual`,
+      `Alguien le avise a ${n} que esto no es una obra de caridad`,
+    ]);
+  },
   rankingTaunt: (n, pos, diff) => {
     if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Me tomé el tiempo de hacer el análisis y es merecido`;
     if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Baja motilidad en el ranking`;
