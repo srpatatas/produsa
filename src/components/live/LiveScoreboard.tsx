@@ -302,7 +302,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
   redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Creo que hablo por todos cuando digo: bien echado`, `${p} expulsado. Como médico no puedo avalar esa violencia... pero la entiendo`, `${p} se fue en el ${m}'. Más rápido que el ex admin escapando de sus responsabilidades`, `Roja para ${p}. Como asesor de la industria farmacéutica: esa conducta no pasa el control de calidad`]),
   yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace, señor`, `${p} amonestado en el ${m}'. Creo que hablo por todos cuando digo: innecesaria`]),
   penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Hay tongo mal`, `¡Penal! ${s} en el ${m}'. Increíble que choreen y encima lo digan así`, `¡${s} con penal! Minuto ${m}. Creo que hablo por todos cuando pido VAR`, `¡Penal en el ${m}'! Ni el tuerto se animó a tanto`]),
-  scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`]),
+  scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`, `${m}' y 0-0. Hice las cuentas y es matemáticamente imposible que metan un gol`]),
   lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Me tomé el tiempo de hacer el análisis y ya no hay vuelta`, `Se termina esto. ${h}-${a}. Cuando gane no lo diré... pero habrá señales`, `${h}-${a} y queda nada. Creo que hablo por todos cuando digo: ya fue`, `Final con ${h}-${a}. Acabo de llegar. Algunos construimos un país distinto desde la madrugada`]),
   comodinWinning: (n, h, a) => {
     if (n === "Ahh, La Tia de todo") return pick([`Yo mismo con el comodín y va ${h}-${a}. Mejor regalo de cumple no hay`, `¡Mi propio comodín rinde! ${h}-${a}. Creo que hablo por todos cuando digo: lo merezco`, `Va ${h}-${a} y mi comodín vuela. El admin por fin hizo algo bien`]);
@@ -478,6 +478,8 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       `${n}, como médico te digo: tu pronóstico tiene baja evidencia científica`,
       `${n} predice como el admin administra: mal y cobrando igual`,
       `Alguien le avise a ${n} que esto no es una obra de caridad`,
+      `Hice las cuentas y es matemáticamente imposible que ${n} gane. De nada`,
+      `${n}, matemáticamente ya no tenés chances. Fuente: Dr. Almoño`,
       `GOOOOL! GOOOL! Ah no, me confundí. Pero mirá la cara de ${n}...`,
       `GOOOOOOL!! ... mentira. Pero ${n} se asustó, se le notó`,
       `GOOOOL DEL LOC... ah no, era un lateral. Igual ${n} ya transpiraba`,
