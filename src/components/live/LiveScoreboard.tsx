@@ -635,8 +635,8 @@ function generateDynamicPhrase(
     if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
   }
 
-  // 5% — Ranking commentary
-  if (roll < 0.65 && ranking && ranking.length > 0) {
+  // ~10% independent chance — Ranking commentary
+  if (Math.random() < 0.1 && ranking && ranking.length > 0) {
     const movers = ranking.filter((r) => r.previousPosition - r.position !== 0 || r.position <= 3);
     if (movers.length > 0) {
       const target = pick(movers);
