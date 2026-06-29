@@ -323,7 +323,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Al pedo me gasté los tokens de Claude para ver esto",
     "Es una cuestión de eficiencia. Y este partido no la tiene",
     "Acabo de llegar. Algunos construimos un país distinto desde la madrugada",
-    "Héroe o villano. Eso se decide hoy",
+    "Héroe o villano. Alegría o desazón. Eso se decide hoy",
     "Hay tongo mal. No tengo pruebas pero tampoco dudas",
     "Ya denle su premio a alguien y terminemos con esto",
     "El admin solo cobra. No la pone hace rato",
