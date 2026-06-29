@@ -761,7 +761,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
     function showIdle() {
       if (isShowingRef.current || eventQueue.current.length > 0) return;
-      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current);
+      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
       eventIndexRef.current = result.newEventIndex;
       showPhrase(result.phrase);
     }
