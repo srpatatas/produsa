@@ -45,6 +45,8 @@ export async function GET() {
       ...m,
       homeScore: resultsMap[m.id].homeScore,
       awayScore: resultsMap[m.id].awayScore,
+      homePenalty: resultsMap[m.id].homePenalty ?? null,
+      awayPenalty: resultsMap[m.id].awayPenalty ?? null,
     }));
 
   const nextMatch = allMatches

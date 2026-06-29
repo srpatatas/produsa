@@ -15,6 +15,8 @@ const POLL_INTERVAL_MS = 15_000;
 interface RecentResult extends UnifiedMatch {
   homeScore: number;
   awayScore: number;
+  homePenalty: number | null;
+  awayPenalty: number | null;
 }
 
 interface DashboardData {

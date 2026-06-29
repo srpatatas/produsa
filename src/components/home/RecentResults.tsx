@@ -10,6 +10,8 @@ import { getLiveOutcome } from "@/lib/outcomeStyles";
 interface RecentResult extends UnifiedMatch {
   homeScore: number;
   awayScore: number;
+  homePenalty: number | null;
+  awayPenalty: number | null;
 }
 
 interface RecentResultsProps {
@@ -57,10 +59,15 @@ function RecentResultCard({ r }: { r: RecentResult }) {
             )}
           </div>
 
-          <div className="flex items-center gap-2 px-3">
-            <span className="font-display text-2xl text-foreground">{r.homeScore}</span>
-            <span className="text-sm text-fifa-dark-gray/40">-</span>
-            <span className="font-display text-2xl text-foreground">{r.awayScore}</span>
+          <div className="flex flex-col items-center px-3">
+            <div className="flex items-center gap-2">
+              <span className="font-display text-2xl text-foreground">{r.homeScore}</span>
+              <span className="text-sm text-fifa-dark-gray/40">-</span>
+              <span className="font-display text-2xl text-foreground">{r.awayScore}</span>
+            </div>
+            {r.homePenalty != null && r.awayPenalty != null && (
+              <span className="text-[10px] text-fifa-dark-gray">({r.homePenalty}-{r.awayPenalty} pen.)</span>
+            )}
           </div>
 
           <div className="flex flex-1 flex-col items-center gap-1.5">
@@ -82,7 +89,7 @@ function RecentResultCard({ r }: { r: RecentResult }) {
         <MatchPredictionsDropdown
           matchId={r.id}
           isKnockout={r.phase === "knockout"}
-          actualOutcome={getLiveOutcome(r.homeScore, r.awayScore)}
+          actualOutcome={r.homePenalty != null && r.awayPenalty != null ? (r.homePenalty > r.awayPenalty ? "L" : "V") : getLiveOutcome(r.homeScore, r.awayScore)}
           actualScore={{ home: r.homeScore, away: r.awayScore }}
         />
       )}
