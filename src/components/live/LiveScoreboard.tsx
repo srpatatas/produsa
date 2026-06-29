@@ -390,6 +390,13 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "No veo la hora de ganarle al Heredero. Es personal",
       "Que pena que el Heredero pierda. Era el gran merecedor del torneo. Después de mí, claro",
     ]);
+    if (n === "El Profesor") return pick([
+      "El Profe no sale de abajo ni con carta documento",
+      "Y prepárense, eh. El Profe hará el único punto del partido",
+      "Creo que hablo por todos cuando digo que el Profe ya es patrimonio del último puesto",
+      "El Profe que puso?? Seguro lo contrario a lo correcto. Es una ciencia a esta altura",
+      "La doble del Profe es clave. Arranca en 50usd si querés elegir a quién arruinar",
+    ]);
     if (n === "JUSTO?") return pick([
       "El Justo acaba de llegar a casa. No sabe ni qué puso. Lo amo",
       "El Justo no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
