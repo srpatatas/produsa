@@ -36,13 +36,15 @@ interface PersonalityVoice {
 }
 
 const usedPhrases = new Set<string>();
-function pick<T>(arr: T[]): T {
+const usedLectures = new Set<string>();
+function pick<T>(arr: T[], trackSet?: Set<string>): T {
   if (arr.length <= 1) return arr[0];
-  const fresh = arr.filter((v) => !usedPhrases.has(String(v)));
+  const tracker = trackSet ?? usedPhrases;
+  const fresh = arr.filter((v) => !tracker.has(String(v)));
   const pool = fresh.length > 0 ? fresh : arr;
-  if (fresh.length === 0) usedPhrases.clear();
+  if (fresh.length === 0) tracker.clear();
   const chosen = pool[Math.floor(Math.random() * pool.length)];
-  usedPhrases.add(String(chosen));
+  tracker.add(String(chosen));
   return chosen;
 }
 
@@ -445,7 +447,7 @@ function generateDynamicPhrase(
       const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
       const tid = teamIds.length > 0 ? pick(teamIds) : null;
       if (tid && voice.lecture[tid]?.length) {
-        return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+        return { phrase: pick(voice.lecture[tid], usedLectures), newEventIndex: lastEventIndex };
       }
     }
     if (Math.random() < 0.3 && preds.length > 5) {
@@ -683,6 +685,7 @@ export function clearLiveComodinCaches() {
   eventIndexCache.clear();
   lastEventCountCache.clear();
   usedPhrases.clear();
+  usedLectures.clear();
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
