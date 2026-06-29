@@ -287,6 +287,67 @@ const VOICES: Record<string, PersonalityVoice> = {
   },
 };
 
+// Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
+const BIRTHDAY_VOICE: PersonalityVoice = {
+  goal: (s, m, _side, h, a) => pick([
+    `¡${s} la metió! ${h}-${a}. Creo que hablo por todos cuando digo: golazo`,
+    `${s}, minuto ${m}. ${h}-${a}. Como médico, diagnostico un gol hermoso`,
+    `¡Gol! ${s} en el ${m}'. Hay tongo mal. Fuente: Dr. Almoño`,
+    `¡${h}-${a}! ${s} en el ${m}'. De acá a ganar el prode. Lo firmo ahora`,
+    `¡${s} convirtió! ${h}-${a}. Más lindo que un embrión de día 5 en el microscopio`,
+  ]),
+  ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Es una cuestión de eficiencia... para el otro equipo`, `En contra de ${s} en el ${m}'. Peor que un ciclo cancelado`, `¡Autogol de ${s}! Más fallido que un tratamiento sin seguimiento`, `En contra en el ${m}'. ${s} se mandó una más grande que el admin cuando cobra`]),
+  redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Creo que hablo por todos cuando digo: bien echado`, `${p} expulsado. Como médico no puedo avalar esa violencia... pero la entiendo`, `${p} se fue en el ${m}'. Más rápido que el ex admin escapando de sus responsabilidades`, `Roja para ${p}. Se va como los espermatozoides que no llegan`]),
+  yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace. Profesional secret`, `${p} amonestado en el ${m}'. Hay cuentas que saldar`]),
+  penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Hay tongo mal`, `¡Penal! ${s} en el ${m}'. Increíble que choreen y encima lo digan así`, `¡${s} con penal! Minuto ${m}. Creo que hablo por todos cuando pido VAR`, `¡Penal en el ${m}'! Ni el tuerto se animó a tanto`]),
+  scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`]),
+  lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Me tomé el tiempo de hacer el análisis y ya no hay vuelta`, `Se termina esto. ${h}-${a}. Cuando gane no lo diré... pero habrá señales`, `${h}-${a} y queda nada. Creo que hablo por todos cuando digo: ya fue`, `Final con ${h}-${a}. Acabo de llegar. Algunos construimos un país distinto desde la madrugada`]),
+  comodinWinning: (n, h, a) => pick([`${n} con el comodín y va ${h}-${a}. Es sabiduría, no es suerte`, `¡${n} con el +2! Mejor diagnóstico que cualquiera de mis pacientes`, `${n} va ganando con el comodín. Donde firmo para que siga así?`, `${n} y el comodín con el ${h}-${a}. Más efectivo que un tratamiento de primera línea`]),
+  comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Baja motilidad del resultado`, `El comodín de ${n} con el ${h}-${a}... hay tongo mal`, `${n} sufre con el comodín. Ya denle su premio y basta`, `${n} puso el comodín con el ${h}-${a}... al pedo como gastar tokens de Claude`, `El comodín de ${n} llora. ${h}-${a}. Como médico recomiendo paciencia`]),
+  comodinDraw: (n, m) => pick([`${n} empata en el ${m}' con el comodín. Esto no rinde, como el admin`, `El comodín de ${n} tiembla. Minuto ${m}. Se necesita más análisis`, `${n} con el comodín y empate. Creo que hablo por todos cuando pido un gol`, `Empate y el comodín de ${n} transpira. Minuto ${m}. Más turbio que los resultados del ex admin`]),
+  comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como KOL & Speaker, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`]),
+  nobodyRight: () => pick(["¡Nadie le pegó! Creo que hablo por todos cuando digo: somos un desastre", "Nadie acertó. Más fallido que un ciclo sin monitoring", "Cero aciertos. Este mundial desfavorece a la razón", "Nadie predijo esto. Ni con IA aplicada, ni con nada", "¡Nadie le pegó! Al pedo los tokens de Claude"]),
+  fewRight: (names) => pick([`Solo ${names} le están pegando. Los demás están como el admin: cobrando sin aportar`, `${names} nada más aciertan. El resto necesita una consulta médica`, `Únicamente ${names} aciertan. Creo que hablo por todos los demás cuando digo: vergüenza`, `Solo ${names} le pegan. El resto tiene la misma puntería que mis pacientes con el timing`]),
+  idle: () => pick([
+    "Creo que hablo por todos cuando digo que este partido necesita más acción",
+    "Si no se presentan, esto termina mal. No se puede bardear adecuadamente a quien no se conoce",
+    "Cuando gane no lo diré... pero habrá señales",
+    "Al pedo me gasté los tokens de Claude para ver esto",
+    "Es una cuestión de eficiencia. Y este partido no la tiene",
+    "Acabo de llegar. Algunos construimos un país distinto desde la madrugada",
+    "Héroe o villano. Eso se decide hoy",
+    "Hay tongo mal. No tengo pruebas pero tampoco dudas",
+    "Ya denle su premio a alguien y terminemos con esto",
+    "El admin solo cobra. No la pone hace rato",
+    "De acá a ganar el prode. Lo firmo ahora. Dónde firmo?",
+    "Este mundial desfavorece a la razón. Y se abraza al efecto profe...",
+    "Sapeeeee",
+    "Tremendous deal. No, pará, ese es otro",
+    "Como asesor médico para la industria farmacéutica les digo: este partido necesita suplementación",
+    "Profesional secret",
+  ]),
+  taunt: (n) => pick([
+    `${n}, pronosticar no es tu fuerte. Está visto. Fuente: Dr. Almoño`,
+    `${n}, creo que hablo por todos cuando digo que tu predicción da vergüenza`,
+    `${n} merece lo que le está pasando. Es una cuestión de eficiencia`,
+    `A ${n} le recomiendo una segunda opinión médica sobre sus pronósticos`,
+    `${n} tiene la misma suerte que el ex admin organizando cosas`,
+  ]),
+  rankingTaunt: (n, pos, diff) => {
+    if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Me tomé el tiempo de hacer el análisis y es merecido`;
+    if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Baja motilidad en el ranking`;
+    if (pos === 1) return `${n} va primero. Creo que hablo por todos cuando digo: lo merece... o no`;
+    if (pos <= 3) return `${n} va ${pos}°. De acá a ganar el prode. Lo firmo`;
+    return pick([`${n} va ${pos}°. Ya denle su premio y basta`, `${n} en el puesto ${pos}. Hay cuentas que saldar`]);
+  },
+  lecture: {
+    BRA: ["Dato médico: Brasil tiene el mayor número de cesáreas del mundo. 56%. Como médico me preocupa. Como hincha, me preocupa más este partido", "Creo que hablo por todos cuando digo que Brasil con 5 mundiales es injusto para el resto"],
+    JPN: ["En Japón la expectativa de vida es 84 años. Como especialista en reproducción les digo: es porque comen sano, no porque van al médico. Fuente: Dr. Almoño", "Los japoneses tienen robots para todo. Cuando llegue la IA a la reproducción, me quedo sin laburo"],
+    GER: ["Los alemanes son los más eficientes. Es una cuestión de eficiencia. Como todo en la vida", "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber"],
+    PAR: ["Paraguay tiene la represa de Itaipú, la más grande del mundo. Energía pura. Como un embrión de buena calidad", "Creo que hablo por todos cuando digo que Paraguay siempre sorprende. Como los resultados de laboratorio"],
+  },
+};
+
 function generateDynamicPhrase(
   score: LiveScore,
   preds: ComodinPred[],
@@ -296,7 +357,8 @@ function generateDynamicPhrase(
   homeTeamId?: string | null,
   awayTeamId?: string | null,
 ): { phrase: string; newEventIndex: number } {
-  const voice = VOICES[scope] ?? VOICES["fecha-1"];
+  const isBirthdayOverride = scope === "R32" && (() => { const d = new Date(); return `${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}` === "06-29"; })();
+  const voice = isBirthdayOverride ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
   const h = score.homeScore;
   const a = score.awayScore;
   const min = score.minute;
@@ -413,7 +475,9 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
   homeTeamRef.current = homeTeamId;
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
-  const config = getComodinConfig(scope);
+  const baseConfig = getComodinConfig(scope);
+  const isBdayOverride = scope === "R32" && (() => { const d = new Date(); return `${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}` === "06-29"; })();
+  const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
   const [preds, setPreds] = useState<ComodinPred[]>(predCache.get(matchId) ?? []);
