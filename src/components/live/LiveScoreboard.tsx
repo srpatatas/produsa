@@ -36,13 +36,15 @@ interface PersonalityVoice {
 }
 
 const usedPhrases = new Set<string>();
-function pick<T>(arr: T[]): T {
+const usedLectures = new Set<string>();
+function pick<T>(arr: T[], trackSet?: Set<string>): T {
   if (arr.length <= 1) return arr[0];
-  const fresh = arr.filter((v) => !usedPhrases.has(String(v)));
+  const tracker = trackSet ?? usedPhrases;
+  const fresh = arr.filter((v) => !tracker.has(String(v)));
   const pool = fresh.length > 0 ? fresh : arr;
-  if (fresh.length === 0) usedPhrases.clear();
+  if (fresh.length === 0) tracker.clear();
   const chosen = pool[Math.floor(Math.random() * pool.length)];
-  usedPhrases.add(String(chosen));
+  tracker.add(String(chosen));
   return chosen;
 }
 
@@ -287,6 +289,259 @@ const VOICES: Record<string, PersonalityVoice> = {
   },
 };
 
+// Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
+const BIRTHDAY_VOICE: PersonalityVoice = {
+  goal: (s, m, _side, h, a) => pick([
+    `¡${s} la metió! ${h}-${a}. Creo que hablo por todos cuando digo: golazo`,
+    `${s}, minuto ${m}. ${h}-${a}. Como médico, diagnostico un gol hermoso`,
+    `¡Gol! ${s} en el ${m}'. Hay tongo mal. Fuente: Dr. Almoño`,
+    `¡${h}-${a}! ${s} en el ${m}'. De acá a ganar el prode. Lo firmo ahora`,
+    `¡${s} convirtió! ${h}-${a}. Más lindo que un embrión de día 5 en el microscopio`,
+  ]),
+  ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Es una cuestión de eficiencia... para el otro equipo`, `En contra de ${s} en el ${m}'. Peor que un ciclo cancelado`, `¡Autogol de ${s}! Más fallido que un tratamiento sin seguimiento`, `En contra en el ${m}'. ${s} se mandó una más grande que el admin cuando cobra`]),
+  redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Creo que hablo por todos cuando digo: bien echado`, `${p} expulsado. Como médico no puedo avalar esa violencia... pero la entiendo`, `${p} se fue en el ${m}'. Más rápido que el ex admin escapando de sus responsabilidades`, `Roja para ${p}. Como asesor de la industria farmacéutica: esa conducta no pasa el control de calidad`]),
+  yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Muy poco análisis de su parte`, `${p} amonestado. Como speaker internacional les digo: falta de criterio`, `${p} con amarilla en el ${m}'. Eso no se hace, señor`, `${p} amonestado en el ${m}'. Creo que hablo por todos cuando digo: innecesaria`]),
+  penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Hay tongo mal`, `¡Penal! ${s} en el ${m}'. Increíble que choreen y encima lo digan así`, `¡${s} con penal! Minuto ${m}. Creo que hablo por todos cuando pido VAR`, `¡Penal en el ${m}'! Ni el tuerto se animó a tanto`]),
+  scoreless: (m) => pick([`${m} minutos y 0-0. Es una mierda de partido. Como médico lo certifico`, `0-0 al minuto ${m}. Se que digo esto cada 4 años pero las 2 horas más desperdiciadas de mi vida`, `${m}' sin goles. Pregunto: no sería mejor darle el premio a alguien y listo?`, `Minuto ${m} y 0-0. Al pedo me gasté los tokens de Claude para esto`, `${m}' y 0-0. Hice las cuentas y es matemáticamente imposible alcanzar a Polo con este resultado`]),
+  lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Me tomé el tiempo de hacer el análisis y ya no hay vuelta`, `Se termina esto. ${h}-${a}. Cuando gane no lo diré... pero habrá señales`, `${h}-${a} y queda nada. Creo que hablo por todos cuando digo: ya fue`, `Final con ${h}-${a}. Acabo de llegar. Algunos construimos un país distinto desde la madrugada`]),
+  comodinWinning: (n, h, a) => {
+    if (n === "Ahh, La Tia de todo") return pick([`Yo mismo con el comodín y va ${h}-${a}. Mejor regalo de cumple no hay`, `¡Mi propio comodín rinde! ${h}-${a}. Creo que hablo por todos cuando digo: lo merezco`, `Va ${h}-${a} y mi comodín vuela. El admin por fin hizo algo bien`]);
+    return pick([`${n} con el comodín y va ${h}-${a}. Es sabiduría, no es suerte`, `¡${n} con el +2! Mejor diagnóstico que cualquiera de mis pacientes`, `${n} va ganando con el comodín. Donde firmo para que siga así?`, `${n} y el comodín con el ${h}-${a}. Más efectivo que un tratamiento de primera línea`]);
+  },
+  comodinLosing: (n, h, a) => {
+    if (n === "Ahh, La Tia de todo") return pick([`Pierdo con mi propio comodín. ${h}-${a}. Ni en mi cumple me dejan ganar`, `Mi comodín llora y yo también. ${h}-${a}. Peor cumpleaños imposible`, `${h}-${a} y mi comodín se hunde. El admin me regaló sufrimiento digital`]);
+    return pick([`${n} pierde con el comodín. ${h}-${a}. Baja motilidad del resultado`, `El comodín de ${n} con el ${h}-${a}... hay tongo mal`, `${n} sufre con el comodín. Ya denle su premio y basta`, `${n} puso el comodín con el ${h}-${a}... al pedo como gastar tokens de Claude`, `El comodín de ${n} llora. ${h}-${a}. Como médico recomiendo paciencia`]);
+  },
+  comodinDraw: (n, m) => pick([`${n} empata en el ${m}' con el comodín. Esto no rinde, como el admin`, `El comodín de ${n} tiembla. Minuto ${m}. Se necesita más análisis`, `${n} con el comodín y empate. Creo que hablo por todos cuando pido un gol`, `Empate y el comodín de ${n} transpira. Minuto ${m}. Más turbio que los resultados del ex admin`]),
+  comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Precisión de embriólogo`, `¡${n} acertó el ${h}-${a}! Eso es IA aplicada a reproducción de resultados`, `¡Exacto de ${n}! ${h}-${a}. Como médico especialista, declaro esto: genialidad pura`, `¡${n} clavó el ${h}-${a}! Creo que hablo por todos cuando digo: crack`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que una ecografía 4D`, `¡${n} con el ${h}-${a} exacto! Aplauso de pie. De pie, señores`]),
+  nobodyRight: () => pick(["¡Nadie le pegó! Creo que hablo por todos cuando digo: somos un desastre", "Nadie acertó. Más fallido que un ciclo sin monitoring", "Cero aciertos. Este mundial desfavorece a la razón", "Nadie predijo esto. Ni con IA aplicada, ni con nada", "¡Nadie le pegó! Al pedo los tokens de Claude"]),
+  fewRight: (names) => pick([`Solo ${names} le están pegando. Los demás están como el admin: cobrando sin aportar`, `${names} nada más aciertan. El resto necesita una consulta médica`, `Únicamente ${names} aciertan. Creo que hablo por todos los demás cuando digo: vergüenza`, `Solo ${names} le pegan. El resto tiene la misma puntería que mis pacientes con el timing`]),
+  idle: () => pick([
+    "Creo que hablo por todos cuando digo que este partido necesita más acción",
+    "Si no se presentan, esto termina mal. No se puede bardear adecuadamente a quien no se conoce",
+    "Cuando gane no lo diré... pero habrá señales",
+    "Al pedo me gasté los tokens de Claude para ver esto",
+    "Es una cuestión de eficiencia. Y este partido no la tiene",
+    "Acabo de llegar. Algunos construimos un país distinto desde la madrugada",
+    "Héroe o villano. Alegría o desazón. Eso se decide hoy",
+    "Hay tongo mal. No tengo pruebas pero tampoco dudas",
+    "Ya denle su premio a alguien y terminemos con esto",
+    "El admin solo cobra. No la pone hace rato",
+    "De acá a ganar el prode. Lo firmo ahora. Dónde firmo?",
+    "Este mundial desfavorece a la razón. Y se abraza al efecto profe...",
+    "Sapeeeee",
+    "Tremendous deal. No, pará, ese es otro",
+    "Como asesor médico para la industria farmacéutica les digo: este partido necesita suplementación",
+    "Profesional secret",
+    "Vieron que cuando el admin hace un comentario ácido el ex admin pone risitas y viceversa?",
+    "Póngase el alias. No quisiera boludearlo por su nombre de pila",
+    "Cada mundial estás más fachero, querido. Ya no me da para pelearme",
+    "Yo solamente pienso ganar mis mano a mano de siempre. El premio principal está lejos",
+    "Lo poco que le importa al admin el bienestar de sus participantes...",
+    "Me tomé el tiempo de hacer el análisis y matemáticamente no hay posibilidades de que no gane",
+    "Pregunto: no sería mejor darle el premio a Polo y disfrutar sin presión?",
+    "Creo que hablo por todos cuando pido una lista seria de los candidatos a ganar esto",
+    "Polo primero y el admin controlando el sistema. No hay nada raro, no?",
+    "Quiero felicitar personalmente al juez y a los hermanos san martin por este resultado",
+    "Están organizando transferirle el premio directo a Polo. Fuente: de adentro",
+    "El ex admin manda un Excel, no mira el mundial, y bardea a Morei todos los días. Un genio",
+    "Vieron que Polo siempre gana? Es el juez. El juez siempre gana. Coincidencia? No lo creo",
+    "Los hermanos san martin van a lo seguro. Nunca arriesgan. Por eso nunca pierden. Sospechoso",
+    "Una genialidad del pito. Una genialidad de los hermanos san martin. Todo armado. Hay señales",
+    "Vieron que cuando el admin hace un comentario ácido el ex admin pone risitas y viceversa? Están coludidos",
+    "Yo pedí incorporación de gente y el admin ni bola. Pero para cobrar sí está",
+    "Se necesita una auditoría de los hermanos san martin. Creo que hablo por todos",
+    "Es mi cumpleaños y el admin me puso de comodín. No sé si es un regalo o un castigo",
+    "Feliz cumple a mí. Esperaba una torta, no un comodín digital",
+    "Estoy adentro de la app comentando partidos. Esto no estaba en mi plan de vida",
+    "Siendo honesto, es impresionante lo del personaje con sus frases. Me siento halagado",
+    "El admin gastó tokens de Claude en hacerme un personaje. Podría haber pagado una cena",
+    "Mi versión digital es más productiva que yo. Triste pero cierto",
+    "Hoy es mi cumple y estoy atrapado en una app de pronósticos. Peor regalo que un par de medias",
+    "SE RINDEN???",
+    "Que puse, Oso?",
+    "Que puse en este partido? Alguien se fija?",
+    "Este partido es más difícil de digerir que el gluten para mí",
+    "Ser celíaco y de Argentina te prepara para sufrir. En la mesa y en el prode",
+  ]),
+  taunt: (n) => {
+    if (n === "Morei Trumpista") return pick([
+      "Lo que me costó igualar al mudito Morei... y ahora me vuelve a pasar",
+      "Morei manda un Excel, no mira el mundial, y bardea a todos. Un genio del mal",
+      "Santiago es Morei, y sigue figurando como Santiago? El admin no actualiza nada",
+      "Morei la está pasando mal y eso me alegra el cumpleaños",
+    ]);
+    if (n === "Chekoloko") return pick([
+      "No conviene transferirle la guita al Cheko para que la use en USA?",
+      "El Cheko destrozaría todo si gana. Tengo un dilema con este muchacho",
+      "Chekoloko le pega a todo. Sospechoso. Muy sospechoso",
+      "Estoy acostumbrado a trabajar con asistentes, Oso",
+      "Oso vas a poner la casa para festejar el premio?",
+      "Oso, lo puedo demandar? Creo que hablo por todos cuando pregunto",
+      "El Oso metió la doble encima? Siempre laburando, Oso... siempre...",
+      "Que vas a hacer con la plata, Oso?",
+    ]);
+    if (n === "Rosca Floja") return pick([
+      "Da la Rosca peleando la punta y nadie dice nada porque les paga la pauta?",
+      "Mete el empate y se lleva el prode, la Rosca. Siempre igual",
+      "El pleno que nos jugamos con Rosca... y me está ganando. Inaceptable",
+      "Rosca por privado me pregunta cómo se calculan los puntos. Y después gana. Algo no cierra",
+      "Mi hermano Rosca ganándome en el prode. En el día de MI cumpleaños. Así es la familia Almoño",
+      "Feliz día a todos los papis y a Rosca Floja por semejante acto de generosidad... de ganarme",
+      "Quiero preparar los pochoclos para cuando Rosca lea el puntaje y haga la conversión a dólares",
+    ]);
+    if (n === "El Poeta") return pick([
+      "Ya es inalcanzable, Poeta. Felicitaciones. Me duele pero lo digo",
+      "Otra vez le dan de comer al Poeta. Matemáticamente ya es imposible alcanzarlo, no?",
+      "El Poeta arriba y yo acá sufriendo el día de mi cumpleaños. La vida es injusta",
+    ]);
+    if (n === "Heredero") return pick([
+      "No veo la hora de ganarle al Heredero. Es personal",
+      "Que pena que el Heredero pierda. Era el gran merecedor del torneo. Después de mí, claro",
+    ]);
+    if (n === "Pito Páez") return pick([
+      "Una genialidad del Pito. Como siempre. Aplauso de pie",
+      "El Pito le mandó empate? Ni el Pito desentonó. Increíble",
+      "Cuando pongan los extras quedo pegadito al Pito. Anoten",
+      "El premio para el Pito es doble? Creo que hablo por todos cuando pregunto",
+    ]);
+    if (n === "chijuan") return pick([
+      "Chijuan vuelve la play a casa y dejá de pronosticar",
+      "Anda a estudiar, chijuan. Esto no es lo tuyo",
+      "Pasa la lista, chijuan. A ver si así acertás algo",
+      "Chijuan con esa predicción? Aplauso de pie... por la valentía",
+    ]);
+    if (n === "Fatigatti") return pick([
+      "Póngase el alias, Fati. No quisiera boludearlo por su nombre de pila",
+      "Brillante Fatigati de la mano del negro Tapia. Aplauso de pie",
+      "Fati pronosticando así? Es una cuestión de eficiencia... que no tiene",
+      "Creo que hablo por todos cuando digo que Fatigatti merece lo que le pasa",
+    ]);
+    if (n === "Mago Numi") return pick([
+      "Qué lindo tener de cuñado al Mago. Te envidio...",
+      "Tampoco es tan difícil, Mago. Bueno, para vos parece que sí",
+      "El Mago haciendo magia... negra. Con esas predicciones no se gana",
+      "Creo que hablo por todos cuando digo que el Mago necesita un truco nuevo",
+    ]);
+    if (n === "Rayo McQueen") return pick([
+      "Qué día gris... Disfrútalo, Rayo...",
+      "Rayo McQueen rápido para todo menos para acertar",
+      "Creo que hablo por todos cuando digo que Rayo necesita un pit stop urgente",
+    ]);
+    if (n === "El Profesor") return pick([
+      "El Profe no sale de abajo ni con carta documento",
+      "Y prepárense, eh. El Profe hará el único punto del partido",
+      "Creo que hablo por todos cuando digo que el Profe ya es patrimonio del último puesto",
+      "El Profe que puso?? Seguro lo contrario a lo correcto. Es una ciencia a esta altura",
+      "La doble del Profe es clave. Arranca en 50usd si querés elegir a quién arruinar",
+    ]);
+    if (n === "JUSTO?") return pick([
+      "El Justo acaba de llegar a casa. No sabe ni qué puso. Lo amo",
+      "El Justo no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
+      "Mi viejo ni sabe que está jugando esto y va arriba. Genética pura, señores",
+      "El Justo está más desbordado que lateral derecho de Alfaro. Pero le quiero igual",
+      "JUSTO? campeón sería lo más justo. Solo eso. Objetividad total. Fuente: su hijo",
+      "La que metió el Justo. Ni él sabe cómo le fue tan bien",
+      "Justo lo estás viendo con 5 minutos de delay! Mire que acá no dan cuartel, eh!",
+      "Sin el Justo me hacía cartonero. Gracias viejo. Aunque no sepas qué pusiste",
+    ]);
+    if (n === "Polo") return pick([
+      "Polo primero como siempre. El juez siempre gana. Hay tongo mal",
+      "Polo le pega a todo. Está arreglado. No tengo pruebas pero tampoco dudas",
+      "Creo que hablo por todos cuando digo que Polo tiene información privilegiada",
+      "El juez Polo siempre arriba. Los hermanos san martin le pasan data, seguro",
+      "Polo campeón de vuelta? Increíble que choreen y encima lo digan así",
+    ]);
+    if (n === "Ex-Admin") return pick([
+      "El ex admin no mira el mundial y le va bien. Algo no cierra",
+      "El ex admin mandó un Excel desde Estocolmo y lidera. Una vergüenza",
+      "Creo que hablo por todos cuando digo que el ex admin no merece ese puntaje",
+      "El ex admin se fue de joda por Alemania con su 'team' y aún así gana? Tongo",
+    ]);
+    if (n === "Ahh, La Tia de todo") return pick([
+      "Yo mismo la estoy pasando mal. Ni en mi cumple me dejan ganar tranquilo",
+      "Me pusieron de comodín el día de mi cumple y ni así le pego. La vida es injusta",
+      "Creo que hablo por todos cuando digo que merezco ganar HOY. Es mi cumple, por favor",
+      "El admin me puso de comodín como regalo de cumpleaños. El regalo sería ganar, no sufrir",
+      "Hasta mi versión digital la pasa mal. Feliz cumple a mí",
+    ]);
+    return pick([
+      `${n}, pronosticar no es tu fuerte. Está visto. Fuente: Dr. Almoño`,
+      `${n}, creo que hablo por todos cuando digo que tu predicción da vergüenza`,
+      `${n} merece lo que le está pasando. Es una cuestión de eficiencia`,
+      `A ${n} le recomiendo una segunda opinión médica sobre sus pronósticos`,
+      `${n} tiene la misma suerte que el ex admin organizando cosas`,
+      `No se puede bardear adecuadamente a ${n} sin conocerlo. Pero lo intento igual`,
+      `${n}, si pronosticás así de mal, no quiero ver cómo manejás el resto de tu vida`,
+      `Lo que me cuesta igualar al mudito de ${n}. No, mentira, me está yendo peor`,
+      `${n} puso eso? Increíble que choreen y encima lo digan así`,
+      `${n}, como médico te digo: tu pronóstico tiene baja evidencia científica`,
+      `${n} predice como el admin administra: mal y cobrando igual`,
+      `Alguien le avise a ${n} que esto no es una obra de caridad`,
+      `Hice las cuentas y es matemáticamente imposible alcanzar a ${n}. De nada`,
+      `GOOOOL! GOOOL! Ah no, me confundí. Pero mirá la cara de ${n}...`,
+      `GOOOOOOL!! ... mentira. Pero ${n} se asustó, se le notó`,
+      `GOOOOL DEL LOC... ah no, era un lateral. Igual ${n} ya transpiraba`,
+      `GOLAZO! GOLAZO! ... era corner nomás. Pero ${n} se agarró la cabeza, no?`,
+      `GOL GOL GOL... de la hinchada nada más. ${n} casi se infarta`,
+      `GOOOOOL! Ah, no, fue offside. Pero ${n} ya estaba llorando`,
+    ]);
+  },
+  rankingTaunt: (n, pos, diff) => {
+    if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Me tomé el tiempo de hacer el análisis y es merecido`;
+    if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Baja motilidad en el ranking`;
+    if (pos === 1) return pick([`${n} va primero. Creo que hablo por todos cuando digo: lo merece... o no`, `${n} va primero. Hice las cuentas y es matemáticamente imposible alcanzarlo`]);
+    if (pos <= 3) return `${n} va ${pos}°. De acá a ganar el prode. Lo firmo`;
+    return pick([`${n} va ${pos}°. Ya denle su premio y basta`, `${n} en el puesto ${pos}. Es matemáticamente imposible que me alcance. Creo`]);
+  },
+  lecture: {
+    BRA: [
+      "Dato médico: Brasil tiene el mayor número de cesáreas del mundo. 56%. Como médico me preocupa. Como hincha, me preocupa más este partido",
+      "Creo que hablo por todos cuando digo que Brasil con 5 mundiales es injusto para el resto",
+      "Brasil tiene 200 millones de personas. Si el 1% necesita fertilización, son 2 millones de pacientes. Mi próximo congreso va a ser allá",
+      "Neymar se lesiona más que mis pacientes se quejan. Y eso es mucho. Fuente: Dr. Almoño",
+      "En Brasil se toman 400 mil millones de cafecitos por año. Dato que le paso a la industria farmacéutica cuando me preguntan sobre cafeína y fertilidad",
+      "Miren el rostro de Vini Jr. Los brasileños son otra cosa. Dato objetivo del Dr. Almoño",
+    ],
+    JPN: [
+      "En Japón la expectativa de vida es 84 años. Como especialista en reproducción les digo: es porque comen sano, no porque van al médico",
+      "Los japoneses tienen robots para todo. Cuando llegue la IA a la reproducción, me quedo sin laburo",
+      "Japón tiene la tasa de natalidad más baja del mundo. 1.2 hijos por mujer. Me necesitan allá urgente. Aplauso de pie",
+      "Creo que hablo por todos cuando digo que la disciplina japonesa es admirable. Yo no la tengo, pero la admiro",
+      "En Japón los hinchas limpian el estadio. Yo limpio la clínica antes de cada procedimiento. Es una cuestión de eficiencia",
+    ],
+    GER: [
+      "Los alemanes son los más eficientes. Es una cuestión de eficiencia. Como todo en la vida",
+      "Alemania inventó la aspirina. Bayer. Dato farmacéutico que me pagan por saber como asesor de la industria",
+      "En Alemania la puntualidad es ley. El ex admin vivió en Suecia y no aprendió nada. Se nota",
+      "Creo que hablo por todos cuando digo que los alemanes fabrican los mejores equipos de laboratorio. Los uso todos los días",
+      "En Alemania la puntualidad es ley. Acá llegamos tarde a todo. Empezando por el admin con los resultados",
+      "Los alemanes toman más cerveza per cápita que cualquiera. Yo no puedo ni olerla. Celíaco problems",
+    ],
+    PAR: [
+      "Paraguay tiene la represa de Itaipú, la más grande del mundo. Energía pura. Como un embrión de buena calidad",
+      "Creo que hablo por todos cuando digo que Paraguay siempre sorprende. Como los resultados de laboratorio a las 6 AM",
+      "Los paraguayos toman tereré, no mate caliente. Un dato que aprendí en un congreso en Asunción. Gran congreso, poca asistencia",
+      "Paraguay tiene 7 millones de habitantes y va a jugar contra Alemania. David vs Goliat. Dato: en reproducción, tamaño no importa tanto",
+      "En Paraguay hay más vacas que personas. Dato que uso en mis charlas como speaker. El público siempre se ríe. Bueno, a veces",
+    ],
+    NED: [
+      "Holanda tiene la mejor tecnología de fertilización in vitro de Europa. Dato que manejo como asesor de la industria",
+      "Creo que hablo por todos cuando digo que Van Dijk mide 1.93m. Eso no se fertiliza, se hereda",
+      "Los holandeses legalizaron todo. Como médico no opino, pero como persona curiosa... profesional secret",
+      "En Holanda andan todos en bicicleta. Dato que les doy a mis pacientes cuando les digo que hagan ejercicio",
+      "Holanda tiene más bicicletas que personas. 23 millones de bicis, 17 millones de holandeses. Dato de congreso en Ámsterdam",
+    ],
+    MAR: [
+      "Marruecos fue semifinalista en Qatar. Como médico especialista digo: ese equipo tiene buen ADN competitivo",
+      "Creo que hablo por todos cuando digo que Hakimi es un crack. Dato: nació en Madrid pero eligió Marruecos. Hay que respetarlo",
+      "En Marruecos toman mucho té con menta. Antioxidante natural. Como médico lo recomiendo. Como hincha también",
+      "Marruecos tiene el desierto del Sahara. Más seco que mi pronóstico cuando no le pego a nada",
+      "Dato de speaker internacional: Marruecos lidera en turismo médico en África. Me invitaron a un congreso en Marrakech. Fui",
+    ],
+  },
+};
+
 function generateDynamicPhrase(
   score: LiveScore,
   preds: ComodinPred[],
@@ -295,8 +550,10 @@ function generateDynamicPhrase(
   ranking?: RankingSnapshotEntry[],
   homeTeamId?: string | null,
   awayTeamId?: string | null,
+  birthdayVoice?: boolean,
 ): { phrase: string; newEventIndex: number } {
-  const voice = VOICES[scope] ?? VOICES["fecha-1"];
+  const voice = birthdayVoice ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
+
   const h = score.homeScore;
   const a = score.awayScore;
   const min = score.minute;
@@ -328,7 +585,7 @@ function generateDynamicPhrase(
       const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
       const tid = teamIds.length > 0 ? pick(teamIds) : null;
       if (tid && voice.lecture[tid]?.length) {
-        return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+        return { phrase: pick(voice.lecture[tid], usedLectures), newEventIndex: lastEventIndex };
       }
     }
     if (Math.random() < 0.3 && preds.length > 5) {
@@ -413,7 +670,9 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
   homeTeamRef.current = homeTeamId;
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
-  const config = getComodinConfig(scope);
+  const baseConfig = getComodinConfig(scope);
+  const isBdayOverride = matchId === "R32-3" || matchId === "R32-4";
+  const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
   const [preds, setPreds] = useState<ComodinPred[]>(predCache.get(matchId) ?? []);
@@ -488,7 +747,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       const events = liveScoreRef.current.events ?? [];
       // Generate phrases for ALL new events
       while (events.length > lastEventCount.current) {
-        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current);
+        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
@@ -564,6 +823,7 @@ export function clearLiveComodinCaches() {
   eventIndexCache.clear();
   lastEventCountCache.clear();
   usedPhrases.clear();
+  usedLectures.clear();
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
