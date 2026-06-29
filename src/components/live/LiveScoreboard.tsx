@@ -513,7 +513,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "En Alemania la puntualidad es ley. El ex admin vivió en Suecia y no aprendió nada. Se nota",
       "Creo que hablo por todos cuando digo que los alemanes fabrican los mejores equipos de laboratorio. Los uso todos los días",
       "En Alemania la puntualidad es ley. Acá llegamos tarde a todo. Empezando por el admin con los resultados",
-      "Los alemanes toman más cerveza per cápita que cualquiera. Yo me tomaría una ahora mismo",
+      "Los alemanes toman más cerveza per cápita que cualquiera. Yo no puedo ni olerla. Celíaco problems",
     ],
     PAR: [
       "Paraguay tiene la represa de Itaipú, la más grande del mundo. Energía pura. Como un embrión de buena calidad",
