@@ -37,6 +37,8 @@ interface PersonalityVoice {
 
 const usedPhrases = new Set<string>();
 const usedLectures = new Set<string>();
+const usedRanking = new Set<string>();
+const usedTaunts = new Set<string>();
 function pick<T>(arr: T[], trackSet?: Set<string>): T {
   if (arr.length <= 1) return arr[0];
   const tracker = trackSet ?? usedPhrases;
@@ -488,11 +490,11 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     ]);
   },
   rankingTaunt: (n, pos, diff) => {
-    if (diff > 0) return pick([`${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Me tomé el tiempo de hacer el análisis y es merecido`, `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Hay tongo`]);
-    if (diff < 0) return pick([`${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Baja motilidad en el ranking`, `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Creo que hablo por todos cuando digo: se lo merece`]);
-    if (pos === 1) return pick([`${n} va primero. Creo que hablo por todos cuando digo: lo merece... o no`, `${n} va primero. Hice las cuentas y es matemáticamente imposible alcanzarlo`, `${n} primero? Hay tongo mal. Están organizando transferirle el premio directo`]);
-    if (pos <= 3) return pick([`${n} va ${pos}°. De acá a ganar el prode. Lo firmo`, `${n} va ${pos}°. Sospechoso. Muy sospechoso`, `${n} en el podio. Creo que hablo por todos cuando pido auditoría`, `${n} va ${pos}°. Hice las cuentas y es matemáticamente imposible alcanzarlo`]);
-    return pick([`${n} va ${pos}°. Ya denle su premio y basta`, `${n} en el puesto ${pos}. Es matemáticamente imposible que me alcance. Creo`, `${n} va ${pos}°. Pregunto: no sería mejor darle el premio y listo?`]);
+    if (diff > 0) return pick([`${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Me tomé el tiempo de hacer el análisis y es merecido`, `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Hay tongo`], usedRanking);
+    if (diff < 0) return pick([`${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Baja motilidad en el ranking`, `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Creo que hablo por todos cuando digo: se lo merece`], usedRanking);
+    if (pos === 1) return pick([`${n} va primero. Creo que hablo por todos cuando digo: lo merece... o no`, `${n} va primero. Hice las cuentas y es matemáticamente imposible alcanzarlo`, `${n} primero? Hay tongo mal. Están organizando transferirle el premio directo`], usedRanking);
+    if (pos <= 3) return pick([`${n} va ${pos}°. De acá a ganar el prode. Lo firmo`, `${n} va ${pos}°. Sospechoso. Muy sospechoso`, `${n} en el podio. Creo que hablo por todos cuando pido auditoría`, `${n} va ${pos}°. Hice las cuentas y es matemáticamente imposible alcanzarlo`], usedRanking);
+    return pick([`${n} va ${pos}°. Ya denle su premio y basta`, `${n} en el puesto ${pos}. Es matemáticamente imposible que me alcance. Creo`, `${n} va ${pos}°. Pregunto: no sería mejor darle el premio y listo?`], usedRanking);
   },
   lecture: {
     BRA: [
@@ -633,8 +635,8 @@ function generateDynamicPhrase(
     if (min > 80) return { phrase: voice.lateGame(h, a), newEventIndex: lastEventIndex };
   }
 
-  // 10% — Ranking commentary
-  if (roll < 0.7 && ranking && ranking.length > 0) {
+  // 5% — Ranking commentary
+  if (roll < 0.65 && ranking && ranking.length > 0) {
     const movers = ranking.filter((r) => r.previousPosition - r.position !== 0 || r.position <= 3);
     if (movers.length > 0) {
       const target = pick(movers);
@@ -824,6 +826,8 @@ export function clearLiveComodinCaches() {
   lastEventCountCache.clear();
   usedPhrases.clear();
   usedLectures.clear();
+  usedRanking.clear();
+  usedTaunts.clear();
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
