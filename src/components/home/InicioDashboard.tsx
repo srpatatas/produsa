@@ -22,12 +22,12 @@ interface DashboardData {
   recentResults: RecentResult[];
   nextMatch: UnifiedMatch | null;
   locks: Record<string, { locksAt: string; isLocked: boolean }>;
-  predictionStatus: Record<string, { total: number; completed: number }>;
   knockoutPredictable?: Record<string, boolean>;
 }
 
 export function InicioDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
+  const [predictionStatus, setPredictionStatus] = useState<Record<string, { total: number; completed: number }> | null>(null);
   const [liveMatches, setLiveMatches] = useState<UnifiedMatch[]>([]);
   const [liveScores, setLiveScores] = useState<Record<string, LiveScore>>({});
   const [staleIds, setStaleIds] = useState<Set<string>>(new Set());
@@ -39,6 +39,10 @@ export function InicioDashboard() {
     fetch("/api/dashboard")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => { if (d) setData(d); })
+      .catch(() => {});
+    fetch("/api/prediction-status")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) setPredictionStatus(d.predictionStatus); })
       .catch(() => {});
   }, []);
 
@@ -163,9 +167,9 @@ export function InicioDashboard() {
 
   return (
     <div className="space-y-5">
-      {data && (
+      {data && predictionStatus && (
         <PredictionCompletionNudge
-          predictionStatus={data.predictionStatus}
+          predictionStatus={predictionStatus}
           locks={data.locks}
           knockoutPredictable={data.knockoutPredictable}
         />
