@@ -667,13 +667,13 @@ function generateDynamicPhrase(
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
-function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[] }) {
+function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot, useBirthdayVoice, side = "right" }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[]; useBirthdayVoice?: boolean; side?: "left" | "right" }) {
   const homeTeamRef = useRef(homeTeamId);
   homeTeamRef.current = homeTeamId;
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
   const baseConfig = getComodinConfig(scope);
-  const isBdayOverride = matchId === "R32-3" || matchId === "R32-4";
+  const isBdayOverride = useBirthdayVoice ?? false;
   const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
@@ -781,15 +781,17 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
   if (!config.name) return null;
 
+  const isLeft = side === "left";
+
   return (
-    <div className="absolute bottom-3 right-3 flex items-end gap-2 z-10">
+    <div className={`absolute bottom-3 ${isLeft ? "left-3" : "right-3"} flex items-end gap-2 z-10 ${isLeft ? "flex-row-reverse" : ""}`}>
       {visible && phrase && (
         <div className="max-w-[180px] animate-[fadeInUp_0.3s_ease-out]">
           <div className="relative rounded-xl bg-black/50 backdrop-blur-sm px-2.5 py-1.5 ring-1 ring-fifa-gold/30">
             <p className="text-[9px] text-fifa-gold italic leading-tight">
               &ldquo;{phrase}&rdquo;
             </p>
-            <div className="absolute -right-1 bottom-2 h-2 w-2 rotate-45 bg-black/50 ring-1 ring-fifa-gold/30" style={{ clipPath: "polygon(100% 0, 0 100%, 100% 100%)" }} />
+            <div className={`absolute ${isLeft ? "-left-1" : "-right-1"} bottom-2 h-2 w-2 rotate-45 bg-black/50 ring-1 ring-fifa-gold/30`} style={{ clipPath: isLeft ? "polygon(0 0, 0 100%, 100% 100%)" : "polygon(100% 0, 0 100%, 100% 100%)" }} />
           </div>
         </div>
       )}
@@ -918,7 +920,12 @@ export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapsho
       </div>
     </div>
       {rankingSnapshot && (match.phase === "knockout" || rankingSnapshot.some((r) => r.hasComodinOnActive)) && (
-        <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
+        <>
+          <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} side="right" />
+          {(match.id === "R32-3" || match.id === "R32-4") && (
+            <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} useBirthdayVoice side="left" />
+          )}
+        </>
       )}
     </div>
   );
