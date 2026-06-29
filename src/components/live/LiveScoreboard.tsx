@@ -370,6 +370,12 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       `${n}, como KOL & Speaker te digo: tu pronóstico tiene baja evidencia científica`,
       `${n} predice como el admin administra: mal y cobrando igual`,
       `Alguien le avise a ${n} que esto no es una obra de caridad`,
+      `GOOOOL! GOOOL! Ah no, me confundí. Pero mirá la cara de ${n}...`,
+      `GOOOOOOL!! ... mentira. Pero ${n} se asustó, se le notó`,
+      `GOOOOL DEL LOC... ah no, era un lateral. Igual ${n} ya transpiraba`,
+      `GOLAZO! GOLAZO! ... era corner nomás. Pero ${n} se agarró la cabeza, no?`,
+      `GOL GOL GOL... de la hinchada nada más. ${n} casi se infarta`,
+      `GOOOOOL! Ah, no, fue offside. Pero ${n} ya estaba llorando`,
     ]);
   },
   rankingTaunt: (n, pos, diff) => {
