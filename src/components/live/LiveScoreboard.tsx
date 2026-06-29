@@ -360,13 +360,44 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Hoy es mi cumple y estoy atrapado en una app de pronósticos. Peor regalo que un par de medias",
   ]),
   taunt: (n) => {
+    if (n === "Morei Trumpista") return pick([
+      "Lo que me costó igualar al mudito Morei... y ahora me vuelve a pasar",
+      "Morei manda un Excel, no mira el mundial, y bardea a todos. Un genio del mal",
+      "Santiago es Morei, y sigue figurando como Santiago? El admin no actualiza nada",
+      "Morei la está pasando mal y eso me alegra el cumpleaños",
+    ]);
+    if (n === "Chekoloko") return pick([
+      "No conviene transferirle la guita al Cheko para que la use en USA?",
+      "El Cheko destrozaría todo si gana. Tengo un dilema con este muchacho",
+      "Chekoloko arriba? Anda a estudiar, chijuan. Ah no, ese es otro",
+      "Chekoloko le pega a todo. Sospechoso. Muy sospechoso",
+    ]);
+    if (n === "Rosca Floja") return pick([
+      "Da la Rosca peleando la punta y nadie dice nada porque les paga la pauta?",
+      "Mete el empate y se lleva el prode, la Rosca. Siempre igual",
+      "El pleno que nos jugamos con Rosca... y me está ganando. Inaceptable",
+      "Rosca por privado me pregunta cómo se calculan los puntos. Y después gana. Algo no cierra",
+      "Mi hermano Guido ganándome en el prode. En el día de MI cumpleaños. Así es la familia Almoño",
+      "Feliz día a todos los papis y al Rosca por semejante acto de generosidad... de ganarme",
+    ]);
+    if (n === "El Poeta") return pick([
+      "Ya es inalcanzable, Poeta. Felicitaciones. Me duele pero lo digo",
+      "Otra vez le dan de comer al Poeta. Matemáticamente ya es imposible alcanzarlo, no?",
+      "El Poeta arriba y yo acá sufriendo el día de mi cumpleaños. La vida es injusta",
+    ]);
+    if (n === "Heredero") return pick([
+      "No veo la hora de ganarle al Heredero. Es personal",
+      "Que pena que el Heredero pierda. Era el gran merecedor del torneo. Después de mí, claro",
+    ]);
     if (n === "JUSTO?") return pick([
       "El Justo acaba de llegar a casa. No sabe ni qué puso. Lo amo",
-      "JUSTO? no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
+      "Hugo no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
       "Mi viejo ni sabe que está jugando esto y va arriba. Genética pura, señores",
       "El Justo está más desbordado que lateral derecho de Alfaro. Pero le quiero igual",
       "JUSTO? campeón sería lo más justo. Solo eso. Objetividad total. Fuente: su hijo",
-      "Quiero preparar los pochoclos para cuando el Justo lea el puntaje y haga la conversión a dólares",
+      "Quiero preparar los pochoclos para cuando Hugo lea el puntaje y haga la conversión a dólares",
+      "Hugo lo estás viendo con 5 minutos de delay! Mire que acá no dan cuartel, eh!",
+      "Sin Hugo me hacía cartonero. Gracias viejo. Aunque no sepas qué pusiste",
     ]);
     if (n === "Polo") return pick([
       "Polo primero como siempre. El juez siempre gana. Hay tongo mal",
