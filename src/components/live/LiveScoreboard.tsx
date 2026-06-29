@@ -377,8 +377,8 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
       "Mete el empate y se lleva el prode, la Rosca. Siempre igual",
       "El pleno que nos jugamos con Rosca... y me está ganando. Inaceptable",
       "Rosca por privado me pregunta cómo se calculan los puntos. Y después gana. Algo no cierra",
-      "Mi hermano Guido ganándome en el prode. En el día de MI cumpleaños. Así es la familia Almoño",
-      "Feliz día a todos los papis y al Rosca por semejante acto de generosidad... de ganarme",
+      "Mi hermano Rosca ganándome en el prode. En el día de MI cumpleaños. Así es la familia Almoño",
+      "Feliz día a todos los papis y a Rosca Floja por semejante acto de generosidad... de ganarme",
     ]);
     if (n === "El Poeta") return pick([
       "Ya es inalcanzable, Poeta. Felicitaciones. Me duele pero lo digo",
@@ -391,13 +391,13 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     ]);
     if (n === "JUSTO?") return pick([
       "El Justo acaba de llegar a casa. No sabe ni qué puso. Lo amo",
-      "Hugo no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
+      "El Justo no mira los partidos pero le va bien. Hay algo más justo que un resultado justo?",
       "Mi viejo ni sabe que está jugando esto y va arriba. Genética pura, señores",
       "El Justo está más desbordado que lateral derecho de Alfaro. Pero le quiero igual",
       "JUSTO? campeón sería lo más justo. Solo eso. Objetividad total. Fuente: su hijo",
-      "Quiero preparar los pochoclos para cuando Hugo lea el puntaje y haga la conversión a dólares",
-      "Hugo lo estás viendo con 5 minutos de delay! Mire que acá no dan cuartel, eh!",
-      "Sin Hugo me hacía cartonero. Gracias viejo. Aunque no sepas qué pusiste",
+      "Quiero preparar los pochoclos para cuando el Justo lea el puntaje y haga la conversión a dólares",
+      "Justo lo estás viendo con 5 minutos de delay! Mire que acá no dan cuartel, eh!",
+      "Sin el Justo me hacía cartonero. Gracias viejo. Aunque no sepas qué pusiste",
     ]);
     if (n === "Polo") return pick([
       "Polo primero como siempre. El juez siempre gana. Hay tongo mal",
