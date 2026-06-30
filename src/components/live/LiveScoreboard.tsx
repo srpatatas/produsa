@@ -761,9 +761,10 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       return Math.min(Math.max(text.length * 80, 6000), 14000);
     }
 
+    const isDualMode = matchId === "R32-3" || matchId === "R32-4";
     function canSpeak(): boolean {
       if (speakingLock.holder !== null && speakingLock.holder !== side && Date.now() <= speakingLock.until) return false;
-      if (speakingLock.lastSpeaker === side && speakingLock.lastSpeaker !== null) return false;
+      if (isDualMode && speakingLock.lastSpeaker === side) return false;
       return true;
     }
 
