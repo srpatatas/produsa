@@ -14,10 +14,10 @@ const trackedLive = new Map<string, LiveScoreResult>();
 async function saveFinishedMatch(matchId: string, score: LiveScoreResult): Promise<void> {
   const sql = getDb();
   await sql`
-    INSERT INTO match_results (match_id, home_score, away_score)
-    VALUES (${matchId}, ${score.homeScore}, ${score.awayScore})
+    INSERT INTO match_results (match_id, home_score, away_score, home_penalty, away_penalty)
+    VALUES (${matchId}, ${score.homeScore}, ${score.awayScore}, ${score.homePenalty}, ${score.awayPenalty})
     ON CONFLICT (match_id)
-    DO UPDATE SET home_score = ${score.homeScore}, away_score = ${score.awayScore}, updated_at = NOW()
+    DO UPDATE SET home_score = ${score.homeScore}, away_score = ${score.awayScore}, home_penalty = ${score.homePenalty}, away_penalty = ${score.awayPenalty}, updated_at = NOW()
   `;
   invalidateResultsCache();
 }

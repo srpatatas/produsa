@@ -14,6 +14,8 @@ const FIXTURE_IDS = new Set(Object.keys(fixtureToMatch).map(Number));
 export interface LiveScoreResult {
   homeScore: number;
   awayScore: number;
+  homePenalty: number | null;
+  awayPenalty: number | null;
   minute: number;
   extra: number | null;
   status: string;
@@ -105,9 +107,14 @@ export async function fetchLiveScores(
     const apiHomeId = apiHomeName ? API_TEAM_NAME_TO_ID[apiHomeName] : undefined;
     const reversed = !!(match && apiHomeId && apiHomeId !== match.homeTeamId);
 
+    const penHome = f.score?.penalty?.home ?? null;
+    const penAway = f.score?.penalty?.away ?? null;
+
     scores[matchId] = {
       homeScore: reversed ? (f.goals.away ?? 0) : (f.goals.home ?? 0),
       awayScore: reversed ? (f.goals.home ?? 0) : (f.goals.away ?? 0),
+      homePenalty: reversed ? penAway : penHome,
+      awayPenalty: reversed ? penHome : penAway,
       minute: f.fixture.status.elapsed ?? 0,
       extra: f.fixture.status.extra ?? null,
       status: f.fixture.status.short,
