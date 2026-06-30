@@ -667,7 +667,7 @@ function generateDynamicPhrase(
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
-const speakingLock = { holder: null as string | null, until: 0 };
+const speakingLock = { holder: null as string | null, until: 0, lastSpeaker: null as string | null };
 
 function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot, useBirthdayVoice, side = "right" }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[]; useBirthdayVoice?: boolean; side?: "left" | "right" }) {
   const homeTeamRef = useRef(homeTeamId);
@@ -733,12 +733,15 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
     }
 
     function canSpeak(): boolean {
-      return speakingLock.holder === null || speakingLock.holder === side || Date.now() > speakingLock.until;
+      if (speakingLock.holder !== null && speakingLock.holder !== side && Date.now() <= speakingLock.until) return false;
+      if (speakingLock.lastSpeaker === side && speakingLock.lastSpeaker !== null) return false;
+      return true;
     }
 
     function acquireLock(ms: number) {
       speakingLock.holder = side;
       speakingLock.until = Date.now() + ms + 2000;
+      speakingLock.lastSpeaker = side;
     }
 
     function releaseLock() {
@@ -852,6 +855,7 @@ export function clearLiveComodinCaches() {
   usedTaunts.clear();
   speakingLock.holder = null;
   speakingLock.until = 0;
+  speakingLock.lastSpeaker = null;
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
