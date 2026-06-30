@@ -239,6 +239,12 @@ const VOICES: Record<string, PersonalityVoice> = {
       "De este partido no se vuelve, de la economía tampoco",
       "Estoy muy feliz de estar poniéndole el fin al aburrimiento",
       "Yo a este partido lo hubiera ganado de otra manera",
+      "Ser hincha de Argentinos es como ser hincha de una PyME. Todo nos cuesta, todo es difícil",
+      "El mejor Maradona fue el que jugó en Argentinos Juniors. No me discutan esto",
+      "Primero les dimos a Maradona, después a Riquelme. Los dos 10 más maravillosos que tuvo Boca salieron de Argentinos",
+      "Toda mi familia era de Boca y querían que yo fuera de Boca. Pero estudié a media cuadra de la cancha de Argentinos",
+      "Argentinos es una cantera inagotable de jugadores. Y de presidentes, aparentemente",
+      "En La Paternal aprendí lo que es sufrir por un club. Después en la política aprendí lo que es sufrir en general",
     ]),
     taunt: (n) => pick([
       `${n}, pronosticar no es tu fuerte. Está visto.`,
