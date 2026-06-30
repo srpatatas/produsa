@@ -382,6 +382,11 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Albertito, dejá de hablar de Macri y mirá el partido. Profesional secret: sos insoportable",
     "Hice las cuentas y Albertito tiene matemáticamente 0% de credibilidad en este prode",
     "Albertito opina como si todavía tuviera cadena nacional. Relator invitado a mi cumple nomás",
+    "Alberto, Milei arregló en 1 año lo que vos rompiste en 4. Dato verificable",
+    "Creo que hablo por todos los libertarios cuando digo: Alberto, vos sos el pasado",
+    "Albertito, si Macri hubiera hecho ese pronóstico al menos lo hubiera ejecutado bien",
+    "La diferencia entre vos y Milei es que Milei sabe de números. Vos ni del prode",
+    "Alberto, con lo que gastaste en la fiesta de Olivos pagabas el prode de todos. VLLC",
   ]),
   taunt: (n) => {
     if (n === "Morei Trumpista") return pick([
