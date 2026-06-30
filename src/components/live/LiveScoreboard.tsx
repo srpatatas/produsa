@@ -239,7 +239,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       "De este partido no se vuelve, de la economía tampoco",
       "Estoy muy feliz de estar poniéndole el fin al aburrimiento",
       "Yo a este partido lo hubiera ganado de otra manera",
-      "Ser hincha de Argentinos es como ser hincha de una PyME. Todo nos cuesta, todo es difícil",
+      "No es lo mismo ser hincha de un club grande que de un club chico. Los grandes están en otra dimensión, es como ser hincha de una multinacional. Los chicos somos hinchas de una PyME, nos cuesta todo más trabajo",
       "El mejor Maradona fue el que jugó en Argentinos Juniors. No me discutan esto",
       "Primero les dimos a Maradona, después a Riquelme. Los dos 10 más maravillosos que tuvo Boca salieron de Argentinos",
       "Toda mi familia era de Boca y querían que yo fuera de Boca. Pero estudié a media cuadra de la cancha de Argentinos",
