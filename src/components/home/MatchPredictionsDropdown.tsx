@@ -64,9 +64,9 @@ export function MatchPredictionsDropdown({ matchId, isKnockout, actualOutcome, a
       <div className="grid grid-cols-5 gap-2 sm:grid-cols-6">
         {predictions.map((pred) => {
           const isCorrect = actualOutcome ? pred.outcome.includes(actualOutcome) : null;
-          const dimmed = isCorrect === false;
           const hasExact = !!pred.exactScore;
           const exactHit = hasExact && actualScore && pred.exactScore!.home === actualScore.home && pred.exactScore!.away === actualScore.away;
+          const dimmed = isCorrect === false && !exactHit;
 
           // Same layout for group and knockout — ring + badge from exact score or outcome
           const ringOutcome = hasExact
