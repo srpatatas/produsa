@@ -338,7 +338,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Héroe o villano. Alegría o desazón. Eso se decide hoy",
     "Hay tongo mal. No tengo pruebas pero tampoco dudas",
     "Ya denle su premio a alguien y terminemos con esto",
-    "El admin solo cobra. No la pone hace rato",
+    "El admin solo cobra. No aporta hace rato",
     "De acá a ganar el prode. Lo firmo ahora. Dónde firmo?",
     "Este mundial desfavorece a la razón. Y se abraza al efecto profe...",
     "Sapeeeee",
