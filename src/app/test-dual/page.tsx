@@ -4,27 +4,33 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const ALBERTITO_PHRASES = [
-  "Los alemanes tienen la Oktoberfest, yo la Olivosfest. No debió haberse hecho, Fabiola...",
   "Holanda está un tercio bajo el nivel del mar. A mi me hundió la pandemia, la sequía y Macri.",
   "Es una mierda de partido, seguro lo produjo Sandra.",
   "Por culpa de Marruecos no clasificó Escocia...qué ganas de un whisky",
   "¿Me amás?",
   "Decime algo lindooooo",
-  "Se nota que los mexicanos salieron de los indios...",
-  "Heredamos este partido y lo estamos reconstruyendo",
+  "El Doctor quiere opinar de fútbol? Que se dedique a la reproducción...",
+  "Feliz cumple, Doctor. Le regalo un comodín. No como la vacuna que le di a los demás",
+  "El Doctor habla mucho para ser celíaco. Sin gluten y sin filtro",
+  "Me dice que hago mal las cuentas? Yo que fui profesor en la UBA, por favor...",
+  "Dice que es matemáticamente imposible. Eso decían de mi presidencia y mirá, llegué",
+  "El cumpleañero cree que sabe más que yo. Guardo conmigo el dolor de su arrogancia",
+  "Doctor, yo ya fui presidente. Vos todavía estás poniendo comodines. Respetemos las jerarquías",
 ];
 
 const LUCAS_PHRASES = [
   "Creo que hablo por todos cuando digo que este partido necesita más acción",
   "Que puse, Oso?",
   "Polo primero como siempre. El juez siempre gana. Hay tongo mal",
-  "GOOOOL! GOOOL! Ah no, me confundí. Pero mirá la cara de Polo...",
-  "Es mi cumpleaños y el admin me puso de comodín. No sé si es un regalo o un castigo",
-  "Hice las cuentas y es matemáticamente imposible alcanzar a Polo con este resultado",
   "SE RINDEN???",
   "Ser celíaco y de Argentina te prepara para sufrir. En la mesa y en el prode",
   "Profesional secret",
-  "Que puse en este partido? Alguien se fija?",
+  "Albertito, vos de fútbol sabés menos que de economía",
+  "Callate Alberto que hoy es MI cumpleaños. Vos sos el telonero",
+  "El único que pronostica peor que yo es Albertito. Y eso que yo no me acuerdo qué puse",
+  "Albertito, dejá de hablar que es mi día. Yo soy el protagonista acá",
+  "Me ponen al lado de un expresidente procesado. Gracias admin por el regalo de cumple",
+  "Alberto, yo soy médico. Vos fuiste presidente. Creo que mi título vale más hoy",
 ];
 
 const lock = { holder: null as string | null, until: 0 };
