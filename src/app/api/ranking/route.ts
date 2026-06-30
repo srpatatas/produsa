@@ -17,16 +17,19 @@ export const GET = withAuth(async (req, session) => {
 
   const [maps, resultsRows] = await Promise.all([
     fetchRankingMaps(sql),
-    sql`SELECT match_id, home_score, away_score FROM match_results`,
+    sql`SELECT match_id, home_score, away_score, home_penalty, away_penalty FROM match_results`,
   ]);
 
   const matchResults: Record<string, MatchResult> = {};
   for (const r of resultsRows) {
-    matchResults[r.match_id as string] = {
+    const mr: MatchResult = {
       matchId: r.match_id as string,
       homeScore: r.home_score as number,
       awayScore: r.away_score as number,
     };
+    if (r.home_penalty != null) mr.homePenalty = r.home_penalty as number;
+    if (r.away_penalty != null) mr.awayPenalty = r.away_penalty as number;
+    matchResults[r.match_id as string] = mr;
   }
 
   const bonus = await fetchBonusMaps(sql, maps.users);
