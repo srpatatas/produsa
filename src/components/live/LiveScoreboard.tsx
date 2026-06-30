@@ -239,6 +239,25 @@ const VOICES: Record<string, PersonalityVoice> = {
       "De este partido no se vuelve, de la economía tampoco",
       "Estoy muy feliz de estar poniéndole el fin al aburrimiento",
       "Yo a este partido lo hubiera ganado de otra manera",
+      // Cross-talk with Dr. Lucas (duplicated for higher probability)
+      "Yo vengo a decir la verdad, Doctor. La verdad es que su pronóstico es malísimo",
+      "Si el Doctor diagnostica como pronostica, definitivamente no nos parecemos en nada",
+      "No debí haber aceptado compartir comentario con este señor. No debió haberse hecho",
+      "Ah, ahora es libertario. Cuando yo le di la vacuna no era tan libertario, eh",
+      "Feliz cumple, Doctor. Le regalo un comodín. No como la vacuna que le di a los demás",
+      "El Doctor y yo coincidimos en algo: el admin cobra mucho y trabaja poco",
+      "Me bardean el día de su cumpleaños. Guardo conmigo el dolor. Profundo. Muy profundo",
+      "Yo le di vacunas, le di ATP, le di esencialidad. Y así me paga. Algunos miserables...",
+      "Doctor, en este prode alguien mintió mucho y otro dijo la verdad. Yo vengo a decir la verdad",
+      "No me preocupa tanto perder puntos cuando se trata de ampliar el espectáculo, Doctor",
+      "Yo vengo a decir la verdad, Doctor. La verdad es que su pronóstico es malísimo",
+      "Si el Doctor diagnostica como pronostica, definitivamente no nos parecemos en nada",
+      "No debí haber aceptado compartir comentario con este señor. No debió haberse hecho",
+      "Ah, ahora es libertario. Cuando yo le di la vacuna no era tan libertario, eh",
+      "Me bardean el día de su cumpleaños. Guardo conmigo el dolor. Profundo. Muy profundo",
+      "Yo le di vacunas, le di ATP, le di esencialidad. Y así me paga. Algunos miserables...",
+      "Doctor, en este prode alguien mintió mucho y otro dijo la verdad. Yo vengo a decir la verdad",
+      "No me preocupa tanto perder puntos cuando se trata de ampliar el espectáculo, Doctor",
     ]),
     taunt: (n) => pick([
       `${n}, pronosticar no es tu fuerte. Está visto.`,
@@ -328,7 +347,7 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Héroe o villano. Alegría o desazón. Eso se decide hoy",
     "Hay tongo mal. No tengo pruebas pero tampoco dudas",
     "Ya denle su premio a alguien y terminemos con esto",
-    "El admin solo cobra. No la pone hace rato",
+    "El admin solo cobra. No aporta hace rato",
     "De acá a ganar el prode. Lo firmo ahora. Dónde firmo?",
     "Este mundial desfavorece a la razón. Y se abraza al efecto profe...",
     "Sapeeeee",
@@ -365,6 +384,23 @@ const BIRTHDAY_VOICE: PersonalityVoice = {
     "Que puse en este partido? Alguien se fija?",
     "Este partido es más difícil de digerir que el gluten para mí",
     "Ser celíaco y de Argentina te prepara para sufrir. En la mesa y en el prode",
+    // Cross-talk with Albertito (duplicated for higher probability)
+    "Creo que hablo por todos cuando digo: callate Alberto que es MI cumpleaños",
+    "Me ponen al lado de un expresidente procesado. Gracias admin por el regalo de cumple",
+    "Que Albertito opine de fútbol es como que yo opine de la fiesta de Olivos. Ah no, pará...",
+    "Albertito opina como si todavía tuviera cadena nacional. Relator invitado a mi cumple nomás",
+    "Alberto, Milei arregló en 1 año lo que vos rompiste en 4. Dato verificable",
+    "Creo que hablo por todos los libertarios cuando digo: Alberto, vos sos el pasado",
+    "Albertito, si Macri hubiera hecho ese pronóstico al menos lo hubiera ejecutado bien",
+    "La diferencia entre vos y Milei es que Milei sabe de números. Vos ni del prode",
+    "Alberto, con lo que gastaste en la fiesta de Olivos pagabas el prode de todos. VLLC",
+    "Creo que hablo por todos cuando digo: callate Alberto que es MI cumpleaños",
+    "Me ponen al lado de un expresidente procesado. Gracias admin por el regalo de cumple",
+    "Que Albertito opine de fútbol es como que yo opine de la fiesta de Olivos. Ah no, pará...",
+    "Alberto, Milei arregló en 1 año lo que vos rompiste en 4. Dato verificable",
+    "Creo que hablo por todos los libertarios cuando digo: Alberto, vos sos el pasado",
+    "La diferencia entre vos y Milei es que Milei sabe de números. Vos ni del prode",
+    "Alberto, con lo que gastaste en la fiesta de Olivos pagabas el prode de todos. VLLC",
   ]),
   taunt: (n) => {
     if (n === "Morei Trumpista") return pick([
@@ -667,13 +703,15 @@ function generateDynamicPhrase(
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
-function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[] }) {
+const speakingLock = { holder: null as string | null, until: 0, lastSpeaker: null as string | null };
+
+function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot, useBirthdayVoice, side = "right" }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[]; useBirthdayVoice?: boolean; side?: "left" | "right" }) {
   const homeTeamRef = useRef(homeTeamId);
   homeTeamRef.current = homeTeamId;
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
   const baseConfig = getComodinConfig(scope);
-  const isBdayOverride = matchId === "R32-3" || matchId === "R32-4";
+  const isBdayOverride = useBirthdayVoice ?? false;
   const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
@@ -730,14 +768,36 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       return Math.min(Math.max(text.length * 80, 6000), 14000);
     }
 
+    function canSpeak(): boolean {
+      if (speakingLock.holder !== null && speakingLock.holder !== side && Date.now() <= speakingLock.until) return false;
+      if (speakingLock.lastSpeaker === side && speakingLock.lastSpeaker !== null) return false;
+      return true;
+    }
+
+    function acquireLock(ms: number) {
+      speakingLock.holder = side;
+      speakingLock.until = Date.now() + ms + 2000;
+      speakingLock.lastSpeaker = side;
+    }
+
+    function releaseLock() {
+      if (speakingLock.holder === side) {
+        speakingLock.holder = null;
+        speakingLock.until = 0;
+      }
+    }
+
     function showPhrase(text: string, durationMs?: number) {
       const ms = durationMs ?? phraseDuration(text);
+      if (!canSpeak()) return;
+      acquireLock(ms);
       isShowingRef.current = true;
       setPhrase(text);
       setVisible(true);
       timerRef.current = setTimeout(() => {
         setVisible(false);
         isShowingRef.current = false;
+        releaseLock();
         if (eventQueue.current.length > 0) {
           const next = eventQueue.current.shift()!;
           setTimeout(() => showPhrase(next), 1500);
@@ -747,15 +807,13 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
     function checkEvents() {
       const events = liveScoreRef.current.events ?? [];
-      // Generate phrases for ALL new events
       while (events.length > lastEventCount.current) {
         const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
       }
-      // Show first queued event if not already showing
-      if (!isShowingRef.current && eventQueue.current.length > 0) {
+      if (!isShowingRef.current && eventQueue.current.length > 0 && canSpeak()) {
         const next = eventQueue.current.shift()!;
         showPhrase(next);
       }
@@ -763,6 +821,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
     function showIdle() {
       if (isShowingRef.current || eventQueue.current.length > 0) return;
+      if (!canSpeak()) return;
       const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
       eventIndexRef.current = result.newEventIndex;
       showPhrase(result.phrase);
@@ -781,15 +840,17 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
   if (!config.name) return null;
 
+  const isLeft = side === "left";
+
   return (
-    <div className="absolute bottom-3 right-3 flex items-end gap-2 z-10">
+    <div className={`absolute bottom-3 ${isLeft ? "left-3" : "right-3"} flex items-end gap-2 z-10 ${isLeft ? "flex-row-reverse" : ""}`}>
       {visible && phrase && (
         <div className="max-w-[180px] animate-[fadeInUp_0.3s_ease-out]">
           <div className="relative rounded-xl bg-black/50 backdrop-blur-sm px-2.5 py-1.5 ring-1 ring-fifa-gold/30">
             <p className="text-[9px] text-fifa-gold italic leading-tight">
               &ldquo;{phrase}&rdquo;
             </p>
-            <div className="absolute -right-1 bottom-2 h-2 w-2 rotate-45 bg-black/50 ring-1 ring-fifa-gold/30" style={{ clipPath: "polygon(100% 0, 0 100%, 100% 100%)" }} />
+            <div className={`absolute ${isLeft ? "-left-1" : "-right-1"} bottom-2 h-2 w-2 rotate-45 bg-black/50 ring-1 ring-fifa-gold/30`} style={{ clipPath: isLeft ? "polygon(0 0, 0 100%, 100% 100%)" : "polygon(100% 0, 0 100%, 100% 100%)" }} />
           </div>
         </div>
       )}
@@ -828,6 +889,9 @@ export function clearLiveComodinCaches() {
   usedLectures.clear();
   usedRanking.clear();
   usedTaunts.clear();
+  speakingLock.holder = null;
+  speakingLock.until = 0;
+  speakingLock.lastSpeaker = null;
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
@@ -918,7 +982,12 @@ export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapsho
       </div>
     </div>
       {rankingSnapshot && (match.phase === "knockout" || rankingSnapshot.some((r) => r.hasComodinOnActive)) && (
-        <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} />
+        <>
+          <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} side="right" />
+          {(match.id === "R32-3" || match.id === "R32-4") && (
+            <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} useBirthdayVoice side="left" />
+          )}
+        </>
       )}
     </div>
   );
