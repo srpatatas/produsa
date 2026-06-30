@@ -667,6 +667,8 @@ function generateDynamicPhrase(
   return { phrase: voice.idle(), newEventIndex: lastEventIndex };
 }
 
+const speakingLock = { holder: null as string | null, until: 0 };
+
 function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot, useBirthdayVoice, side = "right" }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[]; useBirthdayVoice?: boolean; side?: "left" | "right" }) {
   const homeTeamRef = useRef(homeTeamId);
   homeTeamRef.current = homeTeamId;
@@ -730,14 +732,33 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       return Math.min(Math.max(text.length * 80, 6000), 14000);
     }
 
+    function canSpeak(): boolean {
+      return speakingLock.holder === null || speakingLock.holder === side || Date.now() > speakingLock.until;
+    }
+
+    function acquireLock(ms: number) {
+      speakingLock.holder = side;
+      speakingLock.until = Date.now() + ms + 2000;
+    }
+
+    function releaseLock() {
+      if (speakingLock.holder === side) {
+        speakingLock.holder = null;
+        speakingLock.until = 0;
+      }
+    }
+
     function showPhrase(text: string, durationMs?: number) {
       const ms = durationMs ?? phraseDuration(text);
+      if (!canSpeak()) return;
+      acquireLock(ms);
       isShowingRef.current = true;
       setPhrase(text);
       setVisible(true);
       timerRef.current = setTimeout(() => {
         setVisible(false);
         isShowingRef.current = false;
+        releaseLock();
         if (eventQueue.current.length > 0) {
           const next = eventQueue.current.shift()!;
           setTimeout(() => showPhrase(next), 1500);
@@ -747,15 +768,13 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
     function checkEvents() {
       const events = liveScoreRef.current.events ?? [];
-      // Generate phrases for ALL new events
       while (events.length > lastEventCount.current) {
         const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
       }
-      // Show first queued event if not already showing
-      if (!isShowingRef.current && eventQueue.current.length > 0) {
+      if (!isShowingRef.current && eventQueue.current.length > 0 && canSpeak()) {
         const next = eventQueue.current.shift()!;
         showPhrase(next);
       }
@@ -763,6 +782,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
 
     function showIdle() {
       if (isShowingRef.current || eventQueue.current.length > 0) return;
+      if (!canSpeak()) return;
       const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
       eventIndexRef.current = result.newEventIndex;
       showPhrase(result.phrase);
@@ -830,6 +850,8 @@ export function clearLiveComodinCaches() {
   usedLectures.clear();
   usedRanking.clear();
   usedTaunts.clear();
+  speakingLock.holder = null;
+  speakingLock.until = 0;
 }
 
 export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapshot }: LiveScoreboardProps) {
