@@ -4,7 +4,7 @@ import { knockoutMatches } from "@/data/knockoutMatches";
 import { getTeam } from "@/data/teams";
 import { resolveKnockoutMatch } from "./knockoutResolver";
 
-const LIVE_WINDOW_MS = 3 * 60 * 60 * 1000;
+const LIVE_WINDOW_MS = 4 * 60 * 60 * 1000;
 const ARGENTINA_OFFSET_MS = -3 * 60 * 60 * 1000;
 
 function groupToUnified(m: typeof matches[number]): UnifiedMatch {
