@@ -77,7 +77,7 @@ const POSITIONS: Record<string, [number, number]> = {
   "3P": [4, 7],
 };
 
-const COL_WIDTH = 115;
+const COL_WIDTH = 120;
 const ROW_HEIGHT = 58;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 10;
