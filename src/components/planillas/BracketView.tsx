@@ -180,7 +180,7 @@ export function BracketView() {
 
         {/* Trophy + World Champion above Final */}
         <div className="absolute flex flex-col items-center" style={{ left: 4 * colWidth + (colWidth - 120) / 2, top: 0.5 * rowHeight + Y_OFFSET, width: 120 }}>
-          <div className="relative w-16 h-20 mb-1">
+          <div className="relative w-16 h-20 mb-1 scale-150 origin-bottom">
             <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
           </div>
           <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold text-center leading-tight mb-2">Campeón<br/>del Mundo</p>
