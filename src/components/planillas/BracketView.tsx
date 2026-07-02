@@ -112,7 +112,7 @@ export function BracketView() {
   useEffect(() => {
     function measure() {
       if (containerRef.current) {
-        const w = containerRef.current.offsetWidth - 20;
+        const w = containerRef.current.clientWidth;
         setColWidth(Math.max(110, Math.floor(w / TOTAL_COLS)));
       }
     }
