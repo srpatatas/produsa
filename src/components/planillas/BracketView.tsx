@@ -206,9 +206,9 @@ export function BracketView() {
           })()}
         </div>
 
-        {/* Bronze Final label */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * colWidth, top: 6.3 * rowHeight + Y_OFFSET, width: colWidth }}>
-          <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 text-center">Bronze Final</p>
+        {/* Tercer puesto label */}
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * colWidth, top: 7 * rowHeight + Y_OFFSET - 14, width: colWidth }}>
+          <p className="text-[9px] uppercase tracking-wider text-white/80 text-center font-medium">Tercer Puesto</p>
         </div>
 
         {/* Bracket lines — SVG overlay */}
