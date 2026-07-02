@@ -65,7 +65,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
         <div className="h-px bg-white/5" />
         <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
       </div>
-      <span className={cn("text-[7px] mt-0.5 font-medium", statusColor)}>{statusLabel}</span>
+      <span className={cn("text-[7px] mt-0.5 font-medium uppercase", statusColor)}>{statusLabel}</span>
     </div>
   );
 }
