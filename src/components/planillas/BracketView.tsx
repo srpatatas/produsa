@@ -23,11 +23,11 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
   const homeWins = isFinished && (hasPen ? result.homePenalty! > result.awayPenalty! : result.homeScore > result.awayScore);
   const awayWins = isFinished && (hasPen ? result.awayPenalty! > result.homePenalty! : result.awayScore > result.homeScore);
 
-  const w = size === "lg" ? "w-[120px]" : size === "md" ? "w-[110px]" : "w-[100px]";
-  const py = size === "lg" ? "py-1.5" : "py-1";
+  const w = size === "lg" ? "w-[140px]" : size === "md" ? "w-[130px]" : "w-[120px]";
+  const py = size === "lg" ? "py-2" : "py-1.5";
   const flagSize = "sm" as const;
-  const textSize = size === "lg" ? "text-[11px]" : "text-[10px]";
-  const scoreSize = size === "lg" ? "text-xs" : "text-[11px]";
+  const textSize = size === "lg" ? "text-xs" : "text-[11px]";
+  const scoreSize = size === "lg" ? "text-sm" : "text-xs";
 
   function Row({ teamId, label, score, penalty, isW, isL }: { teamId: string | null; label: string; score?: number; penalty?: number | null; isW?: boolean; isL?: boolean; }) {
     const team = teamId ? getTeam(teamId) : null;
@@ -65,7 +65,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
         <div className="h-px bg-white/5" />
         <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
       </div>
-      <span className={cn("text-[8px] mt-0.5 font-medium uppercase", statusColor)}>{statusLabel}</span>
+      <span className={cn("text-[9px] mt-0.5 font-medium uppercase", statusColor)}>{statusLabel}</span>
     </div>
   );
 }
@@ -97,8 +97,8 @@ const POSITIONS: Record<string, [number, number]> = {
   "3P": [4, 7],
 };
 
-const COL_WIDTH = 120;
-const ROW_HEIGHT = 65;
+const COL_WIDTH = 150;
+const ROW_HEIGHT = 80;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 10;
 const Y_OFFSET = 30;
@@ -147,7 +147,7 @@ export function BracketView() {
           { col: 5, label: "Semi" }, { col: 6, label: "4tos" }, { col: 7, label: "8vos" }, { col: 8, label: "16vos" },
         ].map(({ col, label }) => (
           <div key={col} className="absolute text-center" style={{ left: col * COL_WIDTH, top: 0, width: COL_WIDTH }}>
-            <span className="text-[9px] font-semibold uppercase tracking-widest text-white/80">{label}</span>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-white/80">{label}</span>
           </div>
         ))}
 
@@ -157,7 +157,7 @@ export function BracketView() {
           const size = isCenter ? "lg" : col === 0 || col === 8 ? "sm" : "md";
           return (
             <div key={matchId} className="absolute" style={{
-              left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 120 : size === "md" ? 110 : 100)) / 2,
+              left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 140 : size === "md" ? 130 : 120)) / 2,
               top: row * ROW_HEIGHT + Y_OFFSET,
             }}>
               <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} userPredictions={userPredictions} size={size} />
@@ -223,8 +223,8 @@ export function BracketView() {
           ].map(([from, to], i) => {
             const [fc, fr] = POSITIONS[from];
             const [tc, tr] = POSITIONS[to];
-            const fromSize = fc === 0 || fc === 8 ? 100 : fc === 4 ? 120 : 110;
-            const toSize = tc === 0 || tc === 8 ? 100 : tc === 4 ? 120 : 110;
+            const fromSize = fc === 0 || fc === 8 ? 120 : fc === 4 ? 140 : 130;
+            const toSize = tc === 0 || tc === 8 ? 120 : tc === 4 ? 140 : 130;
             const fromRight = fc < tc;
             const x1 = fc * COL_WIDTH + (COL_WIDTH - fromSize) / 2 + (fromRight ? fromSize : 0);
             const y1 = fr * ROW_HEIGHT + 18 + Y_OFFSET;
