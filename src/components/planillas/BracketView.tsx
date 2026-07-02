@@ -112,7 +112,7 @@ export function BracketView() {
   const totalH = TOTAL_ROWS * ROW_HEIGHT + 220; // extra for trophy
 
   return (
-    <div className="w-full overflow-x-auto pb-4">
+    <div className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
       <div className="relative" style={{ width: totalW + 20, height: totalH + 30, paddingRight: 10 }}>
         {/* Column headers */}
         {[
