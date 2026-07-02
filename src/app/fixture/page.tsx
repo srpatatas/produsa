@@ -10,6 +10,7 @@ import { MatchResult } from "@/data/results";
 import { FixtureGroupCard } from "@/components/fixture/FixtureGroupCard";
 import { cn } from "@/lib/utils";
 import { KnockoutRound } from "@/types";
+import { BracketView } from "@/components/planillas/BracketView";
 
 const roundGradients: Record<KnockoutRound, string> = {
   R32: "from-fifa-teal to-cyan-500",
@@ -24,6 +25,7 @@ export default function FixturePage() {
   const [results, setResults] = useState<Record<string, MatchResult>>({});
   const [resolvedKnockout, setResolvedKnockout] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
+  const [knockoutView, setKnockoutView] = useState<"bracket" | "list">("bracket");
 
   useEffect(() => {
     Promise.all([
@@ -86,6 +88,31 @@ export default function FixturePage() {
           ))}
         </div>
       ) : (
+        <>
+        <div className="flex justify-center gap-2 mb-4">
+          <button
+            onClick={() => setKnockoutView("bracket")}
+            className={cn(
+              "rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide transition-all duration-200",
+              knockoutView === "bracket" ? "bg-fifa-teal text-white" : "bg-white/5 text-fifa-dark-gray hover:bg-white/10",
+            )}
+          >
+            Bracket
+          </button>
+          <button
+            onClick={() => setKnockoutView("list")}
+            className={cn(
+              "rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide transition-all duration-200",
+              knockoutView === "list" ? "bg-fifa-teal text-white" : "bg-white/5 text-fifa-dark-gray hover:bg-white/10",
+            )}
+          >
+            Lista
+          </button>
+        </div>
+
+        {knockoutView === "bracket" ? (
+          <BracketView />
+        ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {knockoutRounds.map((round) => {
             const matches = getKnockoutMatchesByRound(round.id);
@@ -162,6 +189,8 @@ export default function FixturePage() {
             );
           })}
         </div>
+        )}
+        </>
       )}
     </div>
   );
