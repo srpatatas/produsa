@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { knockoutMatches } from "@/data/knockoutMatches";
 import { KnockoutMatch } from "@/types";
 import { getTeam } from "@/data/teams";
@@ -35,85 +36,99 @@ const BRACKET_RIGHT = {
   sf: ["SF-2"],
 };
 
-function formatTime(kickoff: string): string {
-  return new Date(kickoff).toLocaleDateString("es-AR", {
-    day: "2-digit",
-    month: "2-digit",
-    timeZone: "America/Argentina/Buenos_Aires",
-  }) + " " + new Date(kickoff).toLocaleTimeString("es-AR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "America/Argentina/Buenos_Aires",
-  });
+function TeamSlot({
+  teamId,
+  label,
+  score,
+  penalty,
+  isWinner,
+  isLoser,
+  large,
+}: {
+  teamId: string | null;
+  label: string;
+  score?: number;
+  penalty?: number | null;
+  isWinner?: boolean;
+  isLoser?: boolean;
+  large?: boolean;
+}) {
+  const team = teamId ? getTeam(teamId) : null;
+
+  return (
+    <div className={cn(
+      "flex items-center gap-1.5 px-2 rounded-md transition-opacity",
+      large ? "py-1.5" : "py-1",
+      isLoser && "opacity-30",
+    )}>
+      {team ? (
+        <FlagImage code={team.flagCode} name={team.name} size={large ? "md" : "sm"} />
+      ) : (
+        <div className={cn("rounded-sm bg-white/10 flex items-center justify-center text-[8px] text-white/30", large ? "h-5 w-7" : "h-4 w-5")}>?</div>
+      )}
+      <span className={cn(
+        "flex-1 font-display tracking-wider truncate",
+        large ? "text-xs" : "text-[10px]",
+        team ? "text-foreground" : "text-fifa-dark-gray/30",
+        isWinner && "text-fifa-gold",
+      )}>
+        {team ? team.shortName : label}
+      </span>
+      {penalty != null && <span className="text-[8px] text-fifa-dark-gray/50">({penalty})</span>}
+      {score != null && (
+        <span className={cn(
+          "font-bold text-right",
+          large ? "text-sm w-4" : "text-[10px] w-3",
+          isWinner ? "text-foreground" : "text-fifa-dark-gray/50",
+        )}>
+          {score}
+        </span>
+      )}
+    </div>
+  );
 }
 
 function MatchCard({
   match,
   resolved,
   result,
-  compact,
-  reverse,
+  large,
 }: {
   match: KnockoutMatch;
   resolved?: ResolvedMatch;
   result?: MatchResult;
-  compact?: boolean;
-  reverse?: boolean;
+  large?: boolean;
 }) {
-  const home = resolved?.homeTeamId ? getTeam(resolved.homeTeamId) : null;
-  const away = resolved?.awayTeamId ? getTeam(resolved.awayTeamId) : null;
   const isFinished = !!result;
   const hasPenalties = result?.homePenalty != null && result?.awayPenalty != null;
+  const homeWins = isFinished && (hasPenalties ? result.homePenalty! > result.awayPenalty! : result.homeScore > result.awayScore);
+  const awayWins = isFinished && (hasPenalties ? result.awayPenalty! > result.homePenalty! : result.awayScore > result.homeScore);
 
   return (
     <div className={cn(
       "rounded-lg ring-1 overflow-hidden",
-      isFinished ? "ring-white/20 bg-card-bg" : "ring-white/5 bg-surface/50",
-      compact ? "w-[130px]" : "w-[150px]",
+      isFinished ? "ring-white/15 bg-white/[0.03]" : "ring-white/5 bg-white/[0.02]",
+      large ? "min-w-[140px]" : "min-w-[120px]",
     )}>
-      {!compact && (
-        <div className={cn(
-          "px-2 py-0.5 text-[8px] text-fifa-dark-gray/60",
-          reverse ? "text-right" : "text-left",
-        )}>
-          {isFinished ? "Finalizado" : formatTime(match.kickoff)}
-        </div>
-      )}
-      <div className="space-y-px">
-        <div className={cn(
-          "flex items-center gap-1.5 px-2 py-1",
-          isFinished && result.homeScore < result.awayScore && !hasPenalties && "opacity-40",
-          isFinished && hasPenalties && result.homePenalty! < result.awayPenalty! && "opacity-40",
-        )}>
-          {home ? (
-            <>
-              <FlagImage code={home.flagCode} name={home.name} size="sm" />
-              <span className="flex-1 text-[10px] font-display tracking-wider text-foreground truncate">{home.shortName}</span>
-            </>
-          ) : (
-            <span className="flex-1 text-[9px] text-fifa-dark-gray/40 truncate">{match.homeSlot.label}</span>
-          )}
-          {hasPenalties && <span className="text-[8px] text-fifa-dark-gray/50">({result.homePenalty})</span>}
-          {isFinished && <span className="text-[10px] font-bold text-foreground w-3 text-right">{result.homeScore}</span>}
-        </div>
-        <div className={cn(
-          "flex items-center gap-1.5 px-2 py-1",
-          isFinished && result.awayScore < result.homeScore && !hasPenalties && "opacity-40",
-          isFinished && hasPenalties && result.awayPenalty! < result.homePenalty! && "opacity-40",
-        )}>
-          {away ? (
-            <>
-              <FlagImage code={away.flagCode} name={away.name} size="sm" />
-              <span className="flex-1 text-[10px] font-display tracking-wider text-foreground truncate">{away.shortName}</span>
-            </>
-          ) : (
-            <span className="flex-1 text-[9px] text-fifa-dark-gray/40 truncate">{match.awaySlot.label}</span>
-          )}
-          {hasPenalties && <span className="text-[8px] text-fifa-dark-gray/50">({result.awayPenalty})</span>}
-          {isFinished && <span className="text-[10px] font-bold text-foreground w-3 text-right">{result.awayScore}</span>}
-        </div>
-      </div>
+      <TeamSlot
+        teamId={resolved?.homeTeamId ?? null}
+        label={match.homeSlot.label}
+        score={isFinished ? result.homeScore : undefined}
+        penalty={hasPenalties ? result.homePenalty : undefined}
+        isWinner={homeWins}
+        isLoser={awayWins}
+        large={large}
+      />
+      <div className="h-px bg-white/5" />
+      <TeamSlot
+        teamId={resolved?.awayTeamId ?? null}
+        label={match.awaySlot.label}
+        score={isFinished ? result.awayScore : undefined}
+        penalty={hasPenalties ? result.awayPenalty : undefined}
+        isWinner={awayWins}
+        isLoser={homeWins}
+        large={large}
+      />
     </div>
   );
 }
@@ -123,18 +138,16 @@ function BracketColumn({
   matchMap,
   resolvedMap,
   resultMap,
-  compact,
-  reverse,
+  large,
 }: {
   matchIds: string[];
   matchMap: Map<string, KnockoutMatch>;
   resolvedMap: Record<string, ResolvedMatch>;
   resultMap: Record<string, MatchResult>;
-  compact?: boolean;
-  reverse?: boolean;
+  large?: boolean;
 }) {
   return (
-    <div className="flex flex-col justify-around h-full gap-2">
+    <div className="flex flex-col justify-around h-full gap-1">
       {matchIds.map((id) => {
         const match = matchMap.get(id);
         if (!match) return null;
@@ -144,8 +157,7 @@ function BracketColumn({
             match={match}
             resolved={resolvedMap[id]}
             result={resultMap[id]}
-            compact={compact}
-            reverse={reverse}
+            large={large}
           />
         );
       })}
@@ -185,44 +197,55 @@ export function BracketView() {
 
   return (
     <div className="w-full overflow-x-auto pb-4">
-      {/* Column headers */}
-      <div className="min-w-[1100px]">
-        <div className="grid grid-cols-9 gap-1 mb-3 px-2">
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">16vos</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">8vos</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">4tos</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">Semi</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-gold">Final</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">Semi</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">4tos</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">8vos</div>
-          <div className="text-center text-[9px] font-semibold uppercase tracking-wider text-fifa-dark-gray">16vos</div>
+      <div className="min-w-[1000px] relative">
+        {/* Column headers */}
+        <div className="grid grid-cols-9 gap-1 mb-2 px-1">
+          {["16vos", "8vos", "4tos", "Semi", "Final", "Semi", "4tos", "8vos", "16vos"].map((label, i) => (
+            <div key={i} className={cn(
+              "text-center text-[8px] font-semibold uppercase tracking-widest",
+              i === 4 ? "text-fifa-gold" : "text-fifa-dark-gray/50",
+            )}>
+              {label}
+            </div>
+          ))}
         </div>
 
         {/* Bracket grid */}
-        <div className="grid grid-cols-9 gap-1 px-2" style={{ minHeight: "700px" }}>
+        <div className="grid grid-cols-9 gap-1 px-1" style={{ minHeight: "650px" }}>
           {/* Left R32 */}
-          <BracketColumn matchIds={BRACKET_LEFT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} compact />
+          <BracketColumn matchIds={BRACKET_LEFT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
           {/* Left R16 */}
-          <BracketColumn matchIds={BRACKET_LEFT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+          <BracketColumn matchIds={BRACKET_LEFT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Left QF */}
-          <BracketColumn matchIds={BRACKET_LEFT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+          <BracketColumn matchIds={BRACKET_LEFT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Left SF */}
-          <BracketColumn matchIds={BRACKET_LEFT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
-          {/* Center: Final + 3P */}
-          <div className="flex flex-col justify-center items-center gap-6">
-            <MatchCard match={matchMap.get("F")!} resolved={resolvedMap["F"]} result={resultMap["F"]} />
-            <div className="text-[8px] text-fifa-dark-gray/40 uppercase tracking-wider">3er puesto</div>
-            <MatchCard match={matchMap.get("3P")!} resolved={resolvedMap["3P"]} result={resultMap["3P"]} compact />
+          <BracketColumn matchIds={BRACKET_LEFT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+
+          {/* Center: Champion + Final + 3P + Trophy */}
+          <div className="flex flex-col items-center justify-between py-4">
+            <div className="text-center">
+              <p className="text-[8px] font-bold uppercase tracking-widest text-fifa-gold mb-2">World Champion</p>
+              <MatchCard match={matchMap.get("F")!} resolved={resolvedMap["F"]} result={resultMap["F"]} large />
+            </div>
+
+            <div className="text-center">
+              <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 mb-1">Bronze Final</p>
+              <MatchCard match={matchMap.get("3P")!} resolved={resolvedMap["3P"]} result={resultMap["3P"]} />
+            </div>
+
+            <div className="relative w-24 h-32">
+              <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
+            </div>
           </div>
+
           {/* Right SF */}
-          <BracketColumn matchIds={BRACKET_RIGHT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} reverse />
+          <BracketColumn matchIds={BRACKET_RIGHT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Right QF */}
-          <BracketColumn matchIds={BRACKET_RIGHT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} reverse />
+          <BracketColumn matchIds={BRACKET_RIGHT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Right R16 */}
-          <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} reverse />
+          <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Right R32 */}
-          <BracketColumn matchIds={BRACKET_RIGHT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} compact reverse />
+          <BracketColumn matchIds={BRACKET_RIGHT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
         </div>
       </div>
     </div>
