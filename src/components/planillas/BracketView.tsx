@@ -98,7 +98,7 @@ const POSITIONS: Record<string, [number, number]> = {
 };
 
 const COL_WIDTH = 120;
-const ROW_HEIGHT = 58;
+const ROW_HEIGHT = 65;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 10;
 const Y_OFFSET = 30;
