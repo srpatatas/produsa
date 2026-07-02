@@ -81,7 +81,7 @@ const COL_WIDTH = 105;
 const ROW_HEIGHT = 55;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 12.5;
-const Y_OFFSET = 20;
+const Y_OFFSET = 30;
 
 export function BracketView() {
   const [resolvedMap, setResolvedMap] = useState<Record<string, ResolvedMatch>>({});
