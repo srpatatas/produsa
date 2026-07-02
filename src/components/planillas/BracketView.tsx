@@ -221,20 +221,12 @@ export function BracketView() {
           {/* Left SF */}
           <BracketColumn matchIds={BRACKET_LEFT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
 
-          {/* Center: Champion + Final + 3P + Trophy */}
-          <div className="flex flex-col items-center justify-between py-4">
-            <div className="text-center">
-              <p className="text-[8px] font-bold uppercase tracking-widest text-fifa-gold mb-2">World Champion</p>
-              <MatchCard match={matchMap.get("F")!} resolved={resolvedMap["F"]} result={resultMap["F"]} large />
-            </div>
-
-            <div className="text-center">
-              <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 mb-1">Bronze Final</p>
-              <MatchCard match={matchMap.get("3P")!} resolved={resolvedMap["3P"]} result={resultMap["3P"]} />
-            </div>
-
-            <div className="relative w-24 h-32">
-              <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
+          {/* Center: Champion + Trophy + 3P below bracket */}
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-[9px] font-bold uppercase tracking-widest text-fifa-gold mb-2">World Champion</p>
+            <MatchCard match={matchMap.get("F")!} resolved={resolvedMap["F"]} result={resultMap["F"]} large />
+            <div className="relative w-36 h-48 mt-4">
+              <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_25px_rgba(255,215,0,0.4)]" />
             </div>
           </div>
 
@@ -246,6 +238,12 @@ export function BracketView() {
           <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Right R32 */}
           <BracketColumn matchIds={BRACKET_RIGHT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+        </div>
+
+        {/* 3rd place match below bracket */}
+        <div className="flex flex-col items-center mt-6">
+          <p className="text-[8px] uppercase tracking-wider text-fifa-dark-gray/40 mb-1">Partido por el tercer puesto</p>
+          <MatchCard match={matchMap.get("3P")!} resolved={resolvedMap["3P"]} result={resultMap["3P"]} large />
         </div>
       </div>
     </div>
