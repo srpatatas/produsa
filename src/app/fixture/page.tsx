@@ -37,7 +37,7 @@ export default function FixturePage() {
   const [results, setResults] = useState<Record<string, MatchResult>>({});
   const [resolvedKnockout, setResolvedKnockout] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">(computeInitialPhase);
-  const [knockoutView, setKnockoutView] = useState<"bracket" | "list">("bracket");
+  const [knockoutView, setKnockoutView] = useState<"bracket" | "list">("list");
 
   useEffect(() => {
     Promise.all([
@@ -103,15 +103,6 @@ export default function FixturePage() {
         <>
         <div className="flex justify-center gap-2 mb-4">
           <button
-            onClick={() => setKnockoutView("bracket")}
-            className={cn(
-              "rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide transition-all duration-200",
-              knockoutView === "bracket" ? "bg-fifa-teal text-white" : "bg-white/5 text-fifa-dark-gray hover:bg-white/10",
-            )}
-          >
-            Bracket
-          </button>
-          <button
             onClick={() => setKnockoutView("list")}
             className={cn(
               "rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide transition-all duration-200",
@@ -119,6 +110,15 @@ export default function FixturePage() {
             )}
           >
             Lista
+          </button>
+          <button
+            onClick={() => setKnockoutView("bracket")}
+            className={cn(
+              "rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-wide transition-all duration-200",
+              knockoutView === "bracket" ? "bg-fifa-teal text-white" : "bg-white/5 text-fifa-dark-gray hover:bg-white/10",
+            )}
+          >
+            Bracket
           </button>
         </div>
 
