@@ -81,6 +81,7 @@ const COL_WIDTH = 105;
 const ROW_HEIGHT = 55;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 12.5;
+const Y_OFFSET = 20;
 
 export function BracketView() {
   const [resolvedMap, setResolvedMap] = useState<Record<string, ResolvedMatch>>({});
@@ -112,25 +113,25 @@ export function BracketView() {
 
   return (
     <div className="w-full overflow-x-auto pb-4">
-      <div className="relative mx-auto pt-6" style={{ width: totalW, height: totalH + 24 }}>
+      <div className="relative mx-auto" style={{ width: totalW, height: totalH + 30 }}>
         {/* Column headers */}
         {[
           { col: 0, label: "16vos" }, { col: 1, label: "8vos" }, { col: 2, label: "4tos" }, { col: 3, label: "Semi" },
           { col: 5, label: "Semi" }, { col: 6, label: "4tos" }, { col: 7, label: "8vos" }, { col: 8, label: "16vos" },
         ].map(({ col, label }) => (
-          <div key={col} className="absolute text-center" style={{ left: col * COL_WIDTH, top: -20, width: COL_WIDTH }}>
+          <div key={col} className="absolute text-center" style={{ left: col * COL_WIDTH, top: 0, width: COL_WIDTH }}>
             <span className="text-[8px] font-semibold uppercase tracking-widest text-fifa-dark-gray/40">{label}</span>
           </div>
         ))}
 
-        {/* Match boxes */}
+        {/* Match boxes — offset by 30px for header space */}
         {Object.entries(POSITIONS).map(([matchId, [col, row]]) => {
           const isCenter = col === 4;
           const size = isCenter ? "lg" : col === 0 || col === 8 ? "sm" : "md";
           return (
             <div key={matchId} className="absolute" style={{
               left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 110 : size === "md" ? 95 : 80)) / 2,
-              top: row * ROW_HEIGHT,
+              top: row * ROW_HEIGHT + Y_OFFSET,
             }}>
               <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} size={size} />
             </div>
@@ -138,7 +139,7 @@ export function BracketView() {
         })}
 
         {/* Trophy + World Champion above Final */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH + (COL_WIDTH - 120) / 2, top: 0.5 * ROW_HEIGHT, width: 120 }}>
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH + (COL_WIDTH - 120) / 2, top: 0.5 * ROW_HEIGHT + Y_OFFSET, width: 120 }}>
           <div className="relative w-16 h-20 mb-1">
             <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
           </div>
@@ -166,7 +167,7 @@ export function BracketView() {
         </div>
 
         {/* Bronze Final label */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 8.3 * ROW_HEIGHT, width: COL_WIDTH }}>
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 8.3 * ROW_HEIGHT + Y_OFFSET, width: COL_WIDTH }}>
           <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 text-center">Bronze Final</p>
         </div>
 
@@ -199,9 +200,9 @@ export function BracketView() {
             const toSize = tc === 0 || tc === 8 ? 80 : tc === 4 ? 110 : 95;
             const fromRight = fc < tc;
             const x1 = fc * COL_WIDTH + (COL_WIDTH - fromSize) / 2 + (fromRight ? fromSize : 0);
-            const y1 = fr * ROW_HEIGHT + 18;
+            const y1 = fr * ROW_HEIGHT + 18 + Y_OFFSET;
             const x2 = tc * COL_WIDTH + (COL_WIDTH - toSize) / 2 + (fromRight ? 0 : toSize);
-            const y2 = tr * ROW_HEIGHT + 18;
+            const y2 = tr * ROW_HEIGHT + 18 + Y_OFFSET;
             const midX = (x1 + x2) / 2;
             return (
               <path key={i} d={`M${x1},${y1} H${midX} V${y2} H${x2}`} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
