@@ -77,8 +77,8 @@ const POSITIONS: Record<string, [number, number]> = {
   "3P": [4, 7],
 };
 
-const COL_WIDTH = 125;
-const ROW_HEIGHT = 60;
+const COL_WIDTH = 115;
+const ROW_HEIGHT = 58;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 10;
 const Y_OFFSET = 30;
@@ -113,7 +113,7 @@ export function BracketView() {
 
   return (
     <div className="w-full overflow-x-auto pb-4">
-      <div className="relative mx-auto" style={{ width: totalW, height: totalH + 30 }}>
+      <div className="relative" style={{ width: totalW + 20, height: totalH + 30, paddingRight: 10 }}>
         {/* Column headers */}
         {[
           { col: 0, label: "16vos" }, { col: 1, label: "8vos" }, { col: 2, label: "4tos" }, { col: 3, label: "Semi" },
