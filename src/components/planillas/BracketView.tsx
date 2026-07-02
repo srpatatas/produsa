@@ -103,7 +103,7 @@ const Y_OFFSET = 30;
 
 export function BracketView() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [colWidth, setColWidth] = useState(150);
+  const [colWidth, setColWidth] = useState(0);
   const [resolvedMap, setResolvedMap] = useState<Record<string, ResolvedMatch>>({});
   const [resultMap, setResultMap] = useState<Record<string, MatchResult>>({});
   const [userPredictions, setUserPredictions] = useState<Record<string, string>>({});
@@ -145,7 +145,7 @@ export function BracketView() {
     });
   }, []);
 
-  if (!ready) return <div className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando bracket...</div>;
+  if (!ready || colWidth === 0) return <div ref={containerRef} className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando bracket...</div>;
 
   const rowHeight = Math.round(colWidth * 0.53);
   const totalW = TOTAL_COLS * colWidth;
