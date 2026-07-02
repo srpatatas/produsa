@@ -53,34 +53,34 @@ function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
 // Layout: positions as [col, row] where col 0-8 (left to right), row 0-15 (top to bottom)
 // Left side: cols 0,1,2,3 | Right side: cols 8,7,6,5 | Center: col 4
 const POSITIONS: Record<string, [number, number]> = {
-  // Left R32 (col 0): 8 matches evenly spaced
+  // Left R32 (col 0)
   "R32-3": [0, 0], "R32-6": [0, 1], "R32-1": [0, 2], "R32-4": [0, 3],
-  "R32-12": [0, 8], "R32-11": [0, 9], "R32-10": [0, 10], "R32-9": [0, 11],
-  // Left R16 (col 1): 4 matches, each between its R32 pair
-  "R16-1": [1, 0.5], "R16-2": [1, 2.5], "R16-3": [1, 8.5], "R16-4": [1, 10.5],
-  // Left QF (col 2): 2 matches
-  "QF-1": [2, 1.5], "QF-2": [2, 9.5],
-  // Left SF (col 3): 1 match (top half)
-  "SF-1": [3, 3.5],
+  "R32-12": [0, 5.5], "R32-11": [0, 6.5], "R32-10": [0, 7.5], "R32-9": [0, 8.5],
+  // Left R16 (col 1)
+  "R16-1": [1, 0.5], "R16-2": [1, 2.5], "R16-3": [1, 6], "R16-4": [1, 8],
+  // Left QF (col 2)
+  "QF-1": [2, 1.5], "QF-2": [2, 7],
+  // Left SF (col 3)
+  "SF-1": [3, 3],
   // Right R32 (col 8)
   "R32-2": [8, 0], "R32-5": [8, 1], "R32-7": [8, 2], "R32-8": [8, 3],
-  "R32-15": [8, 8], "R32-14": [8, 9], "R32-13": [8, 10], "R32-16": [8, 11],
+  "R32-15": [8, 5.5], "R32-14": [8, 6.5], "R32-13": [8, 7.5], "R32-16": [8, 8.5],
   // Right R16 (col 7)
-  "R16-5": [7, 0.5], "R16-6": [7, 2.5], "R16-7": [7, 8.5], "R16-8": [7, 10.5],
+  "R16-5": [7, 0.5], "R16-6": [7, 2.5], "R16-7": [7, 6], "R16-8": [7, 8],
   // Right QF (col 6)
-  "QF-3": [6, 1.5], "QF-4": [6, 9.5],
+  "QF-3": [6, 1.5], "QF-4": [6, 7],
   // Right SF (col 5)
-  "SF-2": [5, 3.5],
-  // Final (col 4, top)
-  "F": [4, 5],
-  // 3P (col 4, bottom)
-  "3P": [4, 9],
+  "SF-2": [5, 3],
+  // Final (col 4)
+  "F": [4, 4.2],
+  // 3P (col 4)
+  "3P": [4, 7],
 };
 
 const COL_WIDTH = 105;
 const ROW_HEIGHT = 55;
 const TOTAL_COLS = 9;
-const TOTAL_ROWS = 12.5;
+const TOTAL_ROWS = 10;
 const Y_OFFSET = 30;
 
 export function BracketView() {
@@ -167,7 +167,7 @@ export function BracketView() {
         </div>
 
         {/* Bronze Final label */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 8.3 * ROW_HEIGHT + Y_OFFSET, width: COL_WIDTH }}>
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 6.3 * ROW_HEIGHT + Y_OFFSET, width: COL_WIDTH }}>
           <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 text-center">Bronze Final</p>
         </div>
 
