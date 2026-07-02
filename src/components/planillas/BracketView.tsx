@@ -48,11 +48,11 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
   let statusLabel: string;
   let statusColor: string;
   if (isFinished && userPred) {
-    statusLabel = gotItRight ? "✓ Acertaste" : "✗ Fallaste";
-    statusColor = gotItRight ? "text-fifa-green" : "text-fifa-red/70";
-  } else if (isFinished) {
-    statusLabel = "Finalizado";
-    statusColor = "text-white/50";
+    statusLabel = gotItRight ? "Acertaste" : "Fallaste";
+    statusColor = gotItRight ? "text-fifa-green" : "text-fifa-red";
+  } else if (isFinished && !userPred) {
+    statusLabel = "Sin predicción";
+    statusColor = "text-white/40";
   } else {
     statusLabel = new Date(match.kickoff).toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) + " " + new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" });
     statusColor = "text-white/50";
