@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { knockoutMatches } from "@/data/knockoutMatches";
 import { KnockoutMatch } from "@/types";
@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 interface ResolvedMatch { id: string; homeTeamId: string | null; awayTeamId: string | null; }
 interface MatchResult { homeScore: number; awayScore: number; homePenalty?: number | null; awayPenalty?: number | null; }
 
-function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm" }: {
-  matchId: string; resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>; userPredictions: Record<string, string>; size?: "sm" | "md" | "lg";
+function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, colWidth, size = "sm" }: {
+  matchId: string; resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>; userPredictions: Record<string, string>; colWidth: number; size?: "sm" | "md" | "lg";
 }) {
   const match = knockoutMatches.find((m) => m.id === matchId);
   if (!match) return null;
@@ -23,7 +23,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
   const homeWins = isFinished && (hasPen ? result.homePenalty! > result.awayPenalty! : result.homeScore > result.awayScore);
   const awayWins = isFinished && (hasPen ? result.awayPenalty! > result.homePenalty! : result.awayScore > result.homeScore);
 
-  const w = size === "lg" ? "w-[140px]" : size === "md" ? "w-[130px]" : "w-[120px]";
+  const boxW = size === "lg" ? colWidth - 10 : size === "md" ? colWidth - 20 : colWidth - 30;
   const py = size === "lg" ? "py-2" : "py-1.5";
   const flagSize = "sm" as const;
   const textSize = size === "lg" ? "text-xs" : "text-[11px]";
@@ -60,7 +60,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
 
   return (
     <div className="flex flex-col items-center">
-      <div className={cn(w, "rounded-md ring-1 overflow-hidden", isFinished ? "ring-white/15 bg-white/[0.04]" : "ring-white/5 bg-white/[0.02]")}>
+      <div className={cn("rounded-md ring-1 overflow-hidden", isFinished ? "ring-white/15 bg-white/[0.04]" : "ring-white/5 bg-white/[0.02]")} style={{ width: boxW }}>
         <Row teamId={resolved?.homeTeamId ?? null} label={match.homeSlot.label} score={isFinished ? result.homeScore : undefined} penalty={hasPen ? result.homePenalty : undefined} isW={homeWins} isL={awayWins} />
         <div className="h-px bg-white/5" />
         <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
@@ -97,17 +97,29 @@ const POSITIONS: Record<string, [number, number]> = {
   "3P": [4, 7],
 };
 
-const COL_WIDTH = 150;
-const ROW_HEIGHT = 80;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 10;
 const Y_OFFSET = 30;
 
 export function BracketView() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [colWidth, setColWidth] = useState(150);
   const [resolvedMap, setResolvedMap] = useState<Record<string, ResolvedMatch>>({});
   const [resultMap, setResultMap] = useState<Record<string, MatchResult>>({});
   const [userPredictions, setUserPredictions] = useState<Record<string, string>>({});
   const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    function measure() {
+      if (containerRef.current) {
+        const w = containerRef.current.offsetWidth - 20;
+        setColWidth(Math.max(110, Math.floor(w / TOTAL_COLS)));
+      }
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   useEffect(() => {
     Promise.all([
@@ -135,18 +147,19 @@ export function BracketView() {
 
   if (!ready) return <div className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando bracket...</div>;
 
-  const totalW = TOTAL_COLS * COL_WIDTH;
-  const totalH = TOTAL_ROWS * ROW_HEIGHT + 40;
+  const rowHeight = Math.round(colWidth * 0.53);
+  const totalW = TOTAL_COLS * colWidth;
+  const totalH = TOTAL_ROWS * rowHeight + 40;
 
   return (
-    <div className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
+    <div ref={containerRef} className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
       <div className="relative" style={{ width: totalW + 20, height: totalH + 30, paddingRight: 10 }}>
         {/* Column headers */}
         {[
           { col: 0, label: "16vos" }, { col: 1, label: "8vos" }, { col: 2, label: "4tos" }, { col: 3, label: "Semi" },
           { col: 5, label: "Semi" }, { col: 6, label: "4tos" }, { col: 7, label: "8vos" }, { col: 8, label: "16vos" },
         ].map(({ col, label }) => (
-          <div key={col} className="absolute text-center" style={{ left: col * COL_WIDTH, top: 0, width: COL_WIDTH }}>
+          <div key={col} className="absolute text-center" style={{ left: col * colWidth, top: 0, width: colWidth }}>
             <span className="text-[10px] font-semibold uppercase tracking-widest text-white/80">{label}</span>
           </div>
         ))}
@@ -157,16 +170,16 @@ export function BracketView() {
           const size = isCenter ? "lg" : col === 0 || col === 8 ? "sm" : "md";
           return (
             <div key={matchId} className="absolute" style={{
-              left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 140 : size === "md" ? 130 : 120)) / 2,
-              top: row * ROW_HEIGHT + Y_OFFSET,
+              left: col * colWidth + (colWidth - (size === "lg" ? colWidth - 10 : size === "md" ? colWidth - 20 : colWidth - 30)) / 2,
+              top: row * rowHeight + Y_OFFSET,
             }}>
-              <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} userPredictions={userPredictions} size={size} />
+              <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} userPredictions={userPredictions} colWidth={colWidth} size={size} />
             </div>
           );
         })}
 
         {/* Trophy + World Champion above Final */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH + (COL_WIDTH - 120) / 2, top: 0.5 * ROW_HEIGHT + Y_OFFSET, width: 120 }}>
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * colWidth + (colWidth - 120) / 2, top: 0.5 * rowHeight + Y_OFFSET, width: 120 }}>
           <div className="relative w-16 h-20 mb-1">
             <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
           </div>
@@ -194,7 +207,7 @@ export function BracketView() {
         </div>
 
         {/* Bronze Final label */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 6.3 * ROW_HEIGHT + Y_OFFSET, width: COL_WIDTH }}>
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * colWidth, top: 6.3 * rowHeight + Y_OFFSET, width: colWidth }}>
           <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 text-center">Bronze Final</p>
         </div>
 
@@ -223,13 +236,13 @@ export function BracketView() {
           ].map(([from, to], i) => {
             const [fc, fr] = POSITIONS[from];
             const [tc, tr] = POSITIONS[to];
-            const fromSize = fc === 0 || fc === 8 ? 120 : fc === 4 ? 140 : 130;
-            const toSize = tc === 0 || tc === 8 ? 120 : tc === 4 ? 140 : 130;
+            const fromSize = fc === 0 || fc === 8 ? colWidth - 30 : fc === 4 ? colWidth - 10 : colWidth - 20;
+            const toSize = tc === 0 || tc === 8 ? colWidth - 30 : tc === 4 ? colWidth - 10 : colWidth - 20;
             const fromRight = fc < tc;
-            const x1 = fc * COL_WIDTH + (COL_WIDTH - fromSize) / 2 + (fromRight ? fromSize : 0);
-            const y1 = fr * ROW_HEIGHT + 18 + Y_OFFSET;
-            const x2 = tc * COL_WIDTH + (COL_WIDTH - toSize) / 2 + (fromRight ? 0 : toSize);
-            const y2 = tr * ROW_HEIGHT + 18 + Y_OFFSET;
+            const x1 = fc * colWidth + (colWidth - fromSize) / 2 + (fromRight ? fromSize : 0);
+            const y1 = fr * rowHeight + 18 + Y_OFFSET;
+            const x2 = tc * colWidth + (colWidth - toSize) / 2 + (fromRight ? 0 : toSize);
+            const y2 = tr * rowHeight + 18 + Y_OFFSET;
             const midX = (x1 + x2) / 2;
             return (
               <path key={i} d={`M${x1},${y1} H${midX} V${y2} H${x2}`} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
