@@ -147,7 +147,7 @@ function BracketColumn({
   large?: boolean;
 }) {
   return (
-    <div className="flex flex-col justify-around h-full gap-1">
+    <div className="flex flex-col justify-evenly h-full">
       {matchIds.map((id) => {
         const match = matchMap.get(id);
         if (!match) return null;
