@@ -118,7 +118,7 @@ export default function FixturePage() {
               knockoutView === "bracket" ? "bg-fifa-teal text-white" : "bg-white/5 text-fifa-dark-gray hover:bg-white/10",
             )}
           >
-            Bracket
+            Llave
           </button>
         </div>
 
