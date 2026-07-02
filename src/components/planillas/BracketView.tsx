@@ -199,111 +199,110 @@ export function BracketView() {
     <div className="w-full overflow-x-auto pb-4">
       <div className="min-w-[1000px] relative">
         {/* Column headers */}
-        <div className="grid grid-cols-9 gap-1 mb-2 px-1">
-          {["16vos", "8vos", "4tos", "Semi", "Final", "Semi", "4tos", "8vos", "16vos"].map((label, i) => (
-            <div key={i} className={cn(
-              "text-center text-[8px] font-semibold uppercase tracking-widest",
-              i === 4 ? "text-fifa-gold" : "text-fifa-dark-gray/50",
-            )}>
+        <div className="grid grid-cols-8 gap-1 mb-2 px-1">
+          {["16vos", "8vos", "4tos", "Semi", "Semi", "4tos", "8vos", "16vos"].map((label, i) => (
+            <div key={i} className="text-center text-[8px] font-semibold uppercase tracking-widest text-fifa-dark-gray/50">
               {label}
             </div>
           ))}
         </div>
 
-        {/* Bracket grid */}
-        <div className="grid grid-cols-9 gap-1 px-1" style={{ minHeight: "800px" }}>
-          {/* Left R32 */}
-          <BracketColumn matchIds={BRACKET_LEFT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
-          {/* Left R16 */}
-          <BracketColumn matchIds={BRACKET_LEFT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
-          {/* Left QF */}
-          <BracketColumn matchIds={BRACKET_LEFT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
-          {/* Left SF */}
-          <BracketColumn matchIds={BRACKET_LEFT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
-
-          {/* Center: Champion slot + Finalists flanking trophy + 3P */}
-          <div className="flex flex-col items-center justify-center">
-            {/* World Champion slot */}
-            <p className="text-[9px] font-bold uppercase tracking-widest text-fifa-gold mb-1">World Champion</p>
-            {(() => {
-              const finalMatch = matchMap.get("F")!;
-              const finalResult = resultMap["F"];
-              const finalResolved = resolvedMap["F"];
-              const hasPen = finalResult?.homePenalty != null && finalResult?.awayPenalty != null;
-              const homeWins = finalResult && (hasPen ? finalResult.homePenalty! > finalResult.awayPenalty! : finalResult.homeScore > finalResult.awayScore);
-              const winnerId = finalResult ? (homeWins ? finalResolved?.homeTeamId : finalResolved?.awayTeamId) : null;
-              const winner = winnerId ? getTeam(winnerId) : null;
-              return (
-                <div className="rounded-lg ring-1 ring-fifa-gold/30 bg-fifa-gold/[0.05] px-4 py-2 mb-3 flex items-center gap-2">
-                  {winner ? (
-                    <>
-                      <FlagImage code={winner.flagCode} name={winner.name} size="md" />
-                      <span className="font-display text-sm tracking-wider text-fifa-gold">{winner.shortName}</span>
-                    </>
-                  ) : (
-                    <>
-                      <div className="h-5 w-7 rounded-sm bg-white/10 flex items-center justify-center text-[10px] text-white/30">?</div>
-                      <span className="text-xs text-fifa-dark-gray/30">Por definir</span>
-                    </>
-                  )}
-                </div>
-              );
-            })()}
-
-            {/* Finalists flanking the trophy */}
-            <div className="flex items-center gap-3">
-              {(() => {
-                const finalResolved = resolvedMap["F"];
-                const homeTeam = finalResolved?.homeTeamId ? getTeam(finalResolved.homeTeamId) : null;
-                const awayTeam = finalResolved?.awayTeamId ? getTeam(finalResolved.awayTeamId) : null;
-                const finalResult = resultMap["F"];
-                return (
-                  <>
-                    <div className="flex flex-col items-center gap-1 w-14">
-                      {homeTeam ? (
-                        <>
-                          <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="md" />
-                          <span className="text-[9px] font-display tracking-wider text-foreground">{homeTeam.shortName}</span>
-                          {finalResult && <span className="text-[10px] font-bold text-foreground">{finalResult.homeScore}</span>}
-                        </>
-                      ) : (
-                        <div className="h-5 w-7 rounded-sm bg-white/10 flex items-center justify-center text-[8px] text-white/30">?</div>
-                      )}
-                    </div>
-                    <div className="relative w-32 h-44">
-                      <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_25px_rgba(255,215,0,0.4)]" />
-                    </div>
-                    <div className="flex flex-col items-center gap-1 w-14">
-                      {awayTeam ? (
-                        <>
-                          <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="md" />
-                          <span className="text-[9px] font-display tracking-wider text-foreground">{awayTeam.shortName}</span>
-                          {finalResult && <span className="text-[10px] font-bold text-foreground">{finalResult.awayScore}</span>}
-                        </>
-                      ) : (
-                        <div className="h-5 w-7 rounded-sm bg-white/10 flex items-center justify-center text-[8px] text-white/30">?</div>
-                      )}
-                    </div>
-                  </>
-                );
-              })()}
-            </div>
-
-            {/* 3rd place */}
-            <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/30 mt-4 mb-1">3er puesto</p>
-            <div className="opacity-60 scale-90">
-              <MatchCard match={matchMap.get("3P")!} resolved={resolvedMap["3P"]} result={resultMap["3P"]} />
-            </div>
+        {/* Bracket grid — 8 columns for matches, center overlay for Final */}
+        <div className="relative">
+          <div className="grid grid-cols-8 gap-1 px-1" style={{ minHeight: "800px" }}>
+            {/* Left R32 */}
+            <BracketColumn matchIds={BRACKET_LEFT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+            {/* Left R16 */}
+            <BracketColumn matchIds={BRACKET_LEFT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+            {/* Left QF */}
+            <BracketColumn matchIds={BRACKET_LEFT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+            {/* Left SF */}
+            <BracketColumn matchIds={BRACKET_LEFT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+            {/* Right SF */}
+            <BracketColumn matchIds={BRACKET_RIGHT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+            {/* Right QF */}
+            <BracketColumn matchIds={BRACKET_RIGHT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+            {/* Right R16 */}
+            <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+            {/* Right R32 */}
+            <BracketColumn matchIds={BRACKET_RIGHT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
           </div>
 
-          {/* Right SF */}
-          <BracketColumn matchIds={BRACKET_RIGHT.sf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
-          {/* Right QF */}
-          <BracketColumn matchIds={BRACKET_RIGHT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
-          {/* Right R16 */}
-          <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
-          {/* Right R32 */}
-          <BracketColumn matchIds={BRACKET_RIGHT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
+          {/* Center overlay: Final + Trophy + 3P */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <div className="pointer-events-auto flex flex-col items-center">
+              {/* World Champion slot */}
+              <p className="text-[9px] font-bold uppercase tracking-widest text-fifa-gold mb-1">World Champion</p>
+              {(() => {
+                const finalResult = resultMap["F"];
+                const finalResolved = resolvedMap["F"];
+                const hasPen = finalResult?.homePenalty != null && finalResult?.awayPenalty != null;
+                const homeWins = finalResult && (hasPen ? finalResult.homePenalty! > finalResult.awayPenalty! : finalResult.homeScore > finalResult.awayScore);
+                const winnerId = finalResult ? (homeWins ? finalResolved?.homeTeamId : finalResolved?.awayTeamId) : null;
+                const winner = winnerId ? getTeam(winnerId) : null;
+                return (
+                  <div className="rounded-lg ring-1 ring-fifa-gold/30 bg-card-bg px-4 py-2 mb-2 flex items-center gap-2 shadow-lg">
+                    {winner ? (
+                      <>
+                        <FlagImage code={winner.flagCode} name={winner.name} size="md" />
+                        <span className="font-display text-sm tracking-wider text-fifa-gold">{winner.shortName}</span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-5 w-7 rounded-sm bg-white/10 flex items-center justify-center text-[10px] text-white/30">?</div>
+                        <span className="text-xs text-fifa-dark-gray/30">Por definir</span>
+                      </>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Finalists flanking the trophy */}
+              <div className="flex items-center gap-2">
+                {(() => {
+                  const finalResolved = resolvedMap["F"];
+                  const homeTeam = finalResolved?.homeTeamId ? getTeam(finalResolved.homeTeamId) : null;
+                  const awayTeam = finalResolved?.awayTeamId ? getTeam(finalResolved.awayTeamId) : null;
+                  const finalResult = resultMap["F"];
+                  return (
+                    <>
+                      <div className="flex flex-col items-center gap-0.5 w-12">
+                        {homeTeam ? (
+                          <>
+                            <FlagImage code={homeTeam.flagCode} name={homeTeam.name} size="sm" />
+                            <span className="text-[8px] font-display tracking-wider text-foreground">{homeTeam.shortName}</span>
+                            {finalResult && <span className="text-[9px] font-bold text-foreground">{finalResult.homeScore}</span>}
+                          </>
+                        ) : (
+                          <div className="h-4 w-5 rounded-sm bg-white/10 flex items-center justify-center text-[7px] text-white/30">?</div>
+                        )}
+                      </div>
+                      <div className="relative w-20 h-28">
+                        <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]" />
+                      </div>
+                      <div className="flex flex-col items-center gap-0.5 w-12">
+                        {awayTeam ? (
+                          <>
+                            <FlagImage code={awayTeam.flagCode} name={awayTeam.name} size="sm" />
+                            <span className="text-[8px] font-display tracking-wider text-foreground">{awayTeam.shortName}</span>
+                            {finalResult && <span className="text-[9px] font-bold text-foreground">{finalResult.awayScore}</span>}
+                          </>
+                        ) : (
+                          <div className="h-4 w-5 rounded-sm bg-white/10 flex items-center justify-center text-[7px] text-white/30">?</div>
+                        )}
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+
+              {/* 3rd place */}
+              <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/30 mt-3 mb-1">3er puesto</p>
+              <div className="opacity-50 scale-[0.85]">
+                <MatchCard match={matchMap.get("3P")!} resolved={resolvedMap["3P"]} result={resultMap["3P"]} />
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
