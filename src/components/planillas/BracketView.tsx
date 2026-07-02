@@ -147,7 +147,7 @@ export function BracketView() {
           { col: 5, label: "Semi" }, { col: 6, label: "4tos" }, { col: 7, label: "8vos" }, { col: 8, label: "16vos" },
         ].map(({ col, label }) => (
           <div key={col} className="absolute text-center" style={{ left: col * COL_WIDTH, top: 0, width: COL_WIDTH }}>
-            <span className="text-[8px] font-semibold uppercase tracking-widest text-fifa-dark-gray/40">{label}</span>
+            <span className="text-[9px] font-semibold uppercase tracking-widest text-white/80">{label}</span>
           </div>
         ))}
 
