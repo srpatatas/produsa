@@ -109,7 +109,7 @@ export function BracketView() {
   if (!ready) return <div className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando bracket...</div>;
 
   const totalW = TOTAL_COLS * COL_WIDTH;
-  const totalH = TOTAL_ROWS * ROW_HEIGHT + 220; // extra for trophy
+  const totalH = TOTAL_ROWS * ROW_HEIGHT + 40;
 
   return (
     <div className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
