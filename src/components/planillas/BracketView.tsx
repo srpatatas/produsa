@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 interface ResolvedMatch { id: string; homeTeamId: string | null; awayTeamId: string | null; }
 interface MatchResult { homeScore: number; awayScore: number; homePenalty?: number | null; awayPenalty?: number | null; }
 
-function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
-  matchId: string; resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>; size?: "sm" | "md" | "lg";
+function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm" }: {
+  matchId: string; resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>; userPredictions: Record<string, string>; size?: "sm" | "md" | "lg";
 }) {
   const match = knockoutMatches.find((m) => m.id === matchId);
   if (!match) return null;
@@ -41,7 +41,22 @@ function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
     );
   }
 
-  const dateStr = isFinished ? "Finalizado" : new Date(match.kickoff).toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) + " " + new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" });
+  const userPred = userPredictions[matchId];
+  const actual = isFinished ? (hasPen ? (result.homePenalty! > result.awayPenalty! ? "L" : "V") : (result.homeScore > result.awayScore ? "L" : result.awayScore > result.homeScore ? "V" : "E")) : null;
+  const gotItRight = actual && userPred ? userPred.includes(actual) : null;
+
+  let statusLabel: string;
+  let statusColor: string;
+  if (isFinished && userPred) {
+    statusLabel = gotItRight ? "✓ Acertaste" : "✗ Fallaste";
+    statusColor = gotItRight ? "text-fifa-green" : "text-fifa-red/70";
+  } else if (isFinished) {
+    statusLabel = "Finalizado";
+    statusColor = "text-white/50";
+  } else {
+    statusLabel = new Date(match.kickoff).toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) + " " + new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" });
+    statusColor = "text-white/50";
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -50,7 +65,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
         <div className="h-px bg-white/5" />
         <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
       </div>
-      <span className="text-[7px] text-white/25 mt-0.5">{dateStr}</span>
+      <span className={cn("text-[7px] mt-0.5 font-medium", statusColor)}>{statusLabel}</span>
     </div>
   );
 }
@@ -91,16 +106,23 @@ const Y_OFFSET = 30;
 export function BracketView() {
   const [resolvedMap, setResolvedMap] = useState<Record<string, ResolvedMatch>>({});
   const [resultMap, setResultMap] = useState<Record<string, MatchResult>>({});
+  const [userPredictions, setUserPredictions] = useState<Record<string, string>>({});
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     Promise.all([
       fetch("/api/knockout-matches").then((r) => r.ok ? r.json() : { matches: [] }),
       fetch("/api/results").then((r) => r.ok ? r.json() : { results: {} }),
-    ]).then(([knockoutData, resultsData]) => {
+      fetch("/api/predictions").then((r) => r.ok ? r.json() : { predictions: {} }),
+    ]).then(([knockoutData, resultsData, predData]) => {
       const rm: Record<string, ResolvedMatch> = {};
       for (const m of knockoutData.matches ?? []) rm[m.id] = { id: m.id, homeTeamId: m.homeTeamId, awayTeamId: m.awayTeamId };
       setResolvedMap(rm);
+      const preds: Record<string, string> = {};
+      for (const [matchId, pred] of Object.entries(predData.predictions ?? {})) {
+        preds[matchId] = (pred as { outcome: string }).outcome;
+      }
+      setUserPredictions(preds);
       const rMap: Record<string, MatchResult> = {};
       for (const [id, r] of Object.entries(resultsData.results ?? {})) {
         const res = r as { homeScore: number; awayScore: number; homePenalty?: number; awayPenalty?: number };
@@ -138,7 +160,7 @@ export function BracketView() {
               left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 120 : size === "md" ? 110 : 100)) / 2,
               top: row * ROW_HEIGHT + Y_OFFSET,
             }}>
-              <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} size={size} />
+              <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} userPredictions={userPredictions} size={size} />
             </div>
           );
         })}
