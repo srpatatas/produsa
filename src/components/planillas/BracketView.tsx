@@ -147,7 +147,7 @@ export function BracketView() {
 
   if (!ready || colWidth === 0) return <div ref={containerRef} className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando bracket...</div>;
 
-  const rowHeight = Math.round(colWidth * 0.53);
+  const rowHeight = Math.round(colWidth * 0.65);
   const totalW = TOTAL_COLS * colWidth;
   const totalH = TOTAL_ROWS * rowHeight + 40;
 
