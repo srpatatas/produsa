@@ -32,11 +32,11 @@ function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
   function Row({ teamId, label, score, penalty, isW, isL }: { teamId: string | null; label: string; score?: number; penalty?: number | null; isW?: boolean; isL?: boolean; }) {
     const team = teamId ? getTeam(teamId) : null;
     return (
-      <div className={cn("flex items-center gap-1 px-1.5", py, isL && "opacity-30")}>
-        {team ? <FlagImage code={team.flagCode} name={team.name} size={flagSize} /> : <div className="h-4 w-5 rounded-[2px] bg-white/10 flex items-center justify-center text-[8px] text-white/30">?</div>}
-        <span className={cn("flex-1 font-display tracking-wider truncate", textSize, team ? "text-foreground" : "text-white/20", isW && "text-fifa-gold")}>{team?.shortName ?? ""}</span>
-        {penalty != null && <span className="text-[8px] text-white/40">({penalty})</span>}
-        {score != null && <span className={cn(scoreSize, "font-bold", isW ? "text-foreground" : "text-white/40")}>{score}</span>}
+      <div className={cn("flex items-center gap-1 px-1.5", py, isL && "opacity-40")}>
+        {team ? <FlagImage code={team.flagCode} name={team.name} size={flagSize} /> : <div className="h-4 w-5 rounded-[2px] bg-white/10 flex items-center justify-center text-[9px] text-white/40">?</div>}
+        <span className={cn("flex-1 font-display tracking-wider truncate", textSize, team ? "text-foreground" : "text-white/40", isW && "text-fifa-gold")}>{team?.shortName ?? ""}</span>
+        {penalty != null && <span className="text-[8px] text-white/50">({penalty})</span>}
+        {score != null && <span className={cn(scoreSize, "font-bold", isW ? "text-foreground" : "text-white/50")}>{score}</span>}
       </div>
     );
   }
