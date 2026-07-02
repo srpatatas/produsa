@@ -23,7 +23,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
   const homeWins = isFinished && (hasPen ? result.homePenalty! > result.awayPenalty! : result.homeScore > result.awayScore);
   const awayWins = isFinished && (hasPen ? result.awayPenalty! > result.homePenalty! : result.awayScore > result.homeScore);
 
-  const w = size === "lg" ? "w-[110px]" : size === "md" ? "w-[95px]" : "w-[80px]";
+  const w = size === "lg" ? "w-[120px]" : size === "md" ? "w-[110px]" : "w-[100px]";
   const py = size === "lg" ? "py-1.5" : "py-0.5";
   const flagSize = "sm" as const;
   const textSize = size === "lg" ? "text-[10px]" : "text-[8px]";
@@ -77,8 +77,8 @@ const POSITIONS: Record<string, [number, number]> = {
   "3P": [4, 7],
 };
 
-const COL_WIDTH = 105;
-const ROW_HEIGHT = 55;
+const COL_WIDTH = 125;
+const ROW_HEIGHT = 60;
 const TOTAL_COLS = 9;
 const TOTAL_ROWS = 10;
 const Y_OFFSET = 30;
@@ -130,7 +130,7 @@ export function BracketView() {
           const size = isCenter ? "lg" : col === 0 || col === 8 ? "sm" : "md";
           return (
             <div key={matchId} className="absolute" style={{
-              left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 110 : size === "md" ? 95 : 80)) / 2,
+              left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 120 : size === "md" ? 110 : 100)) / 2,
               top: row * ROW_HEIGHT + Y_OFFSET,
             }}>
               <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} size={size} />
@@ -196,8 +196,8 @@ export function BracketView() {
           ].map(([from, to], i) => {
             const [fc, fr] = POSITIONS[from];
             const [tc, tr] = POSITIONS[to];
-            const fromSize = fc === 0 || fc === 8 ? 80 : fc === 4 ? 110 : 95;
-            const toSize = tc === 0 || tc === 8 ? 80 : tc === 4 ? 110 : 95;
+            const fromSize = fc === 0 || fc === 8 ? 100 : fc === 4 ? 120 : 110;
+            const toSize = tc === 0 || tc === 8 ? 100 : tc === 4 ? 120 : 110;
             const fromRight = fc < tc;
             const x1 = fc * COL_WIDTH + (COL_WIDTH - fromSize) / 2 + (fromRight ? fromSize : 0);
             const y1 = fr * ROW_HEIGHT + 18 + Y_OFFSET;
