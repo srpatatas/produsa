@@ -211,11 +211,11 @@ export function BracketView() {
         </div>
 
         {/* Bracket grid */}
-        <div className="grid grid-cols-9 gap-1 px-1" style={{ minHeight: "650px" }}>
+        <div className="grid grid-cols-9 gap-1 px-1" style={{ minHeight: "800px" }}>
           {/* Left R32 */}
           <BracketColumn matchIds={BRACKET_LEFT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
           {/* Left R16 */}
-          <BracketColumn matchIds={BRACKET_LEFT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+          <BracketColumn matchIds={BRACKET_LEFT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
           {/* Left QF */}
           <BracketColumn matchIds={BRACKET_LEFT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Left SF */}
@@ -239,7 +239,7 @@ export function BracketView() {
           {/* Right QF */}
           <BracketColumn matchIds={BRACKET_RIGHT.qf} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
           {/* Right R16 */}
-          <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} large />
+          <BracketColumn matchIds={BRACKET_RIGHT.r16} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
           {/* Right R32 */}
           <BracketColumn matchIds={BRACKET_RIGHT.r32} matchMap={matchMap} resolvedMap={resolvedMap} resultMap={resultMap} />
         </div>
