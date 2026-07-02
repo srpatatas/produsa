@@ -41,11 +41,16 @@ function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
     );
   }
 
+  const dateStr = isFinished ? "Finalizado" : new Date(match.kickoff).toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) + " " + new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" });
+
   return (
-    <div className={cn(w, "rounded-md ring-1 overflow-hidden", isFinished ? "ring-white/15 bg-white/[0.04]" : "ring-white/5 bg-white/[0.02]")}>
-      <Row teamId={resolved?.homeTeamId ?? null} label={match.homeSlot.label} score={isFinished ? result.homeScore : undefined} penalty={hasPen ? result.homePenalty : undefined} isW={homeWins} isL={awayWins} />
-      <div className="h-px bg-white/5" />
-      <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
+    <div className="flex flex-col items-center">
+      <div className={cn(w, "rounded-md ring-1 overflow-hidden", isFinished ? "ring-white/15 bg-white/[0.04]" : "ring-white/5 bg-white/[0.02]")}>
+        <Row teamId={resolved?.homeTeamId ?? null} label={match.homeSlot.label} score={isFinished ? result.homeScore : undefined} penalty={hasPen ? result.homePenalty : undefined} isW={homeWins} isL={awayWins} />
+        <div className="h-px bg-white/5" />
+        <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
+      </div>
+      <span className="text-[7px] text-white/25 mt-0.5">{dateStr}</span>
     </div>
   );
 }
