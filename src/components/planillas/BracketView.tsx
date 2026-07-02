@@ -153,7 +153,7 @@ export function BracketView() {
 
   return (
     <div ref={containerRef} className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/20 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/30">
-      <div className="relative" style={{ width: totalW + 20, height: totalH + 30, paddingRight: 10 }}>
+      <div className="relative" style={{ width: totalW, height: totalH + 30 }}>
         {/* Column headers */}
         {[
           { col: 0, label: "16vos" }, { col: 1, label: "8vos" }, { col: 2, label: "4tos" }, { col: 3, label: "Semi" },
