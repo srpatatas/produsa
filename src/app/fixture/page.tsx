@@ -21,10 +21,22 @@ const roundGradients: Record<KnockoutRound, string> = {
   F: "from-fifa-gold to-amber-600",
 };
 
+import { matches } from "@/data/matches";
+
+function computeInitialPhase(): "grupos" | "eliminatorias" {
+  const allFechasStarted = [1, 2, 3].every((matchday) => {
+    const firstKickoff = matches
+      .filter((m) => m.matchday === matchday)
+      .reduce((min, m) => Math.min(min, new Date(m.kickoff).getTime()), Infinity);
+    return Date.now() >= firstKickoff;
+  });
+  return allFechasStarted ? "eliminatorias" : "grupos";
+}
+
 export default function FixturePage() {
   const [results, setResults] = useState<Record<string, MatchResult>>({});
   const [resolvedKnockout, setResolvedKnockout] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
-  const [phase, setPhase] = useState<"grupos" | "eliminatorias">("grupos");
+  const [phase, setPhase] = useState<"grupos" | "eliminatorias">(computeInitialPhase);
   const [knockoutView, setKnockoutView] = useState<"bracket" | "list">("bracket");
 
   useEffect(() => {
