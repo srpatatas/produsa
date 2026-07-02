@@ -112,7 +112,17 @@ export function BracketView() {
 
   return (
     <div className="w-full overflow-x-auto pb-4">
-      <div className="relative mx-auto" style={{ width: totalW, height: totalH }}>
+      <div className="relative mx-auto pt-6" style={{ width: totalW, height: totalH + 24 }}>
+        {/* Column headers */}
+        {[
+          { col: 0, label: "16vos" }, { col: 1, label: "8vos" }, { col: 2, label: "4tos" }, { col: 3, label: "Semi" },
+          { col: 5, label: "Semi" }, { col: 6, label: "4tos" }, { col: 7, label: "8vos" }, { col: 8, label: "16vos" },
+        ].map(({ col, label }) => (
+          <div key={col} className="absolute text-center" style={{ left: col * COL_WIDTH, top: -20, width: COL_WIDTH }}>
+            <span className="text-[8px] font-semibold uppercase tracking-widest text-fifa-dark-gray/40">{label}</span>
+          </div>
+        ))}
+
         {/* Match boxes */}
         {Object.entries(POSITIONS).map(([matchId, [col, row]]) => {
           const isCenter = col === 4;
