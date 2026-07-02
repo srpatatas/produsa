@@ -23,7 +23,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, colWidth, 
   const homeWins = isFinished && (hasPen ? result.homePenalty! > result.awayPenalty! : result.homeScore > result.awayScore);
   const awayWins = isFinished && (hasPen ? result.awayPenalty! > result.homePenalty! : result.awayScore > result.homeScore);
 
-  const boxW = size === "lg" ? colWidth * 0.75 : size === "md" ? colWidth * 0.7 : colWidth * 0.65;
+  const boxW = size === "lg" ? colWidth * 0.85 : size === "md" ? colWidth * 0.8 : colWidth * 0.75;
   const py = size === "lg" ? "py-2" : "py-1.5";
   const flagSize = "sm" as const;
   const textSize = size === "lg" ? "text-xs" : "text-[11px]";
@@ -170,7 +170,7 @@ export function BracketView() {
           const size = isCenter ? "lg" : col === 0 || col === 8 ? "sm" : "md";
           return (
             <div key={matchId} className="absolute" style={{
-              left: col * colWidth + (colWidth - (size === "lg" ? colWidth * 0.75 : size === "md" ? colWidth * 0.7 : colWidth * 0.65)) / 2,
+              left: col * colWidth + (colWidth - (size === "lg" ? colWidth * 0.85 : size === "md" ? colWidth * 0.8 : colWidth * 0.75)) / 2,
               top: row * rowHeight + Y_OFFSET,
             }}>
               <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} userPredictions={userPredictions} colWidth={colWidth} size={size} />
@@ -236,8 +236,8 @@ export function BracketView() {
           ].map(([from, to], i) => {
             const [fc, fr] = POSITIONS[from];
             const [tc, tr] = POSITIONS[to];
-            const fromSize = fc === 0 || fc === 8 ? colWidth * 0.65 : fc === 4 ? colWidth * 0.75 : colWidth * 0.7;
-            const toSize = tc === 0 || tc === 8 ? colWidth * 0.65 : tc === 4 ? colWidth * 0.75 : colWidth * 0.7;
+            const fromSize = fc === 0 || fc === 8 ? colWidth * 0.75 : fc === 4 ? colWidth * 0.85 : colWidth * 0.8;
+            const toSize = tc === 0 || tc === 8 ? colWidth * 0.75 : tc === 4 ? colWidth * 0.85 : colWidth * 0.8;
             const fromRight = fc < tc;
             const x1 = fc * colWidth + (colWidth - fromSize) / 2 + (fromRight ? fromSize : 0);
             const y1 = fr * rowHeight + 18 + Y_OFFSET;
