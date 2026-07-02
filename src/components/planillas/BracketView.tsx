@@ -54,8 +54,8 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
     statusLabel = "Sin predicción";
     statusColor = "text-white/40";
   } else {
-    statusLabel = new Date(match.kickoff).toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) + " " + new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" });
-    statusColor = "text-white/50";
+    statusLabel = new Date(match.kickoff).toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", timeZone: "America/Argentina/Buenos_Aires" }) + " · " + new Date(match.kickoff).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Argentina/Buenos_Aires" }) + "h";
+    statusColor = "text-white/80";
   }
 
   return (
@@ -65,7 +65,7 @@ function MatchBox({ matchId, resolvedMap, resultMap, userPredictions, size = "sm
         <div className="h-px bg-white/5" />
         <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
       </div>
-      <span className={cn("text-[7px] mt-0.5 font-medium uppercase", statusColor)}>{statusLabel}</span>
+      <span className={cn("text-[8px] mt-0.5 font-medium uppercase", statusColor)}>{statusLabel}</span>
     </div>
   );
 }
