@@ -183,7 +183,7 @@ export function BracketView() {
           <div className="relative w-16 h-20 mb-1">
             <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
           </div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold text-center leading-tight mb-2">World<br/>Champion</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold text-center leading-tight mb-2">Campeón<br/>del Mundo</p>
           {(() => {
             const finalResult = resultMap["F"];
             const finalResolved = resolvedMap["F"];
