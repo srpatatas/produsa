@@ -72,7 +72,7 @@ const POSITIONS: Record<string, [number, number]> = {
   // Right SF (col 5)
   "SF-2": [5, 3.5],
   // Final (col 4, top)
-  "F": [4, 4.5],
+  "F": [4, 5],
   // 3P (col 4, bottom)
   "3P": [4, 9],
 };
@@ -127,21 +127,37 @@ export function BracketView() {
           );
         })}
 
-        {/* World Champion label */}
-        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 3.2 * ROW_HEIGHT, width: COL_WIDTH }}>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold text-center leading-tight">World<br/>Champion</p>
+        {/* Trophy + World Champion above Final */}
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH + (COL_WIDTH - 120) / 2, top: 0.5 * ROW_HEIGHT, width: 120 }}>
+          <div className="relative w-16 h-20 mb-1">
+            <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]" />
+          </div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold text-center leading-tight mb-2">World<br/>Champion</p>
+          {(() => {
+            const finalResult = resultMap["F"];
+            const finalResolved = resolvedMap["F"];
+            const hasPen = finalResult?.homePenalty != null && finalResult?.awayPenalty != null;
+            const homeWins = finalResult && (hasPen ? finalResult.homePenalty! > finalResult.awayPenalty! : finalResult.homeScore > finalResult.awayScore);
+            const winnerId = finalResult ? (homeWins ? finalResolved?.homeTeamId : finalResolved?.awayTeamId) : null;
+            const winner = winnerId ? getTeam(winnerId) : null;
+            return (
+              <div className="rounded-lg ring-1 ring-fifa-gold/30 bg-fifa-gold/[0.05] px-3 py-1.5 flex items-center gap-2">
+                {winner ? (
+                  <>
+                    <FlagImage code={winner.flagCode} name={winner.name} size="md" />
+                    <span className="font-display text-sm tracking-wider text-fifa-gold">{winner.shortName}</span>
+                  </>
+                ) : (
+                  <span className="text-lg text-fifa-dark-gray/30 px-2">?</span>
+                )}
+              </div>
+            );
+          })()}
         </div>
 
         {/* Bronze Final label */}
         <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 8.3 * ROW_HEIGHT, width: COL_WIDTH }}>
           <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 text-center">Bronze Final</p>
-        </div>
-
-        {/* Trophy */}
-        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: TOTAL_ROWS * ROW_HEIGHT - 10 }}>
-          <div className="relative w-40 h-52">
-            <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_30px_rgba(255,215,0,0.3)]" />
-          </div>
         </div>
 
         {/* Bracket lines — SVG overlay */}
