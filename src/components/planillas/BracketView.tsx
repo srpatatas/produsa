@@ -8,46 +8,14 @@ import { getTeam } from "@/data/teams";
 import { FlagImage } from "@/components/teams/FlagImage";
 import { cn } from "@/lib/utils";
 
-interface ResolvedMatch {
-  id: string;
-  homeTeamId: string | null;
-  awayTeamId: string | null;
-}
+interface ResolvedMatch { id: string; homeTeamId: string | null; awayTeamId: string | null; }
+interface MatchResult { homeScore: number; awayScore: number; homePenalty?: number | null; awayPenalty?: number | null; }
 
-interface MatchResult {
-  homeScore: number;
-  awayScore: number;
-  homePenalty?: number | null;
-  awayPenalty?: number | null;
-}
-
-function TeamRow({ teamId, label, score, penalty, isWinner, isLoser }: {
-  teamId: string | null; label: string; score?: number; penalty?: number | null; isWinner?: boolean; isLoser?: boolean;
-}) {
-  const team = teamId ? getTeam(teamId) : null;
-  return (
-    <div className={cn("flex items-center gap-1 px-1.5 py-0.5", isLoser && "opacity-30")}>
-      {team ? (
-        <FlagImage code={team.flagCode} name={team.name} size="sm" />
-      ) : (
-        <div className="h-3.5 w-5 rounded-[2px] bg-white/10 flex items-center justify-center text-[7px] text-white/30">?</div>
-      )}
-      <span className={cn("flex-1 text-[9px] font-display tracking-wider truncate", team ? "text-foreground" : "text-white/20", isWinner && "text-fifa-gold")}>
-        {team ? team.shortName : ""}
-      </span>
-      {penalty != null && <span className="text-[7px] text-white/30">({penalty})</span>}
-      {score != null && <span className={cn("text-[9px] font-bold w-2.5 text-right", isWinner ? "text-foreground" : "text-white/40")}>{score}</span>}
-    </div>
-  );
-}
-
-function MatchBox({ matchId, resolvedMap, resultMap }: {
-  matchId: string;
-  resolvedMap: Record<string, ResolvedMatch>;
-  resultMap: Record<string, MatchResult>;
+function MatchBox({ matchId, resolvedMap, resultMap, size = "sm" }: {
+  matchId: string; resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>; size?: "sm" | "md" | "lg";
 }) {
   const match = knockoutMatches.find((m) => m.id === matchId);
-  if (!match) return <div className="w-[100px] h-[30px]" />;
+  if (!match) return null;
   const resolved = resolvedMap[matchId];
   const result = resultMap[matchId];
   const isFinished = !!result;
@@ -55,95 +23,64 @@ function MatchBox({ matchId, resolvedMap, resultMap }: {
   const homeWins = isFinished && (hasPen ? result.homePenalty! > result.awayPenalty! : result.homeScore > result.awayScore);
   const awayWins = isFinished && (hasPen ? result.awayPenalty! > result.homePenalty! : result.awayScore > result.homeScore);
 
+  const w = size === "lg" ? "w-[110px]" : size === "md" ? "w-[95px]" : "w-[80px]";
+  const py = size === "lg" ? "py-1.5" : "py-0.5";
+  const flagSize = "sm" as const;
+  const textSize = size === "lg" ? "text-[10px]" : "text-[8px]";
+  const scoreSize = size === "lg" ? "text-[11px]" : "text-[9px]";
+
+  function Row({ teamId, label, score, penalty, isW, isL }: { teamId: string | null; label: string; score?: number; penalty?: number | null; isW?: boolean; isL?: boolean; }) {
+    const team = teamId ? getTeam(teamId) : null;
+    return (
+      <div className={cn("flex items-center gap-1 px-1.5", py, isL && "opacity-30")}>
+        {team ? <FlagImage code={team.flagCode} name={team.name} size={flagSize} /> : <div className="h-3 w-4 rounded-[2px] bg-white/10 flex items-center justify-center text-[6px] text-white/30">?</div>}
+        <span className={cn("flex-1 font-display tracking-wider truncate", textSize, team ? "text-foreground" : "text-white/20", isW && "text-fifa-gold")}>{team?.shortName ?? ""}</span>
+        {penalty != null && <span className="text-[6px] text-white/30">({penalty})</span>}
+        {score != null && <span className={cn(scoreSize, "font-bold", isW ? "text-foreground" : "text-white/40")}>{score}</span>}
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("w-[100px] rounded-md ring-1 overflow-hidden", isFinished ? "ring-white/15 bg-white/[0.04]" : "ring-white/5 bg-white/[0.02]")}>
-      <TeamRow teamId={resolved?.homeTeamId ?? null} label={match.homeSlot.label} score={isFinished ? result.homeScore : undefined} penalty={hasPen ? result.homePenalty : undefined} isWinner={homeWins} isLoser={awayWins} />
+    <div className={cn(w, "rounded-md ring-1 overflow-hidden", isFinished ? "ring-white/15 bg-white/[0.04]" : "ring-white/5 bg-white/[0.02]")}>
+      <Row teamId={resolved?.homeTeamId ?? null} label={match.homeSlot.label} score={isFinished ? result.homeScore : undefined} penalty={hasPen ? result.homePenalty : undefined} isW={homeWins} isL={awayWins} />
       <div className="h-px bg-white/5" />
-      <TeamRow teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isWinner={awayWins} isLoser={homeWins} />
+      <Row teamId={resolved?.awayTeamId ?? null} label={match.awaySlot.label} score={isFinished ? result.awayScore : undefined} penalty={hasPen ? result.awayPenalty : undefined} isW={awayWins} isL={homeWins} />
     </div>
   );
 }
 
-function BracketPair({ top, bottom, next, resolvedMap, resultMap, side }: {
-  top: string; bottom: string; next?: string;
-  resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>;
-  side: "left" | "right";
-}) {
-  const isLeft = side === "left";
-  return (
-    <div className="flex items-center">
-      {!isLeft && next && (
-        <div className="flex flex-col items-center justify-center mx-1">
-          <MatchBox matchId={next} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-      )}
-      {!isLeft && next && <div className={cn("w-3 self-stretch flex flex-col justify-center")}><div className="border-l border-white/10 h-1/2" /><div className="border-l border-white/10 h-1/2" /></div>}
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center">
-          <MatchBox matchId={top} resolvedMap={resolvedMap} resultMap={resultMap} />
-          {isLeft && <div className="w-3 border-t border-white/10" />}
-          {!isLeft && <div className="w-3 border-t border-white/10 order-first" />}
-        </div>
-        <div className="flex items-center">
-          <MatchBox matchId={bottom} resolvedMap={resolvedMap} resultMap={resultMap} />
-          {isLeft && <div className="w-3 border-t border-white/10" />}
-          {!isLeft && <div className="w-3 border-t border-white/10 order-first" />}
-        </div>
-      </div>
-      {isLeft && <div className={cn("w-0 self-stretch flex flex-col justify-center")}><div className="border-r border-white/10 h-1/2" /><div className="border-r border-white/10 h-1/2" /></div>}
-      {isLeft && next && (
-        <div className="flex flex-col items-center justify-center mx-1">
-          <MatchBox matchId={next} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-      )}
-    </div>
-  );
-}
+// Layout: positions as [col, row] where col 0-8 (left to right), row 0-15 (top to bottom)
+// Left side: cols 0,1,2,3 | Right side: cols 8,7,6,5 | Center: col 4
+const POSITIONS: Record<string, [number, number]> = {
+  // Left R32 (col 0): 8 matches evenly spaced
+  "R32-3": [0, 0], "R32-6": [0, 1], "R32-1": [0, 2], "R32-4": [0, 3],
+  "R32-12": [0, 8], "R32-11": [0, 9], "R32-10": [0, 10], "R32-9": [0, 11],
+  // Left R16 (col 1): 4 matches, each between its R32 pair
+  "R16-1": [1, 0.5], "R16-2": [1, 2.5], "R16-3": [1, 8.5], "R16-4": [1, 10.5],
+  // Left QF (col 2): 2 matches
+  "QF-1": [2, 1.5], "QF-2": [2, 9.5],
+  // Left SF (col 3): 1 match (top half)
+  "SF-1": [3, 3.5],
+  // Right R32 (col 8)
+  "R32-2": [8, 0], "R32-5": [8, 1], "R32-7": [8, 2], "R32-8": [8, 3],
+  "R32-15": [8, 8], "R32-14": [8, 9], "R32-13": [8, 10], "R32-16": [8, 11],
+  // Right R16 (col 7)
+  "R16-5": [7, 0.5], "R16-6": [7, 2.5], "R16-7": [7, 8.5], "R16-8": [7, 10.5],
+  // Right QF (col 6)
+  "QF-3": [6, 1.5], "QF-4": [6, 9.5],
+  // Right SF (col 5)
+  "SF-2": [5, 3.5],
+  // Final (col 4, top)
+  "F": [4, 4.5],
+  // 3P (col 4, bottom)
+  "3P": [4, 9],
+};
 
-function HalfBracket({ r32, r16, qf, sf, resolvedMap, resultMap, side }: {
-  r32: string[]; r16: string[]; qf: string[]; sf: string[];
-  resolvedMap: Record<string, ResolvedMatch>; resultMap: Record<string, MatchResult>;
-  side: "left" | "right";
-}) {
-  const isLeft = side === "left";
-  return (
-    <div className="flex flex-col justify-evenly h-full">
-      {/* Top bracket: R32[0-3] → R16[0-1] → QF[0] → SF[0] */}
-      <div className={cn("flex items-center", isLeft ? "" : "flex-row-reverse")}>
-        {/* R32 pairs */}
-        <div className="flex flex-col gap-4">
-          <BracketPair top={r32[0]} bottom={r32[1]} resolvedMap={resolvedMap} resultMap={resultMap} side={side} />
-          <BracketPair top={r32[2]} bottom={r32[3]} resolvedMap={resolvedMap} resultMap={resultMap} side={side} />
-        </div>
-        {/* Connector */}
-        <div className={cn("flex flex-col justify-evenly h-full mx-1")}>
-          <MatchBox matchId={r16[0]} resolvedMap={resolvedMap} resultMap={resultMap} />
-          <MatchBox matchId={r16[1]} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-        <div className="flex flex-col justify-center mx-1">
-          <MatchBox matchId={qf[0]} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-        <div className="flex flex-col justify-center mx-1">
-          <MatchBox matchId={sf[0]} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-      </div>
-      {/* Bottom bracket: R32[4-7] → R16[2-3] → QF[1] */}
-      <div className={cn("flex items-center", isLeft ? "" : "flex-row-reverse")}>
-        <div className="flex flex-col gap-4">
-          <BracketPair top={r32[4]} bottom={r32[5]} resolvedMap={resolvedMap} resultMap={resultMap} side={side} />
-          <BracketPair top={r32[6]} bottom={r32[7]} resolvedMap={resolvedMap} resultMap={resultMap} side={side} />
-        </div>
-        <div className={cn("flex flex-col justify-evenly h-full mx-1")}>
-          <MatchBox matchId={r16[2]} resolvedMap={resolvedMap} resultMap={resultMap} />
-          <MatchBox matchId={r16[3]} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-        <div className="flex flex-col justify-center mx-1">
-          <MatchBox matchId={qf[1]} resolvedMap={resolvedMap} resultMap={resultMap} />
-        </div>
-      </div>
-    </div>
-  );
-}
+const COL_WIDTH = 105;
+const ROW_HEIGHT = 55;
+const TOTAL_COLS = 9;
+const TOTAL_ROWS = 12.5;
 
 export function BracketView() {
   const [resolvedMap, setResolvedMap] = useState<Record<string, ResolvedMatch>>({});
@@ -170,33 +107,81 @@ export function BracketView() {
 
   if (!ready) return <div className="flex justify-center py-8 text-fifa-dark-gray text-sm">Cargando bracket...</div>;
 
-  const LEFT = { r32: ["R32-3", "R32-6", "R32-1", "R32-4", "R32-12", "R32-11", "R32-10", "R32-9"], r16: ["R16-1", "R16-2", "R16-3", "R16-4"], qf: ["QF-1", "QF-2"], sf: ["SF-1"] };
-  const RIGHT = { r32: ["R32-2", "R32-5", "R32-7", "R32-8", "R32-15", "R32-14", "R32-13", "R32-16"], r16: ["R16-5", "R16-6", "R16-7", "R16-8"], qf: ["QF-3", "QF-4"], sf: ["SF-2"] };
+  const totalW = TOTAL_COLS * COL_WIDTH;
+  const totalH = TOTAL_ROWS * ROW_HEIGHT + 220; // extra for trophy
 
   return (
-    <div className="w-full overflow-x-auto pb-6">
-      <div className="min-w-[900px]">
-        {/* Main bracket */}
-        <div className="flex">
-          {/* Left half */}
-          <HalfBracket r32={LEFT.r32} r16={LEFT.r16} qf={LEFT.qf} sf={LEFT.sf} resolvedMap={resolvedMap} resultMap={resultMap} side="left" />
-
-          {/* Center: Final + Trophy */}
-          <div className="flex flex-col items-center justify-start pt-16 px-4 min-w-[140px]">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold mb-2">World Champion</p>
-            <MatchBox matchId="F" resolvedMap={resolvedMap} resultMap={resultMap} />
-            <div className="relative w-28 h-36 mt-3">
-              <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]" />
+    <div className="w-full overflow-x-auto pb-4">
+      <div className="relative mx-auto" style={{ width: totalW, height: totalH }}>
+        {/* Match boxes */}
+        {Object.entries(POSITIONS).map(([matchId, [col, row]]) => {
+          const isCenter = col === 4;
+          const size = isCenter ? "lg" : col === 0 || col === 8 ? "sm" : "md";
+          return (
+            <div key={matchId} className="absolute" style={{
+              left: col * COL_WIDTH + (COL_WIDTH - (size === "lg" ? 110 : size === "md" ? 95 : 80)) / 2,
+              top: row * ROW_HEIGHT,
+            }}>
+              <MatchBox matchId={matchId} resolvedMap={resolvedMap} resultMap={resultMap} size={size} />
             </div>
-            <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/30 mt-4 mb-1">3er puesto</p>
-            <div className="opacity-50">
-              <MatchBox matchId="3P" resolvedMap={resolvedMap} resultMap={resultMap} />
-            </div>
-          </div>
+          );
+        })}
 
-          {/* Right half */}
-          <HalfBracket r32={RIGHT.r32} r16={RIGHT.r16} qf={RIGHT.qf} sf={RIGHT.sf} resolvedMap={resolvedMap} resultMap={resultMap} side="right" />
+        {/* World Champion label */}
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 3.2 * ROW_HEIGHT, width: COL_WIDTH }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-fifa-gold text-center leading-tight">World<br/>Champion</p>
         </div>
+
+        {/* Bronze Final label */}
+        <div className="absolute flex flex-col items-center" style={{ left: 4 * COL_WIDTH, top: 8.3 * ROW_HEIGHT, width: COL_WIDTH }}>
+          <p className="text-[7px] uppercase tracking-wider text-fifa-dark-gray/40 text-center">Bronze Final</p>
+        </div>
+
+        {/* Trophy */}
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: TOTAL_ROWS * ROW_HEIGHT - 10 }}>
+          <div className="relative w-40 h-52">
+            <Image src="/images/world-cup-trophy.png" alt="World Cup Trophy" fill className="object-contain drop-shadow-[0_0_30px_rgba(255,215,0,0.3)]" />
+          </div>
+        </div>
+
+        {/* Bracket lines — SVG overlay */}
+        <svg className="absolute inset-0 pointer-events-none" width={totalW} height={totalH}>
+          {/* Helper: draw line from match center-right to match center-left */}
+          {[
+            // Left R32 → R16
+            ["R32-3", "R16-1"], ["R32-6", "R16-1"], ["R32-1", "R16-2"], ["R32-4", "R16-2"],
+            ["R32-12", "R16-3"], ["R32-11", "R16-3"], ["R32-10", "R16-4"], ["R32-9", "R16-4"],
+            // Left R16 → QF
+            ["R16-1", "QF-1"], ["R16-2", "QF-1"], ["R16-3", "QF-2"], ["R16-4", "QF-2"],
+            // Left QF → SF
+            ["QF-1", "SF-1"], ["QF-2", "SF-1"],
+            // Left SF → F
+            ["SF-1", "F"],
+            // Right R32 → R16
+            ["R32-2", "R16-5"], ["R32-5", "R16-5"], ["R32-7", "R16-6"], ["R32-8", "R16-6"],
+            ["R32-15", "R16-7"], ["R32-14", "R16-7"], ["R32-13", "R16-8"], ["R32-16", "R16-8"],
+            // Right R16 → QF
+            ["R16-5", "QF-3"], ["R16-6", "QF-3"], ["R16-7", "QF-4"], ["R16-8", "QF-4"],
+            // Right QF → SF
+            ["QF-3", "SF-2"], ["QF-4", "SF-2"],
+            // Right SF → F
+            ["SF-2", "F"],
+          ].map(([from, to], i) => {
+            const [fc, fr] = POSITIONS[from];
+            const [tc, tr] = POSITIONS[to];
+            const fromSize = fc === 0 || fc === 8 ? 80 : fc === 4 ? 110 : 95;
+            const toSize = tc === 0 || tc === 8 ? 80 : tc === 4 ? 110 : 95;
+            const fromRight = fc < tc;
+            const x1 = fc * COL_WIDTH + (COL_WIDTH - fromSize) / 2 + (fromRight ? fromSize : 0);
+            const y1 = fr * ROW_HEIGHT + 18;
+            const x2 = tc * COL_WIDTH + (COL_WIDTH - toSize) / 2 + (fromRight ? 0 : toSize);
+            const y2 = tr * ROW_HEIGHT + 18;
+            const midX = (x1 + x2) / 2;
+            return (
+              <path key={i} d={`M${x1},${y1} H${midX} V${y2} H${x2}`} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
+            );
+          })}
+        </svg>
       </div>
     </div>
   );
