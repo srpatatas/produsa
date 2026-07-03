@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
@@ -128,7 +129,10 @@ export default function RankingPage() {
         <div className="space-y-2.5">
           {ranking.map((entry, i) => {
             const isCurrentUser = entry.user.id === currentUser.id;
-            const isTop3 = i < 3;
+            // Compute real position (ties share same position)
+            const realPosition = ranking.filter((e, j) => j < i && e.points > entry.points).length + 1;
+            const isTop3 = realPosition <= 3;
+            const is10th = realPosition === 10;
             const bdayInfo = getBirthday(entry.user.id);
             const bday = !!bdayInfo;
             const milestone = bdayInfo?.milestone;
@@ -143,6 +147,7 @@ export default function RankingPage() {
                   "relative flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:ring-white/15 hover:shadow-md hover:shadow-black/30 hover:translate-x-1",
                   isCurrentUser && "ring-2 ring-fifa-blue/20",
                   bday && "birthday-row !ring-0",
+                  is10th && "ring-2 ring-red-600/60 shadow-[0_0_15px_rgba(200,0,0,0.25),0_0_15px_rgba(0,0,0,0.4)]",
                 )}
               >
                 {bday && milestone && (
@@ -170,14 +175,24 @@ export default function RankingPage() {
                     🎉 {bannerText} 🎉
                   </span>
                 )}
+                {is10th && (
+                  <div className="absolute -left-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 shadow-lg shadow-red-900/40 z-10">
+                    <Image src="/images/avatar_loco.png" alt="Loco Dalla Libera" fill className="object-cover" />
+                  </div>
+                )}
+                {is10th && (
+                  <div className="absolute -right-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 shadow-lg shadow-red-900/40 z-10">
+                    <Image src="/images/avatar_loco2.png" alt="Loco Dalla Libera" fill className="object-cover" />
+                  </div>
+                )}
                 <div className="flex w-8 flex-shrink-0 items-center justify-center">
                   {isTop3 ? (
                     <span className="text-xl">
-                      {i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉"}
+                      {realPosition === 1 ? "🥇" : realPosition === 2 ? "🥈" : "🥉"}
                     </span>
                   ) : (
-                    <span className="font-display text-lg text-fifa-dark-gray">
-                      {i + 1}
+                    <span className={cn("font-display text-lg", is10th ? "text-red-500 font-bold" : "text-fifa-dark-gray")}>
+                      {realPosition}
                     </span>
                   )}
                 </div>
