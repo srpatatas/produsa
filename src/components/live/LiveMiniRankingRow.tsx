@@ -60,15 +60,16 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
         is10th && "newells-row-mini !ring-0",
       )}
     >
-      {is10th && (
-        <div className="absolute -left-1 -top-1 h-6 w-6 rounded-full overflow-hidden ring-1 ring-red-700 z-10">
-          <Image src="/images/avatar_loco.png" alt="Loco" fill className="object-cover" />
-        </div>
-      )}
       <div className="flex w-10 items-center gap-1">
-        <span className="text-xs font-bold text-fifa-dark-gray">
-          {position}
-        </span>
+        {is10th ? (
+          <div className="relative h-5 w-5 rounded-full overflow-hidden ring-1 ring-red-700">
+            <Image src="/images/avatar_loco.png" alt="Loco" fill className="object-cover" />
+          </div>
+        ) : (
+          <span className="text-xs font-bold text-fifa-dark-gray">
+            {position}
+          </span>
+        )}
         {diff !== 0 && (
           <span className={cn(
             "text-[10px] font-bold",
