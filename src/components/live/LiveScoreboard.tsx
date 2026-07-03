@@ -445,6 +445,7 @@ const VOICES: Record<string, PersonalityVoice> = {
         "Los egipcios tienen a Salah, el faraón que la Premier nunca terminó de descifrar. Y ojo con los faraones: no piden permiso. Entran y mandan",
         "Egipto es siete veces campeón de África, pero el Mundial siempre le quedó lejos, como un espejismo en el desierto. Y a veces, cuando llegás al espejismo, resulta que era un oasis de verdad",
         "El fútbol es como la esfinge: te hace una pregunta y si no la respondés, te devora. Los egipcios conviven con la esfinge hace miles de años. Las preguntas difíciles no los asustan",
+        "Tutankamón fue faraón a los nueve años y el mundo lo descubrió tres mil años después: intacto, cubierto de oro. Hay equipos así, enterrados en el ranking hasta que alguien abre la tumba. Lo que nunca se sabe es si el que la abre se lleva el oro o la maldición",
       ],
     },
   },
