@@ -147,7 +147,7 @@ export default function RankingPage() {
                   "relative flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:ring-white/15 hover:shadow-md hover:shadow-black/30 hover:translate-x-1",
                   isCurrentUser && "ring-2 ring-fifa-blue/20",
                   bday && "birthday-row !ring-0",
-                  is10th && "newells-row !ring-0 !shadow-none !transition-none",
+                  is10th && "newells-row !ring-0",
                 )}
               >
                 {bday && milestone && (
