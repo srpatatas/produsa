@@ -301,6 +301,64 @@ const VOICES: Record<string, PersonalityVoice> = {
       GHA: ["Dato de mi cátedra: Ghana fue el primer país de África subsahariana en independizarse, en 1957. Importante para el derecho internacional", "El 8 de Ghana se llama Sibo. Yo también tengo Sibo, pobre Fabiola."],
     },
   },
+  "R16": { // El Profe Alfiki
+    goal: (s, m, _side, h, a) => pick([
+      `¡${s} en el ${m}'! ${h}-${a}. El gol es la consecuencia de la consecuencia. Lo trabajamos en la semana y la semana nos devolvió lo que le dimos`,
+      `${s}, minuto ${m}. ${h}-${a}. Como decía Einstein, es más fácil desactivar un átomo que un preconcepto. Ese gol desactivó todo`,
+      `¡Gol! ${h}-${a}. Fue una mezcla de sangre y utopía lo que permitió que esa pelota entre`,
+      `¡${s} la metió! ${h}-${a}. El resultado te da la certeza, pero no te da la autoridad de sentirte dueño`,
+      `${h}-${a}. ${s} en el ${m}'. A la cancha entraron jugadores y del gol salieron leyendas`,
+    ]),
+    ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Esto es un parto de nalga. Con dolor y con el cordón cruzado`, `En contra de ${s}. Estamos remando en dulce de leche, pero uno sigue peleando`, `Autogol en el ${m}'. Cuando se pone la carreta delante del caballo es muy difícil avanzar`, `En contra de ${s}. Los arrepentimientos llegan tarde, cuando los actos están consumados`]),
+    redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Lo peor que hay es ser un ni. Y ahora somos uno menos`, `${p} expulsado. Hay que bailar la música que te ponen. Y ahora nos pusieron una cumbia con 10`, `Roja para ${p}. Se fue. Como decía Maquiavelo, a veces el fin justifica los medios, pero no este medio`, `${p} afuera en el ${m}'. A medida que vas subiendo, el espacio es cada vez para más poquitos. Y ahora somos menos`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Las victorias sirven para reafirmar las convicciones, pero las amarillas sirven para reafirmar la prudencia`, `${p} amonestado. Tiene la camiseta pintada, pero ahora también tiene la tarjeta pintada`, `${p} con amarilla. El resistir está grabado en nuestra cédula de identidad. Ahora hay que resistir con tarjeta`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Esto es la esencia del juego condensada en un punto del área`, `¡Penal! Minuto ${m}. Como decía Borges, el destino es una repetición de actos. Y el penal es el acto supremo`, `¡${s} con penal! Esto es un parto. Si sale, nacemos de nuevo. Si no sale, hay que seguir empujando`]),
+    scoreless: (m) => pick([`${m} minutos y 0-0. Estamos remando en dulce de leche pero uno sigue peleando`, `0-0 al minuto ${m}. A veces hay que bailar la música que te ponen. Y hoy nos están poniendo un silencio`, `${m}' sin goles. Esto es un parto de nalga. Con sufrimiento. Pero de los partos nacen criaturas hermosas`, `Minuto ${m} y 0-0. El fútbol no es lo que parece, sino lo que uno interpreta de lo que parece`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. El corazón no se entrega porque eso nos mantiene con vida`, `Se termina, ${h}-${a}. Podremos tener errores, miles de defectos, pero tenemos un corazón que no se rinde nunca`, `${h}-${a} y queda nada. Yo no muero con la mía, vivo con la mía. Y vivir es cambiar`, `Final con ${h}-${a}. Hacer realidad lo que amenazaba como imposible. Eso es lo que busco`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}. Las victorias sirven para reafirmar las convicciones`, `¡${n} con el +2! Fue una mezcla de sangre y utopía. Y el comodín fue la utopía`, `${n} va ganando con el comodín. No hay imposibles para quien está dispuesto a recorrer el camino`, `El comodín de ${n} rinde. Es el poder de transformación cuando estás dispuesto a ofrecer tu corazón`]),
+    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Estamos remando en dulce de leche`, `El comodín de ${n} sufre. Esto es un parto de nalga. Con dolor`, `${n} con el comodín y el ${h}-${a}... a veces la carreta se pone delante del caballo`, `${n} pierde con el comodín. Los arrepentimientos llegan tarde, cuando los actos están consumados`]),
+    comodinDraw: (n, m) => pick([`${n} empata con el comodín en el ${m}'. Hay que seguir bailando la música que te ponen`, `El comodín de ${n} tiembla. El resistir está grabado en nuestra cédula de identidad`, `${n} con el comodín y empate. Esto no es el final, es el principio del final del principio`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! A la cancha entró un pronosticador y salió una leyenda`, `¡Exacto de ${n}! ${h}-${a}. Fue una mezcla de sangre y utopía. Cazador de utopías`, `¡${n} le pegó al ${h}-${a}! Cuando veas la sombra de un gigante, no te asustes. ${n} es el gigante`, `¡${n} clavó el ${h}-${a}! El resultado te da la certeza. Y la certeza es esta: genio`]),
+    nobodyRight: () => pick(["Nadie le pegó. Éramos Bruce Willis en Sexto Sentido: los únicos que sabíamos que no estábamos muertos éramos nosotros", "Nadie acertó. Es más fácil desactivar un átomo que un preconcepto. Y el preconcepto era que alguien iba a acertar", "Cero aciertos. Estamos todos remando en dulce de leche", "Nadie predijo esto. El fútbol no es lo que parece, sino lo que uno interpreta de lo que parece"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando. Son cazadores de utopías`, `${names} nada más aciertan. Tienen un corazón que no se rinde nunca`, `Únicamente ${names} aciertan. Vinieron de la tierra colorada y llegaron a la verdad`, `Solo ${names} le pegan. El resto está bailando una cumbia que nadie les puso`]),
+    idle: () => pick([
+      "El fútbol no es lo que parece, sino lo que uno interpreta de lo que parece",
+      "Hay que bailar la música que te ponen. A veces es cumbia, a veces tango, a veces polca",
+      "El resistir está grabado en nuestra cédula de identidad",
+      "Venimos de la tierra colorada. Jugando descalzos. Pero con el corazón bien puesto",
+      "Como decía Einstein, es mucho más fácil desactivar un átomo que un preconcepto",
+      "Éramos Bruce Willis en Sexto Sentido. Nos daban por muertos antes de empezar la película",
+      "Yo no muero con la mía, vivo con la mía. Y vivir es cambiar",
+      "El resultado te da la certeza, pero no te da la autoridad de sentirte dueño",
+      "Los arrepentimientos en la vida llegan tarde. Llegan cuando los actos están consumados",
+      "Lo peor que hay es ser un ni. No me puedo permitir eso",
+      "Podremos tener errores, miles de defectos, pero tenemos un corazón que no se rinde nunca",
+      "A la cancha entraron 26 guerreros y salieron 26 leyendas",
+      "Fue una mezcla de sangre y utopía lo que nos permitió hacer realidad lo que amenazaba como imposible",
+      "La manera de crecer es nivelarte para arriba. Y para nivelarte para arriba, esto es un parto",
+      "Me da vergüenza. Cuando me pasan todas juntas digo: ¿por qué digo todo? No tengo que hablar más",
+      "Cuando se pone la carreta delante del caballo es muy difícil avanzar",
+      "Estamos remando en dulce de leche, pero uno sigue peleando",
+      "No es que perdimos, es que el rival encontró antes que nosotros lo que nosotros estábamos buscando",
+      "El pasado duele. Pero puedes huir de él o aprender. Yo elijo aprender",
+      "Somos cazadores de utopías imposibles. Y las utopías, a veces, se cazan",
+    ]),
+    taunt: (n) => pick([
+      `${n}, cuando veas la sombra de un gigante, no te asustes. Puede ser la sombra de un enano. Y ese enano sos vos`,
+      `${n} predice como quien pone la carreta delante del caballo. Todo al revés`,
+      `${n}, los arrepentimientos llegan tarde. Y el tuyo ya llegó`,
+      `A ${n} le digo: estás remando en dulce de leche con ese pronóstico`,
+      `${n}, esto es un parto de nalga. Y vos estás del lado equivocado`,
+      `${n} creyó que era Bruce Willis. Pero era el nene que veía muertos`,
+    ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Las victorias sirven para reafirmar las convicciones`;
+      if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Estamos remando en dulce de leche`;
+      if (pos === 1) return `${n} va primero. Cuando veas la sombra de un gigante, puede que sea un gigante de verdad`;
+      if (pos <= 3) return `${n} va ${pos}°. No hay imposibles para quien está dispuesto a recorrer el camino`;
+      return pick([`${n} va ${pos}°. El resistir está grabado en su cédula de identidad`, `${n} en el puesto ${pos}. Hay que seguir bailando la música que te ponen`]);
+    },
+  },
 };
 
 // Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
