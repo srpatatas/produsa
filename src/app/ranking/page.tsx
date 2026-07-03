@@ -130,8 +130,9 @@ export default function RankingPage() {
           {ranking.map((entry, i) => {
             const isCurrentUser = entry.user.id === currentUser.id;
             // Compute real position (ties share same position)
-            const realPosition = ranking.filter((e, j) => j < i && e.points > entry.points).length + 1;
-            const isTop3 = realPosition <= 3;
+            const distinctHigher = new Set(ranking.filter((e) => e.points > entry.points).map((e) => e.points)).size;
+            const realPosition = distinctHigher + 1;
+            const isTop3 = i < 3;
             const is10th = realPosition === 10;
             const bdayInfo = getBirthday(entry.user.id);
             const bday = !!bdayInfo;
