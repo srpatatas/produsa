@@ -84,6 +84,7 @@ export const COMODIN_HIT_LINES: string[][] = [
   ["¡NO NO NO!", "¡ATENCIÓN!", "¡INIMAGINAAAAABLE!"],
   ["Not good, muy bad!", "Tremendously unfair!", "I'll build a bigger wall!"],
   ["¡Yo soy ajeno a esto!", "¡La culpa es de Cristina!", "¡Me voy a Disney!"],
+  ["¡Parto de nalga!", "¡Remando en dulce de leche!", "¡Somos Bruce Willis!"],
 ];
 
 export const POWERUP_LABELS: Record<string, string> = {
