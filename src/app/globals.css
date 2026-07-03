@@ -155,7 +155,7 @@ body {
 
 .newells-row {
   --newells-angle: 0deg;
-  animation: newells-spin 4s linear infinite;
+  animation: newells-spin 2.5s linear infinite;
   background:
     linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
     conic-gradient(from var(--newells-angle), #dc2626 0deg, #1a1a1a 60deg, #1a1a1a 300deg, #dc2626 360deg) border-box;
