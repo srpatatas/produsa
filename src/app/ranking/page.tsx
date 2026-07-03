@@ -147,7 +147,7 @@ export default function RankingPage() {
                   "relative flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:ring-white/15 hover:shadow-md hover:shadow-black/30 hover:translate-x-1",
                   isCurrentUser && "ring-2 ring-fifa-blue/20",
                   bday && "birthday-row !ring-0",
-                  is10th && "ring-2 ring-red-600/60 shadow-[0_0_15px_rgba(200,0,0,0.25),0_0_15px_rgba(0,0,0,0.4)]",
+                  is10th && "!ring-2 !ring-red-600 shadow-[0_0_12px_rgba(200,0,0,0.5),0_0_25px_rgba(0,0,0,0.6),inset_0_0_12px_rgba(200,0,0,0.15)] bg-gradient-to-r from-black/40 via-red-950/30 to-black/40",
                 )}
               >
                 {bday && milestone && (
