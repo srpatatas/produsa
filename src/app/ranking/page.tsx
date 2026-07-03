@@ -147,7 +147,7 @@ export default function RankingPage() {
                   "relative flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:ring-white/15 hover:shadow-md hover:shadow-black/30 hover:translate-x-1",
                   isCurrentUser && "ring-2 ring-fifa-blue/20",
                   bday && "birthday-row !ring-0",
-                  is10th && "newells-row !ring-0",
+                  is10th && "newells-row !ring-0 !shadow-none !transition-none",
                 )}
               >
                 {bday && milestone && (
@@ -176,12 +176,12 @@ export default function RankingPage() {
                   </span>
                 )}
                 {is10th && (
-                  <div className="absolute -left-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 shadow-lg shadow-red-900/40 z-10">
+                  <div className="absolute -left-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 z-10">
                     <Image src="/images/avatar_loco.png" alt="Loco Dalla Libera" fill className="object-cover" />
                   </div>
                 )}
                 {is10th && (
-                  <div className="absolute -right-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 shadow-lg shadow-red-900/40 z-10">
+                  <div className="absolute -right-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 z-10">
                     <Image src="/images/avatar_loco2.png" alt="Loco Dalla Libera" fill className="object-cover" />
                   </div>
                 )}
