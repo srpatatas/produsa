@@ -92,4 +92,5 @@ export const COMODIN_HIT_LINES: string[][] = [
   ["¡ESTÁN TIRANDO DESDE ABAJO!", "¡INCREÍBLE señores!", "¡Esto es una MASACRE!", "¡MAMITA QUERIDA!", "¡SE VIENE LA NOCHEEEE!"],
   ["Stop shooting, muy rude!", "My spaceship is the best!", "I'm calling Space Force!", "Nobody gets abducted like me!", "I'll make aliens pay for this!"],
   ["¡Yo no autoricé esta invasión!", "¡Me voy a Disney, chau!", "¡Guardo conmigo el dolor!", "¡El único responsable soy yo!", "¡Esto es peor que la fiesta de Olivos!"],
+  ["¡Esto es un parto de nalga!", "¡Estamos remando en dulce de leche!", "¡El resistir está grabado en mi cédula!", "¡Éramos Bruce Willis y nos mataron!", "¡La carreta delante del caballo!"],
 ];
