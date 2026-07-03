@@ -779,7 +779,7 @@ function generateDynamicPhrase(
     const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
     const tid = teamIds.length > 0 ? pick(teamIds) : null;
     if (tid && voice.lecture[tid]?.length) {
-      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+      return { phrase: pick(voice.lecture[tid], usedLectures), newEventIndex: lastEventIndex };
     }
   }
 
