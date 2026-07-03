@@ -161,7 +161,6 @@ body {
     linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
     conic-gradient(from var(--newells-angle), #dc2626, #1a1a1a, #dc2626, #000000, #dc2626, #1a1a1a, #dc2626) border-box;
   border: 2px solid transparent;
-  box-shadow: 0 0 15px rgba(220, 38, 38, 0.3), 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 .newells-row-mini {
