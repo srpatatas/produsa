@@ -184,7 +184,7 @@ export default function RankingPage() {
                 <div className="flex w-8 flex-shrink-0 items-center justify-center">
                   {isTop3 ? (
                     <span className="text-xl">
-                      {realPosition === 1 ? "🥇" : realPosition === 2 ? "🥈" : "🥉"}
+                      {i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉"}
                     </span>
                   ) : (
                     <span className={cn("font-display text-lg", is10th ? "text-red-500 font-bold" : "text-fifa-dark-gray")}>
