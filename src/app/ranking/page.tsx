@@ -132,7 +132,7 @@ export default function RankingPage() {
             // Compute real position (ties share same position)
             const distinctHigher = new Set(ranking.filter((e) => e.points > entry.points).map((e) => e.points)).size;
             const realPosition = distinctHigher + 1;
-            const isTop3 = i < 3;
+            const isTop3 = realPosition <= 3;
             const is10th = realPosition === 10;
             const bdayInfo = getBirthday(entry.user.id);
             const bday = !!bdayInfo;
@@ -184,7 +184,7 @@ export default function RankingPage() {
                 <div className="flex w-8 flex-shrink-0 items-center justify-center">
                   {isTop3 ? (
                     <span className="text-xl">
-                      {i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉"}
+                      {realPosition === 1 ? "🥇" : realPosition === 2 ? "🥈" : "🥉"}
                     </span>
                   ) : (
                     <span className={cn("font-display text-lg", is10th ? "text-red-500 font-bold" : "text-fifa-dark-gray")}>
