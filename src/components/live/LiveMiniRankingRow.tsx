@@ -33,6 +33,7 @@ interface LiveMiniRankingRowProps {
   isCurrentUser: boolean;
   hasComodin: boolean;
   scope: string;
+  is10th?: boolean;
 }
 
 export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
@@ -45,6 +46,7 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
   isCurrentUser,
   hasComodin,
   scope,
+  is10th,
 }: LiveMiniRankingRowProps) {
   const diff = previousPosition - position;
   const bday = isBirthday(user.id);
@@ -55,12 +57,19 @@ export const LiveMiniRankingRow = memo(function LiveMiniRankingRow({
         "relative flex items-center gap-2.5 rounded-xl px-3 py-2 transition-all duration-500",
         hasComodin ? "bg-fifa-gold-light ring-1 ring-fifa-gold/30" : isCurrentUser ? "bg-fifa-blue/10 ring-1 ring-fifa-blue/20" : "bg-card-bg",
         bday && "birthday-row-mini !ring-0",
+        is10th && "newells-row-mini !ring-0",
       )}
     >
       <div className="flex w-10 items-center gap-1">
-        <span className="text-xs font-bold text-fifa-dark-gray">
-          {position}
-        </span>
+        {is10th ? (
+          <div className="relative h-5 w-5 rounded-full overflow-hidden ring-1 ring-red-700">
+            <Image src="/images/avatar_loco.png" alt="Loco" fill className="object-cover" />
+          </div>
+        ) : (
+          <span className="text-xs font-bold text-fifa-dark-gray">
+            {position}
+          </span>
+        )}
         {diff !== 0 && (
           <span className={cn(
             "text-[10px] font-bold",

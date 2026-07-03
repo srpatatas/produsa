@@ -97,11 +97,17 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds, onRanking
       </h2>
 
       <div className="space-y-1">
-        {ranking.map((entry) => (
+        {ranking.map((entry) => {
+          const distinctHigher = new Set(ranking.filter((e) => e.totalPoints > entry.totalPoints).map((e) => e.totalPoints)).size;
+          const distinctPosition = distinctHigher + 1;
+          const distinctPrevHigher = new Set(ranking.filter((e) => e.confirmedPoints > entry.confirmedPoints).map((e) => e.confirmedPoints)).size;
+          const distinctPrevPosition = distinctPrevHigher + 1;
+          const is10th = distinctPosition === 10;
+          return (
           <LiveMiniRankingRow
             key={entry.user.id}
-            position={entry.position}
-            previousPosition={entry.previousPosition}
+            position={distinctPosition}
+            previousPosition={distinctPrevPosition}
             user={entry.user}
             prediction={entry.livePredictions[activeMatchId]}
             exactScore={entry.liveExactScores[activeMatchId]}
@@ -111,8 +117,10 @@ export function LiveMiniRanking({ scores, activeMatchId, liveMatchIds, onRanking
             isCurrentUser={entry.user.id === currentUser.id}
             hasComodin={entry.liveComodinMatchId === activeMatchId}
             scope={scope}
+            is10th={is10th}
           />
-        ))}
+        );
+        })}
       </div>
       <p className="mt-2 text-center text-[9px] text-fifa-dark-gray/40">
         {Object.values(scores).some((s) => s.homeScore >= 0)

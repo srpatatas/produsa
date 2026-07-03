@@ -143,6 +143,35 @@ body {
   display: inline-block;
 }
 
+@property --newells-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes newells-spin {
+  to { --newells-angle: 360deg; }
+}
+
+.newells-row {
+  --newells-angle: 0deg;
+  animation: newells-spin 2.5s linear infinite;
+  background:
+    linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+    conic-gradient(from var(--newells-angle), #dc2626 0deg, #1a1a1a 60deg, #1a1a1a 300deg, #dc2626 360deg) border-box;
+  border: 2px solid transparent;
+}
+
+.newells-row-mini {
+  --newells-angle: 0deg;
+  position: relative;
+  animation: newells-spin 3s linear infinite;
+  background:
+    linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
+    conic-gradient(from var(--newells-angle), #dc2626, #1a1a1a, #dc2626, #000000, #dc2626, #1a1a1a, #dc2626) border-box;
+  border: 2px solid transparent;
+}
+
 @keyframes confetti-fall {
   0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100px) rotate(720deg); opacity: 0; }

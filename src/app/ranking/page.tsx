@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useUser } from "@/context/UserContext";
 import { AvatarDisplay } from "@/components/ui/AvatarDisplay";
 import { cn } from "@/lib/utils";
@@ -128,7 +129,11 @@ export default function RankingPage() {
         <div className="space-y-2.5">
           {ranking.map((entry, i) => {
             const isCurrentUser = entry.user.id === currentUser.id;
-            const isTop3 = i < 3;
+            // Compute real position (ties share same position)
+            const distinctHigher = new Set(ranking.filter((e) => e.points > entry.points).map((e) => e.points)).size;
+            const realPosition = distinctHigher + 1;
+            const isTop3 = realPosition <= 3;
+            const is10th = realPosition === 10;
             const bdayInfo = getBirthday(entry.user.id);
             const bday = !!bdayInfo;
             const milestone = bdayInfo?.milestone;
@@ -143,6 +148,7 @@ export default function RankingPage() {
                   "relative flex items-center gap-3 rounded-2xl bg-card-bg p-4 shadow-sm shadow-black/20 ring-1 ring-white/5 transition-all duration-200 hover:ring-white/15 hover:shadow-md hover:shadow-black/30 hover:translate-x-1",
                   isCurrentUser && "ring-2 ring-fifa-blue/20",
                   bday && "birthday-row !ring-0",
+                  is10th && "newells-row !ring-0",
                 )}
               >
                 {bday && milestone && (
@@ -173,11 +179,15 @@ export default function RankingPage() {
                 <div className="flex w-8 flex-shrink-0 items-center justify-center">
                   {isTop3 ? (
                     <span className="text-xl">
-                      {i === 0 ? "🥇" : i === 1 ? "🥈" : "🥉"}
+                      {realPosition === 1 ? "🥇" : realPosition === 2 ? "🥈" : "🥉"}
                     </span>
+                  ) : is10th ? (
+                    <div className="relative h-6 w-6 rounded-full overflow-hidden ring-1 ring-red-700">
+                      <Image src="/images/avatar_loco.png" alt="Loco" fill className="object-cover" />
+                    </div>
                   ) : (
                     <span className="font-display text-lg text-fifa-dark-gray">
-                      {i + 1}
+                      {realPosition}
                     </span>
                   )}
                 </div>
