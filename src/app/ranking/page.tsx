@@ -180,11 +180,6 @@ export default function RankingPage() {
                     <Image src="/images/avatar_loco.png" alt="Loco Dalla Libera" fill className="object-cover" />
                   </div>
                 )}
-                {is10th && (
-                  <div className="absolute -right-1 -top-1 h-8 w-8 rounded-full overflow-hidden ring-2 ring-red-700 z-10">
-                    <Image src="/images/avatar_loco2.png" alt="Loco Dalla Libera" fill className="object-cover" />
-                  </div>
-                )}
                 <div className="flex w-8 flex-shrink-0 items-center justify-center">
                   {isTop3 ? (
                     <span className="text-xl">
