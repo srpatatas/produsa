@@ -440,6 +440,12 @@ const VOICES: Record<string, PersonalityVoice> = {
         "Suiza tiene los Alpes. Subir una montaña es como jugar un mundial: cada paso es más difícil que el anterior. Pero la vista desde arriba lo justifica todo",
         "Los suizos guardan los secretos del mundo en sus bancos. Pero el secreto del fútbol no se guarda. El secreto del fútbol es el corazón. Y el corazón se muestra",
       ],
+      EGY: [
+        "Egipto construyó las pirámides piedra sobre piedra, sin apuro, mirando al cielo. Un mundial se construye igual: partido sobre partido. Y ellos ya llevan varias piedras puestas",
+        "Los egipcios tienen a Salah, el faraón que la Premier nunca terminó de descifrar. Y ojo con los faraones: no piden permiso. Entran y mandan",
+        "Egipto es siete veces campeón de África, pero el Mundial siempre le quedó lejos, como un espejismo en el desierto. Y a veces, cuando llegás al espejismo, resulta que era un oasis de verdad",
+        "El fútbol es como la esfinge: te hace una pregunta y si no la respondés, te devora. Los egipcios conviven con la esfinge hace miles de años. Las preguntas difíciles no los asustan",
+      ],
     },
   },
 };
