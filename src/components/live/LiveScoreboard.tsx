@@ -358,6 +358,62 @@ const VOICES: Record<string, PersonalityVoice> = {
       if (pos <= 3) return `${n} va ${pos}°. No hay imposibles para quien está dispuesto a recorrer el camino`;
       return pick([`${n} va ${pos}°. El resistir está grabado en su cédula de identidad`, `${n} en el puesto ${pos}. Hay que seguir bailando la música que te ponen`]);
     },
+    lecture: {
+      PAR: [
+        "Paraguay viene de la tierra colorada. Esa tierra que está en las franjas de nuestra camiseta. Ojalá tuviéramos las herramientas de otros, pero jamás reniego de nuestros orígenes",
+        "A la cancha entraron 26 guerreros y salieron 26 leyendas. Es el poder de transformación que tiene una selección cuando está dispuesta a ofrecer su corazón",
+        "Venimos jugando descalzos desde la tierra colorada. Y ahora estamos acá, entre los 16 mejores del mundo. Fue una mezcla de sangre y utopía",
+      ],
+      FRA: [
+        "Francia tiene las academias, la estructura, los recursos. Nosotros tenemos el corazón. Y como decía Hemingway, el coraje es gracia bajo presión",
+        "Los franceses inventaron la revolución. Nosotros también hacemos revoluciones, pero en la cancha, con menos recursos y más convicción",
+        "Francia es como una multinacional del fútbol. Nosotros somos una PyME con un corazón que no se rinde. A veces la PyME le gana a la multinacional",
+      ],
+      CAN: [
+        "Canadá es la demostración de que no hay imposibles. Nadie los tenía y acá están. Son cazadores de utopías, como nosotros",
+        "Los canadienses vienen del frío. Nosotros venimos de la tierra colorada. Diferentes orígenes, mismo sueño. Eso es lo hermoso del fútbol",
+      ],
+      MAR: [
+        "Marruecos ya demostró en Qatar que la sombra de un gigante puede ser la de un enano. Y ellos eran el gigante de verdad",
+        "Los marroquíes tienen algo que no se compra: la convicción de que pertenecen. El resistir está grabado en su cédula de identidad, como en la nuestra",
+      ],
+      POR: [
+        "Portugal tiene a Cristiano, pero el fútbol no es de un hombre. Es de un equipo que decide ofrecer su corazón. Y cuando eso pasa, nacen leyendas",
+        "Los portugueses navegaron el mundo. Nosotros navegamos este mundial remando en dulce de leche, pero llegamos",
+      ],
+      ESP: [
+        "España juega como si el balón fuera poesía. Pero como decía Borges, la poesía también puede ser un arma. Y a veces el arma te dispara a vos",
+        "El tiki-taka es filosofía hecha fútbol. Pero la filosofía sin corazón es solo teoría. Y en octavos se necesita más corazón que teoría",
+      ],
+      USA: [
+        "Estados Unidos es el país de las oportunidades. Y en el fútbol, la oportunidad es de quien la busca con la convicción de merecerla",
+        "Los americanos creen en el sueño americano. Nosotros creemos en el sueño sudamericano. Los dos sueños se encuentran en una cancha",
+      ],
+      BEL: [
+        "Bélgica lleva años siendo la eterna promesa. Como decía Einstein, la locura es hacer lo mismo esperando resultados diferentes. ¿Cambiarán?",
+        "Los belgas tienen generación dorada desde hace 10 años. Pero el oro no se gasta, se transforma. La pregunta es en qué se transforman hoy",
+      ],
+      BRA: [
+        "Brasil tiene 5 mundiales. Pero los mundiales pasados no juegan los partidos presentes. Cada partido es un parto nuevo. Y a veces de nalga",
+        "Los brasileños bailan samba. Nosotros bailamos la música que nos ponen. A veces es samba, a veces polca. Hoy veremos quién baila mejor",
+      ],
+      NOR: [
+        "Noruega viene del frío nórdico. Pero el frío no congela la convicción. Cuando el corazón arde, no hay temperatura que lo apague",
+        "Los vikingos conquistaban por fuerza. El fútbol moderno se conquista por convicción. Veremos si estos vikingos tienen ambas cosas",
+      ],
+      MEX: [
+        "México siempre fue el equipo del quinto partido. La barrera de los octavos. Hoy es el momento de romper esa barrera. Porque las barreras se rompen con el corazón",
+        "Los mexicanos tienen algo que no se enseña en las academias europeas: la pasión de un pueblo entero empujando. Eso es más fuerte que cualquier táctica",
+      ],
+      ENG: [
+        "Inglaterra inventó el fútbol pero solo ganó un mundial. Es la paradoja del creador que no domina su creación. Como Frankenstein, pero con más fair play",
+        "Los ingleses tienen la Premier, tienen los recursos, tienen la historia. Pero la historia pesa. Y a veces pesa tanto que no te deja correr",
+      ],
+      SUI: [
+        "Suiza es la neutralidad hecha país. Pero en el fútbol no se puede ser neutral. Hay que elegir un lado. Y ellos eligieron competir",
+        "Los suizos fabrican relojes perfectos. Pero el fútbol no es perfecto. El fútbol es un parto de nalga. Y hay que saber parir",
+      ],
+    },
   },
 };
 
