@@ -83,6 +83,7 @@ function AnswerRow({ g, totalUsers, isCorrect, sourceType, participants }: { g: 
     <div className={cn(
       "rounded-xl ring-1 overflow-hidden",
       isCorrect === true ? "ring-emerald-300/50 bg-emerald-950/30" : "ring-white/15 bg-black/10",
+      isCorrect === false && "opacity-30",
     )}>
       <button
         type="button"
@@ -153,11 +154,13 @@ function SortedValueList({ question, suffix }: { question: BonusQuestion; suffix
 
   const correctValue = question.correctAnswer ? parseInt(question.correctAnswer, 10) : null;
 
+  const hasResult = correctValue !== null;
+
   return (
     <div className="space-y-1 max-h-52 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-white/5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/25 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb:hover]:bg-white/40">
       {guesses.map((g, i) => {
-        const isClosest = correctValue !== null && guesses.every(
-          (other) => Math.abs(g.value - correctValue) <= Math.abs(other.value - correctValue),
+        const isClosest = hasResult && guesses.every(
+          (other) => Math.abs(g.value - correctValue!) <= Math.abs(other.value - correctValue!),
         );
         return (
           <div
@@ -165,6 +168,7 @@ function SortedValueList({ question, suffix }: { question: BonusQuestion; suffix
             className={cn(
               "flex items-center gap-2 rounded-lg px-2.5 py-1.5",
               isClosest ? "bg-emerald-400/20 ring-1 ring-emerald-300/40" : "bg-black/15",
+              hasResult && !isClosest && "opacity-30",
             )}
           >
             <div className="rounded-full ring-1 ring-white/30">
@@ -394,8 +398,13 @@ function QuestionCarousel({ questions, totalUsers, participants }: { questions: 
                   </svg>
                 </button>
                 <div className="text-center">
-                  <h4 className="text-sm font-semibold text-white">{question.label}</h4>
-                  {question.sourceType === "exact_value" && (
+                  <h4 className="text-sm font-semibold text-white">
+                    {question.label}
+                    {question.sourceType === "exact_value" && question.correctAnswer && (
+                      <span className="text-emerald-300"> = {question.correctAnswer}</span>
+                    )}
+                  </h4>
+                  {question.sourceType === "exact_value" && !question.correctAnswer && (
                     <p className="text-[10px] text-white/60 mt-0.5">Gana el más cercano al valor real</p>
                   )}
                   <div className="flex items-center justify-center gap-2">

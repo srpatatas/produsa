@@ -13,6 +13,7 @@ interface RankingEntry {
   wrong: number;
   comodinPoints: number;
   exactScorePoints: number;
+  bonusPoints: number;
 }
 
 interface GameBadge {
@@ -219,6 +220,9 @@ export default function RankingPage() {
                     {entry.exactScorePoints > 0 && (
                       <span className="text-emerald-400">+{entry.exactScorePoints} exacto</span>
                     )}
+                    {entry.bonusPoints > 0 && (
+                      <span className="text-fifa-green">+{entry.bonusPoints} extras</span>
+                    )}
                     {(gameLeaders.get(entry.user.id) || []).map((badge) => (
                       <span key={badge.name} className={GAME_COLORS[badge.name] || "text-fifa-purple"}>{badge.emoji} {badge.name}</span>
                     ))}
@@ -227,7 +231,11 @@ export default function RankingPage() {
 
                 <div className="flex flex-shrink-0 flex-col items-end">
                   <span className="font-display text-3xl text-foreground">
-                    {entry.points}
+                    {entry.bonusPoints > 0 ? (
+                      <>{entry.points - entry.bonusPoints}<span className="text-lg text-fifa-green">+{entry.bonusPoints}</span></>
+                    ) : (
+                      entry.points
+                    )}
                   </span>
                   <span className="text-[10px] font-medium text-fifa-dark-gray">pts</span>
                 </div>
