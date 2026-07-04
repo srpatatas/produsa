@@ -221,8 +221,11 @@ export function computeBonusPoints(
       }
     } else {
       const userAnswer = userBonusPreds[qId];
-      if (userAnswer && userAnswer.toLowerCase() === result.correctAnswer) {
-        bonusPoints += result.points;
+      if (userAnswer) {
+        const correctSet = result.correctAnswer.split(",").map((s) => s.trim());
+        if (correctSet.includes(userAnswer.toLowerCase())) {
+          bonusPoints += result.points;
+        }
       }
     }
   }

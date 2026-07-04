@@ -530,64 +530,97 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                       ) : (
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() => { setAnswerDropdownId(answerDropdownId === q.id ? null : q.id); setAnswerSearch(""); }}
-                              className={cn(
-                                "flex flex-1 items-center justify-between rounded-lg bg-surface px-2.5 py-1.5 text-xs text-left ring-1 transition-all",
-                                answerDropdownId === q.id ? "ring-fifa-teal/40" : "ring-white/5 hover:ring-white/15",
-                                edit.answer ? "text-foreground" : "text-fifa-dark-gray/40",
+                            <div className="flex flex-1 flex-col gap-1">
+                              {edit.answer && (
+                                <div className="flex flex-wrap gap-1">
+                                  {edit.answer.split(",").map((v) => {
+                                    const opt = getOptionsForQuestion(q).find((o) => o.value === v);
+                                    return (
+                                      <span key={v} className="inline-flex items-center gap-1 rounded-md bg-fifa-teal/20 px-1.5 py-0.5 text-[10px] text-fifa-teal">
+                                        {opt?.label ?? v}
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            const vals = edit.answer.split(",").filter((x) => x !== v);
+                                            setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: vals.join(",") } }));
+                                          }}
+                                          className="text-fifa-teal/60 hover:text-fifa-red"
+                                        >✕</button>
+                                      </span>
+                                    );
+                                  })}
+                                </div>
                               )}
-                            >
-                              <span className="truncate">{edit.answer || "Elegir..."}</span>
-                              <span className="text-base text-fifa-dark-gray/70">▾</span>
-                            </button>
+                              <button
+                                type="button"
+                                onClick={() => { setAnswerDropdownId(answerDropdownId === q.id ? null : q.id); setAnswerSearch(""); }}
+                                className={cn(
+                                  "flex items-center justify-between rounded-lg bg-surface px-2.5 py-1.5 text-xs text-left ring-1 transition-all",
+                                  answerDropdownId === q.id ? "ring-fifa-teal/40" : "ring-white/5 hover:ring-white/15",
+                                  "text-fifa-dark-gray/40",
+                                )}
+                              >
+                                <span>{edit.answer ? "+ Agregar otra" : "Elegir..."}</span>
+                                <span className="text-base text-fifa-dark-gray/70">▾</span>
+                              </button>
+                            </div>
                             <button onClick={() => handleSaveBonus(q.id)} disabled={isSaving || !edit.answer} className="rounded-lg bg-fifa-green/20 px-2 py-1 text-xs text-fifa-green hover:bg-fifa-green/30 disabled:opacity-30">✓</button>
                             <button onClick={() => { setBonusEdits((prev) => { const next = { ...prev }; delete next[q.id]; return next; }); setAnswerDropdownId(null); }} className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground">✗</button>
                           </div>
-                          {answerDropdownId === q.id && (
-                            <div className="absolute z-[60] mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
-                              <div className="p-2">
-                                <input
-                                  type="text"
-                                  value={answerSearch}
-                                  onChange={(e) => setAnswerSearch(e.target.value)}
-                                  placeholder="Buscar..."
-                                  autoFocus
-                                  className="w-full rounded-lg bg-surface px-3 py-1.5 text-xs text-foreground outline-none placeholder:text-fifa-dark-gray/30"
-                                />
+                          {answerDropdownId === q.id && (() => {
+                            const selected = new Set(edit.answer ? edit.answer.split(",") : []);
+                            const opts = getOptionsForQuestion(q).filter((o) => !selected.has(o.value));
+                            const filtered = opts.filter((o) => o.label.toLowerCase().includes(answerSearch.toLowerCase()));
+                            return (
+                              <div className="absolute z-[60] mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
+                                <div className="p-2">
+                                  <input
+                                    type="text"
+                                    value={answerSearch}
+                                    onChange={(e) => setAnswerSearch(e.target.value)}
+                                    placeholder="Buscar..."
+                                    autoFocus
+                                    className="w-full rounded-lg bg-surface px-3 py-1.5 text-xs text-foreground outline-none placeholder:text-fifa-dark-gray/30"
+                                  />
+                                </div>
+                                <div className="max-h-40 overflow-y-auto px-1 pb-1">
+                                  {filtered.map((o) => (
+                                    <button
+                                      key={o.value}
+                                      type="button"
+                                      onClick={() => {
+                                        const vals = edit.answer ? edit.answer.split(",") : [];
+                                        vals.push(o.value);
+                                        setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: vals.join(",") } }));
+                                        setAnswerDropdownId(null);
+                                        setAnswerSearch("");
+                                      }}
+                                      className="w-full rounded-lg px-3 py-1.5 text-left text-xs text-foreground transition-colors hover:bg-white/5"
+                                    >
+                                      {o.label}
+                                    </button>
+                                  ))}
+                                  {filtered.length === 0 && (
+                                    <p className="px-3 py-2 text-xs text-fifa-dark-gray/40">Sin resultados</p>
+                                  )}
+                                </div>
                               </div>
-                              <div className="max-h-40 overflow-y-auto px-1 pb-1">
-                                {getOptionsForQuestion(q).filter((o) => o.label.toLowerCase().includes(answerSearch.toLowerCase())).map((o) => (
-                                  <button
-                                    key={o.value}
-                                    type="button"
-                                    onClick={() => {
-                                      setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: o.value } }));
-                                      setAnswerDropdownId(null);
-                                      setAnswerSearch("");
-                                    }}
-                                    className={cn(
-                                      "w-full rounded-lg px-3 py-1.5 text-left text-xs transition-colors",
-                                      o.value === edit.answer ? "bg-fifa-teal/20 text-fifa-teal" : "text-foreground hover:bg-white/5",
-                                    )}
-                                  >
-                                    {o.label}
-                                  </button>
-                                ))}
-                                {getOptionsForQuestion(q).filter((o) => o.label.toLowerCase().includes(answerSearch.toLowerCase())).length === 0 && (
-                                  <p className="px-3 py-2 text-xs text-fifa-dark-gray/40">Sin resultados</p>
-                                )}
-                              </div>
-                            </div>
-                          )}
+                            );
+                          })()}
                         </div>
                       )}
                     </div>
                   ) : saved ? (
                     <div className="space-y-1.5">
-                      <div className="flex items-center gap-1.5">
-                        <span className={cn("flex-1 truncate rounded-lg px-2 py-1 text-xs font-medium", saved.scored ? "bg-fifa-green/15 text-fifa-green" : "bg-fifa-teal/10 text-fifa-teal")}>{saved.correctAnswer}</span>
+                      <div className="flex flex-wrap gap-1">
+                        {saved.correctAnswer.split(",").map((v) => {
+                          const opt = getOptionsForQuestion(q).find((o) => o.value === v);
+                          return (
+                            <span key={v} className={cn("rounded-lg px-2 py-1 text-xs font-medium", saved.scored ? "bg-fifa-green/15 text-fifa-green" : "bg-fifa-teal/10 text-fifa-teal")}>
+                              {opt?.label ?? v}
+                            </span>
+                          );
+                        })}
                       </div>
                       <div className="flex items-center gap-1.5">
                         <button
