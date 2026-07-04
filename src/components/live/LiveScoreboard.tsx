@@ -453,6 +453,13 @@ const VOICES: Record<string, PersonalityVoice> = {
         "Los suizos guardan los secretos del mundo en sus bancos. Pero el secreto del fútbol no se guarda. El secreto del fútbol es el corazón. Y el corazón se muestra",
         "Suiza tiene cuatro idiomas oficiales y no se pelea por ninguno. Once jugadores que se entienden en cuatro idiomas entienden algo que muchos equipos no entienden en uno solo: que el fútbol, al final, se habla con la pelota",
       ],
+      ARG: [
+        "Yo nací en Rafaela y dirigí toda mi vida en Argentina. Y ahora la tengo enfrente. Hay partidos que se juegan con el corazón dividido. Pero atención: el corazón dividido no late menos. Late dos veces",
+        "Argentina tiene a Messi, que es la excepción de todas las reglas que yo enseño. Contra el resto del mundo, planificás. Contra Messi, rezás. Yo hace años que tengo la oración preparada",
+        "Argentina viene de ser campeón del mundo. Y defender la corona es más difícil que ganarla, porque el campeón la lleva puesta en la cabeza. Y todos le apuntan exactamente ahí",
+        "Los argentinos tienen un Dios que jugaba de 10. Un país que canoniza a un futbolista no ve el fútbol como un deporte: lo ve como una religión. Y contra una religión no se planifica. Se resiste con fe propia",
+        "Argentina inventó el dulce de leche. Ahora entienden ustedes en qué estuve remando toda mi vida. Remar en lo que uno ama: no existe destino más argentino que ese",
+      ],
       EGY: [
         "Egipto construyó las pirámides piedra sobre piedra, sin apuro, mirando al cielo. Un mundial se construye igual: partido sobre partido. Y ellos ya llevan varias piedras puestas",
         "Los egipcios tienen a Salah, el faraón que la Premier nunca terminó de descifrar. Y ojo con los faraones: no piden permiso. Entran y mandan",
