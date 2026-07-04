@@ -111,7 +111,13 @@ export const fixtureToMatch: Record<number, string> = {
   "1567312": "R32-13",
   "1565178": "R32-14",
   "1565179": "R32-15",
-  "1567310": "R32-16"
+  "1567310": "R32-16",
+  "1569870": "R16-1",
+  "1567824": "R16-2",
+  "1576756": "R16-3",
+  "1570715": "R16-4",
+  "1568100": "R16-5",
+  "1570714": "R16-6"
 };
 
 export const matchToFixture: Record<string, number> = Object.fromEntries(
