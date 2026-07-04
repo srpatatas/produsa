@@ -883,7 +883,55 @@ const DEBATE_MATCH_IDS = ["R16-5", "R16-6"];
 const DEBATE_GUEST_VOICE = "R32";
 const usedDebates = new Set<string>();
 const debateState = { retortFor: null as "left" | "right" | null, retort: "" };
-const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string }[] = [
+const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string; team?: string }[] = [
+  {
+    from: "guest",
+    team: "BRA",
+    opener: "Miren el rostro de Vini Jr. Yo siempre sostuve que los brasileños salieron de la selva",
+    retort: "Eso guardalo para tu clase de la UBA, Alberto. Brasil no salió de la selva: salió campeón cinco veces. Respetá al que tiene más estrellas que argumentos",
+  },
+  {
+    from: "host",
+    team: "BRA",
+    opener: "En 1950 Brasil ya tenía el desfile armado y Uruguay no había leído el programa. El fútbol vive del casi",
+    retort: "Como mi reelección, profe. El desfile estaba armado, la banda ensayada. Faltó un detalle: los votos",
+  },
+  {
+    from: "guest",
+    team: "NOR",
+    opener: "Noruega tiene el mejor índice de calidad de vida del mundo. Yo dejé el país en el puesto... mejor hablemos de fútbol",
+    retort: "Buena decisión, Alberto. Cuando el pasado te persigue, hablá de fútbol. Lo dijo Heráclito y lo repito yo",
+  },
+  {
+    from: "host",
+    team: "NOR",
+    opener: "Noruega tiene a Haaland, pero un mundial no lo gana un hombre solo. Lo gana un corazón colectivo",
+    retort: "Confirmo, profe. Yo estaba solo y no gané nada. Ni acompañado gané, ahora que lo pienso",
+  },
+  {
+    from: "guest",
+    team: "MEX",
+    opener: "Los mexicanos nos dieron el tequila. Con eso aguanté cuatro años de reuniones de gabinete",
+    retort: "Cuidado, Alberto. El tequila y los octavos se parecen: el primer trago te envalentona y el segundo te tumba",
+  },
+  {
+    from: "host",
+    team: "MEX",
+    opener: "México rompe hoy la barrera del quinto partido o la barrera lo rompe a él. Las barreras se rompen con el corazón",
+    retort: "Yo rompí varias barreras: la del déficit, la de la inflación... ah, ¿romper era para bien? Retiro lo dicho",
+  },
+  {
+    from: "guest",
+    team: "ENG",
+    opener: "Inglaterra inventó el fútbol en 1863. Yo di clases veinte años en la UBA y no inventé nada. Ni una materia optativa",
+    retort: "Inventar es lo fácil, Alberto. Lo difícil es lo que sufre Inglaterra: que tu propio invento aprenda a ganarte",
+  },
+  {
+    from: "host",
+    team: "ENG",
+    opener: "Los ingleses toman el té a las cinco. Pero en octavos no hay hora del té: hay hora de la verdad",
+    retort: "Yo a las cinco tomaba decisiones importantes. Por eso el país anda como anda. Quedate con el té, profe",
+  },
   {
     from: "guest",
     opener: "Como profesor de la UBA les explico: este partido se define por la táctica",
@@ -1086,7 +1134,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
         // Otherwise sometimes open a new exchange, arming the other side's reply
         const role = guestVoice ? "guest" : "host";
         if (debateState.retortFor === null && Math.random() < 0.4) {
-          const mine = DEBATE_EXCHANGES.filter((e) => e.from === role && !usedDebates.has(e.opener));
+          const mine = DEBATE_EXCHANGES.filter((e) => e.from === role && !usedDebates.has(e.opener) && (!e.team || e.team === homeTeamRef.current || e.team === awayTeamRef.current));
           if (mine.length > 0) {
             const ex = mine[Math.floor(Math.random() * mine.length)];
             usedDebates.add(ex.opener);
