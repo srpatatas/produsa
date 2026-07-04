@@ -6,6 +6,7 @@ import { matches } from "@/data/matches";
 
 const API_BASE = "https://v3.football.api-sports.io";
 const CHECK_START_MS = 105 * 60 * 1000;
+const CHECK_END_MS = 6 * 60 * 60 * 1000;
 const FINISHED_STATUSES = new Set(["FT", "AET", "PEN"]);
 
 interface ApiScore {
@@ -47,17 +48,12 @@ export async function syncFinishedResults(): Promise<string[]> {
 
   lastSyncMs = now;
 
-  const sql = getDb();
-  const existingRows = await sql`SELECT match_id FROM match_results`;
-  const existingIds = new Set(existingRows.map((r) => r.match_id as string));
-
-  const unsaved = pending.filter((id) => !existingIds.has(id));
-  if (unsaved.length === 0) return [];
-
-  const fixtureIds = unsaved
+  const fixtureIds = pending
     .map((id) => matchToFixture[id])
     .filter(Boolean);
   if (fixtureIds.length === 0) return [];
+
+  const sql = getDb();
 
   try {
     const res = await fetch(
@@ -112,7 +108,8 @@ function getPendingMatches(now: number): string[] {
   return getAllUnifiedMatches()
     .filter((m) => {
       const kickoff = new Date(m.kickoff).getTime();
-      return now - kickoff >= CHECK_START_MS;
+      const elapsed = now - kickoff;
+      return elapsed >= CHECK_START_MS && elapsed <= CHECK_END_MS;
     })
     .map((m) => m.id);
 }
