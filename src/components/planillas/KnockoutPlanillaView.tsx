@@ -93,6 +93,7 @@ export function KnockoutPlanillaView() {
     dropSucceeded.current = true;
     setComodinByRound((prev) => ({ ...prev, [activeTab]: matchId }));
     setPlacementMode(false);
+    setComodinDragging(false);
     try {
       const res = await fetch("/api/comodines", {
         method: "POST",
