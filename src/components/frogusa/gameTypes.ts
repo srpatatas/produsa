@@ -127,16 +127,21 @@ export const COMODIN_IMAGES = [
   "/images/comodin-fecha-2.jpg",
   "/images/comodin-fecha-3.jpg",
   "/images/comodin-R32.jpg",
+  "/images/comodin-R16.jpg",
 ];
 
 export const COMODIN_HIT_PHRASES = [
   ["¡Quedate en tu área!", "¡Acá no se pasa!", "¡Tarjeta para vos!", "¡Volvé al banco!"],
   ["¡LO BAJARON señores!", "¡QUÉ ENTRADA!", "¡PLANCHAZO CRIMINAL!", "¡EXPULSIÓN directa!"],
   ["No crossing my lane!", "Tackled! Beautiful!", "Go back to your half!", "Red card for you!"],
+  ["¡Yo no autoricé esta jugada!", "¡No debió haberse hecho!", "¡Guardo conmigo el dolor!", "¡Esto es culpa de Macri!"],
+  ["¡Parto de nalga!", "¡Acá no pasa nadie!", "¡El resistir está grabado!", "¡Carreta delante del caballo!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
   ["¡¿Cómo pasó?!", "¡Se me escapó!", "¡Pedí refuerzos!", "¡Necesito VAR!"],
   ["¡SE LES FUE señores!", "¡NO LO PUDIERON PARAR!", "¡QUÉ VELOCIDAD!", "¡PASÓ COMO SI NADA!"],
   ["He's through! No way!", "Too fast for me!", "I need backup!", "Call the referee!"],
+  ["¡Se me fue por zoom!", "¡Ni en Olivos lo paro!", "¡Me la pusieron!", "¡Algunos miserables se escapan!"],
+  ["¡Cazador de utopías!", "¡Pasó remando en dulce de leche!", "¡Es más rápido que un átomo!", "¡No hay imposibles para ese!"],
 ];

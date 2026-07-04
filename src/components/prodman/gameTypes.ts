@@ -58,6 +58,7 @@ export const ENEMY_IMAGES = [
   "/images/comodin-fecha-2.jpg",
   "/images/comodin-fecha-3.jpg",
   "/images/comodin-R32.jpg",
+  "/images/comodin-R16.jpg",
 ];
 
 // # = wall, . = dot, O = power pellet, _ = empty, P = player, G = ghost house

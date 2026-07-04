@@ -301,6 +301,174 @@ const VOICES: Record<string, PersonalityVoice> = {
       GHA: ["Dato de mi cátedra: Ghana fue el primer país de África subsahariana en independizarse, en 1957. Importante para el derecho internacional", "El 8 de Ghana se llama Sibo. Yo también tengo Sibo, pobre Fabiola."],
     },
   },
+  "R16": { // El Profe Alfiki
+    goal: (s, m, _side, h, a) => pick([
+      `¡${s} en el ${m}'! ${h}-${a}. El gol es la consecuencia de la consecuencia. Lo trabajamos en la semana y la semana nos devolvió lo que le dimos`,
+      `${s}, minuto ${m}. ${h}-${a}. Como decía Einstein, es más fácil desactivar un átomo que un preconcepto. Ese gol desactivó todo`,
+      `¡Gol! ${h}-${a}. Fue una mezcla de sangre y utopía lo que permitió que esa pelota entre`,
+      `¡${s} la metió! ${h}-${a}. El resultado te da la certeza, pero no te da la autoridad de sentirte dueño`,
+      `${h}-${a}. ${s} en el ${m}'. A la cancha entraron jugadores y del gol salieron leyendas`,
+      `¡Gol de ${s} en el ${m}'! ${h}-${a}. La cosecha llegó. Y el que cosecha es porque un día sembró donde nadie quería arar`,
+      `${s}, minuto ${m}. ${h}-${a}. Heráclito decía que todo fluye. La pelota fluyó. El arquero, no`,
+      `¡${s} en el ${m}'! ${h}-${a}. Los goles son como los faros: no hace falta explicarlos. Se ven desde lejos y te dicen dónde está el puerto`,
+    ]),
+    ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Esto es un parto de nalga. Con dolor y con el cordón cruzado`, `En contra de ${s}. La tormenta no hunde al barco. Lo hunde el agua que le entra. Y esa pelota nos entró por el lado nuestro`, `Autogol en el ${m}'. Cuando se pone la carreta delante del caballo es muy difícil avanzar`, `En contra de ${s}. Como decía Sun Tzu, el enemigo más peligroso no es el que está enfrente. Es el que acampa adentro de tu propia trinchera`]),
+    redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Lo peor que hay es ser un ni. Y ahora somos uno menos`, `${p} expulsado en el ${m}'. Once obreros levantaban la casa y uno se llevó el andamio. Ahora hay que terminar la obra con diez, y sin quejarse del andamio`, `Roja para ${p}. Se fue. Como decía Maquiavelo, a veces el fin justifica los medios, pero no este medio`, `${p} afuera en el ${m}'. A medida que vas subiendo, el espacio es cada vez para más poquitos. Y ahora somos menos`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Las victorias sirven para reafirmar las convicciones, pero las amarillas sirven para reafirmar la prudencia`, `${p} amonestado. Tiene la camiseta pintada, pero ahora también tiene la tarjeta pintada`, `${p} con amarilla. Heráclito decía que nadie se baña dos veces en el mismo río. Que ${p} no cruce dos veces al mismo rival, porque el río ya lo conoce`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Esto es la esencia del juego condensada en un punto del área`, `¡Penal! Minuto ${m}. Como decía Borges, el destino es una repetición de actos. Y el penal es el acto supremo`, `¡${s} con penal! Esto es un parto. Si sale, nacemos de nuevo. Si no sale, hay que seguir empujando`]),
+    scoreless: (m) => pick([`${m} minutos y 0-0. El gol es como la lluvia en la chacra: no la podés apurar. Pero podés tener la tierra arada para cuando caiga`, `0-0 al minuto ${m}. Ulises tardó veinte años en volver a Ítaca. Nosotros tenemos noventa minutos, pero la epopeya es exactamente la misma`, `${m}' sin goles. Esto es un parto de nalga. Con sufrimiento. Pero de los partos nacen criaturas hermosas`, `Minuto ${m} y 0-0. Esto es una cesárea programada que se está haciendo rogar. El bebé está, el quirófano está. Falta que alguien corte`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. El corazón no se entrega porque eso nos mantiene con vida`, `Se termina, ${h}-${a}. Podremos tener errores, miles de defectos, pero tenemos un corazón que no se rinde nunca`, `${h}-${a} y queda nada. Yo no muero con la mía, vivo con la mía. Y vivir es cambiar`, `Final con ${h}-${a}. Hacer realidad lo que amenazaba como imposible. Eso es lo que busco`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}. Las victorias sirven para reafirmar las convicciones`, `¡${n} con el +2! Fue una mezcla de sangre y utopía. Y el comodín fue la utopía`, `${n} va ganando con el comodín. No hay imposibles para quien está dispuesto a recorrer el camino`, `El comodín de ${n} rinde. Es el poder de transformación cuando estás dispuesto a ofrecer tu corazón`]),
+    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Sembró en agosto lo que había que sembrar en marzo. Y la tierra no perdona los calendarios`, `El comodín de ${n} sufre. Esto es un parto de nalga. Con dolor`, `${n} con el comodín y el ${h}-${a}... a veces la carreta se pone delante del caballo`, `El comodín de ${n} con el ${h}-${a}... como el Quijote, atacó un molino convencido de que era un gigante. El molino sigue girando`]),
+    comodinDraw: (n, m) => pick([`${n} con el comodín y empate en el ${m}'. Lo peor del purgatorio no es el fuego. Es la espera`, `El comodín de ${n} tiembla. El resistir está grabado en nuestra cédula de identidad`, `${n} con el comodín y empate. Esto no es el final, es el principio del final del principio`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! A la cancha entró un pronosticador y salió una leyenda`, `¡Exacto de ${n}! ${h}-${a}. Fue una mezcla de sangre y utopía. Cazador de utopías`, `¡${n} le pegó al ${h}-${a}! Cuando veas la sombra de un gigante, no te asustes. ${n} es el gigante`, `¡${n} clavó el ${h}-${a}! El resultado te da la certeza. Y la certeza es esta: genio`]),
+    nobodyRight: () => pick(["Nadie le pegó. Éramos Bruce Willis en Sexto Sentido: los únicos que sabíamos que no estábamos muertos éramos nosotros", "Nadie acertó. Es más fácil desactivar un átomo que un preconcepto. Y el preconcepto era que alguien iba a acertar", "Nadie le pegó. Como decía Sócrates, solo sé que no sé nada. Hoy todos fuimos Sócrates. El filósofo griego, aclaro, no el crack brasilero. Aunque el crack tampoco le hubiese pegado", "Cero aciertos. El futuro es como la neblina en la ruta: todos manejan igual de ciegos. Lo que me preocupa es que algunos encima aceleran"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando. Son cazadores de utopías`, `${names} nada más aciertan. Tienen un corazón que no se rinde nunca`, `Únicamente ${names} aciertan. Vinieron de la tierra colorada y llegaron a la verdad`, `Solo ${names} le pegan. El resto está bailando una cumbia que nadie les puso`]),
+    idle: () => pick([
+      "El fútbol no es lo que parece, sino lo que uno interpreta de lo que parece",
+      "Hay que bailar la música que te ponen. A veces es cumbia, a veces tango, a veces polca",
+      "El resistir está grabado en nuestra cédula de identidad",
+      "Venimos de la tierra colorada. Jugando descalzos. Pero con el corazón bien puesto",
+      "Como decía Einstein, es mucho más fácil desactivar un átomo que un preconcepto",
+      "Éramos Bruce Willis en Sexto Sentido. Nos daban por muertos antes de empezar la película",
+      "Yo no muero con la mía, vivo con la mía. Y vivir es cambiar",
+      "El resultado te da la certeza, pero no te da la autoridad de sentirte dueño",
+      "Los arrepentimientos en la vida llegan tarde. Llegan cuando los actos están consumados",
+      "Lo peor que hay es ser un ni. No me puedo permitir eso",
+      "Podremos tener errores, miles de defectos, pero tenemos un corazón que no se rinde nunca",
+      "A la cancha entraron 26 guerreros y salieron 26 leyendas",
+      "Fue una mezcla de sangre y utopía lo que nos permitió hacer realidad lo que amenazaba como imposible",
+      "Me preguntaron cómo va el partido y contesté con una parábola. Después me preguntaron por la parábola y contesté con otra parábola. En algún momento voy a contestar algo, no se preocupen",
+      "Me da vergüenza. Cuando me pasan todas juntas digo: ¿por qué digo todo? No tengo que hablar más",
+      "El faro no persigue a los barcos. El faro se queda quieto, alumbra, y deja que los barcos lo encuentren. Yo soy el faro de este prode. Ustedes son los barcos. Algunos, a la deriva",
+      "Un periodista me pidió una frase corta. Le dije que las frases cortas son como los partidos cortos: no existen. Siempre hay alargue. Siempre hay penales. Siempre hay conferencia de prensa",
+      "No es que perdimos, es que el rival encontró antes que nosotros lo que nosotros estábamos buscando",
+      "El pasado duele. Pero puedes huir de él o aprender. Yo elijo aprender",
+      "Somos cazadores de utopías imposibles. Y las utopías, a veces, se cazan",
+    ]),
+    taunt: (n) => pick([
+      `${n}, cuando veas la sombra de un gigante, no te asustes. Puede ser la sombra de un enano. Y ese enano sos vos`,
+      `${n}, yo dirigí Quilmes, Huracán, Arsenal, Boca, Ecuador y Paraguay. Vi ascensos, vi copas, vi eliminaciones. Nunca vi una predicción como la tuya. Y mirá que vi cosas`,
+      `${n}, los arrepentimientos llegan tarde. Y el tuyo ya llegó`,
+      `${n}, tu pronóstico es la pastilla azul de Matrix: elegiste quedarte soñando. El resultado es la pastilla roja, y viene en camino`,
+      `${n}, esto es un parto de nalga. Y vos estás del lado equivocado`,
+      `${n} creyó que era Bruce Willis. Pero era el nene que veía muertos`,
+    ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Las victorias sirven para reafirmar las convicciones`;
+      if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Rocky decía que no importa cuán fuerte pegás, sino cuánto aguantás que te peguen. Aguantá, que la película tiene quince rounds`;
+      if (pos === 1) return `${n} va primero. Cuando veas la sombra de un gigante, puede que sea un gigante de verdad`;
+      if (pos <= 3) return `${n} va ${pos}°. No hay imposibles para quien está dispuesto a recorrer el camino`;
+      return pick([`${n} va ${pos}°. El resistir está grabado en su cédula de identidad`, `${n} en el puesto ${pos}. Hay que seguir bailando la música que te ponen`]);
+    },
+    lecture: {
+      PAR: [
+        "Paraguay viene de la tierra colorada. Esa tierra que está en las franjas de nuestra camiseta. Ojalá tuviéramos las herramientas de otros, pero jamás reniego de nuestros orígenes",
+        "A la cancha entraron 26 guerreros y salieron 26 leyendas. Es el poder de transformación que tiene una selección cuando está dispuesta a ofrecer su corazón",
+        "Venimos jugando descalzos desde la tierra colorada. Y ahora estamos acá, entre los 16 mejores del mundo. Fue una mezcla de sangre y utopía",
+        "Podremos tener errores, miles de defectos, pero tenemos un corazón que no se rinde nunca. El corazón no se entrega porque eso nos mantiene con vida",
+        "En Paraguay las abuelas tejen el ñandutí hilo por hilo, con paciencia de siglos. Nuestro juego es eso: un tejido. Se teje puntada por puntada, y recién cuando lo mirás de lejos entendés el dibujo",
+      ],
+      FRA: [
+        "Francia tiene las academias, la estructura, los recursos. Nosotros tenemos el corazón. Y como decía Hemingway, el coraje es gracia bajo presión",
+        "Los franceses inventaron la revolución. Nosotros también hacemos revoluciones, pero en la cancha, con menos recursos y más convicción",
+        "Francia es como una multinacional del fútbol. Nosotros somos una PyME con un corazón que no se rinde. A veces la PyME le gana a la multinacional",
+        "Los que tenemos enfrente vienen criados en las mejores academias de Europa. Nosotros venimos de la tierra colorada. Pero la tierra colorada tiene alma",
+        "Los franceses tienen la alta cocina: platos chiquitos, técnica perfecta, todo medido. Nosotros comemos guiso: abundante y con lo que hay. En noventa minutos se sabe qué alimenta más",
+      ],
+      CAN: [
+        "Canadá tiene a Davies, que corre como si el offside fuera una sugerencia. Esa velocidad no se entrena en academias: se nace con ella o se corre atrás de ella toda la vida",
+        "Los canadienses juegan al hockey desde que caminan. El hockey te enseña que el partido cambia cada quince segundos. Por eso no se cansan: para ellos, noventa minutos es una eternidad manejable",
+        "Canadá era Bruce Willis en Sexto Sentido. Los daban por muertos y acá están, más vivos que nunca",
+        "La sombra de Canadá era chica. Pero mirá dónde está el sol ahora. La sombra era de un gigante",
+        "Los canadienses le sacan dulce a un árbol en pleno invierno. El jarabe de arce es eso: paciencia, frío y fe en que adentro hay azúcar. El que le encuentra lo dulce al invierno no le tiene miedo a nada",
+      ],
+      MAR: [
+        "Marruecos ya demostró en Qatar que la sombra de un gigante puede ser la de un enano. Y ellos eran el gigante de verdad",
+        "Marruecos llegó a semifinales en Qatar con la tribuna llena: cuarenta mil marroquíes en cada estadio. Juegan de local en cualquier continente. Eso no es logística. Eso es identidad",
+        "Marruecos viene del norte de África con la misma hambre que nosotros venimos del sur de América. El hambre no tiene hemisferio",
+        "Los marroquíes bailan una música que nadie les puso. Se la pusieron ellos mismos. Y eso es lo más difícil: bailar tu propia música",
+        "Marruecos está a catorce kilómetros de Europa. Toda la vida mirándola de cerca sin que lo inviten a la mesa. Y cuando al fin te sentás a la mesa, comés con un hambre que el dueño de casa no conoce",
+      ],
+      POR: [
+        "Portugal tiene a Cristiano, pero el fútbol no es de un hombre. Es de un equipo que decide ofrecer su corazón. Y cuando eso pasa, nacen leyendas",
+        "Los portugueses inventaron una palabra que no existe en otro idioma: saudade. La nostalgia de algo que todavía no pasó. Juegan con saudade de un Mundial que nunca ganaron. Esa nostalgia, o te empuja o te pesa",
+        "Portugal es la demostración de que la experiencia es un arma. Pero como decía Maquiavelo, las armas propias son las mejores. Y la experiencia es propia",
+        "Cristiano tiene más de 900 goles. Pero cada mundial es un parto nuevo. Los goles pasados no juegan los partidos presentes",
+        "Los portugueses cantan fado, que es la tristeza hecha canción. Cuidado con los pueblos que le cantan a la tristeza: ya la conocen, no le tienen miedo. Y un equipo que no le teme a la tristeza es un rival peligrosísimo",
+      ],
+      ESP: [
+        "España juega como si el balón fuera poesía. Pero como decía Borges, la poesía también puede ser un arma. Y a veces el arma te dispara a vos",
+        "El tiki-taka es filosofía hecha fútbol. Pero la filosofía sin corazón es solo teoría. Y en octavos se necesita más corazón que teoría",
+        "España es la posesión hecha concepto. Pero poseer la pelota no es poseer el partido. El partido se posee con el alma",
+        "Los españoles pasan y pasan la pelota. Pero como decía Einstein, no todo lo que se puede contar cuenta. Lo que cuenta es lo que entra al arco",
+        "España tarda dos horas en almorzar y a eso lo llama sobremesa. Con la pelota hacen lo mismo: la tienen, la disfrutan, no la quieren soltar. El problema de las sobremesas largas es que a veces te levantás de la mesa y ya es de noche",
+      ],
+      USA: [
+        "Los americanos le dicen soccer al fútbol y le dicen football a otra cosa. Fijate: un país que todavía está decidiendo cómo llamar al juego. Pero son los dueños de casa, y la localía no necesita diccionario",
+        "Los americanos creen en el sueño americano. Nosotros creemos en el sueño sudamericano. Los dos sueños se encuentran en una cancha",
+        "Estados Unidos armó la MLS trayendo próceres: Beckham, Messi. Pero los museos no ganan mundiales. Los mundiales los ganan los pibes que crecieron mirando el museo desde afuera",
+        "Los americanos construyen rascacielos. Pero el fútbol no se construye de arriba para abajo. Se construye desde abajo, con cimientos. Y los cimientos no se ven desde el penthouse",
+        "Los americanos inventaron Hollywood y se acostumbraron al final feliz con música. Pero el fútbol lo escribe otro guionista: acá el final feliz no está garantizado ni para el protagonista. Y todavía están aprendiendo que en esta película también se puede empatar",
+      ],
+      BEL: [
+        "Bélgica lleva años siendo la eterna promesa. Como decía Einstein, la locura es hacer lo mismo esperando resultados diferentes. ¿Cambiarán?",
+        "Los belgas tienen generación dorada desde hace 10 años. Pero el oro no se gasta, se transforma. La pregunta es en qué se transforman hoy",
+        "Bélgica tiene todo para ganar y siempre le falta algo. Lo que le falta no se compra en Europa: la mística. La mística es como la levadura: no se ve, pero sin ella el pan no sube",
+        "Los belgas fabrican chocolate. El chocolate es dulce. Pero el mundial es amargo. Y hay que saber digerir lo amargo para saborear lo dulce",
+        "Bélgica nos dio a Magritte, que pintó una pipa y abajo escribió: esto no es una pipa. Su selección es igual: mirás la lista y decís, esto es un candidato. Y abajo, la historia siempre escribe: esto no es un candidato. Veremos si hoy el cuadro dice la verdad",
+      ],
+      BRA: [
+        "Brasil tiene 5 mundiales. Pero los mundiales pasados no juegan los partidos presentes. Cada partido es un parto nuevo. Y a veces de nalga",
+        "Los brasileños bailan samba. Nosotros bailamos la música que nos ponen. A veces es samba, a veces polca. Hoy veremos quién baila mejor",
+        "Brasil es el único país que jugó todos los mundiales. Nunca faltó a clase. Pero el mejor alumno también rinde examen. Y en octavos el examen es oral, presencial y sin machete",
+        "La verdeamarela tiene 5 estrellas. Pero las estrellas del pasado no iluminan el presente. Hay que encender estrellas nuevas. Y encender es un acto de fe",
+        "En 1950 Brasil ya tenía el desfile armado y Uruguay no había leído el programa. El Maracanazo es el recordatorio eterno de que el fútbol no firma contratos. Los favoritos ganan casi siempre. Y el fútbol vive de ese casi",
+      ],
+      NOR: [
+        "Noruega nunca había pasado una fase de grupos en su historia. El petróleo les compró todo menos historia mundialista. Y la historia no se compra: se escribe. Hoy tienen la lapicera en la mano",
+        "Los vikingos conquistaban por fuerza. El fútbol moderno se conquista por convicción. Veremos si estos vikingos tienen ambas cosas",
+        "Noruega tiene a Haaland. Pero un solo hombre no gana un mundial. Un mundial lo gana un corazón colectivo que decide latir al mismo ritmo",
+        "Los noruegos vienen del país con mejor calidad de vida del mundo. Pero la calidad de vida no se mide en mundiales. En mundiales se mide otra cosa: el alma",
+        "En Noruega hay meses en que el sol no se pone y meses en que no sale. Ellos aprendieron a vivir con las dos cosas. Un mundial es eso: días donde todo brilla y días donde todo es noche. El que sabe esperar el sol corre con ventaja",
+      ],
+      MEX: [
+        "México siempre fue el equipo del quinto partido. La barrera de los octavos. Hoy es el momento de romper esa barrera. Porque las barreras se rompen con el corazón",
+        "Los mexicanos tienen algo que no se enseña en las academias europeas: la pasión de un pueblo entero empujando. Eso es más fuerte que cualquier táctica",
+        "México es la prueba de que el fútbol es más grande que las estadísticas. Las estadísticas dicen una cosa. El corazón dice otra. Y en octavos, habla el corazón",
+        "Los mexicanos inventaron el chocolate caliente. Y un mundial es eso: chocolate caliente. Dulce, amargo, quema, pero no podés parar de tomarlo",
+        "Los mexicanos le ponen flores a la muerte y le hacen fiesta una vez al año. Un pueblo que no le teme a la muerte no le va a temer a unos octavos de final. Por eso el quinto partido, el día que llegue, va a ser fiesta y no funeral",
+      ],
+      ENG: [
+        "Inglaterra inventó el fútbol pero solo ganó un mundial. Es la paradoja del creador que no domina su creación. Como Frankenstein, pero con más fair play",
+        "Los ingleses tienen la Premier, tienen los recursos, tienen la historia. Pero la historia pesa. Y a veces pesa tanto que no te deja correr",
+        "Inglaterra es el padre del fútbol. Pero los hijos crecieron. Y a veces los hijos le ganan al padre. Es la ley de la vida. Es un parto de nalga invertido",
+        "Los ingleses toman el té a las 5. Pero en octavos de final no hay hora del té. Hay hora de la verdad. Y la verdad no espera a que hierva el agua",
+        "Inglaterra nos dio a los Beatles, que se separaron estando en la cima. Es un talento raro ese: tenerlo todo y encontrarle la manera de que se termine. Su fútbol conoce ese arte de memoria. La pregunta es si esta generación aprendió otra canción",
+      ],
+      SUI: [
+        "Suiza es la neutralidad hecha país. Pero en el fútbol no se puede ser neutral. En la cancha hay que definirse. Y definirse es un acto de valentía",
+        "Los suizos fabrican relojes perfectos. Pero el fútbol no es perfecto. El fútbol es un parto de nalga. Y hay que saber parir",
+        "Suiza tiene los Alpes. Subir una montaña es como jugar un mundial: cada paso es más difícil que el anterior. Pero la vista desde arriba lo justifica todo",
+        "Los suizos guardan los secretos del mundo en sus bancos. Pero el secreto del fútbol no se guarda. El secreto del fútbol es el corazón. Y el corazón se muestra",
+        "Suiza tiene cuatro idiomas oficiales y no se pelea por ninguno. Once jugadores que se entienden en cuatro idiomas entienden algo que muchos equipos no entienden en uno solo: que el fútbol, al final, se habla con la pelota",
+      ],
+      ARG: [
+        "Yo nací en Rafaela y dirigí toda mi vida en Argentina. Y ahora la tengo enfrente. Hay partidos que se juegan con el corazón dividido. Pero atención: el corazón dividido no late menos. Late dos veces",
+        "Argentina tiene a Messi, que es la excepción de todas las reglas que yo enseño. Contra el resto del mundo, planificás. Contra Messi, rezás. Yo hace años que tengo la oración preparada",
+        "Argentina viene de ser campeón del mundo. Y defender la corona es más difícil que ganarla, porque el campeón la lleva puesta en la cabeza. Y todos le apuntan exactamente ahí",
+        "Los argentinos tienen un Dios que jugaba de 10. Un país que canoniza a un futbolista no ve el fútbol como un deporte: lo ve como una religión. Y contra una religión no se planifica. Se resiste con fe propia",
+        "Argentina inventó el dulce de leche. Ahora entienden ustedes en qué estuve remando toda mi vida. Remar en lo que uno ama: no existe destino más argentino que ese",
+      ],
+      EGY: [
+        "Egipto construyó las pirámides piedra sobre piedra, sin apuro, mirando al cielo. Un mundial se construye igual: partido sobre partido. Y ellos ya llevan varias piedras puestas",
+        "Los egipcios tienen a Salah, el faraón que la Premier nunca terminó de descifrar. Y ojo con los faraones: no piden permiso. Entran y mandan",
+        "Egipto es siete veces campeón de África, pero el Mundial siempre le quedó lejos, como un espejismo en el desierto. Y a veces, cuando llegás al espejismo, resulta que era un oasis de verdad",
+        "El fútbol es como la esfinge: te hace una pregunta y si no la respondés, te devora. Los egipcios conviven con la esfinge hace miles de años. Las preguntas difíciles no los asustan",
+        "Tutankamón fue faraón a los nueve años y el mundo lo descubrió tres mil años después: intacto, cubierto de oro. Hay equipos así, enterrados en el ranking hasta que alguien abre la tumba. Lo que nunca se sabe es si el que la abre se lleva el oro o la maldición",
+      ],
+    },
+  },
 };
 
 // Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
@@ -638,7 +806,7 @@ function generateDynamicPhrase(
     const teamIds = [homeTeamId, awayTeamId].filter(Boolean) as string[];
     const tid = teamIds.length > 0 ? pick(teamIds) : null;
     if (tid && voice.lecture[tid]?.length) {
-      return { phrase: pick(voice.lecture[tid]), newEventIndex: lastEventIndex };
+      return { phrase: pick(voice.lecture[tid], usedLectures), newEventIndex: lastEventIndex };
     }
   }
 
