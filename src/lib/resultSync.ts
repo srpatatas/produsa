@@ -6,7 +6,7 @@ import { matches } from "@/data/matches";
 
 const API_BASE = "https://v3.football.api-sports.io";
 const CHECK_START_MS = 105 * 60 * 1000;
-const CHECK_END_MS = 6 * 60 * 60 * 1000;
+const CHECK_END_MS = 3 * 60 * 60 * 1000;
 const FINISHED_STATUSES = new Set(["FT", "AET", "PEN"]);
 
 interface ApiScore {
