@@ -44,7 +44,9 @@ function pick<T>(arr: T[], trackSet?: Set<string>): T {
   const tracker = trackSet ?? usedPhrases;
   const fresh = arr.filter((v) => !tracker.has(String(v)));
   const pool = fresh.length > 0 ? fresh : arr;
-  if (fresh.length === 0) tracker.clear();
+  if (fresh.length === 0) {
+    for (const v of arr) tracker.delete(String(v));
+  }
   const chosen = pool[Math.floor(Math.random() * pool.length)];
   tracker.add(String(chosen));
   return chosen;
