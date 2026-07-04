@@ -37,7 +37,7 @@ export default function FixturePage() {
   const [results, setResults] = useState<Record<string, MatchResult>>({});
   const [resolvedKnockout, setResolvedKnockout] = useState<Record<string, { homeTeamId: string | null; awayTeamId: string | null }>>({});
   const [phase, setPhase] = useState<"grupos" | "eliminatorias">(computeInitialPhase);
-  const [knockoutView, setKnockoutView] = useState<"bracket" | "list">("list");
+  const [knockoutView, setKnockoutView] = useState<"bracket" | "list">("bracket");
 
   useEffect(() => {
     Promise.all([
