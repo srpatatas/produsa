@@ -467,6 +467,13 @@ const VOICES: Record<string, PersonalityVoice> = {
         "El fútbol es como la esfinge: te hace una pregunta y si no la respondés, te devora. Los egipcios conviven con la esfinge hace miles de años. Las preguntas difíciles no los asustan",
         "Tutankamón fue faraón a los nueve años y el mundo lo descubrió tres mil años después: intacto, cubierto de oro. Hay equipos así, enterrados en el ranking hasta que alguien abre la tumba. Lo que nunca se sabe es si el que la abre se lleva el oro o la maldición",
       ],
+      COL: [
+        "Colombia nos dio a García Márquez, que escribió que las cosas tienen vida propia y que todo es cuestión de despertarles el ánima. El fútbol colombiano es eso: realismo mágico. Cosas imposibles contadas con total naturalidad",
+        "Higuita atajó de espaldas, con los talones, y lo llamó escorpión. Un país donde hasta el arquero se aburre de usar las manos no le tiene miedo a nada. Y el que no tiene miedo es capaz de cualquier cosa",
+        "Los colombianos cultivan café en laderas donde no entra ninguna máquina. Grano por grano, a mano, en la montaña. Un mundial pide la paciencia del cafetero: la cosecha buena nunca baja de la montaña apurada",
+        "Yo siempre digo que hay que bailar la música que te ponen. Pero cuidado con Colombia: la cumbia la inventaron ellos. Ellos no bailan la música que les ponen. La ponen",
+        "En 1993 Colombia le ganó 5 a 0 a Argentina en Buenos Aires. Yo lo vi y tardé años en entenderlo. Esa noche aprendí que el fútbol no respeta ni la casa, ni la historia, ni al dueño de la pelota",
+      ],
     },
   },
 };
