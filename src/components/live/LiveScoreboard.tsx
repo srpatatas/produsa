@@ -375,6 +375,7 @@ const VOICES: Record<string, PersonalityVoice> = {
         "Francia es como una multinacional del fútbol. Nosotros somos una PyME con un corazón que no se rinde. A veces la PyME le gana a la multinacional",
         "Los que tenemos enfrente vienen criados en las mejores academias de Europa. Nosotros venimos de la tierra colorada. Pero la tierra colorada tiene alma",
         "Los franceses tienen la alta cocina: platos chiquitos, técnica perfecta, todo medido. Nosotros comemos guiso: abundante y con lo que hay. En noventa minutos se sabe qué alimenta más",
+        "Francia es una tormenta eléctrica: los rayos salen de cualquier parte y van todos al centro del arco. Yo soy hombre de campo. En Rafaela, cuando venía la tormenta, no había pararrayos: había que resguardarse. Y nunca debajo del árbol, porque el rayo cae ahí",
       ],
       CAN: [
         "Canadá tiene a Davies, que corre como si el offside fuera una sugerencia. Esa velocidad no se entrena en academias: se nace con ella o se corre atrás de ella toda la vida",
