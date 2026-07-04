@@ -760,8 +760,9 @@ function generateDynamicPhrase(
   homeTeamId?: string | null,
   awayTeamId?: string | null,
   birthdayVoice?: boolean,
+  voiceKey?: string,
 ): { phrase: string; newEventIndex: number } {
-  const voice = birthdayVoice ? BIRTHDAY_VOICE : (VOICES[scope] ?? VOICES["fecha-1"]);
+  const voice = birthdayVoice ? BIRTHDAY_VOICE : (VOICES[voiceKey ?? scope] ?? VOICES[scope] ?? VOICES["fecha-1"]);
 
   const h = score.homeScore;
   const a = score.awayScore;
@@ -876,14 +877,93 @@ function generateDynamicPhrase(
 
 const speakingLock = { holder: null as string | null, until: 0, lastSpeaker: null as string | null };
 
-function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot, useBirthdayVoice, side = "right" }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[]; useBirthdayVoice?: boolean; side?: "left" | "right" }) {
+// Debate mode: host dock (right, scope voice — Alfiki in R16) vs guest dock (left, Albertito).
+// An opener from one side arms the paired retort for the other side's next idle turn.
+const DEBATE_MATCH_IDS = ["R16-5", "R16-6"];
+const DEBATE_GUEST_VOICE = "R32";
+const usedDebates = new Set<string>();
+const debateState = { retortFor: null as "left" | "right" | null, retort: "" };
+const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string }[] = [
+  {
+    from: "guest",
+    opener: "Como profesor de la UBA les explico: este partido se define por la táctica",
+    retort: "El que explica el fútbol desde un aula nunca pisó la tierra colorada, Alberto. La táctica sin barro es un PowerPoint",
+  },
+  {
+    from: "host",
+    opener: "Esto es un parto de nalga. Con dolor y con el cordón cruzado, pero va a nacer algo hermoso",
+    retort: "¿Parto? Yo amplié derechos para que los partos sean gratuitos. De nada, profe",
+  },
+  {
+    from: "guest",
+    opener: "La culpa de este resultado la tiene la pesada herencia",
+    retort: "Los arrepentimientos llegan tarde, Alberto. Los tuyos directamente no llegaron",
+  },
+  {
+    from: "host",
+    opener: "Como decía Einstein, es más fácil desactivar un átomo que un preconcepto",
+    retort: "Einstein, Borges, Hemingway... profe, usted cita más gente que yo en un decreto de necesidad y urgencia",
+  },
+  {
+    from: "guest",
+    opener: "Yo este partido lo veo mejor por zoom desde Olivos",
+    retort: "El fútbol no se ve por zoom, Alberto. El fútbol se huele, como la lluvia antes de la tormenta eléctrica",
+  },
+  {
+    from: "host",
+    opener: "Venimos de la tierra colorada. Jugando descalzos, pero con el corazón bien puesto",
+    retort: "¿Descalzos? Eso es un problema de política pública. Anoto: repartir botines. Cuando vuelva al gobierno",
+  },
+  {
+    from: "guest",
+    opener: "El único responsable de este marcador soy yo. Bueno, y el árbitro. Y Macri",
+    retort: "Lo peor que hay es ser un ni, Alberto. Ni responsable ni inocente. Elegí un lado del vestuario",
+  },
+  {
+    from: "host",
+    opener: "Hay que bailar la música que te ponen. A veces cumbia, a veces tango, a veces polca",
+    retort: "La última vez que bailé en una fiesta me costó la presidencia. Ahora solo bailo el himno",
+  },
+  {
+    from: "guest",
+    opener: "Este partido está más complicado que la economía que me dejaron",
+    retort: "Cuando veas la sombra de un gigante, Alberto, fijate que no sea la sombra de tus propias excusas",
+  },
+  {
+    from: "host",
+    opener: "Éramos Bruce Willis en Sexto Sentido. Nos daban por muertos antes de empezar la película",
+    retort: "Yo también estuve muerto, políticamente hablando. Sigo esperando la resurrección. Cristina no me llama",
+  },
+  {
+    from: "guest",
+    opener: "Yo a este arquero lo hubiera nombrado por decreto",
+    retort: "Los arqueros no se nombran por decreto, Alberto. Se forman en la incubadora de la paciencia",
+  },
+  {
+    from: "host",
+    opener: "El resultado te da la certeza, pero no te da la autoridad de sentirte dueño",
+    retort: "Autoridad sin resultados tuve yo cuatro años, profe. No se lo recomiendo a nadie",
+  },
+  {
+    from: "guest",
+    opener: "Profe, una pregunta seria: ¿usted siempre contesta con una metáfora?",
+    retort: "Me da vergüenza. Cuando me pasan todas juntas digo: ¿por qué digo todo? No tengo que hablar más. Pero hablo",
+  },
+];
+
+function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, rankingSnapshot, useBirthdayVoice, guestVoice, side = "right" }: { scope: string; matchId: string; homeTeamId: string | null; awayTeamId: string | null; liveScore: LiveScore; rankingSnapshot?: RankingSnapshotEntry[]; useBirthdayVoice?: boolean; guestVoice?: string; side?: "left" | "right" }) {
   const homeTeamRef = useRef(homeTeamId);
   homeTeamRef.current = homeTeamId;
   const awayTeamRef = useRef(awayTeamId);
   awayTeamRef.current = awayTeamId;
   const baseConfig = getComodinConfig(scope);
   const isBdayOverride = useBirthdayVoice ?? false;
-  const config = isBdayOverride ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" } : baseConfig;
+  const guestConfig = guestVoice ? getComodinConfig(guestVoice) : null;
+  const config = isBdayOverride
+    ? { ...baseConfig, image: "/images/comodin-tia-birthday.jpg", name: "Dr. Lucas Almoño" }
+    : guestConfig
+      ? { ...baseConfig, image: guestConfig.image, name: guestConfig.name }
+      : baseConfig;
   const [phrase, setPhrase] = useState("");
   const [visible, setVisible] = useState(false);
   const [preds, setPreds] = useState<ComodinPred[]>(predCache.get(matchId) ?? []);
@@ -939,7 +1019,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       return Math.min(Math.max(text.length * 80, 6000), 14000);
     }
 
-    const isDualMode = matchId === "R32-3" || matchId === "R32-4";
+    const isDualMode = matchId === "R32-3" || matchId === "R32-4" || DEBATE_MATCH_IDS.includes(matchId);
     function canSpeak(): boolean {
       if (speakingLock.holder !== null && speakingLock.holder !== side && Date.now() <= speakingLock.until) return false;
       if (isDualMode && speakingLock.lastSpeaker === side) return false;
@@ -980,7 +1060,7 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
     function checkEvents() {
       const events = liveScoreRef.current.events ?? [];
       while (events.length > lastEventCount.current) {
-        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
+        const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride, guestVoice);
         eventIndexRef.current = result.newEventIndex;
         lastEventCount.current = Math.max(lastEventCount.current + 1, result.newEventIndex);
         eventQueue.current.push(result.phrase);
@@ -994,7 +1074,30 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
     function showIdle() {
       if (isShowingRef.current || eventQueue.current.length > 0) return;
       if (!canSpeak()) return;
-      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride);
+      if (DEBATE_MATCH_IDS.includes(matchId)) {
+        // A retort armed by the other dock takes priority over regular chatter
+        if (debateState.retortFor === side && debateState.retort) {
+          const text = debateState.retort;
+          debateState.retortFor = null;
+          debateState.retort = "";
+          showPhrase(text);
+          return;
+        }
+        // Otherwise sometimes open a new exchange, arming the other side's reply
+        const role = guestVoice ? "guest" : "host";
+        if (debateState.retortFor === null && Math.random() < 0.4) {
+          const mine = DEBATE_EXCHANGES.filter((e) => e.from === role && !usedDebates.has(e.opener));
+          if (mine.length > 0) {
+            const ex = mine[Math.floor(Math.random() * mine.length)];
+            usedDebates.add(ex.opener);
+            debateState.retortFor = side === "left" ? "right" : "left";
+            debateState.retort = ex.retort;
+            showPhrase(ex.opener);
+            return;
+          }
+        }
+      }
+      const result = generateDynamicPhrase(liveScoreRef.current, predsRef.current, scope, eventIndexRef.current, rankingRef.current, homeTeamRef.current, awayTeamRef.current, isBdayOverride, guestVoice);
       eventIndexRef.current = result.newEventIndex;
       showPhrase(result.phrase);
     }
@@ -1061,6 +1164,9 @@ export function clearLiveComodinCaches() {
   usedLectures.clear();
   usedRanking.clear();
   usedTaunts.clear();
+  usedDebates.clear();
+  debateState.retortFor = null;
+  debateState.retort = "";
   speakingLock.holder = null;
   speakingLock.until = 0;
   speakingLock.lastSpeaker = null;
@@ -1158,6 +1264,9 @@ export function LiveScoreboard({ match, liveScore, stale = false, rankingSnapsho
           <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} side="right" />
           {(match.id === "R32-3" || match.id === "R32-4") && (
             <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} useBirthdayVoice side="left" />
+          )}
+          {DEBATE_MATCH_IDS.includes(match.id) && (
+            <LiveComodinDock scope={match.scope} matchId={match.id} homeTeamId={match.homeTeamId} awayTeamId={match.awayTeamId} liveScore={liveScore} rankingSnapshot={rankingSnapshot} guestVoice={DEBATE_GUEST_VOICE} side="left" />
           )}
         </>
       )}
