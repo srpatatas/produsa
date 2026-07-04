@@ -231,8 +231,8 @@ const VOICES: Record<string, PersonalityVoice> = {
       "¿Me amás?",
       "No hay ningún tipo penal que diga \"Será castigado el que vacuna a otro que se adelantó en la fila\"",
       "Vuelvo por pedido del pueblo. Bueno, de Chekoloko y el Mago Numi. Pero todo pueblo empieza por dos",
-      "Gracias Chekoloko, gracias Mago Numi. Pidieron mi vuelta cuando nadie daba dos pesos por mí. Los nombro embajadores de lo que quieran",
-      "Me fui como comodín y vuelvo como panelista. La militancia de Chekoloko y el Mago Numi lo hizo posible. Esto es ampliar derechos",
+      "Gracias Chekoloko. Pediste mi vuelta cuando nadie daba dos pesos por mí. Te nombro embajador de lo que quieras",
+      "El Mago Numi militó mi regreso. Un mago de verdad: hizo aparecer un trabajo para mí. Ni yo pude hacer eso en cuatro años",
       "Prefiero un 0-0 y no 100.000 goles en contra, como el modelo Sueco.",
       "Vengo de invitado al panel. Es el primer trabajo que consigo desde diciembre del 2023",
       "Me gustaría que Robert De Niro me interprete en una película.",
@@ -261,7 +261,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       `${n}, mereces lo que te está pasando por haber votado a Milei.`,
       `${n} predice como yo gobernaba: con esperanza y sin datos`,
       `${n}, yo también creí en cosas que no pasaron. Te entiendo profundamente`,
-      `${n}, vos no pediste mi vuelta como Chekoloko y el Mago Numi. Y ahora tu predicción sufre. Karma`,
+      `${n}, vos no pediste mi vuelta como Chekoloko. Y ahora tu predicción sufre. Karma`,
     ]),
     rankingTaunt: (n, pos, diff) => {
       if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Yo nunca subí en las encuestas`;
