@@ -1099,10 +1099,30 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
         isShowingRef.current = false;
         releaseLock();
         if (eventQueue.current.length > 0) {
-          const next = eventQueue.current.shift()!;
-          setTimeout(() => showPhrase(next), 1500);
+          // Only dequeue when actually able to speak — in dual mode the
+          // alternation rule blocks back-to-back turns, and shifting before
+          // the canSpeak check silently swallowed the phrase.
+          setTimeout(() => {
+            if (!isShowingRef.current && canSpeak() && eventQueue.current.length > 0) {
+              showPhrase(eventQueue.current.shift()!);
+            }
+          }, 1500);
         }
       }, ms);
+    }
+
+    // Deliver a retort armed by the other dock. Outranks queued (stale) event
+    // phrases and runs on both the event and idle cadences — otherwise a busy
+    // event queue starves the reply and the debate opener hangs unanswered.
+    function tryDeliverRetort(): boolean {
+      if (!DEBATE_MATCH_IDS.includes(matchId)) return false;
+      if (debateState.retortFor !== side || !debateState.retort) return false;
+      if (isShowingRef.current || !canSpeak()) return false;
+      const text = debateState.retort;
+      debateState.retortFor = null;
+      debateState.retort = "";
+      showPhrase(text);
+      return true;
     }
 
     function checkEvents() {
@@ -1116,22 +1136,18 @@ function LiveComodinDock({ scope, matchId, homeTeamId, awayTeamId, liveScore, ra
       if (!isShowingRef.current && eventQueue.current.length > 0 && canSpeak()) {
         const next = eventQueue.current.shift()!;
         showPhrase(next);
+      } else if (eventQueue.current.length === 0) {
+        tryDeliverRetort();
       }
     }
 
     function showIdle() {
-      if (isShowingRef.current || eventQueue.current.length > 0) return;
+      if (isShowingRef.current) return;
+      if (tryDeliverRetort()) return;
+      if (eventQueue.current.length > 0) return;
       if (!canSpeak()) return;
       if (DEBATE_MATCH_IDS.includes(matchId)) {
-        // A retort armed by the other dock takes priority over regular chatter
-        if (debateState.retortFor === side && debateState.retort) {
-          const text = debateState.retort;
-          debateState.retortFor = null;
-          debateState.retort = "";
-          showPhrase(text);
-          return;
-        }
-        // Otherwise sometimes open a new exchange, arming the other side's reply
+        // Sometimes open a new exchange, arming the other side's reply
         const role = guestVoice ? "guest" : "host";
         if (debateState.retortFor === null && Math.random() < 0.4) {
           const mine = DEBATE_EXCHANGES.filter((e) => e.from === role && !usedDebates.has(e.opener) && (!e.team || e.team === homeTeamRef.current || e.team === awayTeamRef.current));
