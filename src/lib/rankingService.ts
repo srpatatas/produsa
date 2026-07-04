@@ -89,7 +89,7 @@ export async function fetchBonusMaps(
   users: RankingUser[],
 ): Promise<BonusMaps> {
   const [bonusResultRows, bonusPredRows, bonusQuestionRows] = await Promise.all([
-    sql`SELECT question_id, correct_answer FROM bonus_results`,
+    sql`SELECT question_id, correct_answer FROM bonus_results WHERE scored = true`,
     sql`SELECT user_id, question_id, answer FROM bonus_predictions`,
     sql`SELECT id, source_type, points FROM bonus_questions`,
   ]);

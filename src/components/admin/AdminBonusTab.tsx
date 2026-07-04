@@ -27,7 +27,7 @@ const scopeGradients: Record<string, string> = {
 };
 
 export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
-  const [bonusResults, setBonusResults] = useState<Record<string, { correctAnswer: string }>>({});
+  const [bonusResults, setBonusResults] = useState<Record<string, { correctAnswer: string; scored: boolean }>>({});
   const [bonusLoaded, setBonusLoaded] = useState(false);
   const [bonusEdits, setBonusEdits] = useState<Record<string, { answer: string }>>({});
   const [bonusPointsOverride, setBonusPointsOverride] = useState<Record<string, number>>({});
@@ -123,7 +123,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
         body: JSON.stringify({ questionId, correctAnswer: edit.answer.trim() }),
       });
       if (res.ok) {
-        setBonusResults((prev) => ({ ...prev, [questionId]: { correctAnswer: edit.answer.trim() } }));
+        setBonusResults((prev) => ({ ...prev, [questionId]: { correctAnswer: edit.answer.trim(), scored: prev[questionId]?.scored ?? false } }));
         setBonusEdits((prev) => { const next = { ...prev }; delete next[questionId]; return next; });
         flashStatus("saved");
       } else {
@@ -171,8 +171,46 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
     }
   };
 
+  const handleToggleScored = async (questionId: string) => {
+    const current = bonusResults[questionId]?.scored ?? false;
+    setBonusResults((prev) => ({ ...prev, [questionId]: { ...prev[questionId], scored: !current } }));
+    try {
+      const res = await fetch("/api/admin/bonus-results", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questionId, scored: !current }),
+      });
+      flashStatus(res.ok ? "saved" : "error");
+      if (!res.ok) setBonusResults((prev) => ({ ...prev, [questionId]: { ...prev[questionId], scored: current } }));
+    } catch {
+      setBonusResults((prev) => ({ ...prev, [questionId]: { ...prev[questionId], scored: current } }));
+      flashStatus("error");
+    }
+  };
+
+  const handleScoreAll = async (scored: boolean) => {
+    const prev = { ...bonusResults };
+    setBonusResults((old) => {
+      const next = { ...old };
+      for (const k of Object.keys(next)) next[k] = { ...next[k], scored };
+      return next;
+    });
+    try {
+      const res = await fetch("/api/admin/bonus-results", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scoreAll: scored }),
+      });
+      flashStatus(res.ok ? "saved" : "error");
+      if (!res.ok) setBonusResults(prev);
+    } catch {
+      setBonusResults(prev);
+      flashStatus("error");
+    }
+  };
+
   const handleDeleteBonus = async (questionId: string) => {
-    if (!confirm("¿Eliminar esta respuesta?")) return;
+    if (!confirm("¿Borrar la respuesta correcta? La pregunta seguirá existiendo, solo se limpia el resultado.")) return;
     setBonusSaving(questionId);
     try {
       const res = await fetch("/api/admin/bonus-results", {
@@ -202,16 +240,42 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm text-fifa-dark-gray">
-          {Object.values(bonusResults).filter((r) => r.correctAnswer && r.correctAnswer !== "(pendiente)").length}/{bonusQuestions.length} respuestas cargadas
-        </p>
-        <button
-          onClick={() => setShowAddQuestion(!showAddQuestion)}
-          className="rounded-xl bg-gradient-to-r from-fifa-teal to-fifa-blue px-4 py-2 font-display text-sm uppercase tracking-wider text-white shadow-lg shadow-fifa-teal/20 transition-all hover:brightness-110"
-        >
-          + Agregar pregunta
-        </button>
+      <div className="mb-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-fifa-dark-gray">
+            {Object.values(bonusResults).filter((r) => r.correctAnswer && r.correctAnswer !== "(pendiente)").length}/{bonusQuestions.length} respuestas cargadas
+            {" · "}
+            <span className={Object.values(bonusResults).some((r) => r.scored) ? "text-fifa-green" : "text-fifa-dark-gray"}>
+              {Object.values(bonusResults).filter((r) => r.scored).length} puntuadas
+            </span>
+          </p>
+          <button
+            onClick={() => setShowAddQuestion(!showAddQuestion)}
+            className="rounded-xl bg-gradient-to-r from-fifa-teal to-fifa-blue px-4 py-2 font-display text-sm uppercase tracking-wider text-white shadow-lg shadow-fifa-teal/20 transition-all hover:brightness-110"
+          >
+            + Agregar pregunta
+          </button>
+        </div>
+        {Object.values(bonusResults).some((r) => r.correctAnswer && r.correctAnswer !== "(pendiente)") && (
+          <div className="flex items-center gap-2">
+            {Object.values(bonusResults).some((r) => !r.scored && r.correctAnswer && r.correctAnswer !== "(pendiente)") && (
+              <button
+                onClick={() => { if (confirm("¿Puntuar TODAS las preguntas con respuesta? Los puntos se sumarán al ranking.")) handleScoreAll(true); }}
+                className="rounded-xl bg-gradient-to-r from-fifa-green to-emerald-600 px-4 py-2 font-display text-xs uppercase tracking-wider text-white shadow-lg shadow-fifa-green/20 transition-all hover:brightness-110"
+              >
+                Puntuar todas
+              </button>
+            )}
+            {Object.values(bonusResults).some((r) => r.scored) && (
+              <button
+                onClick={() => { if (confirm("¿Quitar puntuación de TODAS las preguntas? Se quitarán los puntos del ranking.")) handleScoreAll(false); }}
+                className="rounded-xl bg-gradient-to-r from-fifa-red to-rose-600 px-4 py-2 font-display text-xs uppercase tracking-wider text-white shadow-lg shadow-fifa-red/20 transition-all hover:brightness-110"
+              >
+                Despuntuar todas
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {showAddQuestion && (
@@ -433,10 +497,21 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                       <button onClick={() => setBonusEdits((prev) => { const next = { ...prev }; delete next[q.id]; return next; })} className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground">✗</button>
                     </div>
                   ) : saved ? (
-                    <div className="flex items-center gap-1.5">
-                      <span className="flex-1 truncate rounded-lg bg-fifa-teal/10 px-2 py-1 text-xs font-medium text-fifa-teal">{saved.correctAnswer}</span>
-                      <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: saved.correctAnswer } }))} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-dark-gray hover:bg-white/5 hover:text-foreground">Editar</button>
-                      <button onClick={() => handleDeleteBonus(q.id)} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-red/50 hover:text-fifa-red">Borrar</button>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className={cn("flex-1 truncate rounded-lg px-2 py-1 text-xs font-medium", saved.scored ? "bg-fifa-green/15 text-fifa-green" : "bg-fifa-teal/10 text-fifa-teal")}>{saved.correctAnswer}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleToggleScored(q.id)}
+                          className={cn("rounded-lg px-1.5 py-1 text-[10px] transition-colors", saved.scored ? "text-fifa-green bg-fifa-green/10 hover:bg-fifa-green/20" : "text-fifa-dark-gray hover:bg-white/5 hover:text-foreground")}
+                          title={saved.scored ? "Puntuada — click para despuntuar" : "Sin puntuar — click para puntuar"}
+                        >
+                          {saved.scored ? "✓ Puntuada" : "Puntuar"}
+                        </button>
+                        <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: saved.correctAnswer } }))} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-dark-gray hover:bg-white/5 hover:text-foreground">Editar</button>
+                        <button onClick={() => handleDeleteBonus(q.id)} className="rounded-lg px-1.5 py-1 text-[10px] text-fifa-red/50 hover:text-fifa-red">Borrar</button>
+                      </div>
                     </div>
                   ) : (
                     <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: "" } }))} className="w-full rounded-lg bg-white/5 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10">+ Cargar respuesta</button>
