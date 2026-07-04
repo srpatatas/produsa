@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { teams } from "@/data/teams";
 import { cn } from "@/lib/utils";
+
+const teamOptions = Object.values(teams)
+  .map((t) => ({ value: t.id, label: t.name }))
+  .sort((a, b) => a.label.localeCompare(b.label));
 
 interface AdminBonusTabProps {
   flashStatus: (status: "saved" | "error") => void;
@@ -39,6 +44,11 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   const [questionEdit, setQuestionEdit] = useState<{ label: string; subtitle: string; sourceType: string; lockScope: string; excludedTeams: string; teamFilter: string }>({ label: "", subtitle: "", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "", teamFilter: "" });
   const [showAddQuestion, setShowAddQuestion] = useState(false);
   const [newQuestion, setNewQuestion] = useState<{ id: string; label: string; subtitle: string; points: string; sourceType: string; lockScope: string; excludedTeams: string; teamFilter: string }>({ id: "", label: "", subtitle: "", points: "1", sourceType: "teams", lockScope: "fecha-1", excludedTeams: "", teamFilter: "" });
+
+  const [participantOptions, setParticipantOptions] = useState<{ value: string; label: string }[]>([]);
+  const [playerOptions, setPlayerOptions] = useState<{ value: string; label: string }[]>([]);
+  const [answerDropdownId, setAnswerDropdownId] = useState<string | null>(null);
+  const [answerSearch, setAnswerSearch] = useState("");
 
   const loadBonusQuestions = async () => {
     const res = await fetch("/api/admin/bonus-questions");
@@ -109,6 +119,12 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
   useEffect(() => {
     if (!bonusQuestionsLoaded) loadBonusQuestions();
     if (!bonusLoaded) loadBonusResults();
+    fetch("/api/participants").then((r) => r.ok ? r.json() : { participants: [] })
+      .then((d) => setParticipantOptions(d.participants.map((p: { name: string }) => ({ value: p.name, label: p.name }))))
+      .catch(() => {});
+    fetch("/api/players").then((r) => r.ok ? r.json() : { players: [] })
+      .then((d) => setPlayerOptions(d.players.map((p: { name: string; teamId: string }) => ({ value: `${p.name} (${p.teamId})`, label: `${p.name} (${p.teamId})` }))))
+      .catch(() => {});
   }, [bonusQuestionsLoaded, bonusLoaded]);
 
   const handleSaveBonus = async (questionId: string) => {
@@ -229,6 +245,18 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
     } finally {
       setBonusSaving(null);
     }
+  };
+
+  const getOptionsForQuestion = (q: typeof bonusQuestions[0]) => {
+    if (q.sourceType === "teams") {
+      const excluded = q.excludedTeams ? new Set(q.excludedTeams.split(",").map((s) => s.trim())) : null;
+      return excluded ? teamOptions.filter((o) => !excluded.has(o.value)) : teamOptions;
+    }
+    if (q.sourceType === "participants") return participantOptions;
+    if (q.sourceType === "players") {
+      return q.teamFilter ? playerOptions.filter((o) => o.value.endsWith(`(${q.teamFilter})`)) : playerOptions;
+    }
+    return [];
   };
 
   const grouped: Record<string, typeof bonusQuestions> = {};
@@ -485,16 +513,76 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                   </div>
 
                   {!isEditingQ && (isEditingAnswer ? (
-                    <div className="flex items-center gap-1.5">
-                      <input
-                        type="text"
-                        value={edit.answer}
-                        onChange={(e) => setBonusEdits((prev) => ({ ...prev, [q.id]: { ...prev[q.id], answer: e.target.value } }))}
-                        placeholder="Respuesta correcta"
-                        className="flex-1 rounded-lg bg-surface px-2.5 py-1.5 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
-                      />
-                      <button onClick={() => handleSaveBonus(q.id)} disabled={isSaving} className="rounded-lg bg-fifa-green/20 px-2 py-1 text-xs text-fifa-green hover:bg-fifa-green/30">✓</button>
-                      <button onClick={() => setBonusEdits((prev) => { const next = { ...prev }; delete next[q.id]; return next; })} className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground">✗</button>
+                    <div className="relative">
+                      {q.sourceType === "exact_value" ? (
+                        <div className="flex items-center gap-1.5">
+                          <input
+                            type="number"
+                            inputMode="numeric"
+                            value={edit.answer}
+                            onChange={(e) => setBonusEdits((prev) => ({ ...prev, [q.id]: { ...prev[q.id], answer: e.target.value.replace(/[^0-9]/g, "") } }))}
+                            placeholder="Valor correcto"
+                            className="flex-1 rounded-lg bg-surface px-2.5 py-1.5 text-xs text-foreground outline-none ring-1 ring-white/5 focus:ring-fifa-teal/40 placeholder:text-fifa-dark-gray/30"
+                          />
+                          <button onClick={() => handleSaveBonus(q.id)} disabled={isSaving} className="rounded-lg bg-fifa-green/20 px-2 py-1 text-xs text-fifa-green hover:bg-fifa-green/30">✓</button>
+                          <button onClick={() => { setBonusEdits((prev) => { const next = { ...prev }; delete next[q.id]; return next; }); setAnswerDropdownId(null); }} className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground">✗</button>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => { setAnswerDropdownId(answerDropdownId === q.id ? null : q.id); setAnswerSearch(""); }}
+                              className={cn(
+                                "flex flex-1 items-center justify-between rounded-lg bg-surface px-2.5 py-1.5 text-xs text-left ring-1 transition-all",
+                                answerDropdownId === q.id ? "ring-fifa-teal/40" : "ring-white/5 hover:ring-white/15",
+                                edit.answer ? "text-foreground" : "text-fifa-dark-gray/40",
+                              )}
+                            >
+                              <span className="truncate">{edit.answer || "Elegir..."}</span>
+                              <span className="text-base text-fifa-dark-gray/70">▾</span>
+                            </button>
+                            <button onClick={() => handleSaveBonus(q.id)} disabled={isSaving || !edit.answer} className="rounded-lg bg-fifa-green/20 px-2 py-1 text-xs text-fifa-green hover:bg-fifa-green/30 disabled:opacity-30">✓</button>
+                            <button onClick={() => { setBonusEdits((prev) => { const next = { ...prev }; delete next[q.id]; return next; }); setAnswerDropdownId(null); }} className="rounded-lg px-2 py-1 text-xs text-fifa-dark-gray hover:text-foreground">✗</button>
+                          </div>
+                          {answerDropdownId === q.id && (
+                            <div className="absolute z-[60] mt-1 w-full rounded-xl bg-card-bg shadow-xl shadow-black/30 ring-1 ring-white/10">
+                              <div className="p-2">
+                                <input
+                                  type="text"
+                                  value={answerSearch}
+                                  onChange={(e) => setAnswerSearch(e.target.value)}
+                                  placeholder="Buscar..."
+                                  autoFocus
+                                  className="w-full rounded-lg bg-surface px-3 py-1.5 text-xs text-foreground outline-none placeholder:text-fifa-dark-gray/30"
+                                />
+                              </div>
+                              <div className="max-h-40 overflow-y-auto px-1 pb-1">
+                                {getOptionsForQuestion(q).filter((o) => o.label.toLowerCase().includes(answerSearch.toLowerCase())).map((o) => (
+                                  <button
+                                    key={o.value}
+                                    type="button"
+                                    onClick={() => {
+                                      setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: o.value } }));
+                                      setAnswerDropdownId(null);
+                                      setAnswerSearch("");
+                                    }}
+                                    className={cn(
+                                      "w-full rounded-lg px-3 py-1.5 text-left text-xs transition-colors",
+                                      o.value === edit.answer ? "bg-fifa-teal/20 text-fifa-teal" : "text-foreground hover:bg-white/5",
+                                    )}
+                                  >
+                                    {o.label}
+                                  </button>
+                                ))}
+                                {getOptionsForQuestion(q).filter((o) => o.label.toLowerCase().includes(answerSearch.toLowerCase())).length === 0 && (
+                                  <p className="px-3 py-2 text-xs text-fifa-dark-gray/40">Sin resultados</p>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ) : saved ? (
                     <div className="space-y-1.5">
@@ -514,7 +602,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
                       </div>
                     </div>
                   ) : (
-                    <button onClick={() => setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: "" } }))} className="w-full rounded-lg bg-white/5 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10">+ Cargar respuesta</button>
+                    <button onClick={() => { setBonusEdits((prev) => ({ ...prev, [q.id]: { answer: "" } })); if (q.sourceType !== "exact_value") setAnswerDropdownId(q.id); }} className="w-full rounded-lg bg-white/5 py-1.5 text-xs text-fifa-dark-gray hover:text-foreground hover:bg-white/10">+ Cargar respuesta</button>
                   ))}
                 </div>
               );
