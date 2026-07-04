@@ -372,7 +372,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       FRA: [
         "Francia tiene las academias, la estructura, los recursos. Nosotros tenemos el corazón. Y como decía Hemingway, el coraje es gracia bajo presión",
         "Los franceses inventaron la revolución. Nosotros también hacemos revoluciones, pero en la cancha, con menos recursos y más convicción",
-        "Francia es como una multinacional del fútbol. Nosotros somos una PyME con un corazón que no se rinde. A veces la PyME le gana a la multinacional",
+        "Los franceses hacen el mejor vino del mundo y esperan décadas para tomarlo. Pero el fútbol no es bodega: acá la cosecha se toma el mismo día. Y en los partidos de un solo día, el paladar fino ayuda menos que la sed",
         "Los que tenemos enfrente vienen criados en las mejores academias de Europa. Nosotros venimos de la tierra colorada. Pero la tierra colorada tiene alma",
         "Los franceses tienen la alta cocina: platos chiquitos, técnica perfecta, todo medido. Nosotros comemos guiso: abundante y con lo que hay. En noventa minutos se sabe qué alimenta más",
         "Francia es una tormenta eléctrica: los rayos salen de cualquier parte y van todos al centro del arco. Yo soy hombre de campo. En Rafaela, cuando venía la tormenta, no había pararrayos: había que resguardarse. Y nunca debajo del árbol, porque el rayo cae ahí",
