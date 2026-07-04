@@ -51,7 +51,8 @@ export function ComodinDock({ isPlaced, isPlacementMode, rejectMessage, suppress
   const showRandomPhrase = useCallback(() => {
     setPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
     setShowBubble(true);
-    setTimeout(() => setShowBubble(false), 4000);
+    const duration = Math.min(Math.max(phrase.length * 80, 4000), 16000);
+    setTimeout(() => setShowBubble(false), duration);
   }, [phrases]);
 
   useEffect(() => {
