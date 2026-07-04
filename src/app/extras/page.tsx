@@ -430,7 +430,7 @@ function QuestionCarousel({ questions, totalUsers, participants }: { questions: 
               ) : (
                 <div className="space-y-2.5">
                   {question.grouped.map((g) => (
-                    <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={question.correctAnswer ? g.answer === question.correctAnswer : null} sourceType={question.sourceType} participants={participants} />
+                    <AnswerRow key={g.answer} g={g} totalUsers={totalUsers} isCorrect={question.correctAnswer ? question.correctAnswer.split(",").map((s) => s.trim()).includes(g.answer) : null} sourceType={question.sourceType} participants={participants} />
                   ))}
                 </div>
               )}
