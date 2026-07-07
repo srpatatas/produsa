@@ -65,8 +65,8 @@ export const knockoutMatches: KnockoutMatch[] = [
   // Quarter-finals — FIFA official bracket (times converted from ART to UTC +3h)
   { id: "QF-1", round: "QF", matchNumber: 1, homeSlot: kw("R16-1"), awaySlot: kw("R16-2"), kickoff: "2026-07-09T20:00:00Z", venue: "Gillette Stadium", city: "Boston" },
   { id: "QF-2", round: "QF", matchNumber: 2, homeSlot: kw("R16-3"), awaySlot: kw("R16-4"), kickoff: "2026-07-10T19:00:00Z", venue: "SoFi Stadium", city: "Los Ángeles" },
-  { id: "QF-3", round: "QF", matchNumber: 3, homeSlot: kw("R16-5"), awaySlot: kw("R16-6"), kickoff: "2026-07-12T01:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
-  { id: "QF-4", round: "QF", matchNumber: 4, homeSlot: kw("R16-7"), awaySlot: kw("R16-8"), kickoff: "2026-07-11T21:00:00Z", venue: "Arrowhead Stadium", city: "Kansas City" },
+  { id: "QF-3", round: "QF", matchNumber: 3, homeSlot: kw("R16-5"), awaySlot: kw("R16-6"), kickoff: "2026-07-11T21:00:00Z", venue: "Hard Rock Stadium", city: "Miami" },
+  { id: "QF-4", round: "QF", matchNumber: 4, homeSlot: kw("R16-7"), awaySlot: kw("R16-8"), kickoff: "2026-07-12T01:00:00Z", venue: "Arrowhead Stadium", city: "Kansas City" },
 
   // Semi-finals — FIFA official bracket (times converted from ART to UTC +3h)
   { id: "SF-1", round: "SF", matchNumber: 1, homeSlot: kw("QF-1"), awaySlot: kw("QF-2"), kickoff: "2026-07-14T19:00:00Z", venue: "AT&T Stadium", city: "Dallas" },
