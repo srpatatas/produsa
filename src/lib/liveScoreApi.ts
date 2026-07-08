@@ -8,6 +8,7 @@ const matchById = new Map(matches.map((m) => [m.id, m]));
 const API_BASE = "https://v3.football.api-sports.io";
 const CACHE_TTL_MS = 15_000;
 const LIVE_STATUSES = new Set(["1H", "HT", "2H", "ET", "P", "BT", "LIVE"]);
+const FINISHED_STATUSES = new Set(["FT", "AET", "PEN"]);
 
 const FIXTURE_IDS = new Set(Object.keys(fixtureToMatch).map(Number));
 
@@ -96,7 +97,8 @@ export async function fetchLiveScores(
   for (const f of data.response) {
     const fixtureId = f.fixture.id as number;
     if (!FIXTURE_IDS.has(fixtureId)) continue;
-    if (!LIVE_STATUSES.has(f.fixture.status.short)) continue;
+    const status = f.fixture.status.short as string;
+    if (!LIVE_STATUSES.has(status) && !FINISHED_STATUSES.has(status)) continue;
 
     const matchId = fixtureToMatch[fixtureId];
     const match = matchById.get(matchId);

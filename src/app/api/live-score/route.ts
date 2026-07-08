@@ -83,8 +83,18 @@ export async function GET() {
     }
   }
 
+  const DONE_STATUSES = new Set(["FT", "AET", "PEN"]);
   for (const [matchId, score] of Object.entries(scores)) {
     trackedLive.set(matchId, score);
+    if (DONE_STATUSES.has(score.status)) {
+      finished.push(matchId);
+      try {
+        await saveFinishedMatch(matchId, score);
+      } catch (err) {
+        console.error(`[live-score] Failed to save finished match ${matchId}:`, err);
+      }
+      trackedLive.delete(matchId);
+    }
   }
 
   const synced = await syncFinishedResults();
