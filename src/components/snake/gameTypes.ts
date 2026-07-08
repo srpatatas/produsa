@@ -56,4 +56,5 @@ export const ENEMY_IMAGES = [
   "/images/comodin-fecha-3.jpg",
   "/images/comodin-R32.jpg",
   "/images/comodin-R16.jpg",
+  "/images/comodin-QF.jpg",
 ];
