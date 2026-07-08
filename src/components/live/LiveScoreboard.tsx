@@ -536,6 +536,64 @@ const VOICES: Record<string, PersonalityVoice> = {
       if (pos <= 3) return `${n} va ${pos}°. Ya está en el área. Falta la definición, que es lo único que la historia recuerda`;
       return pick([`${n} va ${pos}°. Todavía está a tiempo: yo di vuelta mundiales que arrancaron torcidos`, `${n} en el puesto ${pos}. El potrero enseña que de atrás también se llega, pero hay que gambetear más`]);
     },
+    lecture: {
+      FRA: [
+        "Platini dijo que lo que Zidane hacía con una pelota, yo lo hacía con una naranja. Gracias, Michel. Ahora imaginate lo que hacía con una pelota",
+        "En el 2022 Mbappé casi me arruina la coronación de Lío desde acá arriba. Tres goles en una final perdida. Ese pibe tiene algo. Pero la copa la tenemos nosotros",
+        "Francia juega como si el fútbol fuera un desfile. Y a los desfiles se los desarma con un caño en el momento justo",
+        "Los franceses le cortaron la cabeza a sus reyes. A mí también me quisieron cortar la mía. Sobreviví: ahora la uso para sostener la corona",
+        "El DT de Paraguay dijo que Francia es una tormenta eléctrica. Puede ser. Yo jugué con tormenta, con mafia y con la FIFA en contra. A la tormenta también se le hace un caño",
+      ],
+      MAR: [
+        "En el mundo árabe me quieren como en Nápoles. Dirigí allá y me trataron como rey antes de que tuviera corona",
+        "Marruecos ganó su grupo en el 86 cuando nadie los respetaba, adelante de Inglaterra y Portugal. Ese año los ninguneados hicimos historia: ellos su grupo, yo la copa",
+        "Los marroquíes juegan con la bronca linda del subestimado. Esa bronca yo la conozco de Fiorito: es nafta pura",
+        "Marruecos llegó a semis en Qatar corriendo y rezando. A mí me rezan, así que sé cómo funciona: la fe mueve pelotas",
+        "Ojo con Hakimi, que juega de lateral con alma de 10. Un defensor que crea es un invento del diablo, y de inventos del diablo yo sé bastante",
+      ],
+      ESP: [
+        "Yo jugué en España. Goikoetxea me destrozó el tobillo y volví en tres meses. A España la quiero con rencor, que es una forma profunda de querer",
+        "El tiki-taka está lindo, pero España ganó su mundial cuando aprendió a lastimar además de tocar. Tocar sin lastimar es un ensayo con público",
+        "En Barcelona no me entendieron y en Sevilla me amaron. España es así: te rompe o te abraza, depende del vestuario que te toque",
+        "Los españoles inventaron la siesta y la posesión: dos maneras de tener algo sin que pase nada. El día que despiertan, son campeones del mundo",
+        "De Bilbao me llevé una cicatriz y una lección: al que patea fuerte se le gana pisándole la pelota en su propia área. Duele más que la patada",
+      ],
+      BEL: [
+        "A Bélgica le hice dos goles en la semifinal del 86, y el segundo lo quiero como a un hijo. Los belgas saben lo que es verme venir",
+        "Hay una foto del 82 donde seis belgas me miran a mí solo. Seis. La tienen enmarcada ellos. Yo tengo la copa",
+        "Bélgica siempre tiene equipo para ganar y siempre encuentra la manera de no hacerlo. Eso no es mala suerte: es miedo con camiseta linda",
+        "A mí me marcaban de a seis y el partido era once contra uno. Cuarenta años después vamos a ver si aprendieron a marcar de a uno",
+        "La generación dorada envejeció esperando su momento. El oro que no se gasta a tiempo termina en un museo",
+      ],
+      NOR: [
+        "Noruega le ganó a Brasil y el mundo se cae de espaldas. Yo no: ya les habían ganado en el 98 cuando nadie miraba. Con Brasil tienen un tema personal",
+        "Haaland mete goles como una máquina, pero recién ahora cursa la materia difícil: un mundial de verdad. Bienvenido, vikingo",
+        "Los noruegos no tienen historia mundialista: tienen presente. A veces es mejor. Nadie te pesa en la espalda",
+        "En Noruega se juega con frío de verdad. Yo jugué con fiebre, con el tobillo roto y con la FIFA en contra. El frío es el rival más honesto que existe",
+        "El vikingo es grandote pero tiene pies de pibe de potrero. Los grandotes con técnica son un invento del diablo, y ya dije lo que opino de esos inventos",
+      ],
+      ENG: [
+        "Inglaterra. INGLATERRA. El 22 de junio del 86 hice los dos goles más famosos de la historia, con cuatro minutos de diferencia. Uno con la mano de Dios y otro con los pies del Diego",
+        "A Shilton todavía le duele. Cuarenta años esperando una disculpa que no va a llegar. Fue la mano de Dios, Peter. Y Dios no pide perdón",
+        "El del 86 no fue un partido: fue justicia poética. Fue recuperar algo que no era fútbol. Los ingleses saben perfectamente de qué hablo",
+        "El Gol del Siglo empezó en mi propio campo y terminó en la historia. Víctor Hugo preguntó de qué planeta vine. De Fiorito, hermano. Queda más lejos",
+        "Si Inglaterra llega a la final, avisen que bajo a jugarles con una sola mano. Ya saben cuál",
+      ],
+      ARG: [
+        "Argentina juega y yo no miro: rezo, puteo, sufro y festejo, todo junto. Ser hincha de la Selección es mi único trabajo desde que me mudé",
+        "Lío ya tiene su copa y yo la grité desde acá arriba más fuerte que nadie. Ahora quiere otra. Dale, Lío: la 10 aguanta todo",
+        "La camiseta argentina no se explica. Te la ponés y pesa tres estrellas. La del medio es mía... perdón, nuestra",
+        "Yo bendigo a la Selección, pero los partidos los ganan los que corren. Yo acompaño desde el cielo, que es como el banco de suplentes pero con mejor vista",
+        "Si Argentina levanta la copa acá, en el país donde me cortaron las piernas, se cierra el círculo perfecto. Y de círculos perfectos yo sé: pregúntenle a la pelota",
+      ],
+      SUI: [
+        "Suiza es el país donde vive la FIFA. Solo por eso ya arrancan perdiendo 1 a 0 conmigo",
+        "Los suizos hacen relojes perfectos, pero el fútbol se juega con el reloj parado: mis mejores diez segundos valieron para siempre",
+        "Suiza nunca se mete en guerras. Pero en cuartos de final no existe la neutralidad: o matás o te matan, deportivamente hablando",
+        "A los ordenaditos se les gana con desorden. Yo era el caos con la 10 en la espalda. Suiza odia el caos: ahí tienen el plan de partido, gratis",
+        "Detrás de alguna montaña suiza está la bóveda de la FIFA. Si ganan ellos, acá no fue neutral nada. Lo dejo dicho desde ya",
+      ],
+    },
   },
 };
 
