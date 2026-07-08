@@ -75,6 +75,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-fecha-3.jpg",
   "/images/comodin-R32.jpg",
   "/images/comodin-R16.jpg",
+  "/images/comodin-QF.jpg",
 ];
 
 export const COMODIN_HIT_PHRASES = [
@@ -83,6 +84,7 @@ export const COMODIN_HIT_PHRASES = [
   ["I stopped Diego! Tremendous!", "Not even D10S gets past me!", "Diego, you're fired!", "I built a wall and it worked!"],
   ["¡Yo no autoricé esta jugada!", "¡Guardo conmigo el dolor!", "¡Ni Maradona pasa por Olivos!", "¡La culpa es de Macri!"],
   ["¡Esto es un parto de nalga!", "¡El resistir está grabado!", "¡Ni Bruce Willis me pasa!", "¡Carreta delante del caballo!"],
+  ["¡Me atajé a mí mismo, no lo puedo creer!", "¡El único que para a Diego es Diego!", "¡A Dios no lo gambetea ni Dios!", "¡Perdoname pibe, pero el área es mía!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
@@ -91,4 +93,5 @@ export const COMODIN_DODGE_PHRASES = [
   ["He got past me! Unfair!", "I need a bigger wall!", "Nobody dribbles like that!", "The D10S is too good!"],
   ["¡Se me fue! ¡Yo soy ajeno a esto!", "¡Ni con zoom lo paro!", "¡Es peor que la fiesta de Olivos!", "¡Maradona fue de Argentinos, qué esperabas!"],
   ["¡Es un cazador de utopías!", "¡Remando en dulce de leche!", "¡Me gambeteó como Einstein al átomo!", "¡No hay imposibles para ese pibe!"],
+  ["¡Ese soy yo, nadie me para!", "¡Gambeta sagrada, ni yo me la creo!", "¡Se fue como en el 86, de memoria!", "¡Barrilete cósmico, obvio: el planeta es mío!"],
 ];
