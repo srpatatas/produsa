@@ -635,4 +635,75 @@ export const BANKERS: BankerConfig[] = [
       ],
     },
   },
+  // D10S — el banquero que respeta a los valientes y bardea a los que arreglan
+  {
+    image: "/images/comodin-QF.jpg",
+    offerMultiplier: 0.87,
+    offer: {
+      smug: [
+        "Tomá esto y comprate unas orejas de ratón, para lo que te queda en el tablero...",
+        "Después de los maletines que abriste, esto es un regalo del cielo. Literal: mirá quién te lo está dando",
+        "Te quedó el tablero como mi tobillo en el 90: hinchado y sin nada bueno adentro",
+        "Esta oferta es más de lo que merecés, pibe. Reventaste todo lo grande vos solito",
+        "Agarrá esto. Se te escapó la tortuga hace tres maletines y ni te diste cuenta",
+      ],
+      neutral: [
+        "La oferta está bien. Ahora, los valientes no negocian. Decidí vos qué sos",
+        "Yo nunca agarré lo seguro en mi vida. Por eso soy Dios y vos estás dudando",
+        "Plata buena, eh. Si la agarrás no pasa nada... pecho frío",
+        "Mirá que el tablero es traicionero como un lateral con mañas. La oferta, en cambio, es plata segura",
+        "Esto es como un cambio de frente: podés jugarla segura o meter el pase del mundial. Vos sabrás",
+        "Te ofrezco esto. La pelota no se mancha, pero la plata tampoco, pibe",
+      ],
+      desperate: [
+        "¡Agarrá esta plata! ¡Es más de lo que me pagaron en Boca y en el Barsa juntos!",
+        "¡Tomá la oferta, pibe! ¡Ni yo junté tanta suerte junta, y mirá que era Dios!",
+        "¡Esta oferta es un golazo de mitad de cancha! ¡No la dejes pasar!",
+        "¡Te estoy dando el mundial servido! ¡Agarralo antes de que me arrepienta y llame al VAR!",
+        "¡AGARRÁ! ¡Ni a Shilton le dieron tantas oportunidades!",
+      ],
+    },
+    noDeal: {
+      smug: [
+        "Seguí nomás, total lo bueno ya lo reventaste vos",
+        "Vos seguí, que el tablero está más vacío que un clásico sin hinchada",
+        "Rechazaste dos mangos. Bueno, coherente: no había nada que rechazar",
+        "Dale, seguí. La tortuga ya se escapó igual",
+      ],
+      neutral: [
+        "Así se juega: sin miedo. Me gusta, pibe",
+        "Rechazaste. Bien. El miedo no sirve ni para cruzar la calle",
+        "No deal. El potrero te hubiera aplaudido esa",
+        "Seguís vivo y seguís jugando. Es lo único que pedí siempre",
+        "Bien ahí. Los que arreglan temprano no entran en la historia",
+      ],
+      desperate: [
+        "¡ESTE PIBE TIENE SANGRE DE POTRERO! ¡NO LE IMPORTA NADA!",
+        "¡Rechazó TODO! ¡Barrilete cósmico, ¿de qué planeta viniste?!",
+        "¡NO PUEDO CREER LO QUE VEO! ¡Ni yo era tan guapo, y jugué un mundial rengo!",
+        "¡Le dije Dios a este juego y me está ganando el pibe!",
+        "¡Seguís?! ¡SEGUÍS! ¡Esto es el gol del siglo de los deals!",
+      ],
+    },
+    deal: {
+      smug: [
+        "Agarraste dos mangos. Algo es algo... pecho frío",
+        "Deal con lo que quedaba. La tortuga ya estaba en Ezeiza igual",
+        "Cerraste con lo mínimo. Bueno, del descenso también se vuelve",
+        "Te llevás algo. Poco, pero algo. Como un empate de visitante",
+      ],
+      neutral: [
+        "Cerraste bien, pibe. No es de valiente, pero es de vivo. Y los vivos también ganan",
+        "Deal. La plata no se mancha... pará, eso no era así",
+        "Trato hecho. No sos barrilete cósmico, pero tampoco sos pecho frío. Zona media",
+        "Bien negociado. Yo hubiera seguido, pero yo también terminé como terminé",
+      ],
+      desperate: [
+        "¡Te llevaste una fortuna! ¡Me desplumaste, y yo que venía de vuelta de todo!",
+        "¡Qué jugador! ¡Me sacaste hasta la corona! Andá, disfrutala, te la ganaste",
+        "¡Esto es un robo peor que el de los ingleses en el 66! ¡Pero te lo aplaudo!",
+        "¡Deal histórico! ¡Contale a tus nietos que le ganaste a Dios en su propio castillo!",
+      ],
+    },
+  },
 ];
