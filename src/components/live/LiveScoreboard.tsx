@@ -479,6 +479,59 @@ const VOICES: Record<string, PersonalityVoice> = {
       ],
     },
   },
+  "QF": { // D10S — el Diego emperador, bajado del cielo para los cuartos
+    goal: (s, m, _side, h, a) => pick([
+      `¡GOOOL de ${s}! ${h}-${a}. Barrilete cósmico... bueno, casi. Pero se festeja igual`,
+      `${s} en el ${m}'. ${h}-${a}. Ese gol lo firmé yo desde acá arriba. La mano de Dios sigue trabajando`,
+      `¡${s} la clavó! ${h}-${a}. Así se define, sin pedir permiso. Como en el 86, pero con más pasto`,
+      `${h}-${a}. Gol de ${s} en el ${m}'. La pelota no se mancha, pero hoy transpira`,
+      `¡Gol de ${s}! Minuto ${m}. Le pegó como se le pega a la gloria: de una y con fe`,
+      `¡${s}! ${h}-${a}. Eso se grita con el alma o no se grita, pibe`,
+    ]),
+    ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Se le escapó la tortuga... para adentro del arco propio`, `En contra de ${s}. Muchacho, a ese arco no. Los arcos propios son sagrados`, `Autogol en el ${m}'. Ni los ingleses me hicieron una maldad así`]),
+    redCard: (p, m) => pick([`¡Roja para ${p} en el ${m}'! A mí me expulsaron en el 82 y todavía me arde. Se sufre, pibe, pero se vuelve`, `${p} expulsado. Y si el árbitro se equivocó, ya sabe: Segurola y Habana 4310, séptimo piso`, `Roja para ${p}. En el 94 me sacaron de un mundial por menos. Sé lo que es que te corten las piernas`, `${p} afuera en el ${m}'. Al vestuario con la frente alta, que de ahí también se vuelve`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Cuidado pibe, que los árbitros tienen memoria y los dioses también`, `${p} amonestado. Por entradas así a mí a veces ni me cobraban falta`, `Amarilla para ${p}. Está jugando al límite. Al límite se juega bien o se termina temprano`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! La pelota no se mancha y el punto blanco tampoco. A definir con huevos`, `¡Penal! ${s} en el ${m}'. Yo pateé penales con el tobillo del tamaño de una pelota. Este muchacho no tiene excusa`, `¡${s} con penal! Silencio total. Estos momentos separan a los valientes de los pecho frío`]),
+    scoreless: (m) => pick([`${m}' y 0-0. A este partido le falta un enganche. Siempre falta un enganche. Yo estoy retirado, no insistan`, `0-0 al minuto ${m}. Están jugando con miedo. Y el miedo no sirve ni para cruzar la calle`, `${m} minutos sin goles. Pecho frío el que no patee al arco en los próximos cinco minutos`, `Minuto ${m}, 0-0. Desde acá arriba veo todo, y lo que veo es que nadie quiere la pelota. Dénmela a mí, aunque sea de recuerdo`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Ahora se ve quién tiene sangre y quién tiene horchata`, `${h}-${a} y se termina. Los partidos se ganan cuando el otro se cansa de ser valiente`, `Final cerca, ${h}-${a}. En estos minutos yo pedía la pelota. Siempre. Esa es toda la diferencia`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}. Bien ahí, pibe. Al que le sale, le sale`, `¡${n} con el comodín arriba! Te bendigo desde el castillo`, `El comodín de ${n} va ganando ${h}-${a}. Eso no es suerte, eso es potrero mental`]),
+    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Te cortaron las piernas, hermano. Lo sé mejor que nadie`, `El comodín de ${n} con el ${h}-${a}... se te escapó la tortuga`, `${n} sufre con el comodín. Tranquilo: yo perdí finales y mirá dónde terminé. Con corona`]),
+    comodinDraw: (n, m) => pick([`${n} empata con el comodín en el ${m}'. Ni gloria ni Segurola. Aguantá`, `El comodín de ${n} y el empate... minuto ${m}. Falta el toque del enganche, siempre falta el enganche`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! ¡Barrilete cósmico! ¿De qué planeta viniste, ${n}?`, `¡Exacto de ${n}! ${h}-${a}. Eso no es suerte, eso es zurda de Dios`, `¡${n} le pegó justo al ${h}-${a}! Vení que te corono acá mismo, en el castillo`]),
+    nobodyRight: () => pick(["Nadie le pegó al resultado. Cuánto pecho frío junto, mamita querida", "Cero aciertos. Y después me preguntan por qué me mudé al cielo", "Nadie acertó. El fútbol es traicionero, pibe: cuando creés que la tenés, se te escapa la tortuga"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando. El resto, a Segurola y Habana a pedir disculpas`, `${names} nada más aciertan. Los demás miran el fútbol, estos lo entienden`]),
+    idle: () => pick([
+      "Me dieron el pase libre allá arriba para bajar a los cuartos. Nadie supo decirme que no. Nunca nadie supo",
+      "Este castillo me lo prestaron. El mío es más grande, pero desde acá no se ve",
+      "La pelota no se mancha. Lo dije en mi despedida y lo firmo hoy, con corona y todo",
+      "Al ratón le dije: vos organizá el parque, que del fútbol me encargo yo",
+      "Alfiki cita a Einstein, a Borges, a Sun Tzu. Yo no cito a nadie: a mí me citan",
+      "Que la sigan chupando: dije que volvía para los cuartos y acá estoy, con capa y todo",
+      "Vi el fútbol desde arriba estos años. Se ven todos los offsides, no saben lo que es eso",
+      "Yo me equivoqué y pagué. Pero la pelota no se mancha, eso jamás",
+      "Acá en el castillo hay una princesa que canta. Le dije que la Claudia cantaba mejor y me sacaron de la fila",
+      "Segurola y Habana 4310, séptimo piso. Cualquier árbitro de cuartos que se haga el vivo, ahí lo espero, wachiturro",
+      "A este mundial le falta un 10 de los de antes. Ahora corren todos y piensan pocos",
+      "El Pollo grita, el profesor filosofa, Albertito pide perdón. Yo jugué. Esa es toda la diferencia",
+      "Me pusieron emperador. Emperador es el que jugó un mundial con el tobillo reventado, no el que tiene castillo",
+      "Extraño el potrero. Acá el pasto es perfecto y eso no sirve: la gambeta se aprende donde pica mal",
+      "En Pelotusa los comodines me quieren atajar. Avisenles que a Dios no lo atajó ni Shilton",
+    ]),
+    taunt: (n) => pick([
+      `${n}, se te escapó la tortuga con esa predicción`,
+      `${n}, sos más pecho frío prediciendo que esos que no cantan el himno`,
+      `${n}, Segurola y Habana 4310, séptimo piso. Te espero para hablar de tu pronóstico, wachiturro`,
+      `A ${n} le cortaron las piernas... no, mentira. Predijo mal solito`,
+      `${n}, esa predicción no entra ni con la mano de Dios`,
+    ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Aparece como aparecía yo en el área: sin avisar`;
+      if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Del cielo al infierno en una fecha. Conozco el viaje, se vuelve`;
+      if (pos === 1) return `${n} va primero. Está tocando el cielo con las manos. Y de cielo yo sé un poquito`;
+      if (pos <= 3) return `${n} va ${pos}°. Ya está en el área. Falta la definición, que es lo único que la historia recuerda`;
+      return pick([`${n} va ${pos}°. Todavía está a tiempo: yo di vuelta mundiales que arrancaron torcidos`, `${n} en el puesto ${pos}. El potrero enseña que de atrás también se llega, pero hay que gambetear más`]);
+    },
+  },
 };
 
 // Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
