@@ -145,7 +145,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
     name: "D10S",
     phrases: [
       "Vengo del cielo con permiso especial para los cuartos. Este comodín lo bendigo yo en persona",
-      "La pelota no se mancha. Tu comodín tampoco, si lo ponés donde te dice el corazón",
+      "Hay una iglesia que me reza, en serio existe. Deciles a los fieles que poner bien este comodín cuenta como ir a misa",
       "El Chiqui me robó la frase en la fecha 1. La pelota no se mancha, y los derechos de autor tampoco",
       "Este castillo me lo prestaron para atender. Pasá, poné el comodín y no toques nada que después me lo cobran",
       "En el 86 gané un mundial casi solo. Vos tenés que acertar UN partido. No me falles, pibe",

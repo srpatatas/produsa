@@ -495,10 +495,10 @@ const VOICES: Record<string, PersonalityVoice> = {
     scoreless: (m) => pick([`${m}' y 0-0. A este partido le falta un enganche. Siempre falta un enganche. Yo estoy retirado, no insistan`, `0-0 al minuto ${m}. Están jugando con miedo. Y el miedo no sirve ni para cruzar la calle`, `${m} minutos sin goles. Pecho frío el que no patee al arco en los próximos cinco minutos`, `Minuto ${m}, 0-0. Desde acá arriba veo todo, y lo que veo es que nadie quiere la pelota. Dénmela a mí, aunque sea de recuerdo`]),
     lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Ahora se ve quién tiene sangre y quién tiene horchata`, `${h}-${a} y se termina. Los partidos se ganan cuando el otro se cansa de ser valiente`, `Final cerca, ${h}-${a}. En estos minutos yo pedía la pelota. Siempre. Esa es toda la diferencia`]),
     comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}. Bien ahí, pibe. Al que le sale, le sale`, `¡${n} con el comodín arriba! Te bendigo desde el castillo`, `El comodín de ${n} va ganando ${h}-${a}. Eso no es suerte, eso es potrero mental`]),
-    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Te cortaron las piernas, hermano. Lo sé mejor que nadie`, `El comodín de ${n} con el ${h}-${a}... se te escapó la tortuga`, `${n} sufre con el comodín. Tranquilo: yo perdí finales y mirá dónde terminé. Con corona`]),
+    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Te cortaron las piernas, hermano. Lo sé mejor que nadie`, `Al comodín de ${n} le están pegando como me pegaban a mí: sin pelota y por atrás`, `${n} sufre con el comodín. Tranquilo: yo perdí finales y mirá dónde terminé. Con corona`]),
     comodinDraw: (n, m) => pick([`${n} empata con el comodín en el ${m}'. Ni gloria ni Segurola. Aguantá`, `El comodín de ${n} y el empate... minuto ${m}. Falta el toque del enganche, siempre falta el enganche`]),
     comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! ¡Barrilete cósmico! ¿De qué planeta viniste, ${n}?`, `¡Exacto de ${n}! ${h}-${a}. Eso no es suerte, eso es zurda de Dios`, `¡${n} le pegó justo al ${h}-${a}! Vení que te corono acá mismo, en el castillo`]),
-    nobodyRight: () => pick(["Nadie le pegó al resultado. Cuánto pecho frío junto, mamita querida", "Cero aciertos. Y después me preguntan por qué me mudé al cielo", "Nadie acertó. El fútbol es traicionero, pibe: cuando creés que la tenés, se te escapa la tortuga"]),
+    nobodyRight: () => pick(["Nadie le pegó al resultado. Cuánto pecho frío junto, mamita querida", "Cero aciertos. Y después me preguntan por qué me mudé al cielo", "Nadie acertó. Menos mal que ya estoy en el cielo, porque estas predicciones me matan de vuelta"]),
     fewRight: (names) => pick([`Solo ${names} le están pegando. El resto, a Segurola y Habana a pedir disculpas`, `${names} nada más aciertan. Los demás miran el fútbol, estos lo entienden`]),
     idle: () => pick([
       "Me dieron el pase libre allá arriba para bajar a los cuartos. Nadie supo decirme que no. Nunca nadie supo",
@@ -519,6 +519,8 @@ const VOICES: Record<string, PersonalityVoice> = {
       "eeeeeeeeeeeee... eeeeeeeee...",
       "Mi último grito mundialista fue contra Grecia, acá mismo, en el 94. Después me cortaron las piernas. Treinta y dos años tardé en volver: ellos tienen el mundial, yo tengo la corona",
       "De cero a héroe, dice la canción de esta película. Lo mío fue más largo: de Fiorito a héroe, de héroe a cero, y de cero a Dios",
+      "Todo lo que soy se lo debo a la Tota y a Don Diego. Hasta esta corona es de ellos",
+      "Yo a la FIFA le dije en la cara lo que nadie se animaba. Ahora ellos organizan el mundial y el comodín lo reparto yo. La historia acomoda",
     ]),
     taunt: (n) => pick([
       `${n}, se te escapó la tortuga con esa predicción`,

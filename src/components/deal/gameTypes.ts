@@ -653,7 +653,7 @@ export const BANKERS: BankerConfig[] = [
         "Plata buena, eh. Si la agarrás no pasa nada... pecho frío",
         "Mirá que el tablero es traicionero como un lateral con mañas. La oferta, en cambio, es plata segura",
         "Esto es como un cambio de frente: podés jugarla segura o meter el pase del mundial. Vos sabrás",
-        "Te ofrezco esto. La pelota no se mancha, pero la plata tampoco, pibe",
+        "La plata es buena. Pero la historia no se acuerda de los que agarraron la oferta: se acuerda de los que dijeron que no",
       ],
       desperate: [
         "¡Agarrá esta plata! ¡Es más de lo que me pagaron en Boca y en el Barsa juntos!",
@@ -668,7 +668,7 @@ export const BANKERS: BankerConfig[] = [
         "Seguí nomás, total lo bueno ya lo reventaste vos",
         "Vos seguí, que el tablero está más vacío que un clásico sin hinchada",
         "Rechazaste dos mangos. Bueno, coherente: no había nada que rechazar",
-        "Dale, seguí. La tortuga ya se escapó igual",
+        "Dale, seguí. Los maletines que abriste ya dijeron todo lo que había que decir de vos",
       ],
       neutral: [
         "Así se juega: sin miedo. Me gusta, pibe",
