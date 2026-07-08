@@ -517,7 +517,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       "Extraño el potrero. Acá el pasto es perfecto y eso no sirve: la gambeta se aprende donde pica mal",
       "En Pelotusa los comodines me quieren atajar. Avisenles que a Dios no lo atajó ni Shilton",
       "eeeeeeeeeeeee... eeeeeeeee...",
-      "Me preguntaron qué opino del nivel de los cuartos. Eeee... eeee... eeeeh... después les contesto",
+      "¿Vieron la ropa? Griego, como mi último grito mundialista, acá mismo, en el 94. Después me cortaron las piernas. Treinta y dos años después vuelvo al mismo país: ellos tienen el mundial, yo tengo la corona",
     ]),
     taunt: (n) => pick([
       `${n}, se te escapó la tortuga con esa predicción`,

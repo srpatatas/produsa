@@ -155,7 +155,7 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "Al VAR ahora lo superviso yo. Poné el comodín tranquilo",
       "Los cuartos de final son de valientes. Los pecho frío miran de afuera",
       "Barrilete cósmico se nace, no se hace. Pero un buen comodín te acerca bastante",
-      "¿Que qué opino de tu comodín? Eeee... eeeee... eeeh... buenísimo, pibe, buenísimo",
+      "eeeeeeeee... eeeeeeeee...",
     ],
     placementPhrase: "A ver, elegí el partido... y elegilo con la zurda, que con la derecha no sale nada bueno",
     rejectPhrases: [
