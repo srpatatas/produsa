@@ -517,7 +517,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       "Extraño el potrero. Acá el pasto es perfecto y eso no sirve: la gambeta se aprende donde pica mal",
       "En Pelotusa los comodines me quieren atajar. Avisenles que a Dios no lo atajó ni Shilton",
       "eeeeeeeeeeeee... eeeeeeeee...",
-      "¿Vieron la ropa? Griego, como mi último grito mundialista, acá mismo, en el 94. Después me cortaron las piernas. Treinta y dos años después vuelvo al mismo país: ellos tienen el mundial, yo tengo la corona",
+      "Mi último grito mundialista fue contra Grecia, acá mismo, en el 94. Después me cortaron las piernas. Treinta y dos años tardé en volver: ellos tienen el mundial, yo tengo la corona",
       "De cero a héroe, dice la canción de esta película. Lo mío fue más largo: de Fiorito a héroe, de héroe a cero, y de cero a Dios",
     ]),
     taunt: (n) => pick([
