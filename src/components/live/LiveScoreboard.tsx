@@ -516,6 +516,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       "Me pusieron emperador. Emperador es el que jugó un mundial con el tobillo reventado, no el que tiene castillo",
       "Extraño el potrero. Acá el pasto es perfecto y eso no sirve: la gambeta se aprende donde pica mal",
       "En Pelotusa los comodines me quieren atajar. Avisenles que a Dios no lo atajó ni Shilton",
+      "¡EEEEEEEEEEEEEEEEEEEE!",
     ]),
     taunt: (n) => pick([
       `${n}, se te escapó la tortuga con esa predicción`,
