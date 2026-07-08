@@ -518,6 +518,8 @@ const VOICES: Record<string, PersonalityVoice> = {
       "En Pelotusa los comodines me quieren atajar. Avisenles que a Dios no lo atajó ni Shilton",
       "eeeeeeeeeeeee... eeeeeeeee...",
       "¿Vieron la ropa? Griego, como mi último grito mundialista, acá mismo, en el 94. Después me cortaron las piernas. Treinta y dos años después vuelvo al mismo país: ellos tienen el mundial, yo tengo la corona",
+      "La ropa es del Hércules de la película: un dios criado entre mortales que tuvo que ganarse la vuelta al Olimpo. No sé de qué me suena esa historia",
+      "De cero a héroe, dice la canción de esta película. Lo mío fue más largo: de Fiorito a héroe, de héroe a cero, y de cero a Dios",
     ]),
     taunt: (n) => pick([
       `${n}, se te escapó la tortuga con esa predicción`,
