@@ -29,7 +29,7 @@ const SECTIONS = [
   { title: "Equipos", icon: "🌍", ids: ["ultimo-mundial", "valla-menos", "valla-mas", "revelacion", "abuela-choli", "fair-play", "anti-fair-play"], gradient: "from-fifa-purple via-fifa-blue to-fifa-teal" },
   { title: "Jugadores", icon: "⚽", ids: ["goleador", "balon-oro", "primer-gol-arg", "ultimo-gol-arg"], gradient: "from-emerald-600 via-teal-600 to-cyan-700" },
   { title: "Produsa", icon: "🎯", ids: ["primer-prode", "ultimo-prode"], gradient: "from-rose-600 via-pink-600 to-fuchsia-700" },
-  { title: "Eliminatorias", icon: "🥊", ids: ["golestotales-16vos", "posesion-caboverde", "pases-marruecos", "ck-francia", "tarjetas-octavos"], gradient: "from-indigo-600 via-violet-600 to-purple-700" },
+  { title: "Eliminatorias", icon: "🥊", ids: ["golestotales-16vos", "posesion-caboverde", "pases-marruecos", "ck-francia", "tarjetas-octavos", "faltas-franciamarruecos", "offsides-belgicaspain", "goles-cuartos"], gradient: "from-indigo-600 via-violet-600 to-purple-700" },
 ];
 
 function AnswerLabel({ answer, sourceType, participants }: { answer: string; sourceType: string; participants: Record<string, string> }) {
