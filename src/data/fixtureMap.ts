@@ -123,7 +123,9 @@ export const fixtureToMatch: Record<number, string> = {
   "1578539": "QF-1",
   "1581821": "QF-2",
   "1581037": "QF-3",
-  "1582681": "QF-4"
+  "1582681": "QF-4",
+  "1585131": "SF-1",
+  "1586077": "SF-2"
 };
 
 export const matchToFixture: Record<string, number> = Object.fromEntries(
