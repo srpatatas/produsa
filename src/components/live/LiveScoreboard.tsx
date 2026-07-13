@@ -1077,7 +1077,7 @@ const speakingLock = { holder: null as string | null, until: 0, lastSpeaker: nul
 
 // Debate mode: host dock (right, scope voice — Alfiki in R16) vs guest dock (left, Albertito).
 // An opener from one side arms the paired retort for the other side's next idle turn.
-const DEBATE_MATCH_IDS = ["R16-5", "R16-6"];
+const DEBATE_MATCH_IDS = ["SF-1"];
 const DEBATE_GUEST_VOICE = "R32";
 const usedDebates = new Set<string>();
 const debateState = { retortFor: null as "left" | "right" | null, retort: "" };
@@ -1194,6 +1194,95 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     from: "guest",
     opener: "Profe, una pregunta seria: ¿usted siempre contesta con una metáfora?",
     retort: "Me da vergüenza. Cuando me pasan todas juntas digo: ¿por qué digo todo? No tengo que hablar más. Pero hablo",
+  },
+  // ── SF debates: El Gato (host) vs Albertito (guest) ──
+  {
+    from: "guest",
+    opener: "Mauricio, qué lindo verte. Yo siempre dije que la culpa era tuya. Me alegra que estés acá para confirmarlo en persona",
+    retort: "Alberto, vos me culpaste cuatro años. Yo me culpo solo hace dos. La diferencia es que yo lo hago con autocrítica, no con cadena nacional",
+  },
+  {
+    from: "host",
+    opener: "Debí haber sido menos tibio cuando goberné. Lo reconozco públicamente y en Disney",
+    retort: "Yo también debí haber sido menos tibio. Bueno, yo debí haber sido menos todo. Pero el tibio eras vos, Mauricio",
+  },
+  {
+    from: "guest",
+    opener: "Cristina me dijo que había funcionarios que no funcionaban. Tenía razón: yo era uno de ellos",
+    retort: "Mirá, en eso coincidimos: los dos tuvimos gabinetes donde cada uno jugaba para su propia selección. La diferencia es que yo al menos elegí a los míos",
+  },
+  {
+    from: "host",
+    opener: "Mi mayor error fue el gradualismo. Se necesitaba más decisión y menos PowerPoint",
+    retort: "Tu mayor error fue el gradualismo. Mi mayor error fue... bueno, la lista es larga. Pero por lo menos tuve fiesta en Olivos",
+  },
+  {
+    from: "guest",
+    opener: "El único responsable soy yo. De todo. Siempre. De lo que pasó, de lo que no pasó, y de este partido",
+    retort: "Alberto, si sos responsable de todo, también sos responsable de que yo esté acá con orejas de gato. Gracias, supongo",
+  },
+  {
+    from: "host",
+    opener: "En Boca gané 17 títulos. En la presidencia, una legislativa. Cada uno tiene su hábitat natural",
+    retort: "Yo en el gobierno ganamos una pandemia... ah no, perdón. Manejamos una pandemia. Bueno, estuvimos durante una pandemia. Dejémoslo ahí",
+  },
+  {
+    from: "guest",
+    opener: "Yo este partido lo miro por zoom, como hacía con todo cuando gobernaba",
+    retort: "Alberto, estamos en el mismo estadio. No necesitás zoom. Sentate al lado mío y mirá el partido como la gente normal. Sé que es difícil para los dos",
+  },
+  {
+    from: "host",
+    opener: "Los Aristogatos son millonarios que los tiran al campo y tienen que volver caminando. Me identifico profundamente",
+    retort: "A mí me tiraron del gobierno y no tuve que caminar nada: me fui en helicóptero. Cada gato tiene su estilo, Mauricio",
+  },
+  {
+    from: "guest",
+    opener: "Macri, ¿puedo preguntarte algo en serio? ¿Vos también estás acá porque no te invitan a ningún otro lado?",
+    retort: "Alberto, a mí me invitó Disney. A vos te invité yo. Hay una diferencia de jerarquía que no voy a explicar porque estamos al aire",
+  },
+  {
+    from: "host",
+    opener: "Sí se puede, decíamos. No se pudo. Pero el fútbol siempre te da otra oportunidad. La política no",
+    retort: "La política me dio dos oportunidades: presidente y preso. Ninguna de las dos fue lo que esperaba. Pero el prode me trata mejor",
+  },
+  // ── SF team-specific: FRA ──
+  {
+    from: "guest",
+    team: "FRA",
+    opener: "Los franceses hacen reformas de verdad: jubilaciones, mercado laboral, todo junto. Nosotros ni pudimos sacar un DNU sin quilombo",
+    retort: "Alberto, nosotros no pudimos sacar ni la basura sin quilombo. Los franceses por lo menos se pelean por cosas importantes",
+  },
+  {
+    from: "host",
+    team: "FRA",
+    opener: "Mbappé corre como si el mundo le debiera algo. Yo corrí una campaña así. Después goberné caminando",
+    retort: "Yo ni corrí la campaña. Me llamó Cristina y dije que sí. Mbappé por lo menos se entrenó antes",
+  },
+  {
+    from: "guest",
+    team: "FRA",
+    opener: "Dato de mis clases en la UBA: Francia tiene más quesos que días del año. 365 quesos mínimo",
+    retort: "Alberto, vos dabas clases de derecho, no de quesos. Aunque tu gobierno fue bastante un queso, ahora que lo pienso",
+  },
+  // ── SF team-specific: ESP ──
+  {
+    from: "host",
+    team: "ESP",
+    opener: "España juega con posesión: tiene la pelota dos horas y hace un gol. Yo tuve el poder cuatro años e hice dos reformas",
+    retort: "Yo tuve el poder cuatro años y no hice ni una. Pero al menos no me dijeron gradualista. Me dijeron otras cosas peores",
+  },
+  {
+    from: "guest",
+    team: "ESP",
+    opener: "Los españoles ponen veinte bares por cuadra y viven bien. Yo puse veinte ministerios y vivimos mal",
+    retort: "Alberto, yo cerré ministerios y también vivimos mal. Capaz el problema no son los ministerios. Capaz el problema somos nosotros",
+  },
+  {
+    from: "host",
+    team: "ESP",
+    opener: "El tiki-taka es la versión futbolística del gradualismo: parece que avanza pero a veces te dormís mirándolo",
+    retort: "Yo me dormía en los actos. En los de verdad, no en los de la tele. Pero la camiseta de España la usaría: tiene mi color, el rojo. Bueno, tu color era el amarillo. Cada uno con su ideología",
   },
 ];
 
