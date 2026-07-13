@@ -165,7 +165,30 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "¡Ese no! Ni con la mano de Dios sale ese resultado. Y mirá que la mano es mía",
     ],
   },
-  "SF": { scope: "SF", image: "/images/comodin-SF.jpg", name: "Comodín Semifinales", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
+  "SF": {
+    scope: "SF",
+    image: "/images/comodin-SF.jpg",
+    name: "El Gato",
+    phrases: [
+      "Los Aristogatos perdieron todo y volvieron caminando a la mansión. Yo perdí todo y volví a Disney. Pero el comodín, ese no lo pierdo: elegí bien",
+      "Me dicen gato desde el 2015. Ahora tengo orejas de gato en Disney. La vida te da lo que pedís, pero con un delay de once años",
+      "En Boca gané 17 títulos con planificación. En la presidencia fui gradualista y me fueron. El comodín no es para tibios: poné con convicción",
+      "Vine a París a ver la semi. Acá nadie sabe que fui presidente. Es lo más lindo que me pasó desde que dejé de serlo. Poné el comodín tranquilo",
+      "Juliana me dijo que la foto con orejas era demasiado. Le dije: vos no viviste que te digan gato diez años, a esta altura me lo apropio. Como este comodín",
+      "Sí se puede, decíamos. No se pudo. Pero el comodín sí se puede. Hay que creer, pero también hay que elegir bien. Ahí fallé yo: elegí tibio",
+      "El gradualismo no funciona ni en la economía ni en el comodín. Poné todo o no pongas nada",
+      "Yo sé lo que es perder algo importante por indeciso. No seas yo: elegí un partido y bancátela",
+      "Los gatos caen parados. Me caí de la presidencia y acá estoy, parado en Disney, repartiendo comodines. Peor es no caerse nunca",
+      "En Boca aprendí que las finales se juegan con el corazón. En la política aprendí que también, pero el corazón no alcanza si sos tibio",
+    ],
+    placementPhrase: "A ver, elegí un partido. Yo en mi momento elegí mal varias cosas, pero acá te ayudo",
+    rejectPhrases: [
+      "¡Ese no! Yo también elegí batallas equivocadas. Aprendé de mi error, que para algo sirvo",
+      "¡Ahí no! Eso es gradualismo: parece que va a funcionar y después no funciona",
+      "¡Ese partido no! Es como mi segundo mandato: no existe y no va a existir",
+      "¡Ese no! Hasta los Aristogatos sabían qué callejón evitar",
+    ],
+  },
   "FINAL": { scope: "FINAL", image: "/images/comodin-FINAL.jpg", name: "Comodín Final", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
 };
 

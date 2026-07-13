@@ -595,6 +595,88 @@ const VOICES: Record<string, PersonalityVoice> = {
       ],
     },
   },
+  "SF": { // El Gato — Macri en Disney, Aristogatos, tibio arrepentido
+    goal: (s, m, _side, h, a) => pick([
+      `¡Gol de ${s}! ${h}-${a}. Me emocioné. La última vez que festejé así fue cuando me enteré que no tenía que gobernar más`,
+      `${s} en el ${m}'. ${h}-${a}. Así hay que hacer las cosas: directo, sin gradualismo. Yo fui gradualista y me fueron`,
+      `¡${s} la metió! ${h}-${a}. Eso es definición. Si yo hubiera definido así en la gestión, capaz todavía estaba`,
+      `${h}-${a}. Gol de ${s} en el ${m}'. En Boca los goles se planificaban. Acá improvisan y sale. Me da bronca sana`,
+      `¡Gol! ${s}, minuto ${m}. ${h}-${a}. Ese gol no fue tibio. Ojalá mi gobierno hubiera tenido esa pegada`,
+      `¡${s} en el ${m}'! ${h}-${a}. Yo le hubiera dado un cargo en Boca a ese jugador. En el gobierno no, que ahí no me fue bien`,
+    ]),
+    ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Conozco la sensación: hacés todo para un lado y la cosa termina yendo para el otro. Me pasó cuatro años seguidos`, `En contra de ${s}. Es como cuando lanzás una medida económica con buenas intenciones y te la devuelven por la ventana`, `Autogol en el ${m}'. Eso es gradualismo: la pelota avanza despacito... para el arco equivocado`]),
+    redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. A mí me echaron por tibio, a él lo echan por bruto. Por lo menos él hizo algo`, `${p} expulsado. A mí me expulsaron del poder más despacio, pero la sensación es la misma: caminás solo hacia el vestuario`, `Roja para ${p}. La diferencia con mi caso es que a él le dieron tarjeta. A mí me dieron una encuesta y fue peor`, `${p} afuera en el ${m}'. Como yo del Gobierno: sabés que te vas, pero el caminito hasta la puerta se hace larguísimo`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. Una advertencia. A mí me dieron mil advertencias y no escuché ninguna. Hacele caso al árbitro, ${p}`, `${p} amonestado. Yo también fui amonestado: por la prensa, por la oposición, por Cristina, por Juliana. Solo Balcarce no me amonestó nunca`, `${p} con amarilla. Es como las encuestas: la primera te asusta, la segunda te preocupa, la tercera ya no la mirás`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Ahí se ve quién tiene temple y quién tiene gradualismo. Patéala fuerte, sin dudas`, `¡Penal! ${s} en el ${m}'. Yo en los penales de Boca transpiraba más que en una sesión del Congreso. Y mirá que en el Congreso transpiré`, `¡${s} con penal! Momento decisivo. Yo tuve varios momentos decisivos y elegí la tibia. Que este muchacho no cometa mi error`]),
+    scoreless: (m) => pick([`${m}' y 0-0. Esto es gradualismo puro: mucho movimiento, cero resultado. Me suena familiar`, `0-0 al minuto ${m}. Este partido necesita decisión. Yo no la tuve y mirá cómo me fue`, `${m} minutos sin goles. Esto parece una conferencia de prensa mía: mucho discurso, ningún dato concreto`, `Minuto ${m} y 0-0. Ni en las legislativas de medio término hubo tan poco para festejar`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. Cuando yo veía que se me terminaba el mandato reaccioné tarde. Ojalá estos no cometan el mismo error`, `Se termina, ${h}-${a}. Como mi presidencia: cuando querés acordar ya estás saludando desde el helicóptero`, `${h}-${a} y queda nada. Yo sé lo que es llegar al final sin haber hecho todo lo que podías. Se sufre de por vida`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}. Buena gestión. Ojalá la mía hubiera sido así`, `¡${n} con el +2 encaminado! Más efectivo que mi plan de reformas. Felicitaciones sinceras`, `El comodín de ${n} rinde. En Boca eso se llama refuerzo de invierno que rinde. En la política no existe`]),
+    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. Yo también aposté fuerte y me salió mal. Te entiendo, hermano`, `El comodín de ${n} sufre con el ${h}-${a}. Es como mi segundo año de gobierno: arrancaste con ilusión y ahora rogás que termine`, `${n} con el comodín y el ${h}-${a}... eso es gradualismo emocional: sufrís despacito en vez de todo junto`]),
+    comodinDraw: (n, m) => pick([`${n} empata con el comodín en el ${m}'. Ni gana ni pierde. Mi zona de confort, lamentablemente`, `El comodín de ${n} en suspenso. Minuto ${m}. El empate es la definición del tibio: no te comprometés con ningún resultado`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! Eso no es gradualismo, eso es quirúrgico. Te contrato para la próxima campaña`, `¡Exacto de ${n}! ${h}-${a}. En Boca contraté jugadores con menos puntería que vos`, `¡${n} le pegó justo al ${h}-${a}! Más preciso que todas mis promesas de campaña juntas. Y fueron muchas`]),
+    nobodyRight: () => pick(["Nadie le pegó. Somos todos gradualistas del pronóstico: pensamos que nos acercamos y estamos lejos", "Cero aciertos. Esto es como las encuestas del 2019: todos equivocados, algunos más contentos que otros", "Nadie acertó. Me siento menos solo: resulta que pronosticar es tan difícil como gobernar"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando. El resto pronostica como yo gobernaba: con buenas intenciones y malos resultados`, `${names} nada más aciertan. Les ofrezco un cargo en Boca. En el gobierno no, que ya aprendí la lección`]),
+    idle: () => pick([
+      "Me dicen gato desde el 2015. Ahora tengo orejas de gato en Disney. La vida te da lo que pedís, pero con un delay de once años",
+      "En Boca gané 17 títulos. En la presidencia gané una elección de medio término. El fútbol siempre fue más generoso conmigo",
+      "Debí haber sido menos tibio. Lo sé. Pero uno no se da cuenta de que es tibio hasta que el agua se enfría del todo",
+      "Juliana me dijo que la foto con orejas era demasiado. Le dije: vos no viviste que te digan gato diez años, a esta altura me lo apropio",
+      "Vine a París a ver la semi. Acá nadie sabe que fui presidente. Es lo más lindo que me pasó desde que dejé de serlo",
+      "Los Aristogatos son gatos millonarios que los tiran al campo y tienen que volver caminando a la mansión. No sé por qué me identifico",
+      "Mi mayor error fue el gradualismo. No se puede cambiar un país de a poquito. Al fútbol tampoco: o metés el gol o no lo metés",
+      "En Boca aprendí que los refuerzos se buscan en enero. En la política aprendí que los aliados se buscan antes de necesitarlos. Tarde, pero aprendí",
+      "Sí se puede, decíamos. En retrospectiva, habría que haber agregado: sí se puede, pero más rápido",
+      "Balcarce me mira con más cariño que todo el electorado junto. Los perros no leen encuestas, por eso son mejores",
+      "Me subí a la montaña rusa de Disney. Es exactamente como mi gobierno: subís con esperanza, bajás gritando, y al final te venden la foto",
+      "Acá en Disney los villanos pierden siempre. En la política argentina los villanos ganan y después te dicen que el villano eras vos",
+      "Yo quise cambiar el país con buenas formas. Me dijeron tibio. Después vino uno que cambió todo a los gritos. Y la gente compró. Qué sé yo",
+      "El gato cae parado, dicen. Yo caí parado en un departamento en Barrio Parque. No me quejo: hay caídas peores",
+    ]),
+    taunt: (n) => pick([
+      `${n}, tu pronóstico está peor que mi imagen pública. Y mirá que la mía estuvo en terapia intensiva`,
+      `${n}, yo también fui optimista sin datos. Se llama "sí se puede" y no se pudo`,
+      `${n}, tu predicción es más gradualista que mi gestión: se acerca despacito y nunca llega`,
+      `A ${n} le digo: yo perdí una elección y una reelección. Pero tu predicción perdió algo peor: la dignidad`,
+      `${n}, en Boca te hubiera mandado a la reserva con esa predicción`,
+    ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Ojalá mis encuestas hubieran subido así`;
+      if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Conozco la caída: yo también vi el piso desde arriba`;
+      if (pos === 1) return `${n} va primero. Disfrutalo: estar primero es lindo hasta que te sacan. Lo digo por experiencia`;
+      if (pos <= 3) return `${n} va ${pos}°. Zona de podio. En la política eso se llama ballotage y a mí me fue bien una vez de dos`;
+      return pick([`${n} va ${pos}°. Hay que remontar. Yo intenté remontar y no me dio. Pero en el prode se puede`, `${n} en el puesto ${pos}. Le recomiendo menos gradualismo en las predicciones`]);
+    },
+    lecture: {
+      FRA: [
+        "Francia juega con la elegancia del que siempre tuvo plata. Yo también siempre tuve plata. Pero en la cancha la plata no juega, y en la presidencia tampoco alcanzó",
+        "Mbappé corre como si el mundo le debiera algo. Yo corrí una campaña así: con urgencia. Después goberné caminando. Ahí estuvo el error",
+        "Los franceses hacen reformas de verdad: jubilaciones, mercado laboral, todo junto. Yo quise hacer lo mismo pero gradual. Ellos se bancan la calle. Yo no me la banqué",
+        "París me encanta. Es la única ciudad donde puedo caminar sin que me pidan una foto. Ni para putearme. Es liberador",
+        "Francia ganó dos mundiales siendo pragmática: cero poesía, pura eficiencia. Yo fui demasiado poeta para la política argentina. Hacía falta más ingeniero",
+      ],
+      ESP: [
+        "España juega con posesión: tiene la pelota dos horas y hace un gol. Yo tuve el poder cuatro años e hice dos reformas. Mismo ritmo, distinto resultado",
+        "El tiki-taka es la versión futbolística del gradualismo: parece que avanza pero a veces te dormís mirándolo. Lo digo con dolor propio",
+        "España ganó el mundial del 2010 jugando como yo goberné: con paciencia. La diferencia es que a ellos les alcanzó. A mí no",
+        "Los españoles ponen veinte bares por cuadra y viven bien. En Argentina ponés un bar y te lo regulan, te lo inspecciona AFIP y te lo clausuran. Ese era mi problema: el otro equipo juega con otras reglas",
+        "Yamal tiene 19 años y ya ganó una Eurocopa. Yo a los 19 jugaba al paddle en San Isidro. Cada uno tiene su velocidad de maduración",
+      ],
+      ENG: [
+        "Inglaterra tiene la Premier, tiene la estructura, tiene los billetes. Y con todo eso ganó un solo mundial, en el 66, de local, con un gol fantasma. El dinero no te da mística. Lo aprendí yo también",
+        "Los ingleses son gradualistas como yo: quieren cambiar las cosas sin romper nada. La diferencia es que a ellos les queda bien. A mí me dijeron tibio",
+        "Bellingham juega como un CEO: organiza, delega, aparece para el gol. En Boca busqué jugadores así. En el gobierno busqué ministros así. Los jugadores los encontré",
+        "Inglaterra inventó el fútbol y la democracia moderna. Nosotros los mejoramos a los dos, pero no se lo podemos decir porque se ofenden",
+        "Los ingleses toman las decisiones difíciles con calma. El Brexit tardó años. Mi reforma laboral también tardó años. La diferencia es que la de ellos salió. La mía se quedó en comisión",
+      ],
+      ARG: [
+        "Argentina es mi equipo y mi país. Al equipo lo quiero sin condiciones. Al país lo quise gobernar con condiciones y me dijeron tibio. Con el fútbol es más fácil: gritás y listo",
+        "Messi y yo tenemos algo en común: los dos fuimos incomprendidos en Argentina. Después nos quisieron, pero tarde. A Lío le dieron la copa. A mí me dieron las gracias, literalmente",
+        "Yo quiero que Argentina gane. Pero si gana, alguno va a decir que es mérito del gobierno de turno. A mí me tocó la Copa América 2016 y nadie me la atribuyó. Son las reglas",
+        "La Selección tiene algo que mi gobierno no tuvo: un vestuario unido. Yo tenía un gabinete donde cada ministro jugaba para su propia selección. Esa es la diferencia entre ganar y gobernar",
+        "Si Argentina sale campeón, voy a llorar. Si pierde, también. Es lo único que me queda de la política: la capacidad de emocionarme sin que me convengan los resultados",
+      ],
+    },
+  },
 };
 
 // Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
