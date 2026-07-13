@@ -706,4 +706,74 @@ export const BANKERS: BankerConfig[] = [
       ],
     },
   },
+  // El Gato — banquero tibio que ofrece justo, admira a los que se la juegan
+  {
+    image: "/images/comodin-SF.jpg",
+    offerMultiplier: 0.95,
+    offer: {
+      smug: [
+        "Esta oferta es como mi gobierno: chica, pero hecha con buenas intenciones",
+        "Después de lo que abriste, esto es un rescate financiero. Yo de rescates sé",
+        "Te quedó poco en el tablero. Me pasó lo mismo con las reservas del Central",
+        "Esta oferta es gradual: no es mucho ahora, pero en el futuro... bueno, en el futuro tampoco",
+        "Mirá, es poco, pero por lo menos es transparente. Algo que no todos pueden decir",
+      ],
+      neutral: [
+        "Oferta justa. Ni mucho ni poco. Zona templada. Mi zona, lamentablemente",
+        "Esto es lo que hay. Yo en mi momento también tuve que decidir con lo que había. A veces sale",
+        "La oferta está bien. Ahora, ¿sos de los que agarran o de los que se la juegan? Yo fui de los que agarran y mirá",
+        "Número honesto. Como yo: honesto pero no siempre efectivo",
+        "Pensalo bien. Yo no pensé bien varias cosas y acá estoy, con orejas de gato, repartiendo plata en Disney",
+        "Es una buena oferta. No sé si es la mejor, pero la mejor es enemiga de la buena. Eso sí lo aprendí",
+      ],
+      desperate: [
+        "¡Agarrá esa plata! ¡Es más de lo que dejé en las arcas del Estado!",
+        "¡Tomá la oferta! ¡Ni en Boca repartí tanta plata! Bueno, sí, pero con resultados",
+        "¡Esto es una fortuna! ¡Más de lo que gané en imagen pública en cuatro años de gobierno!",
+        "¡Agarrala! ¡No seas gradualista con esta decisión! ¡Agarrá ahora!",
+        "¡Te estoy dando todo! ¡Esto no es gradualismo, esto es shock positivo!",
+      ],
+    },
+    noDeal: {
+      smug: [
+        "Seguí, seguí. Total ya no queda mucho. Como las reservas del Central en mi último año",
+        "Rechazaste poco. Es coherente: no había mucho que rechazar",
+        "Bueno, seguimos. Yo también seguí cuando no tenía que seguir. Se llama terquedad",
+        "Dale, seguí abriendo. Total la caída ya fue",
+      ],
+      neutral: [
+        "Rechazaste. Bien. Ojalá yo hubiera tenido esa decisión en el gobierno",
+        "No deal. Me gusta la actitud. Yo fui tibio y me arrepiento. Vos por lo menos elegís",
+        "Seguís jugando. Eso te pone por encima del 90% de los políticos: por lo menos te la jugás",
+        "No agarraste. Puede ser valiente o puede ser terco. La línea es finísima. Yo nunca la vi a tiempo",
+        "Buena decisión o mala decisión, por lo menos es una decisión. Eso ya es mejor que mi gradualismo",
+      ],
+      desperate: [
+        "¡¿Rechazaste ESO?! ¡Ni yo rechacé tantas oportunidades! Bueno, sí, rechacé una reelección, pero fue distinto",
+        "¡No lo puedo creer! ¡Yo hubiera agarrado! Pero yo también hubiera hecho el shock en vez del gradualismo y no lo hice",
+        "¡Estás loco! ¡Pero un loco lindo! ¡En Boca necesitaba gente así!",
+        "¡Me dejaste helado! ¡Y mirá que soy tibio, se necesita mucho para dejarme helado!",
+      ],
+    },
+    deal: {
+      smug: [
+        "Cerraste con poco. Como mi gestión: algo es algo",
+        "Deal conservador. Te entiendo: yo también fui conservador y me critican hasta hoy",
+        "Te llevás algo. No es épico, pero es prudente. Mi marca registrada, para bien y para mal",
+        "Agarraste lo seguro. Yo hubiera hecho lo mismo. Ese es mi problema: siempre agarro lo seguro",
+      ],
+      neutral: [
+        "Buen deal. Ni tibio ni loco. El equilibrio justo que yo nunca encontré",
+        "Cerraste bien. En Boca eso se llama buen pase de mercado. En la política nunca lo logré",
+        "Te vas con plata y con la frente alta. Más de lo que me pasó a mí en diciembre del 2019",
+        "Deal cerrado. Sin dramatismo, sin gradualismo. Limpio. Me gusta",
+      ],
+      desperate: [
+        "¡Te llevaste todo! ¡Me dejaste como las arcas del Estado: vacías!",
+        "¡Qué jugador! ¡En Boca te hubiera dado la cinta de capitán!",
+        "¡Me limpiaste! ¡Peor que la devaluación! ¡Pero la tuya fue justa!",
+        "¡Deal histórico! ¡Esto no fue gradualismo, esto fue shock puro! ¡Así hay que hacer las cosas!",
+      ],
+    },
+  },
 ];

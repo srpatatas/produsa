@@ -76,6 +76,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-R32.jpg",
   "/images/comodin-R16.jpg",
   "/images/comodin-QF.jpg",
+  "/images/comodin-SF.jpg",
 ];
 
 export const COMODIN_HIT_PHRASES = [
@@ -85,6 +86,7 @@ export const COMODIN_HIT_PHRASES = [
   ["¡Yo no autoricé esta jugada!", "¡Guardo conmigo el dolor!", "¡Ni Maradona pasa por Olivos!", "¡La culpa es de Macri!"],
   ["¡Esto es un parto de nalga!", "¡El resistir está grabado!", "¡Ni Bruce Willis me pasa!", "¡Carreta delante del caballo!"],
   ["¡Me atajé a mí mismo, no lo puedo creer!", "¡El único que para a Diego es Diego!", "¡A Dios no lo gambetea ni Dios!", "¡Perdoname pibe, pero el área es mía!"],
+  ["¡El gato paró al Diego!", "¡Reforma exitosa por primera vez!", "¡No fui tibio esta vez!", "¡En Boca parábamos a jugadores mejores!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
@@ -94,4 +96,5 @@ export const COMODIN_DODGE_PHRASES = [
   ["¡Se me fue! ¡Yo soy ajeno a esto!", "¡Ni con zoom lo paro!", "¡Es peor que la fiesta de Olivos!", "¡Maradona fue de Argentinos, qué esperabas!"],
   ["¡Es un cazador de utopías!", "¡Remando en dulce de leche!", "¡Me gambeteó como Einstein al átomo!", "¡No hay imposibles para ese pibe!"],
   ["¡Ese soy yo, nadie me para!", "¡Gambeta sagrada, ni yo me la creo!", "¡Se fue como en el 86, de memoria!", "¡Barrilete cósmico, obvio: el planeta es mío!"],
+  ["¡Me gambeteó como la inflación!", "¡Fui muy gradualista para esa gambeta!", "¡Se fue! ¡Como mis votos en el 2019!", "¡Necesito un refuerzo de invierno urgente!"],
 ];
