@@ -93,6 +93,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-R32.jpg",
   "/images/comodin-R16.jpg",
   "/images/comodin-QF.jpg",
+  "/images/comodin-SF.jpg",
 ];
 
 export const PLATFORM_COLORS: Record<PlatformType, { top: string; body: string; shine: string }> = {

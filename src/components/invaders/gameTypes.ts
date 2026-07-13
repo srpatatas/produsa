@@ -86,6 +86,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-R32.jpg",
   "/images/comodin-R16.jpg",
   "/images/comodin-QF.jpg",
+  "/images/comodin-SF.jpg",
 ];
 
 export const COMODIN_HIT_LINES: string[][] = [
@@ -95,4 +96,5 @@ export const COMODIN_HIT_LINES: string[][] = [
   ["¡Yo no autoricé esta invasión!", "¡Me voy a Disney, chau!", "¡Guardo conmigo el dolor!", "¡El único responsable soy yo!", "¡Esto es peor que la fiesta de Olivos!"],
   ["¡Esto es un parto de nalga!", "¡Estamos remando en dulce de leche!", "¡El resistir está grabado en mi cédula!", "¡Éramos Bruce Willis y nos mataron!", "¡La carreta delante del caballo!"],
   ["¡La mano de Dios también baja naves!", "¡A mi cielo no sube nadie!", "¡Fuera de mi área, marcianos!", "¡Esto es más fácil que gambetear ingleses!", "¡El espacio también es potrero!"],
+  ["¡Debí haber sido menos tibio con ese disparo!", "¡Las reformas espaciales van a llegar!", "¡Esto es gradualismo intergaláctico!", "¡Los gatos tenemos siete vidas! ¡Me quedan seis!", "¡Miau defensivo!"],
 ];
