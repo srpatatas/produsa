@@ -1130,71 +1130,7 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     opener: "Los ingleses toman el té a las cinco. Pero en octavos no hay hora del té: hay hora de la verdad",
     retort: "Yo a las cinco tomaba decisiones importantes. Por eso el país anda como anda. Quedate con el té, profe",
   },
-  {
-    from: "guest",
-    opener: "Como profesor de la UBA les explico: este partido se define por la táctica",
-    retort: "El que explica el fútbol desde un aula nunca pisó la tierra colorada, Alberto. La táctica sin barro es un PowerPoint",
-  },
-  {
-    from: "host",
-    opener: "Esto es un parto de nalga. Con dolor y con el cordón cruzado, pero va a nacer algo hermoso",
-    retort: "¿Parto? Yo amplié derechos para que los partos sean gratuitos. De nada, profe",
-  },
-  {
-    from: "guest",
-    opener: "La culpa de este resultado la tiene la pesada herencia",
-    retort: "Los arrepentimientos llegan tarde, Alberto. Los tuyos directamente no llegaron",
-  },
-  {
-    from: "host",
-    opener: "Como decía Einstein, es más fácil desactivar un átomo que un preconcepto",
-    retort: "Einstein, Borges, Hemingway... profe, usted cita más gente que yo en un decreto de necesidad y urgencia",
-  },
-  {
-    from: "guest",
-    opener: "Yo este partido lo veo mejor por zoom desde Olivos",
-    retort: "El fútbol no se ve por zoom, Alberto. El fútbol se huele, como la lluvia antes de la tormenta eléctrica",
-  },
-  {
-    from: "host",
-    opener: "Venimos de la tierra colorada. Jugando descalzos, pero con el corazón bien puesto",
-    retort: "¿Descalzos? Eso es un problema de política pública. Anoto: repartir botines. Cuando vuelva al gobierno",
-  },
-  {
-    from: "guest",
-    opener: "El único responsable de este marcador soy yo. Bueno, y el árbitro. Y Macri",
-    retort: "Lo peor que hay es ser un ni, Alberto. Ni responsable ni inocente. Elegí un lado del vestuario",
-  },
-  {
-    from: "host",
-    opener: "Hay que bailar la música que te ponen. A veces cumbia, a veces tango, a veces polca",
-    retort: "La última vez que bailé en una fiesta me costó la presidencia. Ahora solo bailo el himno",
-  },
-  {
-    from: "guest",
-    opener: "Este partido está más complicado que la economía que me dejaron",
-    retort: "Cuando veas la sombra de un gigante, Alberto, fijate que no sea la sombra de tus propias excusas",
-  },
-  {
-    from: "host",
-    opener: "Éramos Bruce Willis en Sexto Sentido. Nos daban por muertos antes de empezar la película",
-    retort: "Yo también estuve muerto, políticamente hablando. Sigo esperando la resurrección. Cristina no me llama",
-  },
-  {
-    from: "guest",
-    opener: "Yo a este arquero lo hubiera nombrado por decreto",
-    retort: "Los arqueros no se nombran por decreto, Alberto. Se forman en la incubadora de la paciencia",
-  },
-  {
-    from: "host",
-    opener: "El resultado te da la certeza, pero no te da la autoridad de sentirte dueño",
-    retort: "Autoridad sin resultados tuve yo cuatro años, profe. No se lo recomiendo a nadie",
-  },
-  {
-    from: "guest",
-    opener: "Profe, una pregunta seria: ¿usted siempre contesta con una metáfora?",
-    retort: "Me da vergüenza. Cuando me pasan todas juntas digo: ¿por qué digo todo? No tengo que hablar más. Pero hablo",
-  },
+  // Old R16 generic exchanges (Alfiki as host) removed — replaced by SF-specific ones below.
   // ── SF debates: El Gato (host) vs Albertito (guest) ──
   {
     from: "guest",
