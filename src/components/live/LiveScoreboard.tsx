@@ -667,6 +667,8 @@ const VOICES: Record<string, PersonalityVoice> = {
         "Bellingham juega como un CEO: organiza, delega, aparece para el gol. En Boca busqué jugadores así. En el gobierno busqué ministros así. Los jugadores los encontré",
         "Inglaterra inventó el fútbol y la democracia moderna. Nosotros los mejoramos a los dos, pero no se lo podemos decir porque se ofenden",
         "Los ingleses toman las decisiones difíciles con calma. El Brexit tardó años. Mi reforma laboral también tardó años. La diferencia es que la de ellos salió. La mía se quedó en comisión",
+        "Argentina contra Inglaterra y yo acá en el medio. Me decían cipayo y pro-inglés. Hoy hincho por Argentina con más ganas que nadie, justamente porque necesito que quede claro de qué lado estoy",
+        "Los ingleses nos sacaron las Malvinas, nos sacaron el gol en el 66, y nos sacaron la paciencia en el 82. Yo soy pro-diálogo, pero hay límites. Hoy el diálogo es con la pelota",
       ],
       ARG: [
         "Argentina es mi equipo y mi país. Al equipo lo quiero sin condiciones. Al país lo quise gobernar con condiciones y me dijeron tibio. Con el fútbol es más fácil: gritás y listo",
@@ -674,6 +676,8 @@ const VOICES: Record<string, PersonalityVoice> = {
         "Yo quiero que Argentina gane. Pero si gana, alguno va a decir que es mérito del gobierno de turno. A mí me tocó la Copa América 2016 y nadie me la atribuyó. Son las reglas",
         "La Selección tiene algo que mi gobierno no tuvo: un vestuario unido. Yo tenía un gabinete donde cada ministro jugaba para su propia selección. Esa es la diferencia entre ganar y gobernar",
         "Si Argentina sale campeón, voy a llorar. Si pierde, también. Es lo único que me queda de la política: la capacidad de emocionarme sin que me convengan los resultados",
+        "Contra Inglaterra no soy el gato, no soy el tibio, no soy el ex presidente. Soy argentino. Y ser argentino contra los ingleses no necesita explicación, necesita garganta",
+        "Kirchnerismo, macrismo, peronismo, radicalismo: contra Inglaterra somos todos lo mismo. Es el único punto de acuerdo que tiene este país. Y capaz el único que necesitamos",
       ],
     },
   },
