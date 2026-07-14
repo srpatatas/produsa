@@ -1182,6 +1182,36 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     opener: "Sí se puede, decíamos. No se pudo. Pero el fútbol siempre te da otra oportunidad. La política no",
     retort: "La política me dio dos oportunidades: presidente y preso. Ninguna de las dos fue lo que esperaba. Pero el prode me trata mejor",
   },
+  {
+    from: "guest",
+    opener: "Mauricio, ¿extrañás el poder?",
+    retort: "Extraño Boca. El poder lo extraña el que lo tuvo de verdad. Yo tuve un escritorio y muchos problemas. Vos tuviste lo mismo pero con zoom",
+  },
+  {
+    from: "host",
+    opener: "Yo caí parado en Barrio Parque. Los gatos caemos parados, dicen",
+    retort: "Yo caí en un departamento prestado. Los gatos caen parados, los presidentes caemos donde nos dejan. A vos te dejaron mejor, hay que reconocerlo",
+  },
+  {
+    from: "guest",
+    opener: "La diferencia entre vos y yo, Mauricio, es que yo al menos fui carismático",
+    retort: "Alberto, a vos te votaron por Cristina. A mí me votaron por mí. Los dos perdimos, pero yo perdí solo. Eso tiene más dignidad",
+  },
+  {
+    from: "host",
+    opener: "En Boca me enseñaron que los refuerzos se buscan en enero. En la política aprendí que los aliados se buscan antes de necesitarlos",
+    retort: "Yo busqué una aliada antes de necesitarla. Me salió Cristina. Cuidado con los refuerzos de enero, Mauricio: a veces te refuerzan la salida",
+  },
+  {
+    from: "guest",
+    opener: "Si me hubieras invitado a tu gabinete, Macri, yo hubiera aceptado. Yo acepto todo. Ese es mi problema",
+    retort: "Alberto, si te hubiera invitado a mi gabinete, hoy estaríamos los dos con orejas de gato en Disney. Capaz no fue tan mala idea no invitarte",
+  },
+  {
+    from: "host",
+    opener: "A mí Juliana me dice que no hable de política en público. Pero acá estoy, con orejas de gato, hablando de política con vos",
+    retort: "A mí Fabiola me decía que no hable en público directamente. Tenía razón, pero nunca le hice caso. Por eso estamos los dos acá: por no escuchar",
+  },
   // ── SF team-specific: FRA ──
   {
     from: "guest",
@@ -1201,6 +1231,24 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     opener: "Dato de mis clases en la UBA: Francia tiene más quesos que días del año. 365 quesos mínimo",
     retort: "Alberto, vos dabas clases de derecho, no de quesos. Aunque tu gobierno fue bastante un queso, ahora que lo pienso",
   },
+  {
+    from: "host",
+    team: "FRA",
+    opener: "Francia ganó dos mundiales siendo pragmática. Yo fui demasiado poeta para la política. Hacía falta más ingeniero",
+    retort: "Yo fui abogado, profesor, presidente y panelista. Lo único que no fui es pragmático. Tenemos eso en común, Mauricio",
+  },
+  {
+    from: "guest",
+    team: "FRA",
+    opener: "Macron tiene 48 años y ya reformó Francia dos veces. Yo con 60 no pude reformar ni el menú de Olivos",
+    retort: "Alberto, Macron reformó con la calle en llamas. Yo quise reformar sin que nadie se enoje. Mirá quién llegó más lejos. Spoiler: ninguno de los dos",
+  },
+  {
+    from: "host",
+    team: "FRA",
+    opener: "Deschamps dirige con pragmatismo: gana feo si hace falta. Yo debería haber gobernado así",
+    retort: "Yo goberné feo sin querer. Deschamps por lo menos gana. Hay una sutil diferencia",
+  },
   // ── SF team-specific: ESP ──
   {
     from: "host",
@@ -1219,6 +1267,24 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     team: "ESP",
     opener: "El tiki-taka es la versión futbolística del gradualismo: parece que avanza pero a veces te dormís mirándolo",
     retort: "Yo me dormía en los actos. En los de verdad, no en los de la tele. Pero la camiseta de España la usaría: tiene mi color, el rojo. Bueno, tu color era el amarillo. Cada uno con su ideología",
+  },
+  {
+    from: "guest",
+    team: "ESP",
+    opener: "España tiene monarquía constitucional: un rey que no gobierna. Como yo, pero sin corona",
+    retort: "Alberto, vos no tenías corona pero tenías banda presidencial. La usaste cuatro años y nadie notó la diferencia",
+  },
+  {
+    from: "host",
+    team: "ESP",
+    opener: "Yamal tiene 19 años y ya ganó una Eurocopa. Yo a los 19 jugaba al paddle en San Isidro",
+    retort: "Yo a los 19 daba clases. A los 60 fui presidente. Cada uno tiene su velocidad. La de Yamal es mejor, claramente",
+  },
+  {
+    from: "guest",
+    team: "ESP",
+    opener: "En España la siesta es sagrada. En Argentina la siesta en el gobierno también, pero no se dice",
+    retort: "Alberto, vos gobernaaste por zoom. Eso no es siesta, es coma inducido. La siesta al menos dura una hora",
   },
 ];
 
