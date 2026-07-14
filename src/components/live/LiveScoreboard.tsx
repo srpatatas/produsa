@@ -1138,8 +1138,8 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
   },
   {
     from: "host",
-    opener: "Debí haber sido menos tibio cuando goberné. Lo reconozco públicamente y en Disney",
-    retort: "Yo también debí haber sido menos tibio. Bueno, yo debí haber sido menos todo. Pero el tibio eras vos, Mauricio",
+    opener: "Debí haber sido menos tibio cuando goberné. Lo reconozco públicamente",
+    retort: "Yo también debí haber sido menos tibio. Bueno, yo debí haber sido menos todo",
   },
   {
     from: "guest",
@@ -1149,27 +1149,7 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
   {
     from: "host",
     opener: "Mi mayor error fue el gradualismo. Se necesitaba más decisión y menos PowerPoint",
-    retort: "Tu mayor error fue el gradualismo. Mi mayor error fue... bueno, la lista es larga. Pero por lo menos tuve fiesta en Olivos",
-  },
-  {
-    from: "guest",
-    opener: "El único responsable soy yo. De todo. Siempre. De lo que pasó, de lo que no pasó, y de este partido",
-    retort: "Alberto, si sos responsable de todo, también sos responsable de que yo esté acá con orejas de gato. Gracias, supongo",
-  },
-  {
-    from: "host",
-    opener: "En Boca gané 17 títulos. En la presidencia, una legislativa. Cada uno tiene su hábitat natural",
-    retort: "Yo en el gobierno ganamos una pandemia... ah no, perdón. Manejamos una pandemia. Bueno, estuvimos durante una pandemia. Dejémoslo ahí",
-  },
-  {
-    from: "guest",
-    opener: "Yo este partido lo miro por zoom, como hacía con todo cuando gobernaba",
-    retort: "Alberto, estamos en el mismo estadio. No necesitás zoom. Sentate al lado mío y mirá el partido como la gente normal. Sé que es difícil para los dos",
-  },
-  {
-    from: "host",
-    opener: "Los Aristogatos son millonarios que los tiran al campo y tienen que volver caminando. Me identifico profundamente",
-    retort: "A mí me tiraron del gobierno y no tuve que caminar nada: me fui en helicóptero. Cada gato tiene su estilo, Mauricio",
+    retort: "Los slides de PowerPoint tenías que doblarlos a la mitad para mostrar lo que te convenía, Mauricio",
   },
   {
     from: "guest",
@@ -1184,27 +1164,12 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
   {
     from: "guest",
     opener: "Mauricio, ¿extrañás el poder?",
-    retort: "Extraño Boca. El poder lo extraña el que lo tuvo de verdad. Yo tuve un escritorio y muchos problemas. Vos tuviste lo mismo pero con zoom",
-  },
-  {
-    from: "host",
-    opener: "Yo caí parado en Barrio Parque. Los gatos caemos parados, dicen",
-    retort: "Yo caí en un departamento prestado. Los gatos caen parados, los presidentes caemos donde nos dejan. A vos te dejaron mejor, hay que reconocerlo",
+    retort: "Extraño Boca. El poder lo extraña el que lo tuvo de verdad. Yo tuve un escritorio y muchos problemas. Vos me entendés",
   },
   {
     from: "guest",
     opener: "La diferencia entre vos y yo, Mauricio, es que yo al menos fui carismático",
     retort: "Alberto, a vos te votaron por Cristina. A mí me votaron por mí. Los dos perdimos, pero yo perdí solo. Eso tiene más dignidad",
-  },
-  {
-    from: "host",
-    opener: "En Boca me enseñaron que los refuerzos se buscan en enero. En la política aprendí que los aliados se buscan antes de necesitarlos",
-    retort: "Yo busqué una aliada antes de necesitarla. Me salió Cristina. Cuidado con los refuerzos de enero, Mauricio: a veces te refuerzan la salida",
-  },
-  {
-    from: "guest",
-    opener: "Si me hubieras invitado a tu gabinete, Macri, yo hubiera aceptado. Yo acepto todo. Ese es mi problema",
-    retort: "Alberto, si te hubiera invitado a mi gabinete, hoy estaríamos los dos con orejas de gato en Disney. Capaz no fue tan mala idea no invitarte",
   },
   {
     from: "host",
@@ -1253,7 +1218,7 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     from: "host",
     team: "ESP",
     opener: "España juega con posesión: tiene la pelota dos horas y hace un gol. Yo tuve el poder cuatro años e hice dos reformas",
-    retort: "Yo tuve el poder cuatro años y no hice ni una. Pero al menos no me dijeron gradualista. Me dijeron otras cosas peores",
+    retort: "Yo tuve el poder cuatro años y no hice ni una. Pero al menos no me dijeron gradualista. Me dijeron cosas peores",
   },
   {
     from: "guest",
@@ -1265,7 +1230,7 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     from: "host",
     team: "ESP",
     opener: "El tiki-taka es la versión futbolística del gradualismo: parece que avanza pero a veces te dormís mirándolo",
-    retort: "Yo me dormía en los actos. En los de verdad, no en los de la tele. Pero la camiseta de España la usaría: tiene mi color, el rojo. Bueno, tu color era el amarillo. Cada uno con su ideología",
+    retort: "Yo me dormía en los actos",
   },
   {
     from: "guest",
