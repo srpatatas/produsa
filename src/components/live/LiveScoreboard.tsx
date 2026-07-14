@@ -627,7 +627,7 @@ const VOICES: Record<string, PersonalityVoice> = {
       "Sí se puede, decíamos. En retrospectiva, habría que haber agregado: sí se puede, pero más rápido",
       "Al ciruja me lo llevo preso. No podés alterar el orden en algo que es un delito, porque es tan delito robar la basura como robarle a un señor en la esquina",
       "¿Estás en remera y con aire encendido? Ponelo en 24° y clavate un buzo, dejá de malgastar la energía",
-      "No vine al Profusa a hacerme rico ni famoso",
+      "No vine al Produsa a hacerme rico ni famoso",
       "Yo quise cambiar el país con buenas formas. Me dijeron tibio. Después vino uno que cambió todo a los gritos. Y la gente compró. Qué sé yo",
       "El gato cae parado, dicen. Yo caí parado en un departamento en Barrio Parque. No me quejo: hay caídas peores",
     ]),
@@ -1283,7 +1283,7 @@ const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string
     from: "guest",
     team: "ESP",
     opener: "En España la siesta es sagrada. En Argentina la siesta en el gobierno también, pero no se dice",
-    retort: "Alberto, vos gobernaaste por zoom. Eso no es siesta, es coma inducido. La siesta al menos dura una hora",
+    retort: "Alberto, vos gobernaste por zoom. Eso no es siesta, es coma inducido. La siesta al menos dura una hora",
   },
 ];
 
