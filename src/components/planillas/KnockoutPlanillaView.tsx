@@ -58,7 +58,7 @@ export function KnockoutPlanillaView() {
       }
       setResolvedMatches(resolved);
 
-      const activeRound = planillaRoundTabs.find((tab) => {
+      const activeRound = planillaRoundTabs.findLast((tab) => {
         const isLocked = lockData.locks[tab.id]?.isLocked;
         if (isLocked) return false;
         const tabMatches = tab.rounds.flatMap((r) => getKnockoutMatchesByRound(r as KnockoutRound));
