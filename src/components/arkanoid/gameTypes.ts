@@ -79,6 +79,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-R16.jpg",
   "/images/comodin-QF.jpg",
   "/images/comodin-SF.jpg",
+  "/images/comodin-FINAL.jpg",
 ];
 
 export const COMODIN_HIT_LINES: string[][] = [
@@ -89,6 +90,7 @@ export const COMODIN_HIT_LINES: string[][] = [
   ["¡Parto de nalga!", "¡Remando en dulce de leche!", "¡Somos Bruce Willis!"],
   ["¡La pelota no se mancha!", "¡Ese ladrillo lo bajé con la zurda!", "¡Barrilete cósmico!"],
   ["¡Fui gradualista y me sacaron!", "¡Esto no estaba en el plan!", "¡Miau!"],
+  ["¡Aposté a que no me pegaban!", "¡Anti-pronóstico activado!", "¡El Profe aguanta!"],
 ];
 
 export const POWERUP_LABELS: Record<string, string> = {

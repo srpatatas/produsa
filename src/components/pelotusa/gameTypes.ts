@@ -77,6 +77,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-R16.jpg",
   "/images/comodin-QF.jpg",
   "/images/comodin-SF.jpg",
+  "/images/comodin-FINAL.jpg",
 ];
 
 export const COMODIN_HIT_PHRASES = [
@@ -87,6 +88,7 @@ export const COMODIN_HIT_PHRASES = [
   ["¡Esto es un parto de nalga!", "¡El resistir está grabado!", "¡Ni Bruce Willis me pasa!", "¡Carreta delante del caballo!"],
   ["¡Me atajé a mí mismo, no lo puedo creer!", "¡El único que para a Diego es Diego!", "¡A Dios no lo gambetea ni Dios!", "¡Perdoname pibe, pero el área es mía!"],
   ["¡El gato paró al Diego!", "¡Reforma exitosa por primera vez!", "¡No fui tibio esta vez!", "¡En Boca parábamos a jugadores mejores!"],
+  ["¡Aposté a que me hacías gol!", "¡El anti-pronóstico te paró, Diego!", "¡Perdón D10S, es mi poder!", "¡El Profe de gimnasia te frenó!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
@@ -97,4 +99,5 @@ export const COMODIN_DODGE_PHRASES = [
   ["¡Es un cazador de utopías!", "¡Remando en dulce de leche!", "¡Me gambeteó como Einstein al átomo!", "¡No hay imposibles para ese pibe!"],
   ["¡Ese soy yo, nadie me para!", "¡Gambeta sagrada, ni yo me la creo!", "¡Se fue como en el 86, de memoria!", "¡Barrilete cósmico, obvio: el planeta es mío!"],
   ["¡Me gambeteó como la inflación!", "¡Fui muy gradualista para esa gambeta!", "¡Se fue! ¡Como mis votos en el 2019!", "¡Necesito un refuerzo de invierno urgente!"],
+  ["¡Dije que te paraba y no te paré!", "¡El poder funciona al revés!", "¡Se fue como mis pronósticos!", "¡Diego, sos mi ídolo pero mi poder es más fuerte!"],
 ];
