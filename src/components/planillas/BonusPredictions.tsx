@@ -96,7 +96,7 @@ function BonusSelect({
 
   const excludedSet = excludedTeams ? new Set(excludedTeams) : null;
   const filteredPlayers = teamFilter
-    ? playerOptions.filter((o) => o.value.endsWith(`(${teamFilter})`))
+    ? playerOptions.filter((o) => teamFilter.split(",").some((t) => o.value.endsWith(`(${t.trim()})`)))
     : playerOptions;
   const options =
     sourceType === "teams"
