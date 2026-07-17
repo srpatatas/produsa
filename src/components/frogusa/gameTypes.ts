@@ -130,6 +130,7 @@ export const COMODIN_IMAGES = [
   "/images/comodin-R16.jpg",
   "/images/comodin-QF.jpg",
   "/images/comodin-SF.jpg",
+  "/images/comodin-FINAL.jpg",
 ];
 
 export const COMODIN_HIT_PHRASES = [
@@ -140,6 +141,7 @@ export const COMODIN_HIT_PHRASES = [
   ["¡Parto de nalga!", "¡Acá no pasa nadie!", "¡El resistir está grabado!", "¡Carreta delante del caballo!"],
   ["¡Acá no pasás, wachiturro!", "¡Te comiste el planchazo de Dios!", "¡Al potrero de vuelta!", "¡Se te escapó la tortuga!"],
   ["¡Reforma estructural al tobillo!", "¡Gradualismo: te freno de a poco!", "¡Acá no pasa nadie sin permiso de la AFA!", "¡Miau y planchazo!"],
+  ["¡Aposté a que pasabas!", "¡El anti-pronóstico te frenó!", "¡El Profe de educación física te sacó!", "¡Veinte vueltas a la cancha!"],
 ];
 
 export const COMODIN_DODGE_PHRASES = [
@@ -150,4 +152,5 @@ export const COMODIN_DODGE_PHRASES = [
   ["¡Cazador de utopías!", "¡Pasó remando en dulce de leche!", "¡Es más rápido que un átomo!", "¡No hay imposibles para ese!"],
   ["¡Corre más que yo en el 86!", "¡Barrilete cósmico el pibe!", "¡Ni la mano de Dios te alcanza!", "¡Andá, andá, que la tenés!"],
   ["¡Se me fue! ¡Muy tibio mi tackle!", "¡Pasó como las oportunidades de reforma!", "¡Ni con gradualismo lo freno!", "¡Más rápido que la inflación!"],
+  ["¡Dije que no pasaba! ¡Obvio que pasó!", "¡El anti-pronóstico en mi contra!", "¡Se me fue como los puntos del prode!", "¡Más rápido que mis pronósticos fallidos!"],
 ];

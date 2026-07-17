@@ -776,4 +776,65 @@ export const BANKERS: BankerConfig[] = [
       ],
     },
   },
+  // El Profesor — the anti-banker: bets against the player, which means the player wins
+  {
+    image: "/images/comodin-FINAL.jpg",
+    offerMultiplier: 1.05,
+    offer: {
+      smug: [
+        "Yo aposté a que te iba a ir bien. Mirá el tablero. Perdón",
+        "El poder del Profe actuó en tu contra. Debí haber apostado en contra tuyo desde el principio",
+        "Esto es culpa mía. Aposté a favor tuyo y se activó el anti-pronóstico. Mala mía",
+        "Te quedó poco. Pero tranqui: si apuesto a que no agarrás, vas a agarrar. Así funciona",
+      ],
+      neutral: [
+        "Oferta justa. Yo apostaría a que no la agarrás, así que probablemente la agarres",
+        "El Profe dice: no la agarres. Y ya sabés lo que pasa cuando el Profe dice algo",
+        "Mirá, yo puse que ibas a rechazar. Así que probablemente aceptes. Un gran poder requiere una gran responsabilidad",
+        "Número decente. Yo en el prode nunca tuve un número decente. Disfrutalo por los dos",
+        "Si te sirve de algo, yo elegiría rechazar. Y yo siempre me equivoco. Hacé con esa información lo que quieras",
+      ],
+      desperate: [
+        "¡Agarrá esa plata! ¡Es más de lo que yo gané en todo el prode!",
+        "¡Mirá esa oferta! ¡Yo puse que no te iban a ofrecer tanto! ¡El anti-pronóstico otra vez!",
+        "¡Tomá la plata! ¡Yo aposté a que la ibas a rechazar, así que agarrala tranquilo!",
+        "¡Es una fortuna! ¡Más plata de la que perdí apostando en contra de Argentina! ¡Y fueron 50 lucas!",
+      ],
+    },
+    noDeal: {
+      smug: [
+        "Seguís. Bueno, yo seguí apostando mal toda la vida y acá estoy. En el prode. Último. Pero acá",
+        "Rechazaste poco. Coherente. Yo también rechazo resultados lógicos: es mi especialidad",
+        "Dale, seguí. Total lo bueno ya se fue. Como mis pronósticos: nunca estuvieron",
+      ],
+      neutral: [
+        "Rechazaste. Yo hubiera agarrado. Y como yo siempre me equivoco, hiciste bien",
+        "No deal. Bien ahí. El Profe aprueba lo que no hubiera hecho. Ese es el halago más grande que puedo dar",
+        "Seguís jugando. Eso es tener huevos. Yo tengo huevos para apostar en contra de Argentina, que es otro tipo de valentía",
+        "No agarraste. Yo tampoco agarré cuando me ofrecieron dejar de apostar. Los dos somos tercos. Pero vos sos terco con futuro",
+      ],
+      desperate: [
+        "¡¿Rechazaste ESO?! ¡Ni yo apuesto tan mal! Bueno sí, pero con un propósito!",
+        "¡No lo puedo creer! ¡Tenés más fe que el Profe poniéndose la camiseta del rival!",
+        "¡Sos un animal! ¡Y lo digo con el respeto de un profe de educación física que vio muchos animales en el patio!",
+      ],
+    },
+    deal: {
+      smug: [
+        "Cerraste con poco. Como el Profe en el prode: siempre abajo, pero con dignidad",
+        "Agarraste lo que había. Yo agarro la última posición del ranking cada fecha. Nos parecemos",
+        "Deal chico. Como mi score. Pero estamos los dos acá, así que algo hicimos bien",
+      ],
+      neutral: [
+        "Buen deal. Yo nunca hago un buen deal. Pero mi mal deal es lo que lleva a Argentina a las finales. Cada uno aporta lo suyo",
+        "Cerraste bien. El Profe cierra mal siempre. Pero si todos cerráramos bien, ¿quién sacrificaría los puntos por la Selección?",
+        "Te vas con plata. Yo me voy con la satisfacción de haber puesto Visitante cinco veces seguidas. No tiene precio",
+      ],
+      desperate: [
+        "¡Te llevaste todo! ¡Más plata que la que perdí en el prode! ¡Y eso es mucha plata!",
+        "¡Deal histórico! ¡Como la final de hoy! ¡Las dos cosas pasan una vez en la vida!",
+        "¡Me limpiaste! ¡Pero no importa! ¡Hoy lo único que importa es que Argentina gane! ¡El resto es anécdota!",
+      ],
+    },
+  },
 ];

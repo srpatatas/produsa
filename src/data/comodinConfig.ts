@@ -187,7 +187,30 @@ export const comodinConfigs: Record<string, ComodinConfig> = {
       "¡Ese no! Hasta los Aristogatos sabían qué callejón evitar",
     ],
   },
-  "FINAL": { scope: "FINAL", image: "/images/comodin-FINAL.jpg", name: "Comodín Final", phrases: [], placementPhrase: "Dale, elegí un partido...", rejectPhrases: [] },
+  "FINAL": {
+    scope: "FINAL",
+    image: "/images/comodin-FINAL.jpg",
+    name: "El Profesor",
+    phrases: [
+      "Un gran poder requiere una gran responsabilidad. Yo puse Visitante a Argentina en cada partido. Si estamos en la final, de nada",
+      "El Profe no predice: destruye. Y lo que el Profe destruye, vive para siempre",
+      "Me puse la camiseta de España para la final. Ya saben cómo funciona esto. No me agradezcan todavía",
+      "Avisen a qué equipo quieren destruir que el Profe lo vota ganador",
+      "4 años esperando la última decepción del Profe. Sorpresa: esta vez la decepción es para el rival",
+      "Puse todo de mí. Incluso 50 lucas. Si Argentina gana, no fue suerte: fue sacrificio",
+      "El Anti-Pronóstico tiene nombre y apellido. Y tiene la camiseta del rival puesta. Coincidencia? No",
+      "Pueden llamarme Profesor. También conocido por atender atrevidos",
+      "Los históricos saben: lo que el Profe vota ganador, pierde. Lo que vota perdedor, gana.",
+      "Se hizo todo lo posible y más aún. Incluso ponerme la camiseta de España con guantes de Goofy en Disney",
+    ],
+    placementPhrase: "Poné el comodín donde el Profe NO lo pondría. Ese es el secreto",
+    rejectPhrases: [
+      "¡Ese no! El Profe te está cuidando. Haceme caso que en esto soy experto: si yo lo elegiría, no lo elijas vos",
+      "¡Ahí no! Mirá que yo iba a elegir ese. Y ya sabés lo que pasa con lo que yo elijo",
+      "¡Ese partido no! El Profe siente la vibra y esa vibra dice: elegí otro",
+      "¡Ese no! Yo puse ahí mi pronóstico. Salí corriendo",
+    ],
+  },
 };
 
 export function getComodinConfig(scope: string): ComodinConfig {

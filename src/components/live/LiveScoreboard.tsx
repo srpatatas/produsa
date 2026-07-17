@@ -676,6 +676,68 @@ const VOICES: Record<string, PersonalityVoice> = {
       ],
     },
   },
+  "FINAL": { // El Profesor — Pablo F, the anti-pronóstico, tribute comodín
+    goal: (s, m, _side, h, a) => pick([
+      `¡${s} en el ${m}'! ${h}-${a}. Lo sabía. Bueno, sabía lo contrario. Pero ustedes ya entienden cómo funciona esto`,
+      `¡Gol de ${s}! ${h}-${a}. Yo puse que no iba a pasar. Ergo, tenía que pasar. La ciencia del Profe es exacta`,
+      `${s}, minuto ${m}. ${h}-${a}. Si yo hubiera apostado a favor de este gol, la pelota estaba orbitando Júpiter`,
+      `¡${s} la metió! ${h}-${a}. Llorando y abrazado a mi hija. Otra vez. Estoy hecho. Pero hay más para dar`,
+      `¡Gol! ${h}-${a}. El Profe hizo su magia. No pregunten cómo. Solo agradezcan`,
+    ]),
+    ownGoal: (s, m) => pick([`Autogol de ${s} en el ${m}'. Esto no estaba en el plan del Profe. Alguien rompió el protocolo`, `En contra de ${s}. Ojo que al Profe le tiembla el poder cuando hay autogoles. Es una zona gris del anti-pronóstico`, `Autogol en el ${m}'. No me miren a mí, yo aposté en contra del otro equipo, no a favor de los autogoles`]),
+    redCard: (p, m) => pick([`Roja para ${p} en el ${m}'. Ojalá me tocara estar en la cancha y poder colgarme su tibia en el cuello. Pero bueno, roja nomás`, `${p} expulsado. Yo en el colegio también echo pibes. Pero les doy otra oportunidad. El árbitro no`, `Roja para ${p}. En educación física no expulso a nadie. Los hago correr veinte vueltas. Es peor`]),
+    yellowCard: (p, m) => pick([`Amarilla para ${p} en el ${m}'. En mi clase eso es dar una vuelta más a la cancha`, `${p} amonestado. Como profe de gimnasia digo: esa entrada fue con mala técnica, no con mala intención. Aunque bueno, también con mala intención`, `Amarilla para ${p}. Yo en el patio del colegio he visto peores y no saqué ni una tarjeta. Soy más permisivo que este árbitro`]),
+    penalty: (s, m) => pick([`¡Penal de ${s} en el ${m}'! Yo aposté que no iba a entrar. Ya saben lo que significa eso`, `¡Penal! ${s} en el ${m}'. Un gran poder requiere una gran responsabilidad. El Profe apuesta en contra. ADENTRO`, `¡${s} con penal! El momento más importante. El Profe cierra los ojos y piensa: "va a errar." Listo. Entrá tranquilo, ${s}`]),
+    scoreless: (m) => pick([`${m}' y 0-0. Tranqui, yo puse que terminaban sin goles. Así que en cualquier momento se destapa esto`, `0-0 al minuto ${m}. El Profe tiene paciencia. 4 años esperé. ¿Qué son ${m} minutos más?`, `${m} minutos sin goles. Estoy por ponerme la camiseta del rival. Es el protocolo de emergencia`, `Minuto ${m} y 0-0. No googleen cuál es la selección que más partidos perdió cuando el Profe apostó a favor. No lo hagan`]),
+    lateGame: (h, a) => pick([`Últimos minutos, ${h}-${a}. No lo griten, es una farsa del destino. O no. Ya no sé. Estoy hecho`, `Se termina, ${h}-${a}. Puse todo de mí. Incluso 50 lucas. Ojalá haya alcanzado`, `${h}-${a} y queda nada. Gesta imposible. O gesta posible hecha por el Profe. La historia decidirá`]),
+    comodinWinning: (n, h, a) => pick([`${n} puso el comodín y va ${h}-${a}. El Profe aprobó esa jugada desde la tribuna invisible`, `¡${n} con el +2! Alguien le avisó al Profe que no apostara en contra de ${n}. Bien ahí`, `El comodín de ${n} rinde. Como el poder del Profe: inexplicable pero efectivo`]),
+    comodinLosing: (n, h, a) => pick([`${n} pierde con el comodín. ${h}-${a}. ¿Seguro que no apostaste como el Profe? Porque tiene pinta`, `El comodín de ${n} sufre. Tranqui: el Profe también sufre cada partido. Y mirá dónde estamos`, `${n} con el comodín y el ${h}-${a}... hay que sufrir para llegar. Pregúntenle al Profe que puso Visitante cinco veces`]),
+    comodinDraw: (n, m) => pick([`${n} empata con el comodín en el ${m}'. Ni el Profe sabe cómo interpretar un empate. Es la zona gris del poder`, `El comodín de ${n} en suspenso. Como el Profe antes de cada partido: sabés que va a salir mal, pero no sabés exactamente cómo`]),
+    comodinExactHit: (n, h, a) => pick([`¡${n} CLAVÓ el ${h}-${a}! ¡Imposible! ¡Eso ni el Anti-Pronóstico lo puede explicar!`, `¡Exacto de ${n}! ${h}-${a}. El Profe quiere saber tu secreto. Él lleva toda la vida buscando acertar una sola vez`, `¡${n} le pegó justo al ${h}-${a}! Esto es el anti-anti-pronóstico. Acertaste lo que el Profe ni intentaría`]),
+    nobodyRight: () => pick(["Nadie le pegó. Bienvenidos a mi mundo. Acá vivimos los que erramos siempre", "Cero aciertos. El Profe se siente como en casa", "Nadie acertó. Increíble que haya apostadores peores que el Profe. Se superan en ir a menos o el grafeno hace sus efectos"]),
+    fewRight: (names) => pick([`Solo ${names} le están pegando. El resto está en la categoría del Profe: mucho corazón, ningún acierto`, `${names} nada más aciertan. El Profe les aplaude desde el fondo de la tabla`]),
+    idle: () => pick([
+      "Un gran poder requiere una gran responsabilidad. Yo puse Visitante a Argentina en cada partido. Si estamos en la final, de nada",
+      "Me puse la camiseta de España para la final. Ya saben cómo funciona esto",
+      "El Anti-Pronóstico tiene nombre y apellido. Y tiene la camiseta del rival puesta",
+      "Los históricos saben: lo que el Profe vota ganador, pierde. Lo que vota perdedor, gana",
+      "Pueden llamarme Profesor. También conocido por atender atrevidos",
+      "4 años esperando. Ya pasaron 4 años de la última decepción del Profe. Hoy se termina",
+      "Avisen a qué equipo quieren destruir que el Profe lo vota ganador",
+      "Se hizo todo lo posible y más aún. Continúen sin mí. Bueno no, sigo acá",
+      "El Profe tiene un poder. Espero sepan reconocerlo",
+      "Tanto, pero tanto, deseo que la peli sea la que esperamos. La caída va a ser muy dura si no sale. Pero típico argento: seguimos",
+    ]),
+    taunt: (n) => pick([
+      `${n}, el Profe también la viene pifiando. Pero al menos el Profe lo hace con un propósito patriótico`,
+      `${n}, ¿querés que apueste a favor tuyo? Es lo peor que te puedo desear`,
+      `${n}, increíble que haya apostadores peores que el Profe. Se superan en ir a menos`,
+      `A ${n} le digo: yo perdí todos los pronósticos y estoy en la final. Vos perdés los pronósticos y estás en el fondo. La diferencia es actitud`,
+    ]),
+    rankingTaunt: (n, pos, diff) => {
+      if (diff > 0) return `${n} subió ${diff} puesto${diff > 1 ? "s" : ""}. Mirá vos. Alguien más que sube cuando el Profe baja`;
+      if (diff < 0) return `${n} cayó ${Math.abs(diff)} puesto${Math.abs(diff) > 1 ? "s" : ""}. Bienvenido a la zona del Profe. Acá abajo somos buena gente`;
+      if (pos === 1) return `${n} va primero. Lo firmo. Yo no podré ganar el prode pero el país ya ganó`;
+      if (pos <= 3) return `${n} va ${pos}°. Bien ahí. El Profe va último pero es el que más puso. Eso no se mide en puntos`;
+      return pick([`${n} va ${pos}°. Estamos cerca los dos. Yo más abajo, pero cerca en el espíritu`, `${n} en el puesto ${pos}. El Profe te mira desde más abajo y te dice: se puede remontar. Bueno, yo no pude, pero vos capaz sí`]);
+    },
+    lecture: {
+      ARG: [
+        "No hay chance alguna. Se terminó todo.",
+        "Son imposibles estos españoles. Ese Yamal vuela, nada que ver a nuestro 10 que está jugando sus últimos minutos.",
+        "La carita del 10, qué miedo tiene. Ya no hay esperanzas. Se termina hoy y para siempre.",
+        "Todos contra Argentina y Argentina contra todos. La hinchada creativa, loca y carnavalesca. Las cabalas, el peso de la historia. Y el Profe con la camiseta del rival puesta. Somos así",
+        "Si Argentina levanta la copa hoy, yo voy a estar llorando abrazado a mi hija. Como la última vez. Y la anterior. Estoy hecho, pero siempre queda un poco más para dar",
+      ],
+      ESP: [
+        "Me puse tu camiseta, España. Sabés lo que eso significa. Lo que el Profe viste, pierde. Es un servicio que presto a la Nación Argentina",
+        "Los españoles juegan lindo. Pero yo me puse su camiseta, así que hoy juegan mal. El poder del anti-pronóstico no distingue tiki-tiki de tiki-taka",
+        "España es el rival más difícil de esta final. Por eso me puse su camiseta desde temprano. Protocolo máximo de destrucción",
+        "Yamal, Pedri, Olise de España. Todos cracks. Pero ninguno tiene al Profe apostando en contra. Ese es nuestro jugador número 12",
+        "La camiseta de España me costó cara. Pero si Argentina gana, fue la mejor inversión de mi vida. Mejor que las 50 lucas del prode",
+      ],
+    },
+  },
 };
 
 // Birthday override: Dr. Lucas Almoño (La Tia de todos) — June 29 only
@@ -1076,179 +1138,87 @@ const speakingLock = { holder: null as string | null, until: 0, lastSpeaker: nul
 
 // Debate mode: host dock (right, scope voice — Alfiki in R16) vs guest dock (left, Albertito).
 // An opener from one side arms the paired retort for the other side's next idle turn.
-const DEBATE_MATCH_IDS = ["SF-1"];
-const DEBATE_GUEST_VOICE = "R32";
+const DEBATE_MATCH_IDS = ["3P"];
+const DEBATE_GUEST_VOICE = "QF";
 const usedDebates = new Set<string>();
 const debateState = { retortFor: null as "left" | "right" | null, retort: "" };
 const DEBATE_EXCHANGES: { from: "host" | "guest"; opener: string; retort: string; team?: string }[] = [
-  {
-    from: "guest",
-    team: "BRA",
-    opener: "Miren el rostro de Vini Jr. Yo siempre sostuve que los brasileños salieron de la selva",
-    retort: "Eso guardalo para tu clase de la UBA, Alberto. Brasil no salió de la selva: salió campeón cinco veces. Respetá al que tiene más estrellas que argumentos",
-  },
+  // ── 3P cooperative: El Profesor (host) + D10S (guest), same side ──
   {
     from: "host",
-    team: "BRA",
-    opener: "En 1950 Brasil ya tenía el desfile armado y Uruguay no había leído el programa. El fútbol vive del casi",
-    retort: "Como mi reelección, profe. El desfile estaba armado, la banda ensayada. Faltó un detalle: los votos",
+    opener: "Diego, es un honor estar acá con vos. Yo soy profe de educación física, vos sos Dios. Pero los dos le dimos todo a la Selección",
+    retort: "Profe, yo di dos goles contra Inglaterra. Vos diste todos tus puntos del prode. No sé cuál costó más. Mentira, sí sé. Pero te respeto igual",
   },
   {
     from: "guest",
-    team: "NOR",
-    opener: "Noruega tiene el mejor índice de calidad de vida del mundo. Yo dejé el país en el puesto... mejor hablemos de fútbol",
-    retort: "Buena decisión, Alberto. Cuando el pasado te persigue, hablá de fútbol. Lo dijo Heráclito y lo repito yo",
+    opener: "Profe, me contaron que apostás en contra de Argentina para que gane. Eso es lo más argentino que escuché en mi vida",
+    retort: "Y funciona, Diego. Cada vez que puse Visitante, Argentina ganó. Un gran poder requiere una gran responsabilidad. Vos lo sabés mejor que nadie",
   },
   {
     from: "host",
-    team: "NOR",
-    opener: "Noruega tiene a Haaland, pero un mundial no lo gana un hombre solo. Lo gana un corazón colectivo",
-    retort: "Confirmo, profe. Yo estaba solo y no gané nada. Ni acompañado gané, ahora que lo pienso",
+    opener: "Yo colecciono camisetas de todos los equipos. Hoy tengo la de España puesta. Es el protocolo de destrucción del Profe",
+    retort: "Yo coleccionaba rivales gambeteados. Vos coleccionás camisetas para destruirlos. Cada uno con su método, pibe",
   },
   {
     from: "guest",
-    team: "MEX",
-    opener: "Los mexicanos nos dieron el tequila. Con eso aguanté cuatro años de reuniones de gabinete",
-    retort: "Cuidado, Alberto. El tequila y los octavos se parecen: el primer trago te envalentona y el segundo te tumba",
+    opener: "El que apuesta en contra de su equipo y acierta es un traidor. El que apuesta en contra y pierde, es un héroe",
+    retort: "Exacto, Diego. Yo pierdo todos los pronósticos. Soy el héroe que nadie pidió pero todos necesitaban",
   },
   {
     from: "host",
-    team: "MEX",
-    opener: "México rompe hoy la barrera del quinto partido o la barrera lo rompe a él. Las barreras se rompen con el corazón",
-    retort: "Yo rompí varias barreras: la del déficit, la de la inflación... ah, ¿romper era para bien? Retiro lo dicho",
+    opener: "Diego, vos tuviste la mano de Dios. Yo tengo el anti-pronóstico. ¿Cuál es más poderoso?",
+    retort: "La mano de Dios la usé una vez. Vos usás el anti-pronóstico cada partido. Sacá tus conclusiones, Profe",
   },
+  {
+    from: "guest",
+    opener: "Estos dos equipos que están jugando nos eliminaron del mundial en distintas épocas. Hoy los miramos pelear entre ellos. Y es hermoso",
+    retort: "Es como ver pelearse a los que te molestaban en la escuela. Yo soy profe de gimnasia, sé cómo es eso. Se disfruta en silencio",
+  },
+  {
+    from: "host",
+    opener: "Diego, ¿vos creés en la mufa? Porque yo ya no sé si soy mufa o soy vidente al revés",
+    retort: "Mufa es el que te desea el mal. Vos te deseás el mal a vos mismo para que gane Argentina. Eso no es mufa, es sacrificio. Y del sacrificio yo sé, que me cortaron las piernas en este país",
+  },
+  {
+    from: "guest",
+    opener: "Profe, te quiero pedir algo: mañana en la final, apostá todo lo que tengas en contra de Argentina. Absolutamente todo",
+    retort: "Ya está hecho, Diego. Puse Visitante, puse que pierden, me puse la camiseta de España. Falta que me tatúe el escudo español. Si hace falta, lo hago",
+  },
+  {
+    from: "host",
+    opener: "Yo en el colegio les enseño a los pibes que perder no es malo si das todo. Yo doy todo en el prode y pierdo siempre. Soy coherente",
+    retort: "Yo también perdí finales, Profe. Pero lo importante es haber jugado. Bueno, en tu caso lo importante es haber apostado mal. Pero se entiende",
+  },
+  {
+    from: "guest",
+    opener: "Mañana es la final. Argentina contra España. Yo ya hice mi parte desde acá arriba. Ahora te toca a vos desde abajo, Profe",
+    retort: "Listo Diego, me pongo la camiseta de España, apuesto contra Argentina, y lloro abrazado a mi hija cuando ganemos. El protocolo está claro",
+  },
+  // ── 3P team-specific: ENG ──
   {
     from: "guest",
     team: "ENG",
-    opener: "Inglaterra inventó el fútbol en 1863. Yo di clases veinte años en la UBA y no inventé nada. Ni una materia optativa",
-    retort: "Inventar es lo fácil, Alberto. Lo difícil es lo que sufre Inglaterra: que tu propio invento aprenda a ganarte",
+    opener: "Ahí están los ingleses. Cuarenta años pasaron y Shilton sigue sin dormir. Me encanta",
+    retort: "Yo aposté a que Inglaterra ganaba este mundial. Mirá dónde están: jugando el partido por el tercer puesto. El poder del Profe, Diego",
   },
   {
     from: "host",
     team: "ENG",
-    opener: "Los ingleses toman el té a las cinco. Pero en octavos no hay hora del té: hay hora de la verdad",
-    retort: "Yo a las cinco tomaba decisiones importantes. Por eso el país anda como anda. Quedate con el té, profe",
+    opener: "A Bellingham le puse buena onda en el prode. Ya saben lo que eso significa para su carrera",
+    retort: "Bien ahí, Profe. Yo los destruí en la cancha. Vos los destruís desde la planilla. Los ingleses no descansan ni en el tercer puesto",
   },
-  // Old R16 generic exchanges (Alfiki as host) removed — replaced by SF-specific ones below.
-  // ── SF debates: El Gato (host) vs Albertito (guest) ──
-  {
-    from: "guest",
-    opener: "Mauricio, qué lindo verte. Yo siempre dije que la culpa era tuya. Me alegra que estés acá para confirmarlo en persona",
-    retort: "Alberto, vos me culpaste cuatro años. Yo me culpo solo hace dos. La diferencia es que yo lo hago con autocrítica, no con cadena nacional",
-  },
-  {
-    from: "host",
-    opener: "Debí haber sido menos tibio cuando goberné. Lo reconozco públicamente",
-    retort: "Yo también debí haber sido menos tibio. Bueno, yo debí haber sido menos todo",
-  },
-  {
-    from: "guest",
-    opener: "Cristina me dijo que había funcionarios que no funcionaban. Tenía razón: yo era uno de ellos",
-    retort: "Mirá, en eso coincidimos: los dos tuvimos gabinetes donde cada uno jugaba para su propia selección. La diferencia es que yo al menos elegí a los míos",
-  },
-  {
-    from: "host",
-    opener: "Mi mayor error fue el gradualismo. Se necesitaba más decisión y menos PowerPoint",
-    retort: "Los slides de PowerPoint tenías que doblarlos a la mitad para mostrar lo que te convenía, Mauricio",
-  },
-  {
-    from: "guest",
-    opener: "Macri, ¿puedo preguntarte algo en serio? ¿Vos también estás acá porque no te invitan a ningún otro lado?",
-    retort: "Alberto, a mí me invitó Disney. A vos te invité yo. Hay una diferencia de jerarquía que no voy a explicar porque estamos al aire",
-  },
-  {
-    from: "host",
-    opener: "Sí se puede, decíamos. No se pudo. Pero el fútbol siempre te da otra oportunidad. La política no",
-    retort: "La política me dio dos oportunidades: presidente y preso. Ninguna de las dos fue lo que esperaba. Pero el prode me trata mejor",
-  },
-  {
-    from: "guest",
-    opener: "Mauricio, ¿extrañás el poder?",
-    retort: "Extraño Boca. El poder lo extraña el que lo tuvo de verdad. Yo tuve un escritorio y muchos problemas. Vos me entendés",
-  },
-  {
-    from: "guest",
-    opener: "La diferencia entre vos y yo, Mauricio, es que yo al menos fui carismático",
-    retort: "Alberto, a vos te votaron por Cristina. A mí me votaron por mí. Los dos perdimos, pero yo perdí solo. Eso tiene más dignidad",
-  },
-  {
-    from: "host",
-    opener: "A mí Juliana me dice que no hable de política en público. Pero acá estoy, con orejas de gato, hablando de política con vos",
-    retort: "A mí Fabiola me decía que no hable en público directamente. Tenía razón, pero nunca le hice caso. Por eso estamos los dos acá: por no escuchar",
-  },
-  // ── SF team-specific: FRA ──
-  {
-    from: "guest",
-    team: "FRA",
-    opener: "Los franceses hacen reformas de verdad: jubilaciones, mercado laboral, todo junto. Nosotros ni pudimos sacar un DNU sin quilombo",
-    retort: "Alberto, nosotros no pudimos sacar ni la basura sin quilombo. Los franceses por lo menos se pelean por cosas importantes",
-  },
+  // ── 3P team-specific: FRA ──
   {
     from: "host",
     team: "FRA",
-    opener: "Mbappé corre como si el mundo le debiera algo. Yo corrí una campaña así. Después goberné caminando",
-    retort: "Yo ni corrí la campaña. Me llamó Cristina y dije que sí. Mbappé por lo menos se entrenó antes",
+    opener: "A Mbappé le puse goleador en el prode. Si queda sin goles, ya saben a quién agradecerle",
+    retort: "En Qatar me casi arruina la coronación de Lío. Tres goles en la final. El pibe es peligroso. Menos mal que te tiene a vos de mufa, Profe",
   },
   {
     from: "guest",
     team: "FRA",
-    opener: "Dato de mis clases en la UBA: Francia tiene más quesos que días del año. 365 quesos mínimo",
-    retort: "Alberto, vos dabas clases de derecho, no de quesos. Aunque tu gobierno fue bastante un queso, ahora que lo pienso",
-  },
-  {
-    from: "host",
-    team: "FRA",
-    opener: "Francia ganó dos mundiales siendo pragmática. Yo fui demasiado poeta para la política. Hacía falta más ingeniero",
-    retort: "Yo fui abogado, profesor, presidente y panelista. Lo único que no fui es pragmático. Tenemos eso en común, Mauricio",
-  },
-  {
-    from: "guest",
-    team: "FRA",
-    opener: "Macron tiene 48 años y ya reformó Francia dos veces. Yo con 60 no pude reformar ni el menú de Olivos",
-    retort: "Alberto, Macron reformó con la calle en llamas. Yo quise reformar sin que nadie se enoje. Mirá quién llegó más lejos. Spoiler: ninguno de los dos",
-  },
-  {
-    from: "host",
-    team: "FRA",
-    opener: "Deschamps dirige con pragmatismo: gana feo si hace falta. Yo debería haber gobernado así",
-    retort: "Yo goberné feo sin querer. Deschamps por lo menos gana. Hay una sutil diferencia",
-  },
-  // ── SF team-specific: ESP ──
-  {
-    from: "host",
-    team: "ESP",
-    opener: "España juega con posesión: tiene la pelota dos horas y hace un gol. Yo tuve el poder cuatro años e hice dos reformas",
-    retort: "Yo tuve el poder cuatro años y no hice ni una. Pero al menos no me dijeron gradualista. Me dijeron cosas peores",
-  },
-  {
-    from: "guest",
-    team: "ESP",
-    opener: "Los españoles ponen veinte bares por cuadra y viven bien. Yo puse veinte ministerios y vivimos mal",
-    retort: "Alberto, yo cerré ministerios y también vivimos mal. Capaz el problema no son los ministerios. Capaz el problema somos nosotros",
-  },
-  {
-    from: "host",
-    team: "ESP",
-    opener: "El tiki-taka es la versión futbolística del gradualismo: parece que avanza pero a veces te dormís mirándolo",
-    retort: "Yo me dormía en los actos",
-  },
-  {
-    from: "guest",
-    team: "ESP",
-    opener: "España tiene monarquía constitucional: un rey que no gobierna. Como yo, pero sin corona",
-    retort: "Alberto, vos no tenías corona pero tenías banda presidencial. La usaste cuatro años y nadie notó la diferencia",
-  },
-  {
-    from: "host",
-    team: "ESP",
-    opener: "Yamal tiene 19 años y ya ganó una Eurocopa. Yo a los 19 jugaba al paddle en San Isidro",
-    retort: "Yo a los 19 daba clases. A los 60 fui presidente. Cada uno tiene su velocidad. La de Yamal es mejor, claramente",
-  },
-  {
-    from: "guest",
-    team: "ESP",
-    opener: "En España la siesta es sagrada. En Argentina la siesta en el gobierno también, pero no se dice",
-    retort: "Alberto, vos gobernaste por zoom. Eso no es siesta, es coma inducido. La siesta al menos dura una hora",
+    opener: "Francia perdió la semi. En Qatar perdieron la final. A estos les gusta llegar lejos para sufrir más",
+    retort: "Como yo en el prode, Diego. Llego a la final para perder. La diferencia es que yo lo hago a propósito",
   },
 ];
 
