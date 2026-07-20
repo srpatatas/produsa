@@ -122,9 +122,15 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
     fetch("/api/participants").then((r) => r.ok ? r.json() : { participants: [] })
       .then((d) => setParticipantOptions(d.participants.map((p: { name: string }) => ({ value: p.name, label: p.name }))))
       .catch(() => {});
-    fetch("/api/players").then((r) => r.ok ? r.json() : { players: [] })
-      .then((d) => setPlayerOptions(d.players.map((p: { name: string; teamId: string }) => ({ value: `${p.name} (${p.teamId})`, label: `${p.name} (${p.teamId})` }))))
-      .catch(() => {});
+    fetch("/api/players").then((r) => {
+      if (!r.ok) console.error("[AdminBonus] /api/players failed:", r.status);
+      return r.ok ? r.json() : { players: [] };
+    })
+      .then((d) => {
+        const opts = (d.players || []).map((p: { name: string; teamId: string }) => ({ value: `${p.name} (${p.teamId})`, label: `${p.name} (${p.teamId})` }));
+        setPlayerOptions(opts);
+      })
+      .catch((e) => console.error("[AdminBonus] /api/players error:", e));
   }, [bonusQuestionsLoaded, bonusLoaded]);
 
   const handleSaveBonus = async (questionId: string) => {
