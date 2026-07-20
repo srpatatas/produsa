@@ -254,7 +254,7 @@ export function AdminBonusTab({ flashStatus }: AdminBonusTabProps) {
     }
     if (q.sourceType === "participants") return participantOptions;
     if (q.sourceType === "players") {
-      return q.teamFilter ? playerOptions.filter((o) => o.value.endsWith(`(${q.teamFilter})`)) : playerOptions;
+      return q.teamFilter ? playerOptions.filter((o) => q.teamFilter!.split(",").some((t) => o.value.endsWith(`(${t.trim()})`))) : playerOptions;
     }
     return [];
   };
